@@ -1,0 +1,44 @@
+{
+  "name": "yuan-player",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "vite -c viteConfig/vite.config.ts --host",
+    "preview": "vite preview -c viteConfig/vite.config.ts",
+    "optimize": "vite optimize -c viteConfig/vite.config.ts",
+    "build": "vite build -c viteConfig/vite.config.ts"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "element-plus": "*",
+    "fscreen": "^1.2.0",
+    "pinia": "^0.5.2",
+    "ryoko": "^0.1.51",
+    "swiper": "^6.7.5",
+    "vue": "^3.1.2",
+    "vue-router": "^4.0.10",
+    "vuex": "^4.0.2"
+  },
+  "devDependencies": {
+    "@rollup/plugin-image": "^2.0.6",
+    "@types/node": "^14.14.37",
+    "@vicons/antd": "^0.10.0",
+    "@vicons/fluent": "^0.10.0",
+    "@vitejs/plugin-vue": "^1.2.1",
+    "@vitejs/plugin-vue-jsx": "^1.1.4",
+    "@vue/compiler-sfc": "^3.1.2",
+    "@vuedx/typecheck": "^0.6.3",
+    "@vuedx/typescript-plugin-vue": "^0.6.3",
+    "autoprefixer": "^10.2.5",
+    "naive-ui": "^2.11.11",
+    "postcss": "^8.2.9",
+    "postcss-flexbugs-fixes": "^5.0.2",
+    "postcss-preset-env": "^6.7.0",
+    "postcss-pxtorem": "^6.0.0",
+    "sass": "^1.35.1",
+    "typescript": "^4.3.5",
+    "vite": "^2.3.8",
+    "vite-plugin-md": "^0.6.3",
+    "vite-plugin-style-import": "^0.9.1",
+    "vite-svg-loader": "^1.5.1"
+  }
+}

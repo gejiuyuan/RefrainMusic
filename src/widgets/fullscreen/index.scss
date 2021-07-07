@@ -1,0 +1,10 @@
+@import "@scss/variable";
+
+.yplayer-header-fullscreen {
+  color: #555;
+  cursor: pointer;
+  .icon-fullscreen {
+    width: 20px;
+    height: 20px;
+  }
+}

@@ -1,0 +1,43 @@
+@import "@/scss/variable";
+
+.album-wrap {
+  @include flex();
+  flex-wrap: wrap;
+  min-height: 400px;
+  padding-top: 1em;
+
+  .album-item {
+    width: 15%;
+    transition: transform 0.2s, filter 0.14s;
+    cursor: pointer;
+
+    &:hover {
+      filter: drop-shadow(0 0 30px rgba(100, 100, 100, 0.3));
+      transform: translateY(-6px);
+    }
+
+    img {
+      width: 100%;
+      border-radius: 8px;
+    }
+
+    &:not(:nth-of-type(6n)) {
+      margin-right: 2%;
+    }
+    &:nth-of-type(n + 7) {
+      margin-bottom: 2%;
+    }
+
+    h6 {
+      color: #444;
+      padding: 1em 0;
+      text-align: justify;
+      line-height: 1.4;
+    }
+
+    p {
+      color: #666;
+      padding-bottom: 1em;
+    }
+  }
+}

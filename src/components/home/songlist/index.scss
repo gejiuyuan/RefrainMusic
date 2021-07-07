@@ -1,0 +1,95 @@
+@import "@/scss/variable";
+@import "@/scss/el-theme";
+
+.songlist-header {
+  position: relative;
+  @include flexVc();
+  padding-bottom: 2em;
+
+  .songlist-pic {
+    width: 220px;
+    min-height: 220px; 
+    margin-right: 2em;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+  &-body {
+    flex: 1;
+    display: flow-root;
+  }
+
+  .songlist-info {
+    float: left;
+
+    h5 {
+      padding-bottom: 1em;
+      color: #444;
+      font-size: 26px;
+      font-weight: 600;
+    }
+
+    .songlist-creator {
+      @include flexVc();
+
+      &-detail {
+        @include flexVc();
+        cursor: pointer;
+
+        em {
+          color: #566;
+          font-size: 1.1em;
+          text-indent: 1em;
+        }
+      }
+
+      &-avatar {
+        position: relative;
+
+        .detail-avatar {
+          position: absolute;
+          right: 0;
+          bottom: 0;
+          width: 14px;
+        }
+      }
+
+      .play-count {
+        margin-left: 2em;
+        cursor: default;
+      }
+    }
+
+    .desc {
+      @include flexVc();
+      padding: 1em 0;
+      color: #556;
+      line-height: 1.6;
+
+      em {
+        display: inline-block;
+        max-width: 40em;
+      }
+    }
+
+    .relative-data {
+      line-height: 1.8;
+      color: #766;
+    }
+  }
+
+  .songlist-tools {
+    float: right;
+    @include flexVc();
+
+    .songlist-btn {
+      &:not(:last-of-type) {
+        margin-right: 1em;
+      }
+    }
+  }
+}
+
+.songlist-main {
+  padding-top: 2em;
+}

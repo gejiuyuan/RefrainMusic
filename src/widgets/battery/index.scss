@@ -1,0 +1,15 @@
+@import "@/scss/variable";
+
+.icon-battery {
+  width: 50px;
+  height: 30px
+}
+
+.yplayer-head-battery {
+  @include flexHcVc;
+  margin-right: 40px; 
+}
+
+.head-battery-text {
+  color: #555;
+}

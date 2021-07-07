@@ -1,0 +1,118 @@
+@use "sass:math";
+
+$scrollbarWidth: 7px;
+$listWidth: 340px;
+$listbodyHeight: 720px;
+$listitemheight: math.div($listbodyHeight , 9);
+$playbillWidth: 360px;
+$triangleWidth: math.div(24px , 2);
+
+$lyricContainerMaxheight: 440px;
+$lyricItemheihgt: math.div($lyricContainerMaxheight , 11);
+
+$themeprimary: rgb(18, 224, 159);
+$themesecondary: rgba(100, 100, 100, 0.6);
+$themebox: #fff;
+$themeboxActive: rgba(235, 241, 238, 0.4);
+$themeboxHover: rgba(151, 150, 150, 0.15);
+$thememeunuHover: rgba(188, 188, 190, 0.26);
+
+$colornoop: transparent;
+$colorbase: rgb(255, 255, 255);
+$colorboxfont: rgb(20, 20, 20);
+$colorgray: rgb(94, 88, 88);
+$colorboxfontSecond: rgb(160, 160, 160);
+$colorplayIcon: rgb(9, 204, 113);
+$colorsecondary: rgba(160, 160, 160, 0.25);
+$colorscrollbar: rgba(0, 0, 0, 0.18);
+$colorlyric: rgb(240, 240, 240);
+$colorlyriclight: rgb(43, 211, 141);
+$colordrop: rgba(120, 120, 120, 0.2);
+
+/* 控制不同类型的图标实时显示 */
+$iconTypes: order, singalLoop, random, loop, play, pause, volume, muted, full,
+  cancelFull;
+
+@mixin noSelect {
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+@mixin flexInline {
+  display: inline-flex;
+}
+
+@mixin flex {
+  display: flex;
+}
+
+@mixin flexV {
+  @include flex();
+  flex-direction: column;
+}
+
+@mixin flexVc {
+  @include flex();
+  align-items: center;
+}
+
+@mixin flexVe {
+  @include flex();
+  align-items: flex-end;
+}
+
+@mixin flexHb {
+  @include flex();
+  justify-content: space-between;
+}
+
+@mixin flexHa {
+  @include flex();
+  justify-content: space-around;
+}
+
+@mixin  flexHev {
+  @include flex();
+  justify-content: space-evenly;
+}
+
+@mixin flexHe {
+  @include flex();
+  justify-content: flex-end;
+}
+
+@mixin flexHbC {
+  @include flexV();
+  @include flexHb();
+}
+
+@mixin flexHc {
+  @include flex();
+  justify-content: center;
+}
+
+@mixin flexHbVc {
+  @include flexVc;
+  @include flexHb;
+}
+
+@mixin flexHbVe {
+  @include flexVe;
+  @include flexHb;
+}
+
+@mixin flexHeVc {
+  @include flexVc;
+  @include flexHe;
+}
+
+@mixin flexHcVc {
+  @include flexHc();
+  @include flexVc();
+}
+
+@mixin flexHcVe {
+  @include flexHc();
+  @include flexVe();
+}
+  

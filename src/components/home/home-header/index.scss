@@ -1,0 +1,42 @@
+@import "@scss/variable";
+
+.home-header {
+  @include flexVc();
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 101;
+  height: 90px;
+  padding: 20px 0 20px 45px;
+  background-color: hsla(0,0%,100%,0.86);
+  backdrop-filter: saturate(180%) blur(28px);
+
+  .page-turn {
+    @include flexVc();
+  }
+
+  .icon-nextpage,
+  .icon-prevpage {
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+    cursor: pointer;
+  }
+
+  .header-right {
+    @include flexVc();
+  }
+
+  .music-search-input {
+    input {
+      // border: none;
+      //   background-color: rgba(140, 140, 140, 0.12);
+      // border-radius: 20px;
+      &::-webkit-input-placeholder {
+        color: #888;
+      }
+    }
+  }
+}

@@ -1,0 +1,45 @@
+@import "@/scss/variable";
+@import "@/scss/el-theme";
+
+.yplayer-follow-button {
+  $height: 26px;
+  @include flexHcVc();
+  width: 100px;
+  height: $height;
+  font-size: 14px;
+  transition: filter 0.2s;
+  cursor: pointer;
+
+  &[followed="true"] {
+    background-color: #ddd;
+    color: #555;
+    &:hover {
+      filter: brightness(90%);
+    }
+  }
+
+  &[followed="false"] {
+    background-color: $--color-primary;
+    color: #fff;
+    &:hover {
+      filter: brightness(110%);
+    }
+  }
+
+  .followed {
+    display: inline-block;
+    line-height: $height;
+    vertical-align: middle;
+
+    &::before {
+      content: "";
+      display: inline-block;
+      width: 12px;
+      height: 5px;
+      border-left: 1px solid #555;
+      border-bottom: 1px solid #555;
+      transform-origin: left bottom;
+      transform: rotate(-45deg);
+    }
+  }
+}

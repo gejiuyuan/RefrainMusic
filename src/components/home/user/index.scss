@@ -1,0 +1,32 @@
+@import "@/scss/variable";
+@import "@/scss/el-theme";
+
+.user-header {
+  @include flexVc();
+  padding-bottom: 2em;
+  max-height: 300px;
+  .user-avatar {
+    width: 180px;
+    margin-right: 1em;
+    object-fit: cover;
+    border-radius: 100%;
+  }
+
+  .user-name {
+    padding-bottom: 1em;
+    font-size: 24px;
+  }
+
+  .user-btns {
+    padding: 1em 0; 
+  }
+
+  .userinfo-layer {
+    padding-bottom: 1em;
+    color: #666;
+  }
+}
+
+.user-routes {
+  padding-top: 2em;
+}

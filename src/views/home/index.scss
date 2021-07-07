@@ -1,0 +1,17 @@
+@import "@/scss/variable";
+
+.yplayer-home {
+  height: 100%;
+  overflow: hidden;
+  &-main {
+    @include flex();
+    height: 100%;
+  }
+
+  .home-right {
+    position: relative;
+    flex: 1;
+    padding-left: 45px;
+    overflow: hidden;
+  }
+}

@@ -1,0 +1,75 @@
+@import "@scss/el-theme.scss";
+@import "@scss/variable.scss";
+
+.recommend-banner {
+  position: relative;
+  & &-title {
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    padding: 4px 12px;
+    background-color: rgba(10, 10, 10, 0.4);
+    color: #eee;
+    backdrop-filter: saturate(160%) blur(4px);
+    border-radius: 8px;
+  }
+  & &-item {
+    width: 33.3%;
+  }
+  & &-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+  }
+ 
+  .banner-pagination {
+    padding: 10px 0;
+    text-align: center;
+    .pagination-bullet {
+      display: inline-block;
+      width: 38px;
+      height: 5px;
+      margin: 10px;
+      background-color: rgba(207, 194, 194, 0.4);
+      border-radius: 2.5px;
+      cursor: pointer;
+      transition: background-color 0.2s, opacity .18s;
+      &-active {
+        background-color: $--color-primary;
+      }
+    }
+  }
+  
+  .banner-swiper:hover {
+    .next-button,
+    .prev-button {
+      opacity: 1;
+    }
+  }
+
+  .next-button,
+  .prev-button {
+    opacity: 0;
+    @include flexHcVc();
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    border-radius: 100%;
+    background-color: rgba(31, 29, 29, 0.3);
+    color: #fff;
+    font-size: 30px;
+    cursor: pointer;
+    z-index: 100;
+  }
+
+  .next-button {
+    right: 2rem;
+  }
+
+  .prev-button {
+    left: 2rem;
+  }
+}

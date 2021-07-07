@@ -1,0 +1,38 @@
+@import "@scss/variable";
+
+.search-album {
+    @include flex();
+    flex-wrap: wrap;
+
+    &-item {
+        width: 15%;
+        transition: .2s ease-in;
+        cursor: pointer;
+
+        &:hover {
+            filter: drop-shadow(0 0 20px rgba(123, 131, 120, 0.2));
+            transform: translateY(-10px);
+        }
+
+        &:not(:nth-of-type(6n)) {
+            margin-right: 2%;
+        }
+
+        &:nth-of-type(n + 7) {
+            margin-top: 2%;
+        }
+
+        img {
+            width: 100%;
+            border-radius: 8px;
+        }
+
+        h5 {
+            font-size: 18px;
+            line-height: 2;
+        }
+
+    }
+
+
+}

@@ -1,0 +1,54 @@
+@import "@scss/variable";
+@import "@scss/el-theme.scss";
+
+.search-lyric {
+  border-top: 1px solid #eee;
+
+  &-item {
+    border-bottom: 1px solid #eee;
+
+    .song-info {
+      @include flexVc();
+      padding: 18px 0;
+
+      .song-name {
+        flex: 2;
+        border-left: 4px solid $--color-primary;
+        text-indent: 2em;
+      }
+
+      .song-artist,
+      .song-album,
+      .song-duration {
+        flex: 1;
+      }
+    }
+
+    .lyric-wrap {
+      display: flow-root;
+      padding: 20px 30px;
+
+      .lyric-container {
+        float: left;
+        color: #777;
+        line-height: 1.6;
+      }
+
+      .lyric-tool {
+        float: right;
+        @include flex();
+        padding-top: 6em;
+        font-size: 16px;
+        span {  
+          &:hover {
+            color: $--color-primary;
+          }
+          padding: 0 20px;
+          color: #888;
+          font-weight: 600;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}

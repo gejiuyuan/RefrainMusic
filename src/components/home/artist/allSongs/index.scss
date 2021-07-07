@@ -1,0 +1,11 @@
+@import "@/scss/variable";
+@import "@/scss/el-theme";
+
+.allSongs-header {
+  @include flexHe();
+  padding: 20px 0;
+}
+
+.allSongs-wrap {
+  min-height: 20em;
+}

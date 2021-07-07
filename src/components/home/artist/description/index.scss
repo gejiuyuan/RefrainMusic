@@ -1,0 +1,24 @@
+
+@import "@/scss/variable";
+@import "@/scss/el-theme";
+
+.yplayer-artist-desc {
+  .artist-info {
+    padding-top: 20px;
+    h6 {
+      border-left: 3px solid $--color-primary;
+      color: #555;
+      font-size: 15px;
+      font-weight: 600;
+      text-indent: 1em;
+    }
+
+    p {
+      padding-left: 2em;
+      padding-top: 14px;
+      color: #666;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+  }
+}

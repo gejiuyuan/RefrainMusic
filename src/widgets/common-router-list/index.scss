@@ -1,0 +1,55 @@
+@import "@scss/variable";
+
+.common-router-list {
+  position: relative;
+  @include flexVc();
+  margin: 30px 0;
+  font-size: 18px;
+
+  // &::after {
+  //   content: "";
+  //   position: absolute;
+  //   bottom: 0;
+  //   left: 0;
+  //   right: 0;
+  //   height: 1px;
+  //   background-color: rgb(215, 226, 222); 
+  // }
+
+  li {
+    padding-right: 60px;
+
+    .common-list-item {
+      position: relative;
+      display: inline-block;
+      line-height: 2.2;
+      transition: color 0.18s;
+      cursor: pointer;
+
+      &:hover {
+        color: $themeprimary;
+      }
+
+      &::after {
+        opacity: 0;
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 2em;
+        height: 2px;
+        background-color: $themeprimary;
+        border-radius: 1px;
+        transform: translateX(-50%);
+        transition: opacity 0.16s;
+      }
+
+      &.active-online-link {
+        color: $themeprimary;
+        &::after {
+          opacity: 1;
+        }
+      }
+    }
+  }
+}

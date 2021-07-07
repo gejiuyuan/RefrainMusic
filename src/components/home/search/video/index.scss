@@ -1,0 +1,45 @@
+@import "@scss/variable";
+
+.search-video {
+  @include flex();
+  flex-wrap: wrap;
+}
+
+.video-card {
+  width: 18.4%;
+  cursor: pointer;
+  transition: 0.16s;
+
+  &:hover {
+    filter: drop-shadow(0 16px 20px rgba(40, 70, 100, 0.2));
+    transform: translateY(-6px);
+  }
+
+  &:not(:nth-of-type(5n)) {
+    margin-right: 2%;
+  }
+
+  &:nth-of-type(n + 6) {
+    margin-top: 2%;
+  }
+
+  img {
+    width: 100%;
+    min-height: 120px;
+    border-radius: 1rem;
+  }
+
+  .video-info {
+    @include flexHbVc();
+    color: #666;
+  }
+
+  .video-title {
+    padding: 1rem 0;
+    font-size: 1.1rem;
+    color: #555;
+  }
+
+  .video-info {
+  }
+}

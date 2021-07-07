@@ -1,0 +1,6 @@
+@import "@scss/variable";
+
+.yplayer-route-pagination {
+  @include flexHc();
+  padding: 30px 0;
+}

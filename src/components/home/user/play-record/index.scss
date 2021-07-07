@@ -1,0 +1,30 @@
+@import "@/scss/variable";
+@import "@/scss/el-theme";
+
+.play-record-header {
+  @include flexHbVc();
+  padding-bottom: 20px;
+}
+
+.record-desc {
+  color: #666;
+  font-size: 16px;
+
+  span {
+    font-weight: 600;
+  }
+}
+
+.record-icon-info {
+  @include flexInline();
+}
+
+.canNotSee {
+  padding-top: 2em;
+  color: #666;
+  span {
+    margin-right: 1rem;
+    color: rgb(247, 171, 101);
+    font-weight: 600;
+  }
+}
