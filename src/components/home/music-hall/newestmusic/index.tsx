@@ -19,7 +19,7 @@ import { padPicCrop } from "@/utils";
 export default defineComponent({
   name: "MusicHallNewestmusic",
   setup(props, context) {
-    const vm = getCurrentInstance() as ComponentInternalInstance;
+    const vm = getCurrentInstance()!;
     const musicList = markRaw<any[]>([]);
 
     const sliceInterval = ref(12); //切片间隔
@@ -32,7 +32,7 @@ export default defineComponent({
       });
       musicList.length = 0;
       musicList.push(...data);
-      vm.ctx.$forceUpdate();
+      vm.proxy!.$forceUpdate();
     };
     getNewestMusic();
 

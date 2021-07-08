@@ -33,7 +33,7 @@ export default defineComponent({
   name: "musicHallTop",
   setup(props, { slots, emit }) {
     const router = useRouter();
-    const vm = getCurrentInstance() as ComponentInternalInstance;
+    const vm = getCurrentInstance()!;
 
     const toplistData = markRaw({
       hotList: [] as any[],
@@ -46,7 +46,7 @@ export default defineComponent({
 
       toplistData.hotList = hots;
       toplistData.commonList = commons;
-      vm.ctx.$forceUpdate();
+      vm.proxy!.$forceUpdate();
     };
     getAllTopListDetail();
 

@@ -54,7 +54,7 @@ export default defineComponent({
     const router = useRouter();
     const route = useRoute();
 
-    const vm = getCurrentInstance() as ComponentInternalInstance;
+    const vm = getCurrentInstance()!;
 
     const defaultOrder = orders[0].text;
 

@@ -6,7 +6,7 @@ const extend = Object.assign
  
 const pathResolve = (dir: string) => path.resolve(`${__dirname}`, '../', dir);
 
-const hostname = 'localhost';
+const hostname = '0.0.0.0';
 const port = 2021;
 
 const viteConstants: ViteConstant = {

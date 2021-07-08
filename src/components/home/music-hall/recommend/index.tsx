@@ -29,7 +29,7 @@ export default defineComponent({
     const bannerlist = reactive<any[]>([]);
     const recommendSonglist = markRaw<RecommendItem[]>([]);
     const limit = 10;
-    const vm = getCurrentInstance() as ComponentInternalInstance;
+    const vm = getCurrentInstance()!;
 
     const getBanner = async () => {
       const { banners = [] } = await bannerInfo({ type: 0 });
@@ -42,7 +42,7 @@ export default defineComponent({
     };
 
     Promise.allSettled([getBanner(), getRecommendSonglist()]).then(() => {
-      vm.ctx.$forceUpdate();
+      vm.proxy!.$forceUpdate();
     });
 
     return () => {

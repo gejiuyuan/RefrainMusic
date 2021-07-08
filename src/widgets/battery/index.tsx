@@ -1,4 +1,4 @@
-import { useBattery } from "@utils/use";
+
 import Vue, {
   defineComponent,
   reactive,
@@ -11,39 +11,28 @@ import Vue, {
 import { decimalToPercent } from "@utils/index";
 import "./index.scss";
 
+import {
+  useBattery
+} from '@vueuse/core';
+
 export default defineComponent({
   name: "Battery",
   setup(props, { emit, slots }) {
-    const batterySetting = reactive({
-      text: "",
-      title: "",
-    });
-    const batteryInfo = ref({
-      charging: false,
-      chargingTime: 0,
-      dischargingTime: 0,
-      level: 0,
-      usability: false,
-    });
-    watchEffect(() => {
-      batterySetting.text = decimalToPercent(batteryInfo.value.level);
-    });
+    const batteryPercent = computed(() => decimalToPercent(level.value))
 
-    (async () => {
-      batteryInfo.value = await useBattery();
-    })();
-
+    const { isSupported, charging, dischargingTime, level, chargingTime } = useBattery();
+    if (!isSupported) {
+      return
+    }
     const curBatteryStyle = computed(() => ({
       fill: "#2bd38d",
-      "clip-path": `polygon(0 0, ${batterySetting.text} 0, ${batterySetting.text} 100%, 0 100%)`,
+      "clip-path": `polygon(0 0, ${batteryPercent.value} 0, ${batteryPercent.value} 100%, 0 100%)`,
     }));
 
     return () => {
-      const { usability, charging } = batteryInfo.value;
-      if (!usability) return;
       return (
         <section class="yplayer-head-battery">
-          <i title={batterySetting.title}>
+          <i>
             <svg class="icon icon-battery" viewBox="0 0 1024 1024">
               <rect
                 x="150"
@@ -53,7 +42,7 @@ export default defineComponent({
                 style={curBatteryStyle.value}
               />
               <path
-                v-show={charging}
+                v-show={charging.value}
                 d="M512 393.216 229.376 512 430.08 512 471.04 630.784 753.664 512 552.96 512Z"
                 fill="#555"
               ></path>
@@ -68,7 +57,7 @@ export default defineComponent({
               ></path>
             </svg>
           </i>
-          <span class="head-battery-text">{batterySetting.text}</span>
+          <span class="head-battery-text">{batteryPercent.value}</span>
         </section>
       );
     };

@@ -8,9 +8,9 @@
     "build": "vite build -c viteConfig/vite.config.ts"
   },
   "dependencies": {
+    "@vueuse/core": "^5.1.3",
     "axios": "^0.21.1",
     "element-plus": "*",
-    "fscreen": "^1.2.0",
     "pinia": "^0.5.2",
     "ryoko": "^0.1.51",
     "swiper": "^6.7.5",

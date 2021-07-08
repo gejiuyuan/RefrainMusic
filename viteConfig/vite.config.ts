@@ -171,7 +171,7 @@ const prodConfig: UserConfig = extend(baseConfig, {
         assetsDir: 'assets',
         //静态资源导入大小限制，默认为4096（4kb）
         assetsInlineLimit: '3072',
-        sourcemap: false,
+        sourcemap: true,
         //rollup配置选项，将会与vite内部的默认配置选项合并
         rollupOptions: {},
         //代码压缩。

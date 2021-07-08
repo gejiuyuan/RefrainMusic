@@ -1,5 +1,5 @@
 import { BatteryManager } from "./battery";
-import EventDispatcher from "../event";
+import EventDispatcher from "@special/event";
 
 /**
  *  Battery API
@@ -29,7 +29,7 @@ export default class BatteryMaster extends EventDispatcher {
 
   public getBattery: () => Promise<PlainObject> = getBattery;
 
-  public usability!: boolean;
+  public isSupported!: boolean;
 
   //电池是否正在充电
   public charging!: boolean;
@@ -49,7 +49,7 @@ export default class BatteryMaster extends EventDispatcher {
 
   public async asyncInitialize() {
     const battery = await this.getBattery();
-    if ((this.usability = !!battery)) {
+    if ((this.isSupported = !!battery)) {
       this.battery = battery;
       this.charging = battery.charging;
       this.chargingTime = battery.chargingTime;

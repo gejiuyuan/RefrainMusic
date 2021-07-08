@@ -42,13 +42,7 @@ export default defineComponent({
   setup(props, context) {
     const route = useRoute();
     const router = useRouter();
-
-    const activeMenuValue = computed(() => {
-      const path = route.path;
-      return baseSonglistRoutelists.find(({ to }) =>
-        to.includes(path)
-      )?.text || baseSonglistRoutelists[0].text;
-    });
+ 
     const songlistRoutelists = reactive<typeof baseSonglistRoutelists>([]);
 
     const songlistInfo = shallowReactive({
@@ -223,7 +217,7 @@ export default defineComponent({
                   title={`分享量${playlist.shareCountStr}`}
                 >
                   <NxButton
-                    type="info"
+                    type="warning"
                     size="small"
                     ghost
                     dashed
@@ -237,7 +231,7 @@ export default defineComponent({
                   title={`订阅量${playlist.subscribedCountStr}`}
                 >
                   <NxButton
-                    type="info"
+                    type="warning"
                     size="small"
                     ghost
                     dashed

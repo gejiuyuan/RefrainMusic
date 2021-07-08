@@ -81,6 +81,7 @@
   .songlist-tools {
     float: right;
     @include flexVc();
+    margin-top: 10px;
 
     .songlist-btn {
       &:not(:last-of-type) {

@@ -12,7 +12,7 @@ import "./index.scss";
 export default defineComponent({
   name: "ArtistDesc",
   setup(props, context) {
-    const vm = getCurrentInstance() as ComponentInternalInstance;
+    const vm = getCurrentInstance()!;
     const route = useRoute();
 
     const artistDescInfo = markRaw({
@@ -31,7 +31,7 @@ export default defineComponent({
       const { briefDesc = "", introduction = [] } = data;
       artistDescInfo.briefDesc = briefDesc;
       artistDescInfo.introduction = introduction;
-      vm.ctx.$forceUpdate();
+      vm.proxy!.$forceUpdate();
     });
 
     return () => {

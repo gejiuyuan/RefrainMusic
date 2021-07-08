@@ -32,8 +32,4 @@ declare module "*.png";
 declare module "*.jpg";
 declare module "*.webp";
 declare module "*.svg";
-
-declare module "fscreen" {
-  const fullscreen: PlainObject;
-  export default fullscreen;
-}
+ 

@@ -25,7 +25,7 @@ declare module "@vue/runtime-core" {
 
   //让getCurrentInstance中支持ctx上下文属性
   interface ComponentInternalInstance {
-    ctx: ComponentPublicInstance
+    ctx: ComponentPublicInstance, 
   }
 
 }

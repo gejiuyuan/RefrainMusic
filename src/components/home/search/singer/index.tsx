@@ -4,6 +4,8 @@ import { useRoute, useRouter } from "vue-router";
 import { SearchCloundData } from "../index";
 import "./index.scss";
 
+import ArtistList from "@/widgets/artist-list";
+
 export default defineComponent({
   name: "SearchSinger",
   setup(props, context) {
@@ -21,21 +23,7 @@ export default defineComponent({
       } = searchData;
       return (
         <section class="search-singer">
-          {
-            artists.map(({ picUrl, id, accountId, trans, name }) => {
-              return (
-                <div className="search-singer-item">
-                  <img
-                    loading="lazy"
-                    onClick={() => toArtistDetailPage(id)}
-                    src={padPicCrop(picUrl, { x: 120, y: 120 })}
-                    alt=""
-                  />
-                  <div class="singer-info">{name}</div>
-                </div>
-              );
-            })
-          }
+          <ArtistList singerList={artists} gaps={{x: 30, y: 30}} cols={10}></ArtistList>
         </section>
       );
     };

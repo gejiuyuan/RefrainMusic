@@ -47,34 +47,33 @@ export default defineComponent({
     return () => {
       const { cols, gaps: { x, y } } = props;
       return (
-        <section class="yplayer-similar-singer">
-          <section class="singer-list">
-            <NGrid xGap={x} yGap={y} cols={cols}>
-              {
-                singers.value.map((item) => (
-                  <NGridItem
-                    key={item.id}
+        <section class="singer-list">
+          <NGrid xGap={x} yGap={y} cols={cols}>
+            {
+              singers.value.map((item) => (
+                <NGridItem
+                  key={item.id}
+                >
+                  <div
+                    class="singer-item"
+                    onClick={() => singerItemClick(item)}
                   >
-                    <div
-                      class="singer-item"
-                      onClick={() => singerItemClick(item)}
-                    >
-                      <div equalAspectRatio>
-                        <img
-                          loading="lazy"
-                          src={padPicCrop(item.picUrl, { x: 180, y: 180 })}
-                          title={item.fullName}
-                        />
-                      </div>
-                      <div class="singer-name" singalLineDot title={item.fullName}>
-                        {item.fullName}
-                      </div>
+                    <div equalAspectRatio>
+                      <img
+                        loading="lazy"
+                        src={padPicCrop(item.picUrl, { x: 180, y: 180 })}
+                        title={item.picUrl}
+                        alt={item.picUrl}
+                      />
                     </div>
-                  </NGridItem>
-                ))
-              }
-            </NGrid>
-          </section>
+                    <div class="singer-name" singalLineDot title={item.fullName}>
+                      {item.fullName}
+                    </div>
+                  </div>
+                </NGridItem>
+              ))
+            }
+          </NGrid>
         </section>
       );
     };
