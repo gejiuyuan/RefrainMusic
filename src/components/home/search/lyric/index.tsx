@@ -17,7 +17,6 @@ import { useRoute, useRouter, onBeforeRouteLeave } from "vue-router";
 import { SearchCloundData } from "../index";
 import "./index.scss";
 import { SearchLyricItem } from "@/types/lyric";
-import { EMPTY_OBJ } from "@/utils/constant";
 import RoutePagination, { PagiInfo } from "@widgets/route-pagination";
 
 const defaultSearchLyricInfo = {

@@ -14,7 +14,7 @@ import {
 } from "vue-router";
 import { CatListSub } from "@/types/songlist";
 import { playlistCate, topPlaylist } from "@api/playlist";
-import { EMPTY_OBJ, freeze } from "@/utils/constant";
+import { EMPTY_OBJ, freeze } from "@/utils/constants";
 import Songlist from "@widgets/song-list";
 import "./index.scss";
 import {

@@ -27,7 +27,7 @@ import {
   is,
 } from "@/utils";
 import "./index.scss";
-import { EMPTY_OBJ } from "@/utils/constant";
+import { EMPTY_OBJ } from "@/utils";
 import { SearchLyricItem } from "@/types/lyric";
 import { SearchPlaylist } from "@/types/songlist";
 import { SearchSingerItem } from "@/types/singer";

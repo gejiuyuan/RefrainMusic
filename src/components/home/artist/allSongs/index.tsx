@@ -8,7 +8,7 @@ import {
 
 import SongTable from "@/widgets/song-table";
 import RoutePagination from "@widgets/route-pagination";
-import { EMPTY_OBJ, freeze } from "@/utils/constant";
+import { EMPTY_OBJ, freeze } from "@/utils";
 
 import { SongInfo } from "@/types/song";
 

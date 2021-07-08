@@ -18,7 +18,8 @@ import {
   RouterView,
 } from "vue-router";
 import { playlistDetail, playlistDetailDynamic } from "@api/playlist";
-import { getLocaleDate, getLocaleCount, objToQuery, padPicCrop } from "@/utils";
+import { getLocaleDate, objToQuery, padPicCrop } from "@utils/index";
+import { getLocaleCount } from "@utils/calc";
 import "./index.scss";
 
 import {

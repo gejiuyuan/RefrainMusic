@@ -13,10 +13,9 @@ import {
   onBeforeRouteUpdate,
 } from "vue-router";
 import RoutePagination from "@widgets/route-pagination";
-import "./index.scss";
-import { padPicCrop } from "@/utils";
+import "./index.scss"; 
 import { NEmpty, NGrid, NGridItem } from "naive-ui";
-import { UNICODE_CHAR } from "@/special/information";
+import { UNICODE_CHAR , padPicCrop } from "@utils/index";
 
 export default defineComponent({
   name: "Songlist",

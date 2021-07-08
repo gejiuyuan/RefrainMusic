@@ -6,7 +6,7 @@ import SongTable from "@/widgets/song-table";
 import { artistTopSong } from "@api/singer";
 import { SongInfo } from "@/types/song";
 import "./index.scss";
-import { freeze } from "@/utils/constant";
+import { freeze } from "@/utils";
 
 export default defineComponent({
   name: "ArtistFeatured",

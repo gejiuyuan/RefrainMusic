@@ -11,7 +11,7 @@ import {
 import { artistList } from "@api/singer";
 import ArtistList from "@widgets/artist-list";
 import RoutePagination from "@widgets/route-pagination";
-import { freeze } from "@/utils/constant";
+import { freeze } from "@/utils";
 import { SingerInfo } from "@/types/singer";
 import "./index.scss";
 import { NRadio, NRadioButton, NRadioGroup, NSpace } from "naive-ui";

@@ -9,10 +9,9 @@ import {
   HTMLAttributes,
 } from "vue";
 import { SongInfo } from "@/types/song";
-import { second2TimeStr, getLocaleDate, noop } from "@utils/index";
+import { second2TimeStr, getLocaleDate, NOOP, EMPTY_OBJ, freeze } from "@utils/index";
 import InfinityScrolling from "@/widgets/infiity-scrolling";
 import "./index.scss";
-import { EMPTY_OBJ, freeze } from "@/utils/constant";
 
 export interface realSongInfo extends SongInfo {
   fullName: string;
@@ -46,9 +45,9 @@ export default defineComponent({
           isRenderPublishTime.value = true;
           song.localedPublishTime = publishTime
             ? getLocaleDate(publishTime, {
-                delimiter: "-",
-                divide: "day",
-              })
+              delimiter: "-",
+              divide: "day",
+            })
             : "未知";
         }
       });

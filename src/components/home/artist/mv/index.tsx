@@ -6,13 +6,11 @@ import {
   onBeforeRouteUpdate,
 } from "vue-router";
 
-import { getLocaleDate, getLocaleCount, padPicCrop } from "@utils/index";
+import { getLocaleDate, getLocaleCount, padPicCrop, freeze } from "@utils/index";
 import { artistAlbum, artistMv } from "@api/singer";
 import { Mv } from "@/types/mv";
 import "./index.scss";
-
-import RoutePagination from "@widgets/route-pagination";
-import { freeze } from "@/utils/constant";
+import RoutePagination from "@widgets/route-pagination"; 
 
 const defaultSingalMvInfo = {
   limit: 25,

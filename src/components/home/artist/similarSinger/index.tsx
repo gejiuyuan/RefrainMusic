@@ -6,7 +6,7 @@ import { artistSimilar } from "@api/singer";
 import ArtistList from "@/widgets/artist-list";
 import { SingerInfo } from "@/types/singer";
 import "./index.scss";
-import { freeze } from "@/utils/constant";
+import { freeze } from "@/utils";
 
 export default defineComponent({
   name: "ArtistSimilar",

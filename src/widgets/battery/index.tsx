@@ -8,7 +8,7 @@ import Vue, {
   watchEffect,
   computed,
 } from "vue";
-import { decimalToPercent } from "@utils/index";
+import { decimalToPercent } from "@utils/calc";
 import "./index.scss";
 
 import {

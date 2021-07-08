@@ -17,7 +17,7 @@ import {
   RouterView,
 } from "vue-router";
 import { userDetail, userSubcount, userRecord, userPlaylist } from "@api/user";
-import { getLocaleDate, noop, objToQuery, padPicCrop } from "@utils/index";
+import { getLocaleDate, NOOP, objToQuery, padPicCrop } from "@utils/index";
 import { PlayRecord } from "@/types/song";
 import { UserDetail } from "@/types/user";
 import "./index.scss";

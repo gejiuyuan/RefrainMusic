@@ -30,7 +30,7 @@ import KeepAliveRouterview from "@/widgets/keep-alive-routerview";
 import { artistSingalSongs } from "@api/singer";
 import { deepCopy, extend, objToQuery, padPicCrop } from "@/utils";
 import "./index.scss";
-import { EMPTY_OBJ, freeze } from "@/utils/constant";
+import { EMPTY_OBJ, freeze } from "@/utils";
 
 export type Artist = {
   alias: string[];

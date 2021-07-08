@@ -6,12 +6,10 @@ import {
 } from "vue-router";
 import "./index.scss";
 
-import { getLocaleDate, padPicCrop } from "@utils/index";
+import { getLocaleDate, padPicCrop , EMPTY_OBJ, freeze } from "@utils/index";
 import { artistAlbum } from "@api/singer";
 import { AlbumInfo } from "@/types/album";
-
-import RoutePagination from "@/widgets/route-pagination";
-import { EMPTY_OBJ, freeze } from "@/utils/constant";
+import RoutePagination from "@/widgets/route-pagination"; 
 
 const defaultSingerAlbumInfo = {
   limit: 18,

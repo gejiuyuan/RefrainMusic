@@ -1,4 +1,4 @@
-import { noop } from "@/utils";
+import { NOOP } from "@/utils";
 import Vue, { defineComponent } from "vue";
 import "./index.scss";
 
@@ -13,7 +13,7 @@ export default defineComponent({
     onClick: {
       type: Function,
       required: false,
-      default: noop,
+      default: NOOP,
     },
   },
   setup(props, { emit, slots }) {
