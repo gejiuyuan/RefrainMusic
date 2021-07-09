@@ -8,13 +8,13 @@ import {
 import { useRouter } from "vue-router";
 import { allTopList, allTopListDetail } from "@api/other";
 import { getLocaleCount, is, padPicCrop } from "@utils/index";
-import "./index.scss";
 import { NGrid, NGridItem, NIcon } from "naive-ui";
 import {
   PlayCircle28Filled,
   PlayCircle20Regular,
   Play24Filled,
 } from '@vicons/fluent'
+import "./index.scss";
 
 const subDivideTopList = (topList: any[]) => {
   const hotList: any[] = [],
@@ -30,7 +30,7 @@ const subDivideTopList = (topList: any[]) => {
 };
 
 export default defineComponent({
-  name: "musicHallTop",
+  name: "MusicHallTop",
   setup(props, { slots, emit }) {
     const router = useRouter();
     const vm = getCurrentInstance()!;
@@ -43,7 +43,6 @@ export default defineComponent({
     const getAllTopListDetail = async () => {
       const { list } = await allTopListDetail();
       const { hotList: hots, commonList: commons } = subDivideTopList(list);
-
       toplistData.hotList = hots;
       toplistData.commonList = commons;
       vm.proxy!.$forceUpdate();
@@ -59,33 +58,35 @@ export default defineComponent({
         <h5>云音乐特色榜</h5>
         <ul class="toplist-wrap">
           <NGrid xGap={36} yGap={36} cols={3}>
-            {toplistData.hotList.map((item) => (
-              <NGridItem class="toplist-item toplist-hot-item" key={item.name}>
-                <div onClick={() => toSongListDetailPage(item)}>
-                  <NGrid cols={8}>
-                    <NGridItem span={3}>
-                      <div class="list-cover hot-cover" equalAspectRatio>
-                        <img
-                          loading="lazy"
-                          src={padPicCrop(item.coverImgUrl, { x: 340, y: 340 })}
-                          alt=""
-                        />
-                      </div>
-                    </NGridItem>
-                    <NGridItem span={5}>
-                      <div class="list-body">
-                        <h6>{item.name}</h6>
-                        {item.tracks.map((track: any, i: number) => (
-                          <p key={track.first}>
-                            {++i}&nbsp;{Object.values(track).join(" - ")}
-                          </p>
-                        ))}
-                      </div>
-                    </NGridItem>
-                  </NGrid>
-                </div>
-              </NGridItem>
-            ))}
+            {
+              toplistData.hotList.map((item) =>
+                <NGridItem class="toplist-item toplist-hot-item" key={item.name}>
+                  <div onClick={() => toSongListDetailPage(item)}>
+                    <NGrid cols={8}>
+                      <NGridItem span={3}>
+                        <div class="list-cover hot-cover" equalAspectRatio>
+                          <img
+                            loading="lazy"
+                            src={padPicCrop(item.coverImgUrl, { x: 340, y: 340 })}
+                            alt=""
+                          />
+                        </div>
+                      </NGridItem>
+                      <NGridItem span={5}>
+                        <div class="list-body">
+                          <h6>{item.name}</h6>
+                          {item.tracks.map((track: any, i: number) => (
+                            <p key={track.first}>
+                              {++i}&nbsp;{Object.values(track).join(" - ")}
+                            </p>
+                          ))}
+                        </div>
+                      </NGridItem>
+                    </NGrid>
+                  </div>
+                </NGridItem>
+              )
+            }
           </NGrid>
 
         </ul>
@@ -96,7 +97,7 @@ export default defineComponent({
       <section class="toplist-layer toplist-global">
         <h5>全球媒体榜</h5>
         <section class="toplist-wrap">
-          <NGrid xGap={20} yGap={20} cols={6}>
+          <NGrid xGap={30} yGap={30} cols={7}>
             {
               toplistData.commonList.map((item) =>
                 <NGridItem class="toplist-item toplist-global-item" key={item.name}>

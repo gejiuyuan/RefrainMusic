@@ -11,7 +11,8 @@ export default defineComponent({
       required: true,
     },
   },
-  setup({ bannerList }, { slots, emit }) {
+  setup(props, { slots, emit }) {
+    const bannerList = props.bannerList;
     return () => {
       return (
         <section class="recommend-banner">

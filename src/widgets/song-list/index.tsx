@@ -5,6 +5,7 @@ import {
   shallowRef,
   computed,
   defineComponent,
+  PropType,
 } from "vue";
 import {
   useRouter,
@@ -13,28 +14,38 @@ import {
   onBeforeRouteUpdate,
 } from "vue-router";
 import RoutePagination from "@widgets/route-pagination";
-import "./index.scss"; 
+import "./index.scss";
 import { NEmpty, NGrid, NGridItem } from "naive-ui";
-import { UNICODE_CHAR , padPicCrop } from "@utils/index";
+import { UNICODE_CHAR, padPicCrop } from "@utils/index";
 
 export default defineComponent({
   name: "Songlist",
   props: {
     playlists: {
-      type: Array,
+      type: Array as PropType<any[]>,
       required: false,
       default: () => [],
     },
     defaultLimit: {
-      type: Number,
+      type: Number as PropType<number>,
       required: false,
       default: 30,
     },
     total: {
-      type: Number,
+      type: Number as PropType<number>,
       required: false,
       default: 0,
     },
+    gaps: {
+      type: Object as PropType<Partial<Record<'x' | 'y', number>>>,
+      required: false,
+      default: { x: 30, y: 30 },
+    },
+    cols: {
+      type: Number as PropType<number>,
+      required: false,
+      default: 7
+    }
   },
   setup(props, context) {
     const route = useRoute();
@@ -48,7 +59,7 @@ export default defineComponent({
     });
 
     watch(
-      () => props as any,
+      () => props,
       (props) => {
         const defaultLimit = props.defaultLimit;
         topListInfo.limit = defaultLimit;
@@ -64,7 +75,7 @@ export default defineComponent({
     );
 
     const updateTolListInfo = (query: PlainObject) => {
-      const { limit = props.defaultLimit as number, offset = 0 } = query;
+      const { limit = props.defaultLimit, offset = 0 } = query;
       topListInfo.limit = limit;
       topListInfo.offset = offset;
     };
@@ -80,13 +91,13 @@ export default defineComponent({
       router.push({ path: "/songlist", query: { id } });
 
     const renderMainList = () => {
-      const { playlists } = props;
+      const { playlists, gaps, cols } = props;
       return (
         <section class="music-wrap">
           {
             playlists.length
               ? (
-                <NGrid xGap={30} yGap={30} cols={6}>
+                <NGrid xGap={gaps.x} yGap={gaps.y} cols={cols}>
                   {
                     playlists.map((item: any) => (
                       <NGridItem key={item.id}>

@@ -15,12 +15,12 @@ export default defineComponent({
     gaps: {
       type: Object as PropType<Record<'x' | 'y', number>>,
       required: false,
-      default: () => ({ x: 30, y: 30 })
+      default: () => ({ x: 40, y: 40 })
     },
     cols: {
       type: Number as PropType<number>,
       required: false,
-      default: 11,
+      default: 10,
     },
   },
   setup(props, { emit, slots }) {

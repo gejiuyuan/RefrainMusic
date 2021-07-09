@@ -107,7 +107,6 @@ export default defineComponent({
       if (willShowArtist) {
         const { artists } = willShowArtist;
         singers.singerList = freeze(artists);
-
         singerListInfo.limit = +limit;
         singerListInfo.offset = +offset;
         singerListInfo.area = areaList.find(({ key }) => key == area)?.text;
@@ -205,7 +204,7 @@ export default defineComponent({
             </el-radio-group>
           </section>
 
-          <ArtistList singerList={singers.singerList}></ArtistList>
+          <ArtistList singerList={singers.singerList} cols={8}></ArtistList>
 
           <section class="singer-layer singer-pagination">
             <RoutePagination pagiInfo={singerListInfo}></RoutePagination>

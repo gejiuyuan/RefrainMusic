@@ -36,36 +36,41 @@ export default defineComponent({
     };
     getNewestMusic();
 
-    const slotRenderer = {
-      default(infinityScrollProps: InfinityScrollingDefaultSlotArg) {
-        if (!musicList.length) return;
-        const { currentCount } = infinityScrollProps;
-        return (
-          <section class="music-wrap">
-            <NGrid xGap={30} yGap={30} cols={6}>
-              {musicList.slice(0, currentCount).map((list) => (
-                <NGridItem key={list.name}>
-                  <div class="music-item">
-                    <div class="music-cover" equalAspectRatio>
-                      <img
-                        loading="lazy"
-                        src={padPicCrop(list.album.blurPicUrl, { x: 340, y: 340 })}
-                        alt=""
-                      />
-                    </div>
-                    <div class="music-body">
-                      <h6 title={list.name}>{list.name}</h6>
-                      <p title={list.singer}>{list.singer}</p>
-                    </div>
-                  </div>
-                </NGridItem>
-              ))}
-            </NGrid>
-
-          </section>
-        );
-      },
-    };
+    const renderInfinityScrollDefaultSlot = (
+      infinityScrollProps: InfinityScrollingDefaultSlotArg
+    ) => {
+      if (!musicList.length) return;
+      const { currentCount } = infinityScrollProps;
+      return (
+        <section class="music-wrap">
+          <NGrid xGap={40} yGap={40} cols={7}>
+            {
+              musicList
+                .slice(0, currentCount)
+                .map(
+                  (list) => (
+                    <NGridItem key={list.name}>
+                      <div class="music-item">
+                        <div class="music-cover" equalAspectRatio>
+                          <img
+                            loading="lazy"
+                            src={padPicCrop(list.album.blurPicUrl, { x: 340, y: 340 })}
+                            alt=""
+                          />
+                        </div>
+                        <div class="music-body">
+                          <h6 title={list.name}>{list.name}</h6>
+                          <p title={list.singer}>{list.singer}</p>
+                        </div>
+                      </div>
+                    </NGridItem>
+                  )
+                )
+            }
+          </NGrid>
+        </section>
+      );
+    }
 
     return () => (
       <div class="music-hall-newestmusic">
@@ -73,9 +78,10 @@ export default defineComponent({
           sliceInterval={sliceInterval.value}
           total={musicList.length}
           baseCount={baseCount.value}
-        >
-          {slotRenderer}
-        </InfinityScrolling>
+          v-slots={{
+            default: renderInfinityScrollDefaultSlot
+          }}
+        ></InfinityScrolling>
       </div>
     );
   },

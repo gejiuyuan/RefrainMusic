@@ -23,7 +23,7 @@ export default defineComponent({
       } = searchData;
       return (
         <section class="search-singer">
-          <ArtistList singerList={artists} gaps={{x: 30, y: 30}} cols={10}></ArtistList>
+          <ArtistList singerList={artists} gaps={{x: 40, y: 40}} cols={11}></ArtistList>
         </section>
       );
     };

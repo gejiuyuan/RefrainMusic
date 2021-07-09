@@ -26,7 +26,7 @@ export type RecommendItem = {
 export default defineComponent({
   name: "MusicHallRecommend",
   setup(props, { slots, emit }) {
-    const bannerlist = reactive<any[]>([]);
+    const bannerlist = shallowReactive<any[]>([]);
     const recommendSonglist = markRaw<RecommendItem[]>([]);
     const limit = 10;
     const vm = getCurrentInstance()!;
@@ -52,7 +52,7 @@ export default defineComponent({
           <section class="layer">
             <h6>推荐歌单</h6>
             <section class="item-wrap">
-              <NGrid xGap={34} yGap={34} cols={6}>
+              <NGrid xGap={45} yGap={35} cols={6}>
                 {
                   recommendSonglist.map((item) => (
                     <NGridItem class="item" key={item.id}>

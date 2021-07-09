@@ -64,12 +64,13 @@
   .play-count {
     position: absolute;
     right: 10px;
-    top: 14px;
-    padding: 6px 18px;
+    top: 10px;
+    padding: 5px 10px;
     background-color: rgba(200, 200, 200, 0.2);
-    backdrop-filter: blur(4px);
     color: #fff;
+    font-size: 14px;
     border-radius: 6px;
+    backdrop-filter: blur(4px);
   }
 
   &:hover {

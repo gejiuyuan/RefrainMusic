@@ -183,6 +183,7 @@ export default defineComponent({
             playlists={showingList.playlists}
             defaultLimit={listExtraInfo.defaultLimit}
             total={showingList.total}
+            gaps={{ x: 40, y: 50 }}
           ></Songlist>
         </section>
       );
