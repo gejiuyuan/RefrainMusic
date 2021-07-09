@@ -1,12 +1,14 @@
 import { createApp } from "vue";
+import { createPinia } from 'pinia';
+
 import { globalProperties } from "./vueGlobalConfig";
 
 import "@assets/js/yuan-ui-svg";
 import "@assets/js/svg";
 import "@scss/main.scss";
+import YuanPlayer from "./App";
 
 import './swiper';
-import YuanPlayer from "./App";
 
 import {
   plugins as elPlugins,
@@ -30,8 +32,7 @@ elPlugins.forEach(plugin => {
 //传入全局配置
 vueApp.config.globalProperties = globalProperties;
 
-import store from "@stores/index";
-vueApp.use(store);
+vueApp.use(createPinia());
 
 import routerObj from "@router/index";
 vueApp.use(routerObj);
