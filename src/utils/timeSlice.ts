@@ -3,7 +3,7 @@ export type StepCbFactor = Record<
   number
 >;
 
-export default class TimeSlice {
+export class TimeSlice {
   private priority = 0;
 
   private stepReq = 0;

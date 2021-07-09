@@ -1,4 +1,4 @@
-import { is } from "@utils/index";
+import { is } from "./common";
 
 export interface EventFun {
   (...args: any[]): any;
@@ -16,7 +16,7 @@ interface EventDispatcherClass
     (type: string, cb: EventFun) => void
   > {}
 
-export default class EventDispatcher implements EventDispatcherClass {
+export class EventDispatcher implements EventDispatcherClass {
   public store: EventStore = {};
 
   constructor() {}

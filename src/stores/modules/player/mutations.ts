@@ -1,8 +1,7 @@
 import { MutationTree } from "vuex";
 import { PlayerState, OrderKeys, SongInfo } from "./player";
-import { shallowReactive } from "vue";
-import LyricParser, { LyricType } from "@utils/lrcParser";
-import { getRanInteger } from "@utils/index";
+import { shallowReactive } from "vue"; 
+import { getRanInteger , LyricParser, LyricType } from "@utils/index";
 
 const mutations: MutationTree<PlayerState> = {
   //切换歌曲暂停与播放状态

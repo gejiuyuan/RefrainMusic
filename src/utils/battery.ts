@@ -1,4 +1,4 @@
-import EventDispatcher from "@utils/event";
+import { EventDispatcher } from "./event";
 
 export type BatteryManagerEvents =
   "onlevel" |
@@ -39,7 +39,7 @@ export const BATTERY_CHARGSTATUS_HOOKS = [
   "dischargingTimeChange",
 ];
 
-export default class BatteryMaster extends EventDispatcher {
+export class BatteryMaster extends EventDispatcher {
 
   public battery!: PlainObject;
 

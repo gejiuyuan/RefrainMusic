@@ -1,4 +1,5 @@
-import { spliceTime2Second, is, containChinChar } from "@utils/index";
+import { spliceTime2Second } from "./time";
+import { is } from "./common";
 
 export type LrcItem = {
   time: number;
@@ -17,7 +18,7 @@ export interface LyricClassType extends LyricType {
   parse(lrc: string): LrcItem[];
 }
 
-export default class LyricParser implements LyricClassType {
+export class LyricParser implements LyricClassType {
   static lrcTimeReg = /\[(\d+):(\d+)\.?(\d+)?\]/;
   static lrcTranslateReg = /(.+)(\((.+)\))/;
 
