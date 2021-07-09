@@ -2,7 +2,7 @@ import { createApp } from "vue";
 import { createPinia } from 'pinia';
 
 import { globalProperties } from "./vueGlobalConfig";
-
+import routerObj from "@router/index";
 import "@assets/js/yuan-ui-svg";
 import "@assets/js/svg";
 import "@scss/main.scss";
@@ -27,14 +27,9 @@ elComponents.forEach(component => {
 });
 elPlugins.forEach(plugin => {
   vueApp.use(plugin)
-});
-
-//传入全局配置
+}); 
 vueApp.config.globalProperties = globalProperties;
-
 vueApp.use(createPinia());
-
-import routerObj from "@router/index";
 vueApp.use(routerObj);
 
 //挂在实例

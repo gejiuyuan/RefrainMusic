@@ -5,7 +5,7 @@ import HomeHeader from "@components/home/home-header";
 import HomeController from "@components/home/home-controller";
 import "./index.scss";
 
-import { NBackTop } from "naive-ui";
+import { NBackTop, NGrid, NGridItem } from "naive-ui";
 
 export default defineComponent({
   name: "Home",
@@ -13,13 +13,15 @@ export default defineComponent({
     return () => {
       return (
         <section class="yplayer-home">
-          <section class="yplayer-home-main">
-            <HomeLeft></HomeLeft>
-            <section class="home-right">
+          <NGrid class="home-layout" cols={8}>
+            <NGridItem class="home-layout" span={1}>
+              <HomeLeft></HomeLeft>
+            </NGridItem>
+            <NGridItem class="home-layout home-right" span={7}>
               <HomeHeader></HomeHeader>
               <HomeContent></HomeContent>
-            </section>
-          </section>
+            </NGridItem>
+          </NGrid>
           <HomeController></HomeController>
           <NBackTop
             listenTo=".home-content"

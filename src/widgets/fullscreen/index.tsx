@@ -15,7 +15,6 @@ import { useBetterFullscreen } from "@/use";
 export default defineComponent({
   name: "FullScreen",
   setup(props, { slots, emit }) {
-
     const { isSupported, toggle, isFullscreen } = useBetterFullscreen();
 
     if (!isSupported) {

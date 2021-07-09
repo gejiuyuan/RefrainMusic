@@ -3,15 +3,14 @@
 .yplayer-home {
   height: 100%;
   overflow: hidden;
-  &-main {
-    @include flex();
+ 
+  .home-layout {
     height: 100%;
+    overflow: hidden;
   }
 
   .home-right {
-    position: relative;
-    flex: 1;
-    padding-left: 45px;
-    overflow: hidden;
+    position: relative;  
+    padding-left: 45px; 
   }
 }

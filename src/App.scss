@@ -4,11 +4,13 @@ html,
 body {
   width: 100vw;
   height: 100vh;
+  max-width: 2600px;
   min-width: 1180px;
   min-height: 600px;
+  margin: 0 auto;
   background-color: #fff;
   font-family: cursive;
-  font-size: 12.8px;
+  font-size: 16px;
 }
 
 #app {
