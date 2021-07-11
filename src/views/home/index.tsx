@@ -1,38 +1,63 @@
-import { defineComponent, onMounted } from "vue";
-import HomeLeft from "@components/home/home-left";
-import HomeContent from "@components/home/home-content";
+import { defineComponent, onMounted, ref } from "vue";
+import HomeCategory from "@/components/home/home-category";
 import HomeHeader from "@components/home/home-header";
-import HomeController from "@components/home/home-controller";
+import HomeController from "@/components/home/player-controller";
+import guoxiaoyouLogo from "@assets/img/guoxiaoyou.png";
 import "./index.scss";
 
 import { NBackTop, NGrid, NGridItem } from "naive-ui";
+import { RouterView } from "vue-router";
 
 export default defineComponent({
   name: "Home",
   setup(props, context) {
+    const logo = ref(guoxiaoyouLogo);
     return () => {
       return (
-        <section class="yplayer-home">
-          <NGrid class="home-layout" cols={8}>
-            <NGridItem class="home-layout" span={1}>
-              <HomeLeft></HomeLeft>
+        <>
+          <NGrid class="yplayer-homepage" cols={13}>
+            <NGridItem span={2}>
+              <aside class="home-aside">
+
+                <h1 class="home-logo">
+                  <img loading="lazy" src={logo.value} />
+                </h1>
+
+                <HomeCategory></HomeCategory>
+              </aside>
+
             </NGridItem>
-            <NGridItem class="home-layout home-right" span={7}>
-              <HomeHeader></HomeHeader>
-              <HomeContent></HomeContent>
+            <NGridItem span={11}>
+              <section class="home-main">
+                <header class="main-header">
+                  <HomeHeader></HomeHeader>
+                </header>
+
+                <section class="main-content">
+                  <div class="player-container" scrollbar="auto">
+                    <RouterView></RouterView>
+                  </div>
+                </section>
+
+                <footer class="main-footer">
+                  <HomeController></HomeController>
+                </footer>
+              </section>
             </NGridItem>
+
           </NGrid>
-          <HomeController></HomeController>
           <NBackTop
-            listenTo=".home-content"
-            visibilityHeight={400}
+            listenTo=".player-container"
+            visibilityHeight={320}
+            bottom={90}
             themeOverrides={{
               width: "38px",
               height: "38px",
               iconSize: "20px",
+              
             }}
           ></NBackTop>
-        </section>
+        </>
       );
     };
   },

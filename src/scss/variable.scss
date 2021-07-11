@@ -1,6 +1,6 @@
 @use "sass:math";
 
-$scrollbarWidth: 7px;
+$scrollbarWidth: 8px;
 $listWidth: 340px;
 $listbodyHeight: 720px;
 $listitemheight: math.div($listbodyHeight , 9);

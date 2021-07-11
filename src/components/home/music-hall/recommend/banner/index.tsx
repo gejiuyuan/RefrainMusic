@@ -1,6 +1,6 @@
-import { defineComponent, PropType, ref } from "vue";
+import { defineComponent, getCurrentInstance, PropType, ref, watch } from "vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
-import { padPicCrop } from "@/utils";
+import { padPicCrop, is } from "@/utils";
 import "./index.scss";
 
 export default defineComponent({
@@ -12,8 +12,11 @@ export default defineComponent({
     },
   },
   setup(props, { slots, emit }) {
-    const bannerList = props.bannerList;
     return () => {
+      const bannerList = props.bannerList; 
+      if (is.emptyArray(bannerList)) { 
+        return
+      }
       return (
         <section class="recommend-banner">
           <Swiper

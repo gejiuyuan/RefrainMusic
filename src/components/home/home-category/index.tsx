@@ -7,14 +7,12 @@ import {
   ref,
 } from "vue";
 import AsideRouterList from "@/widgets/aside-route-list";
-import guoxiaoyouLogo from "@assets/img/guoxiaoyou.png";
 import { playlistCate } from "@api/playlist";
 import "./index.scss";
 
 export default defineComponent({
-  name: "HomeLeft",
+  name: "HomeCategory",
   setup(props, { slots, emit }) {
-    const logo = ref(guoxiaoyouLogo);
 
     const onlineMusic = reactive({
       title: "在线音乐",
@@ -27,17 +25,14 @@ export default defineComponent({
 
     return () => {
       return (
-        <aside class="home-left">
-          <h1 class="home-logo">
-            <img loading="lazy" src={logo.value} />
-          </h1>
+        <section class="home-category">
           <section class="home-left-nav" scrollbar="auto">
             <AsideRouterList
               list={onlineMusic.list}
               title={onlineMusic.title}
             ></AsideRouterList>
           </section>
-        </aside>
+        </section>
       );
     };
   },

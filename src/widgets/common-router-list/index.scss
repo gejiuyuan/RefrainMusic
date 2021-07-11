@@ -1,28 +1,21 @@
 @import "@scss/variable";
 
-.common-router-list {
-  position: relative;
+.common-router-list { 
+  position: sticky;
+  left: 0;
+  top: 0;
+  z-index: 100;
   @include flexVc();
-  margin: 30px 0;
-  font-size: 18px;
-
-  // &::after {
-  //   content: "";
-  //   position: absolute;
-  //   bottom: 0;
-  //   left: 0;
-  //   right: 0;
-  //   height: 1px;
-  //   background-color: rgb(215, 226, 222); 
-  // }
-
+  margin: 10px 0 30px 0;
+  background-color: #fff; 
+ 
   li {
     padding-right: 60px;
 
     .common-list-item {
       position: relative;
       display: inline-block;
-      line-height: 2.2;
+      line-height: 3;
       transition: color 0.18s;
       cursor: pointer;
 

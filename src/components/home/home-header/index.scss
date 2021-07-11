@@ -1,36 +1,31 @@
 @import "@scss/variable";
 
-.home-header {
-  @include flexVc();
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 101;
-  height: 80px;
-  padding: 20px 0 20px 45px;
-  background-color: hsla(0,0%,100%,0.86);
-  backdrop-filter: saturate(180%) blur(28px);
+.main-header {
 
-  .page-turn {
-    @include flexVc();
-  }
-
-  .icon-nextpage,
-  .icon-prevpage {
-    svg {
-      width: 20px;
-      height: 20px;
-    }
-    cursor: pointer;
-  }
-
+  .header-left,
   .header-right {
     @include flexVc();
   }
 
+  .page-turn {
+    @include flexVc();
+    margin-right: 30px;
+
+    .icon-nextpage,
+    .icon-prevpage {
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+      cursor: pointer;
+    }
+
+  } 
+ 
   .music-search-input {
     input {
+      min-width: 220px;
+      max-width: 280px;
       // border: none;
       //   background-color: rgba(140, 140, 140, 0.12);
       // border-radius: 20px;

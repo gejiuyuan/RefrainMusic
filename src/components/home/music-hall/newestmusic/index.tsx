@@ -43,7 +43,7 @@ export default defineComponent({
       const { currentCount } = infinityScrollProps;
       return (
         <section class="music-wrap">
-          <NGrid xGap={40} yGap={40} cols={7}>
+          <NGrid xGap={35} yGap={35} cols={7}>
             {
               musicList
                 .slice(0, currentCount)

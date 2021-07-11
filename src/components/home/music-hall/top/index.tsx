@@ -54,7 +54,7 @@ export default defineComponent({
     };
 
     const renderSpecialList = () => (
-      <div class="toplist-layer toplist-hot">
+      <section class="toplist-layer toplist-hot">
         <h5>云音乐特色榜</h5>
         <ul class="toplist-wrap">
           <NGrid xGap={36} yGap={36} cols={3}>
@@ -90,7 +90,7 @@ export default defineComponent({
           </NGrid>
 
         </ul>
-      </div>
+      </section>
     );
 
     const renderGlobalList = () => (
@@ -108,7 +108,7 @@ export default defineComponent({
                         src={padPicCrop(item.coverImgUrl, { x: 440, y: 440 })}
                       />
                       <div class="play-count">{item.playCount}</div>
-                      <NIcon class="play-icon" size={48} color="hsla(0,0%,100%,.84)">
+                      <NIcon class="play-icon" size={40} color="hsla(0,0%,100%,.95)">
                         <Play24Filled></Play24Filled>
                       </NIcon>
                     </div>

@@ -7,11 +7,9 @@ export default defineComponent({
   setup(props, context) {
     return () => {
       return (
-        <main id="Yuan-Player">
-          <section class="yplayer-homepage">
-            <RouterView></RouterView>
-          </section>
-        </main>
+        <>
+          <RouterView></RouterView> 
+        </>
       );
     };
   },

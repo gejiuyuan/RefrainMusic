@@ -5,6 +5,7 @@ import {
   reactive,
   defineComponent,
   ComponentInternalInstance,
+  ref,
 } from "vue";
 import { recommendAlbum } from "@api/playlist";
 import { bannerInfo } from "@api/other";
@@ -26,35 +27,37 @@ export type RecommendItem = {
 export default defineComponent({
   name: "MusicHallRecommend",
   setup(props, { slots, emit }) {
-    const bannerlist = shallowReactive<any[]>([]);
-    const recommendSonglist = markRaw<RecommendItem[]>([]);
+
+    const recommendData = reactive({
+      bannerlist: [] as any[],
+      songlist: [] as any[]
+    })
+
     const limit = 10;
     const vm = getCurrentInstance()!;
 
     const getBanner = async () => {
       const { banners = [] } = await bannerInfo({ type: 0 });
-      bannerlist.push(...banners);
+      recommendData.bannerlist = banners;
     };
-
+    getBanner();
     const getRecommendSonglist = async () => {
       const { result = [] } = await recommendAlbum({ limit });
-      recommendSonglist.push(...result);
+      recommendData.songlist = result;
     };
-
-    Promise.allSettled([getBanner(), getRecommendSonglist()]).then(() => {
-      vm.proxy!.$forceUpdate();
-    });
+    getRecommendSonglist();
 
     return () => {
+      const { bannerlist, songlist } = recommendData  
       return (
         <section class="music-hall-recommend">
           <RecommendBanner bannerList={bannerlist}></RecommendBanner>
           <section class="layer">
             <h6>推荐歌单</h6>
             <section class="item-wrap">
-              <NGrid xGap={45} yGap={35} cols={6}>
+              <NGrid xGap={35} yGap={35} cols={6}>
                 {
-                  recommendSonglist.map((item) => (
+                  songlist.map((item) => (
                     <NGridItem class="item" key={item.id}>
                       <div class="item-playbill" equalAspectRatio>
                         <img

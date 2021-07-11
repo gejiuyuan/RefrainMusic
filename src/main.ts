@@ -29,4 +29,4 @@ vueApp.use(createPinia());
 vueApp.use(routerObj);
 
 //挂在实例
-vueApp.mount("#app");
+vueApp.mount("#Yuan-Player");

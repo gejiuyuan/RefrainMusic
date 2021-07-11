@@ -45,46 +45,44 @@ export default defineComponent({
 
     return () => {
       return (
-        <header class="home-header">
-          <NGrid>
-            <NGridItem span={8}>
-              <NGrid>
-                <NGridItem class="page-turn" span={2}>
-                  <i class="icon icon-prevpage" title="后退">
-                    <svg onClick={toPrevPage} aria-hidden="true">
-                      <use xlinkHref="#icon-left"></use>
-                    </svg>
-                  </i>
-                </NGridItem>
-                <NGridItem class="page-turn" span={2}>
-                  <i class="icon icon-nextpage" title="前进">
-                    <svg onClick={toNextPage} aria-hidden="true">
-                      <use xlinkHref="#icon-right"></use>
-                    </svg>
-                  </i>
-                </NGridItem>
-                <NGridItem span={16}>
-                  <NInput
-                    class="music-search-input"
-                    size="small"
-                    onChange={seachChange}
-                    onUpdateValue={updateSearchValue}
-                    placeholder="搜索音乐、视频、歌词、电台"
-                    clearable={true}
-                    round={true}
-                  ></NInput>
-                </NGridItem>
-              </NGrid>
-            </NGridItem>
-            <NGridItem span={4} offset={12}>
-              <section class="header-right">
-                <Battery></Battery>
-                <HeaderSetting></HeaderSetting>
-                <FullScreen></FullScreen>
-              </section>
-            </NGridItem>
-          </NGrid>
-        </header>
+        <>
+
+          <section className="header-left">
+            <div class="page-turn">
+              <i class="icon icon-prevpage" title="后退">
+                <svg onClick={toPrevPage} aria-hidden="true">
+                  <use xlinkHref="#icon-left"></use>
+                </svg>
+              </i>
+            </div>
+
+            <div class="page-turn">
+              <i class="icon icon-nextpage" title="前进">
+                <svg onClick={toNextPage} aria-hidden="true">
+                  <use xlinkHref="#icon-right"></use>
+                </svg>
+              </i>
+            </div>
+
+            <NInput
+              class="music-search-input"
+              size="small"
+              onChange={seachChange}
+              onUpdateValue={updateSearchValue}
+              placeholder="搜索音乐、视频、歌词、电台"
+              clearable={true}
+              round={true}
+            ></NInput>
+          </section>
+
+          <section class="header-right">
+            <Battery></Battery>
+            <HeaderSetting></HeaderSetting>
+            <FullScreen></FullScreen>
+          </section>
+
+        </>
+
       );
     };
   },

@@ -30,7 +30,7 @@ const routerObj = createRouter({
 
 routerObj.beforeEach((to, from, next) => {
   nextTick(() => {
-    const homeMainElm = document.querySelector(".yplayer-home-main");
+    const homeMainElm = document.querySelector(".main-content");
     homeMainElm && (homeMainElm.scrollTop = 0);
   });
   next();

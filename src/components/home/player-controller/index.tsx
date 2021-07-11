@@ -2,10 +2,10 @@ import { defineComponent } from "vue";
 import "./index.scss";
 
 export default defineComponent({
-  name: "HomeController",
+  name: "PlayerController",
   setup(props, { slots, emit }) {
     return () => {
-      return <aside class="home-controller">controller</aside>;
+      return <section class="player-controller">controller</section>;
     };
   },
 });

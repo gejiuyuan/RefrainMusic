@@ -135,8 +135,8 @@ const devConfig: UserConfig = extend(baseConfig, {
     server: {
         host: viteConstant.hostname,
         port: viteConstant.port,
-        //若端口已占用则直接退出，而非直接尝试下一个可用端口
-        strictPort: true,
+        //为true时，若端口已占用则直接退出，而非直接尝试下一个可用端口
+        strictPort: false,
         //值为字符串时，会被作为URL的路径名
         open: false,
         watch: true,

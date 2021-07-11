@@ -43,7 +43,7 @@ export default defineComponent({
   setup(props, context) {
     const route = useRoute();
     const router = useRouter();
- 
+
     const songlistRoutelists = reactive<typeof baseSonglistRoutelists>([]);
 
     const songlistInfo = shallowReactive({
@@ -143,12 +143,17 @@ export default defineComponent({
 
           <section class="songlist-header">
 
-            <img
-              loading="lazy"
-              class="songlist-pic"
-              src={coverImgUrl && padPicCrop(coverImgUrl, { x: 380, y: 380 })}
-              alt=""
-            />
+            <div class="songlist-header-playbill">
+              <div equalAspectRatio>
+                <img
+                  loading="lazy"
+                  class="songlist-pic"
+                  src={coverImgUrl && padPicCrop(coverImgUrl, { x: 380, y: 380 })}
+                  alt=""
+                />
+              </div>
+            </div>
+
 
             <section class="songlist-header-body">
 

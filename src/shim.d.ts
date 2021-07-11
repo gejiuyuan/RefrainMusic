@@ -4,7 +4,7 @@ import {
   Prop,
   ComponentPublicInstance,
 } from "vue";
-import { Store } from "vuex";
+// import { Store } from "vuex";
 
 /* eslint-disable */
 declare module '*.vue' {
@@ -17,7 +17,7 @@ declare module '*.vue' {
 //由于vuex 4删除了其在vue组件中this.$store等的全局类型，因此需要手动增添类型声明
 declare module "@vue/runtime-core" {
   interface ComponentCustomProperties {
-    $store: Store<any>;
+    // $store: Store<any>;
     $props: Prop<any>;
     $refs: any;
     [key: string]: any; //以保证在computed等方法中使用this.xxx（data属性）不会类型报错
@@ -44,3 +44,4 @@ declare module "@vue/runtime-dom" {
 
 
 }
+ 
