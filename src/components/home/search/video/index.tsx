@@ -27,6 +27,7 @@ import { getLocaleCount, padPicCrop } from "@utils/index";
 import "./index.scss";
 import RoutePagination, { PagiInfo } from "@widgets/route-pagination";
 import { SearchCloundData } from "../index";
+import VideoList from '@widgets/video-list';
 
 const defaultSearchVideoInfo = {
   offset: 0,
@@ -80,31 +81,10 @@ export default defineComponent({
       const {
         video: { videos, videoCount },
       } = searchData;
-      videos.forEach((v: any) => {
-        v.playTimeStr = getLocaleCount(v.playTime);
-        v.userName = v.creator.map((item: any) => item.userName).join("、");
-      });
       return (
         <>
           <section class="search-video">
-            {
-              videos.map((video) =>
-                <section class="video-card" key={video.vid}>
-                  <img
-                    loading="lazy"
-                    src={padPicCrop(video.coverUrl, { x: 280, y: 150 })}
-                    alt=""
-                  />
-                  <div class="video-main">
-                    <h5 class="video-title">{video.title}</h5>
-                    <p class="video-info">
-                      <span class="video-artist">{video.userName}</span>
-                      <span class="video-playcount">{video.playTimeStr}</span>
-                    </p>
-                  </div>
-                </section>
-              )
-            }
+            <VideoList videoList={videos}></VideoList>
           </section>
           <RoutePagination pagiInfo={videoPagiConf}></RoutePagination>
         </>

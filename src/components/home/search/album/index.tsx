@@ -11,7 +11,7 @@ import { markRaw, onMounted, ref } from "vue";
 import { useRoute, useRouter, onBeforeRouteLeave } from "vue-router";
 import { SearchCloundData } from "../index";
 import "./index.scss";
-import { getLocaleDate, padPicCrop } from "@utils/index";
+import AlbumList from "@widgets/album-list";
 import RoutePagination, { PagiInfo } from "@widgets/route-pagination";
 
 const defaultSearchVideoInfo = {
@@ -68,29 +68,7 @@ export default defineComponent({
       return (
         <>
           <section class="search-album">
-            {
-              albums.map(
-                ({ blurPicUrl, name, artist, transNames, publishTime }) =>
-                  <section
-                    class="search-album-item"
-                    title={`${name} - ${artist?.name}`}
-                  >
-                    <img
-                      loading="lazy"
-                      src={padPicCrop(blurPicUrl, { x: 200, y: 200 })}
-                      alt=""
-                    />
-                    <h5 singalLineDot>
-                      <span>{`${name} - ${artist?.name}`}</span>
-                    </h5>
-                    <p>
-                      {getLocaleDate(publishTime, {
-                        delimiter: "-",
-                      })}
-                    </p>
-                  </section>
-              )
-            }
+            <AlbumList albumList={albums}></AlbumList>
           </section>
           <RoutePagination pagiInfo={albumPagiConf}></RoutePagination>
         </>

@@ -80,16 +80,16 @@ export const LyricContentItem = defineComponent({
     return () => (
       <section class="search-lyric-item">
         <div className="song-info">
-          <em class="song-name" singalLineDot title={name}>
+          <em class="song-name" singallinedot title={name}>
             {name}
           </em>
           <em class="song-artist" title={artists}>
             {renderArtists()}
           </em>
-          <em class="song-album" singalLineDot title={albumName}>
+          <em class="song-album" singallinedot title={albumName}>
             {albumName}
           </em>
-          <em class="song-duration" singalLineDot title={duration}>
+          <em class="song-duration" singallinedot title={duration}>
             {duration}
           </em>
         </div>

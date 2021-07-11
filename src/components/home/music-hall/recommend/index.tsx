@@ -7,6 +7,9 @@ import {
   ComponentInternalInstance,
   ref,
 } from "vue";
+import {
+  useRouter
+} from 'vue-router';
 import { recommendAlbum } from "@api/playlist";
 import { bannerInfo } from "@api/other";
 import "./index.scss";
@@ -27,7 +30,7 @@ export type RecommendItem = {
 export default defineComponent({
   name: "MusicHallRecommend",
   setup(props, { slots, emit }) {
-
+    const router = useRouter();
     const recommendData = reactive({
       bannerlist: [] as any[],
       songlist: [] as any[]
@@ -47,8 +50,17 @@ export default defineComponent({
     };
     getRecommendSonglist();
 
+    const toSonglistDetailPage = (id: number | string) => {
+      router.push({
+        path: "/songlist",
+        query: {
+          id
+        }
+      })
+    }
+
     return () => {
-      const { bannerlist, songlist } = recommendData  
+      const { bannerlist, songlist } = recommendData
       return (
         <section class="music-hall-recommend">
           <RecommendBanner bannerList={bannerlist}></RecommendBanner>
@@ -59,7 +71,7 @@ export default defineComponent({
                 {
                   songlist.map((item) => (
                     <NGridItem class="item" key={item.id}>
-                      <div class="item-playbill" equalAspectRatio>
+                      <div class="item-playbill" aspectratio="1" onClick={() => toSonglistDetailPage(item.id)}>
                         <img
                           loading="lazy"
                           src={padPicCrop(item.picUrl, { x: 680, y: 680 })}

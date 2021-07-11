@@ -10,18 +10,19 @@
     padding: 4px 12px;
     background-color: rgba(10, 10, 10, 0.4);
     color: #eee;
-    backdrop-filter: saturate(160%) blur(4px);
+    font-size: 12px;
     border-radius: 8px;
+    backdrop-filter: saturate(160%) blur(4px);
   }
   & &-item {
     width: 33.3%;
   }
   & &-img {
     display: block;
-    width: 100%; 
+    width: 100%;
     border-radius: 10px;
   }
- 
+
   .banner-pagination {
     padding: 10px 0;
     text-align: center;
@@ -33,13 +34,16 @@
       background-color: rgba(207, 194, 194, 0.4);
       border-radius: 2.5px;
       cursor: pointer;
-      transition: background-color 0.2s, opacity .18s;
+      transition: background-color 0.2s, opacity 0.18s;
       &-active {
         background-color: $--color-primary;
       }
     }
   }
-  
+
+  .banner-swiper { 
+  }
+
   .banner-swiper:hover {
     .next-button,
     .prev-button {
@@ -54,12 +58,12 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    width: 48px;
-    height: 48px;
+    width: 38px;
+    height: 38px;
     border-radius: 100%;
     background-color: rgba(31, 29, 29, 0.3);
     color: #fff;
-    font-size: 30px;
+    font-size: 22px;
     cursor: pointer;
     z-index: 100;
   }

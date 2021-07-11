@@ -64,7 +64,7 @@ export default defineComponent({
                   <div onClick={() => toSongListDetailPage(item)}>
                     <NGrid cols={8}>
                       <NGridItem span={3}>
-                        <div class="list-cover hot-cover" equalAspectRatio>
+                        <div class="list-cover hot-cover" aspectratio="1">
                           <img
                             loading="lazy"
                             src={padPicCrop(item.coverImgUrl, { x: 340, y: 340 })}
@@ -97,12 +97,12 @@ export default defineComponent({
       <section class="toplist-layer toplist-global">
         <h5>全球媒体榜</h5>
         <section class="toplist-wrap">
-          <NGrid xGap={30} yGap={30} cols={7}>
+          <NGrid xGap={30} yGap={30} cols={6}>
             {
               toplistData.commonList.map((item) =>
                 <NGridItem class="toplist-item toplist-global-item" key={item.name}>
                   <div onClick={() => toSongListDetailPage(item)} >
-                    <div class="list-cover global-cover" equalAspectRatio>
+                    <div class="list-cover global-cover" aspectratio="1">
                       <img
                         loading="lazy"
                         src={padPicCrop(item.coverImgUrl, { x: 440, y: 440 })}

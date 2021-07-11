@@ -36,9 +36,9 @@ declare module "@vue/runtime-core" {
 declare module "@vue/runtime-dom" {
   interface HTMLAttributes {
     [attr: string]: any;
-    singalLineDot?: any;
+    singallinedot?: any;
     scrollbar?: any;
-    equalAspectRatio?: any;
+    aspectratio?: string | number;
     loading?: string;
   }
 

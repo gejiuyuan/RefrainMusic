@@ -38,6 +38,10 @@ import SearchUser from "@components/home/search/user";
 import SearchSonglist from "@components/home/search/songlist";
 import SearchSinger from "@components/home/search/singer";
 
+import Video from "@components/home/video";
+
+import Album from "@components/home/album";
+
 // const MusicHall = () => import("@components/home/music-hall");
 // const MusicHallRecommend = () =>
 //   import("@components/home/music-hall/recommend");
@@ -248,6 +252,17 @@ const routes = [
           },
         ],
       },
+
+      {
+        path: 'video',
+        component: Video
+      },
+
+      {
+        path: 'album',
+        component: Album
+      }
+
     ],
   }
 ];

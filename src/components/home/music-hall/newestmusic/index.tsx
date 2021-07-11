@@ -51,7 +51,7 @@ export default defineComponent({
                   (list) => (
                     <NGridItem key={list.name}>
                       <div class="music-item">
-                        <div class="music-cover" equalAspectRatio>
+                        <div class="music-cover" aspectratio="1">
                           <img
                             loading="lazy"
                             src={padPicCrop(list.album.blurPicUrl, { x: 340, y: 340 })}

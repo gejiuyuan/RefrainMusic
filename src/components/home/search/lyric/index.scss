@@ -38,14 +38,14 @@
         float: right;
         @include flex();
         padding-top: 6em;
-        font-size: 16px;
+        font-size: 14px;
         span {  
           &:hover {
             color: $--color-primary;
           }
           padding: 0 20px;
           color: #888;
-          font-weight: 600;
+          font-weight: 500;
           cursor: pointer;
         }
       }

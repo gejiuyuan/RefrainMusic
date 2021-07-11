@@ -144,7 +144,7 @@ export default defineComponent({
           <section class="songlist-header">
 
             <div class="songlist-header-playbill">
-              <div equalAspectRatio>
+              <div aspectratio="1">
                 <img
                   loading="lazy"
                   class="songlist-pic"
@@ -198,7 +198,7 @@ export default defineComponent({
 
                 <p class="desc" title={playlist.description}>
                   <span> 描述： </span>
-                  <em singalLineDot>{playlist.description}</em>
+                  <em singallinedot>{playlist.description}</em>
                 </p>
 
                 <div

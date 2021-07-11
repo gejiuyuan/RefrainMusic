@@ -69,7 +69,7 @@ export default defineComponent({
                   <em class="songlist-trackcount">
                     {`${getLocaleCount(trackCount)}首`}
                   </em>
-                  <em class="songlist-creator" singalLineDot>
+                  <em class="songlist-creator" singallinedot>
                     {`by  `}
                     <span
                       onClickCapture={() => toCreatorDetailPage(creator.userId)}

@@ -21,8 +21,8 @@ const routerObj = createRouter({
   //     }
   //     return realPosition;
   // },
-  history: createWebHashHistory(),
-  // history: createWebHistory(),
+  // history: createWebHashHistory(),
+  history: createWebHistory(),
   linkActiveClass: "active-link",
   linkExactActiveClass: "exact-active-link",
   routes,

@@ -1,0 +1,25 @@
+.album-container {
+  .album-item {
+    transition: 0.2s ease-in;
+    cursor: pointer;
+
+    &:hover {
+      filter: drop-shadow(0 0 20px rgba(123, 131, 120, 0.2));
+      transform: translateY(-10px);
+    }
+
+    img {
+      width: 100%;
+      border-radius: 8px;
+    }
+
+    h5 {
+      font-size: 14px;
+      line-height: 2.2;
+    }
+
+    p {
+      font-size: 13px;
+    }
+  }
+}

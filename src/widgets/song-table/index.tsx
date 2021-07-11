@@ -103,7 +103,7 @@ export default defineComponent({
                       <div
                         class="song-name"
                         title={scope.row.fullName}
-                        singalLineDot
+                        singallinedot
                       >
                         {scope.row.fullName}
                       </div>
@@ -114,7 +114,7 @@ export default defineComponent({
                         <div
                           class="song-tool-item"
                           title="添加到"
-                          singalLineDot
+                          singallinedot
                         >
                           <svg class="icon icon-plus" aria-hidden="true">
                             <use xlinkHref="#icon-plus"></use>
@@ -150,7 +150,7 @@ export default defineComponent({
             v-slots={{
               default(scope: any) {
                 return (
-                  <div title={scope.row.al.name} singalLineDot>
+                  <div title={scope.row.al.name} singallinedot>
                     {scope.row.al.name}
                   </div>
                 );
@@ -165,7 +165,7 @@ export default defineComponent({
             v-slots={{
               default(scope: any) {
                 return (
-                  <div title={scope.row.localedTime} singalLineDot>
+                  <div title={scope.row.localedTime} singallinedot>
                     {scope.row.localedTime}
                   </div>
                 );
@@ -184,7 +184,7 @@ export default defineComponent({
                     <div
                       class="song-publish-time"
                       title={scope.row.localedPublishTime}
-                      singalLineDot
+                      singallinedot
                     >
                       {scope.row.localedPublishTime}
                     </div>

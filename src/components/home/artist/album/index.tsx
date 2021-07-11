@@ -6,10 +6,11 @@ import {
 } from "vue-router";
 import "./index.scss";
 
-import { getLocaleDate, padPicCrop , EMPTY_OBJ, freeze } from "@utils/index";
+import { getLocaleDate, padPicCrop, EMPTY_OBJ, freeze } from "@utils/index";
 import { artistAlbum } from "@api/singer";
 import { AlbumInfo } from "@/types/album";
-import RoutePagination from "@/widgets/route-pagination"; 
+import RoutePagination from "@/widgets/route-pagination";
+import AlbumList from "@/widgets/album-list";
 
 const defaultSingerAlbumInfo = {
   limit: 18,
@@ -71,22 +72,7 @@ export default defineComponent({
     return () => (
       <>
         <section class="yplayer-artist-album">
-          <section class="album-wrap">
-            {
-              albumInfo.albumList.map((item, i) =>
-                <div class="album-item" key={item.id}>
-                  <img
-                    loading="lazy"
-                    src={padPicCrop(item.picUrl, { x: 180, y: 180 })}
-                    alt={item.name}
-                    title={item.name}
-                  />
-                  <h6>{item.name}</h6>
-                  <p>{item.publishTimeStr}</p>
-                </div>
-              )
-            }
-          </section>
+          <AlbumList albumList={albumInfo.albumList}></AlbumList>
           <section class="album-pagination">
             <RoutePagination pagiInfo={albumPagiInfo}></RoutePagination>
           </section>

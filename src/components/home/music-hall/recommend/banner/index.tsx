@@ -1,7 +1,11 @@
-import { defineComponent, getCurrentInstance, PropType, ref, watch } from "vue";
+import { defineComponent, getCurrentInstance, nextTick, onMounted, PropType, ref, watch } from "vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { padPicCrop, is } from "@/utils";
 import "./index.scss";
+
+import {
+  Swiper as SwiperInstance
+} from 'swiper'
 
 export default defineComponent({
   name: "RecommentBanner",
@@ -12,9 +16,10 @@ export default defineComponent({
     },
   },
   setup(props, { slots, emit }) {
+
     return () => {
-      const bannerList = props.bannerList; 
-      if (is.emptyArray(bannerList)) { 
+      const bannerList = props.bannerList;
+      if (is.emptyArray(bannerList)) {
         return
       }
       return (
@@ -26,8 +31,10 @@ export default defineComponent({
             centeredSlides={false}
             slidesPerView="auto"
             updateOnWindowResize={true}
+            updateOnImagesReady={true}
             autoHeight={true}
-            lazy={true}
+            observeParents={true}
+            observer={true} 
             autoplay={{
               delay: 8000,
               waitForTransition: true,

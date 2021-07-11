@@ -58,7 +58,7 @@ export default defineComponent({
                     class="singer-item"
                     onClick={() => singerItemClick(item)}
                   >
-                    <div equalAspectRatio>
+                    <div aspectratio="1">
                       <img
                         loading="lazy"
                         src={padPicCrop(item.picUrl, { x: 180, y: 180 })}
@@ -66,7 +66,7 @@ export default defineComponent({
                         alt={item.picUrl}
                       />
                     </div>
-                    <div class="singer-name" singalLineDot title={item.fullName}>
+                    <div class="singer-name" singallinedot title={item.fullName}>
                       {item.fullName}
                     </div>
                   </div>

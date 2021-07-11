@@ -43,14 +43,14 @@ export default defineComponent({
                       class="user-item"
                       onClick={() => userItemClick(item)}
                     >
-                      <div equalAspectRatio>
+                      <div aspectratio="1">
                         <img
                           loading="lazy"
                           src={padPicCrop(item.avatarUrl, { x: 240, y: 240 })}
                           title={item.nickname}
                         />
                       </div>
-                      <div class="user-name" singalLineDot title={item.nickname}>
+                      <div class="user-name" singallinedot title={item.nickname}>
                         {item.nickname}
                       </div>
                     </section>

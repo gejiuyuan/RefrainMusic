@@ -105,7 +105,7 @@ export default defineComponent({
                           class="music-item"
                           onClick={() => toSonglistDetailPage(item.id)}
                         >
-                          <div class="music-cover" equalAspectRatio>
+                          <div class="music-cover" aspectratio="1">
                             <img
                               loading="lazy"
                               src={padPicCrop(item.coverImgUrl, { x: 340, y: 340 })}

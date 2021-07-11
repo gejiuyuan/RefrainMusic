@@ -15,19 +15,19 @@ export default defineComponent({
     return () => {
       return (
         <>
-          <NGrid class="yplayer-homepage" cols={13}>
+        
+          <NGrid class="yplayer-homepage" cols={15}>
+
             <NGridItem span={2}>
               <aside class="home-aside">
-
                 <h1 class="home-logo">
                   <img loading="lazy" src={logo.value} />
                 </h1>
-
                 <HomeCategory></HomeCategory>
               </aside>
-
             </NGridItem>
-            <NGridItem span={11}>
+
+            <NGridItem span={13}>
               <section class="home-main">
                 <header class="main-header">
                   <HomeHeader></HomeHeader>
@@ -46,6 +46,7 @@ export default defineComponent({
             </NGridItem>
 
           </NGrid>
+
           <NBackTop
             listenTo=".player-container"
             visibilityHeight={320}
@@ -54,9 +55,10 @@ export default defineComponent({
               width: "38px",
               height: "38px",
               iconSize: "20px",
-              
+
             }}
           ></NBackTop>
+
         </>
       );
     };

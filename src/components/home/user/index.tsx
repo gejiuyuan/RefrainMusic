@@ -141,8 +141,8 @@ export default defineComponent({
               loading="lazy"
               class="user-avatar"
               src={padPicCrop(userInfo.value.profile.avatarUrl as string, {
-                x: 200,
-                y: 200,
+                x: 340,
+                y: 340,
               })}
               alt=""
             />
