@@ -1,0 +1,60 @@
+@import "@scss/variable";
+
+//进度条
+.progressbar {
+  width: 100%;
+  cursor: pointer;
+
+  &.progressbar-horizontal {
+    padding: 10px 0;
+    .progressbar-buffer {
+      height: 2px;
+    }
+  }
+
+  &.progressbar-vertical {
+    height: 100%;
+    padding: 0 10px;
+    .progressbar-buffer {
+      width: 2px;
+      height: 100%;
+      transform: scale(-1);
+    }
+  }
+
+  .progressbar-buffer {
+    position: relative;
+
+    .progressbar-current {
+      position: absolute;
+      right: 0;
+      top: 0;
+      height: 100%;
+      width: 100%;
+    }
+
+    .progressbar-dot {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      z-index: 10;
+      margin-left: -5px;
+      margin-top: -5px;
+      background-color: var(--theme);
+      border-radius: 100%;
+    }
+  }
+
+  &[defaultDotShow="false"]:hover .progressbar-buffer,
+  &[defaultDotShow="false"][isShowDot="true"] {
+    .progressbar-dot {
+      opacity: 1;
+    }
+  }
+
+  &[defaultDotShow="false"][isShowDot="false"] {
+    .progressbar-dot {
+      opacity: 0;
+    }
+  }
+}

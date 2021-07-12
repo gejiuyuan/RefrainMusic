@@ -19,7 +19,7 @@
   }
 
   &[followed="false"] {
-    background-color: $--color-primary;
+    background-color: var(--theme);
     color: #fff;
     &:hover {
       filter: brightness(110%);

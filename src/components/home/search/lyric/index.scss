@@ -13,7 +13,7 @@
 
       .song-name {
         flex: 2;
-        border-left: 4px solid $--color-primary;
+        border-left: 4px solid var(--theme);
         text-indent: 2em;
       }
 
@@ -41,7 +41,7 @@
         font-size: 14px;
         span {  
           &:hover {
-            color: $--color-primary;
+            color: var(--theme);
           }
           padding: 0 20px;
           color: #888;

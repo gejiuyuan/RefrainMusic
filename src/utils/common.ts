@@ -3,32 +3,34 @@ import { toString, isPrototypeOf, isExtensible } from "./constants";
 export const typeOf = (ins: any): string =>
     toString.call(ins).slice(8, -1).toLowerCase();
 
-export const is: PlainObject<(ins: any) => boolean> = [
-    "string",
-    "number",
-    "undefined",
-    "data",
-    "regexp",
-    "boolean",
-    "null",
-].reduce((is, typeStr) => {
-    is[typeStr] = (ins) => typeOf(ins) === typeStr;
-    return is;
-}, {} as PlainObject<(ins: any) => boolean>);
-
+export type Is = PlainObject<(ins: any) => boolean>;
+export const is: Is =
+    [
+        "string",
+        "number",
+        "undefined",
+        "data",
+        "regexp",
+        "boolean",
+        "null",
+    ].reduce(
+        (is, typeStr) => (is[typeStr] = ins => typeOf(ins) === typeStr, is),
+        {} as Is
+    );
 is.function = (ins) => typeof ins === "function";
 is.array = Array.isArray;
 is.emptyArray = (ins) => is.array(ins) && ins.length === 0;
 is.object = (ins) => typeof ins === "object" && ins !== null;
 is.emptyObject = (ins) => is.object(ins) && ins.length === 0;
 
-
 //trim去除空格。注：'\uFEFF'即''空字符串
 export const trim = function (s: string) {
     return (s || "").replace(/^[\s\uFEFF]+|[\s\uFEFF]+$/g, "");
 };
 
-export const filterUselessKey = (obj: PlainObject<any>) => {
+export const filterUselessKey = (
+    obj: PlainObject<any>
+) => {
     Object.keys(obj).forEach((key) => {
         if (obj[key] === void 0) {
             delete obj[key];
@@ -75,14 +77,16 @@ export function deepCopy<T extends object>(
 }
 
 //-连接符形式转成小驼峰
-export const camelize = (str: string): string =>
+export const camelize = (str: string) =>
     str
         .replace(/^[_.\- ]+/, "")
         .toLowerCase()
         .replace(/[_.\- ]+(\w|$)/g, (m, p1) => p1.toUpperCase());
 
-
-export const merge = (defaults: PlainObject, options: PlainObject) => {
+export const merge = (
+    defaults: PlainObject,
+    options: PlainObject
+) => {
     for (const key in defaults) {
         if (defaults.hasOwnProperty(key)) {
             options[key] === void 0 && (options[key] = defaults[key]);
@@ -125,10 +129,16 @@ export const containChinChar = (char: string) =>
     /.*[\u4e00-\u9fa5]+.*/.test(char);
 
 //给字符串的每一位前添加指定内容
-export const padStartEveryChar = (str: string, char: string) =>
+export const padStartEveryChar = (
+    str: string,
+    char: string
+) =>
     str.replace(/(.){1}/g, `${char}$1`);
 
-export const throttle = (fn: (...args: any[]) => any, interval = 1000) => {
+export const throttle = (
+    fn: (...args: any[]) => any,
+    interval = 1000
+) => {
     let prev = 0;
     return function (this: any, ...args: any[]) {
         const now = performance.now();
@@ -140,7 +150,10 @@ export const throttle = (fn: (...args: any[]) => any, interval = 1000) => {
     };
 };
 
-export const fileDownloader = (url: any, filename: string) => {
+export const fileDownloader = (
+    url: any,
+    filename: string
+) => {
     return fetch(url)
         .then(
             (res) => res.blob(),
@@ -161,7 +174,10 @@ export const fileDownloader = (url: any, filename: string) => {
         });
 };
 
-export const objToQuery = (obj: PlainObject<string>, prefix = false) =>
+export const objToQuery = (
+    obj: PlainObject<string>,
+    prefix = false
+) =>
     is.emptyObject(obj)
         ? ""
         : `${prefix ? "?" : ""}${Object.entries(obj)

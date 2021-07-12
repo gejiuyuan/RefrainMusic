@@ -47,7 +47,7 @@
           color: #aaa;
 
           &.mutimatch-link:hover {
-            color: $--color-primary;
+            color: var(--theme);
           }
         }
       }

@@ -20,7 +20,7 @@
       cursor: pointer;
 
       &:hover {
-        color: $themeprimary;
+        color: var(--theme);
       }
 
       &::after {
@@ -31,14 +31,14 @@
         left: 50%;
         width: 2em;
         height: 2px;
-        background-color: $themeprimary;
+        background-color: var(--theme);
         border-radius: 1px;
         transform: translateX(-50%);
         transition: opacity 0.16s;
       }
 
       &.active-online-link {
-        color: $themeprimary;
+        color: var(--theme);
         &::after {
           opacity: 1;
         }

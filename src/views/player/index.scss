@@ -12,13 +12,13 @@
   overflow: hidden;
   z-index: 150;
   transform: translateY(100%);
-  visibility: hidden;
+  // visibility: hidden;
   transition: 0.3s;
   // transition: .3s cubic-bezier(.22,.65,.48,.89);
   // transition: .3s cubic-bezier(.72,.39,.42,.86);
 
   &[show="true"] {
-    visibility: visible;
+    // visibility: visible;
     transform: translateY(0);
   }
 
