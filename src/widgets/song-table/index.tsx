@@ -58,7 +58,7 @@ export default defineComponent({
     const baseCount = ref(14);
     const sliceInterval = ref(14);
 
-    const handleDownlaod = (songItem: realSongInfo) => {
+    const handleDownload = (songItem: realSongInfo) => {
       console.info(songItem);
     };
 
@@ -96,9 +96,7 @@ export default defineComponent({
                   >
                     <el-col class="song-body-left" span={18}>
                       <div class="song-love" title="添加至我喜欢">
-                        <svg class="icon icon-xihuan" aria-hidden="true">
-                          <use xlinkHref="#icon-xihuan"></use>
-                        </svg>
+                        <i class="iconfont icon-xihuan"></i>
                       </div>
                       <div
                         class="song-name"
@@ -116,23 +114,17 @@ export default defineComponent({
                           title="添加到"
                           singallinedot
                         >
-                          <svg class="icon icon-plus" aria-hidden="true">
-                            <use xlinkHref="#icon-plus"></use>
-                          </svg>
+                          <i class="iconfont icon-plus"></i>
                         </div>
                         <div class="song-tool-item" title="播放">
-                          <svg class="icon icon-play" aria-hidden="true">
-                            <use xlinkHref="#icon-bofang"></use>
-                          </svg>
+                          <i class="iconfont icon-play"></i>
                         </div>
                         <div
                           class="song-tool-item"
                           title="下载"
-                          onClick={() => handleDownlaod(scope.row)}
+                          onClick={() => handleDownload(scope.row)}
                         >
-                          <svg class="icon icon-downlaod" aria-hidden="true">
-                            <use xlinkHref="#icon-download"></use>
-                          </svg>
+                          <i class="iconfont icon-download"></i>
                         </div>
                       </div>
                     </el-col>

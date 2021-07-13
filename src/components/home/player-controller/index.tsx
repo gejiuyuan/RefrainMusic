@@ -27,9 +27,11 @@ export default defineComponent({
             onChange={() => console.info('change')}
             onUp={() => console.info('up')}
           ></ProgressBar>
+
           <div onClick={showPlayerDetailPage}>
             ffffffffffff
           </div>
+
         </section>
       );
     };

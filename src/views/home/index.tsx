@@ -15,7 +15,7 @@ export default defineComponent({
     return () => {
       return (
         <>
-        
+
           <NGrid class="yplayer-homepage" cols={15}>
 
             <NGridItem span={2}>
@@ -46,18 +46,6 @@ export default defineComponent({
             </NGridItem>
 
           </NGrid>
-
-          <NBackTop
-            listenTo=".player-container"
-            visibilityHeight={320}
-            bottom={90}
-            themeOverrides={{
-              width: "38px",
-              height: "38px",
-              iconSize: "20px",
-
-            }}
-          ></NBackTop>
 
         </>
       );

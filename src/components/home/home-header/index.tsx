@@ -49,19 +49,11 @@ export default defineComponent({
 
           <section className="header-left">
             <div class="page-turn">
-              <i class="icon icon-prevpage" title="后退">
-                <svg onClick={toPrevPage} aria-hidden="true">
-                  <use xlinkHref="#icon-left"></use>
-                </svg>
-              </i>
+              <i class="iconfont icon-arrowleft" title="后退" onClick={toPrevPage}></i>
             </div>
 
             <div class="page-turn">
-              <i class="icon icon-nextpage" title="前进">
-                <svg onClick={toNextPage} aria-hidden="true">
-                  <use xlinkHref="#icon-right"></use>
-                </svg>
-              </i>
+              <i class="iconfont icon-arrowright" title="前进" onClick={toNextPage}></i>
             </div>
 
             <NInput

@@ -6,7 +6,7 @@
   cursor: pointer;
 
   &.progressbar-horizontal {
-    padding: 10px 0;
+    padding: 6px 0;
     .progressbar-buffer {
       height: 2px;
     }
@@ -14,7 +14,7 @@
 
   &.progressbar-vertical {
     height: 100%;
-    padding: 0 10px;
+    padding: 0 6px;
     .progressbar-buffer {
       width: 2px;
       height: 100%;

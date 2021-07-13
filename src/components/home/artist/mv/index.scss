@@ -58,17 +58,3 @@
     }
   }
 }
-
-.mv-empty {
-  @include flexHcVc();
-
-  &-svg {
-    width: 80px;
-    fill: #999;
-  }
-  span {
-    margin-left: 2em;
-    font-size: 20px;
-    color: #788;
-  }
-}

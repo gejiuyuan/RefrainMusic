@@ -7,7 +7,7 @@ const usePlayerStore = defineStore({
     state() {
         return {
             index: 1,
-            theme: '#5FB878',
+            theme: '#ff7875',
         }
     },
     getters: {

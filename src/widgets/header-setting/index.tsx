@@ -30,11 +30,7 @@ export default defineComponent({
       return (
         <section class="yplayer-header-setting" onClick={clickSetting}>
           <span class="header-setting-text">设置</span>
-          <i title={setting.title}>
-            <svg class="icon icon-setting" aria-hidden="true">
-              <use xlinkHref="#icon-setting"></use>
-            </svg>
-          </i>
+          <i class="iconfont icon-shezhi" title={setting.title}></i>
           <Teleport to="#Yuan-Player">
             <section class="setting-box">
               <h6>播放器设置</h6>

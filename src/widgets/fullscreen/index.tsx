@@ -21,28 +21,12 @@ export default defineComponent({
       return
     }
 
-    const fscreenInfo = computed(() => {
-      let val = '', title = '';
-      if (isFullscreen.value) {
-        val = "cancelFullscreen";
-        title = "退出全屏";
-      }
-      else {
-        val = "fullscreen";
-        title = "进入全屏";
-      }
-      return { val, title };
-    });
-
-    return () => {
-      const fsInfo = fscreenInfo.value;
+    return () => { 
+      const fullStatus = isFullscreen.value;
       return (
         <section class="yplayer-header-fullscreen" onClick={toggle}>
-          <i data-icon-type={fsInfo.val} title={fsInfo.title}>
-            <svg class="icon icon-fullscreen" aria-hidden="true">
-              <use xlinkHref={`#icon-${fsInfo.val}`}></use>
-            </svg>
-          </i>
+          <i class="iconfont icon-fullscreen" title="进入全屏" hidden={fullStatus}></i>
+          <i class="iconfont icon-cancelfullscreen" title="取消全屏" hidden={!fullStatus}></i>
         </section>
       );
     };

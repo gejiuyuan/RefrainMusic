@@ -62,7 +62,7 @@ const ProgressBar: ProgressBarComp = defineComponent({
         bgc: {
             type: String as PropType<string>,
             required: false,
-            default: "rgba(160, 160, 160, 0.25)",
+            default: "rgba(160, 160, 160, 0.15)",
         },
         dotVisible: {
             type: Boolean as PropType<boolean>,

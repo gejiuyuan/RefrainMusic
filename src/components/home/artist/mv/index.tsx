@@ -104,9 +104,6 @@ export default defineComponent({
               )
               : (
                 <section class="mv-empty">
-                  <svg class="mv-empty-svg" aria-hidden="true">
-                    <use xlinkHref="#icon-empty"></use>
-                  </svg>
                   <span>这哩啥也没有喔~</span>
                 </section>
               )

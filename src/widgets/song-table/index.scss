@@ -33,13 +33,23 @@ $baseSongTableHeight: 40em;
   .song-tools {
     @include flexVc();
     opacity: 0;
+    .song-tool-item {
+      font-size: 28px;
+      color: #888;
+      cursor: pointer;
+
+      &:hover {
+        color: var(--theme);
+      }
+
+    }
   }
 
   .song-publish-time,
   .song-name,
   .song-duration,
   .song-album {
-    color: #455;
+    color: #555;
     font-size: 14px;
   }
 
@@ -53,26 +63,11 @@ $baseSongTableHeight: 40em;
 
   .song-love {
     @include flexVc();
-  }
-
-  .icon-xihuan,
-  .icon-plus,
-  .icon-play,
-  .icon-downlaod {
-    fill: #666;
-    margin-right: 12px;
+    margin-right: 8px;
+    font-size: 20px;
+    font-weight: 300;
+    color: #777;
     cursor: pointer;
   }
 
-  .icon-plus,
-  .icon-play,
-  .icon-downlaod {
-    width: 22px;
-    height: 22px;
-  }
-
-  .icon-xihuan {
-    width: 18px;
-    height: 18px;
-  }
 }

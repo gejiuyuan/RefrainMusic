@@ -2,8 +2,6 @@ import { createApp } from "vue";
 import { createPinia } from 'pinia';
 import { globalProperties } from "./vueGlobalConfig";
 import routerObj from "@router/index";
-import "@assets/js/yuan-ui-svg";
-import "@assets/js/svg";
 import "@scss/main.scss";
 import YuanPlayer from "./App";
 import './swiper';

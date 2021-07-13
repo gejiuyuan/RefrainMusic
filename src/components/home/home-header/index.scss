@@ -10,17 +10,18 @@
   .page-turn {
     @include flexVc();
     margin-right: 30px;
+    cursor: pointer;
+  } 
 
-    .icon-nextpage,
-    .icon-prevpage {
-      svg {
-        width: 20px;
-        height: 20px;
-      }
-      cursor: pointer;
+  .icon-arrowleft,
+  .icon-arrowright {
+    font-size: 24px;
+
+    &:hover {
+      color: var(--theme);
     }
 
-  } 
+  }
  
   .music-search-input {
     input {
