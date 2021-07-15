@@ -1,6 +1,5 @@
 import proxyConfig from './proxy';
-import path from 'path';
-import { merge } from '../src/utils';
+import path from 'path'; 
 
 const extend = Object.assign
  
@@ -10,8 +9,7 @@ const hostname = '0.0.0.0';
 const port = 2021;
 
 const viteConstants: ViteConstant = {
-    pathResolve,
-    merge,
+    pathResolve, 
     hostname,
     port,
     extend,

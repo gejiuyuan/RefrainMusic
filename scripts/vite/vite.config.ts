@@ -20,7 +20,7 @@ import Markdown from 'vite-plugin-md';
 
 //导入配置文件
 import viteConstant from './constant';
-const { merge, extend } = viteConstant
+const { extend } = viteConstant
 
 import path from 'path'
 const pathResolve = path.resolve
@@ -59,8 +59,9 @@ const baseConfig: UserConfig = {
             { find: '@request', replacement: pathResolve('src/request') },
             { find: '@utils', replacement: pathResolve('src/utils') },
             { find: '@assets', replacement: pathResolve('src/assets') },
-            { find: '@stores', replacement: pathResolve('src/stores') },
-            { find: '@special', replacement: pathResolve('src/special') },
+            { find: '@stores', replacement: pathResolve('src/stores') }, 
+            { find: '@use', replacement: pathResolve('src/use') }, 
+            { find: '@database', replacement: pathResolve('src/database') }, 
             { find: '@widgets', replacement: pathResolve('src/widgets') },  
         ],
 

@@ -7,11 +7,7 @@ declare type ProxyConfig = {
 }
 
 declare type ViteConstant = {
-    pathResolve: (dir: string) => string;
-    merge: (
-        options: PlainObject,
-        defaults: PlainObject,
-    ) => PlainObject;
+    pathResolve: (dir: string) => string; 
     hostname: string;
     port: string | number;
     extend: typeof Object.assign;

@@ -40,15 +40,16 @@
       "@views/*": ["./src/views/*"],
       "@assets/*": ["./src/assets/*"],
       "@request/*": ["./src/request/*"],
-      "@utils/*": ["./src/utils/*"],
-      "@special/*": ["./src/special/*"],
+      "@utils/*": ["./src/utils/*"], 
       "@stores/*": ["./src/stores/*"],
+      "@use/*": ["./src/use/*"],
+      "@database/*": ["./src/database/*"],
       "@widgets/*": ["./src/widgets/*"]
     }
   },
   "include": [
-    "viteConfig/**/*.ts", //必须指定，否则不能解析viteConfig下的ts文件
-    "viteConfig/**/*.d.ts",
+    "scripts/**/*.ts", //必须指定，否则不能解析viteConfig下的ts文件
+    "scripts/**/*.d.ts",
     "src/**/*.ts",
     "src/**/*.d.ts",
     "src/**/*.tsx",

@@ -12,6 +12,7 @@ import {
 import "element-plus/packages/theme-chalk/src/base.scss";
 import "@scss/el-theme.scss";
 
+ 
 //创建app根实例
 const vueApp = createApp(YuanPlayer);
 

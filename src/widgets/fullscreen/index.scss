@@ -6,6 +6,11 @@
   height: 25px;
   color: #555;
   cursor: pointer;
+  transition: color .12s;
+  
+  &:hover {
+    color: var(--theme);
+  }
 
   .icon-fullscreen,
   .icon-cancelfullscreen {
@@ -14,5 +19,6 @@
     top: 50%;
     transform: translate(-50%, -50%);
     font-size: 25px;
+
   }
 }
