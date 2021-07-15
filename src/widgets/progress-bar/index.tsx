@@ -28,6 +28,11 @@ export interface StripPrjt {
     attrs: Partial<Record<"dir" | "offset" | "long" | "mouseOffset", string>>;
 };
 
+export type ProgressInfo = {
+    ratio: string;
+    decimal: number;
+}
+
 export declare type ProgressBarComp = DefineComponent<{
     dir: {
         type: PropType<string>;
@@ -87,7 +92,7 @@ const ProgressBar: ProgressBarComp = defineComponent({
         //是否可以移动
         const canMove = ref(false);
         //当前进度条状态
-        const currentProgress = shallowReactive({
+        const currentProgress = shallowReactive<ProgressInfo>({
             decimal: 0, //零点几
             ratio: "0%", //百分比
         });
@@ -162,8 +167,7 @@ const ProgressBar: ProgressBarComp = defineComponent({
         };
 
         //按下进度条时
-        const down = (ev: MouseEvent) => {
-            console.info(888)
+        const down = (ev: MouseEvent) => { 
             canMove.value = true;
             !props.dotFixed && (isShowDot.value = true);
             updateCurrentProgress(ev);
@@ -172,9 +176,9 @@ const ProgressBar: ProgressBarComp = defineComponent({
         };
 
         //移动进度条时
-        const move = (ev: MouseEvent) => {
+        const move = (ev: MouseEvent) => { 
             if (!canMove.value) return;
-            updateCurrentProgress(ev);
+            updateCurrentProgress(ev); 
             emit("move", currentProgress);
             emit("change", currentProgress);
         };
@@ -212,8 +216,7 @@ const ProgressBar: ProgressBarComp = defineComponent({
                 { dir: "vertical", offset: "top", long: "height", mouseOffset: "pageY", },
                 { dir: "horizontal", offset: "left", long: "width", mouseOffset: "pageX", },
             ];
-            const tarAttrObj = stripAttrs.find(({ dir: tarDir }) => tarDir === dir)!;
-            console.info(stripElmRect)
+            const tarAttrObj = stripAttrs.find(({ dir: tarDir }) => tarDir === dir)!; 
             progressbarInfo.long = Math.round(stripElmRect[tarAttrObj.long]);
             progressbarInfo.offset = Math.round(stripElmRect[tarAttrObj.offset]);
             progressbarInfo.attrs = tarAttrObj;

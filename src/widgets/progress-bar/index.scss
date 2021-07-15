@@ -1,11 +1,11 @@
 @import "@scss/variable";
 
 //进度条
-.progressbar {
-  width: 100%;
+.progressbar { 
   cursor: pointer;
 
   &.progressbar-horizontal {
+    width: 100%;
     padding: 6px 0;
     .progressbar-buffer {
       height: 2px;

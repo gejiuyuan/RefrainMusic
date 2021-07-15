@@ -1,7 +1,8 @@
 
-import { defineComponent, ref } from 'vue';
-import ProgressBar, { ProgressBarComp } from '@widgets/progress-bar';
+import { defineComponent, ref, shallowReactive } from 'vue';
+import ProgressBar, { ProgressBarComp, ProgressInfo } from '@widgets/progress-bar';
 import './index.scss';
+import { rmDemicalInPercent } from '@/utils';
 
 
 export enum PlayingStatus {
@@ -13,15 +14,15 @@ export const PlaySwitch = defineComponent({
     name: 'PlaySwitch',
     setup(props, { slots, emit }) {
 
-        const isPlaying = ref(0);
-        const switchPlaying = () => isPlaying.value = (isPlaying.value + 1) % 2;
+        const playStatus = ref(1);
+        const switchPlaying = () => playStatus.value = (playStatus.value + 1) % 2;
 
         return () => {
-            const isPlayling = !!isPlaying.value;
+            const status = playStatus.value;
             return (
-                <div className="play-switch" onClick={switchPlaying}>
-                    <i class="iconfont icon-bofan" hidden={isPlayling} title={PlayingStatus[1]}></i>
-                    <i class="iconfont icon-pause" hidden={!isPlayling} title={PlayingStatus[0]}></i>
+                <div className="play-switch" onClick={switchPlaying} title={PlayingStatus[status]}>
+                    <i class="iconfont icon-bofan" hidden={!status}></i>
+                    <i class="iconfont icon-pause" hidden={!!status}></i>
                 </div>
             )
 
@@ -72,30 +73,48 @@ export const Volume = defineComponent({
 
         const switchShow = () => isShow.value = !isShow.value;
 
-        return () => {
+        const isMuted = ref(false);
 
+        const volumeData = shallowReactive<ProgressInfo>({
+            ratio: '50%',
+            decimal: 0.5,
+        })
+
+        const volumeChange = (data: ProgressInfo) => {
+            const { decimal, ratio } = data;
+            isMuted.value = !decimal;
+            volumeData.decimal = decimal;
+            volumeData.ratio = rmDemicalInPercent(ratio)
+        }
+
+        const switchMuted = () => {
+            isMuted.value = !isMuted.value
+        }
+
+        return () => {
+            const muted = isMuted.value;
             return (
                 <div class="volume">
                     <div className="volume-noumenon" onClick={switchShow}>
-                        <i className="iconfont icon-yinliang"></i>
+                        <i className="iconfont icon-yinliang" hidden={muted}></i>
+                        <i className="iconfont icon-mute" hidden={!muted}></i>
                     </div>
                     <div className="volume-suspension" visibility={isShow.value}>
-                        <ProgressBar
-                            dir="vertical"
-                            dotFixed={true}
-                            down={() => {
-
-                            }}
-                            move={() => {
-
-                            }}
-                            up={() => {
-
-                            }}
-                            change={() => {
-
-                            }}
-                        ></ProgressBar>
+                        <div className="volume-progressbar">
+                            <ProgressBar
+                                dir="vertical"
+                                dotFixed={true}
+                                onChange={volumeChange}
+                                currentRatio={volumeData.decimal * 100}
+                            ></ProgressBar>
+                        </div>
+                        <div className="volume-ratio">
+                            {volumeData.ratio}
+                        </div>
+                        <div class="volume-duplicate" onClick={switchMuted}>
+                            <i className="iconfont icon-yinliang" hidden={muted}></i>
+                            <i className="iconfont icon-mute" hidden={!muted}></i>
+                        </div>
                     </div>
                 </div>
             )
