@@ -8,6 +8,7 @@ const usePlayerStore = defineStore({
         return {
             index: 1,
             theme: '#ff7875',
+            playerQueueShow: false,
         }
     },
     getters: {

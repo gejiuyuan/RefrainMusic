@@ -5,6 +5,7 @@ import HomeController from "@/components/home/player-controller";
 import guoxiaoyouLogo from "@assets/img/guoxiaoyou.png";
 import "./index.scss";
 
+import PlayerQueue from "@/components/home/player-queue";
 import { NBackTop, NGrid, NGridItem } from "naive-ui";
 import { RouterView } from "vue-router";
 
@@ -46,6 +47,8 @@ export default defineComponent({
             </NGridItem>
 
           </NGrid>
+
+          <PlayerQueue></PlayerQueue>
 
         </>
       );

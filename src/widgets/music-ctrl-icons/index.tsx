@@ -3,6 +3,7 @@ import { defineComponent, ref, shallowReactive } from 'vue';
 import ProgressBar, { ProgressBarComp, ProgressInfo } from '@widgets/progress-bar';
 import './index.scss';
 import { rmDemicalInPercent } from '@/utils';
+import { onClickOutside } from '@vueuse/core';
 
 
 export enum PlayingStatus {
@@ -70,7 +71,7 @@ export const Volume = defineComponent({
     setup(props, { slots, emit }) {
 
         const isShow = ref(false)
-
+        const volumeRef = ref<HTMLDivElement>()
         const switchShow = () => isShow.value = !isShow.value;
 
         const isMuted = ref(false);
@@ -88,13 +89,19 @@ export const Volume = defineComponent({
         }
 
         const switchMuted = () => {
+            //如果已经是静音了，就return
+            if (volumeData.decimal === 0) {
+                return
+            }
             isMuted.value = !isMuted.value
         }
+
+        onClickOutside(volumeRef, () => isShow.value = false, { event: 'pointerup' });
 
         return () => {
             const muted = isMuted.value;
             return (
-                <div class="volume">
+                <div class="volume" ref={volumeRef}>
                     <div className="volume-noumenon" onClick={switchShow}>
                         <i className="iconfont icon-yinliang" hidden={muted}></i>
                         <i className="iconfont icon-mute" hidden={!muted}></i>

@@ -1,0 +1,15 @@
+.player-queue {
+  position: absolute;
+  left: 100%;
+  top: 0;
+  width: 280px;
+  height: 100%;
+  z-index: 200;
+  background-color: #fff;
+  filter: drop-shadow(-4px 0 10px rgba(107, 94, 83, 0.15));
+  transition: transform 0.3s ease-out;
+
+  &[slideShow="true"] {
+    transform: translateX(-100%);
+  }
+}

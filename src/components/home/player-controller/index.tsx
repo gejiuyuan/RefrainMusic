@@ -10,12 +10,15 @@ import {
   MusicLoveIcon,
   CurrentPlayTime
 } from "@/widgets/music-ctrl-icons";
+import usePlayerStore from "@/stores/player";
 
 export default defineComponent({
   name: "PlayerController",
   setup(props, { slots, emit }) {
     const router = useRouter();
     const route = useRoute();
+    const playerStore = usePlayerStore();
+
     const showPlayerDetailPage = () => {
       const { query, path } = route;
       router.push({
@@ -25,6 +28,10 @@ export default defineComponent({
           playerStatus: 1
         }
       })
+    }
+
+    const showPlayerQueueHandler = () => {
+      playerStore.playerQueueShow = true;
     }
 
     return () => {
@@ -72,12 +79,12 @@ export default defineComponent({
             </section>
 
             <section class="main-block main-right">
-              
+
               <CurrentPlayTime></CurrentPlayTime>
 
               <MusicLoveIcon></MusicLoveIcon>
 
-              <div className="play-queue">
+              <div className="play-queue-icon" onClick={showPlayerQueueHandler}>
                 <i className="iconfont icon-yinleliebiao"></i>
                 <span>
                   80
