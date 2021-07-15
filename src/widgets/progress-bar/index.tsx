@@ -37,7 +37,7 @@ export declare type ProgressBarComp = DefineComponent<{
         type: PropType<string>;
         default: string;
     },
-    dotVisible: {
+    dotFixed: {
         type: BooleanConstructor;
         default: boolean;
     },
@@ -55,27 +55,27 @@ const ProgressBar: ProgressBarComp = defineComponent({
     name: "ProgressBar",
     props: {
         dir: {
-            type: String as PropType<string>,
+            type: String,
             required: false,
             default: "horizontal",
         },
         bgc: {
-            type: String as PropType<string>,
+            type: String,
             required: false,
             default: "rgba(160, 160, 160, 0.15)",
         },
-        dotVisible: {
-            type: Boolean as PropType<boolean>,
+        dotFixed: {
+            type: Boolean,
             required: false,
-            default: true,
+            default: false,
         },
         bufferRatio: {
-            type: [String, Number] as PropType<string | number>,
+            type: [String, Number],
             required: false,
             default: 0,
         },
         currentRatio: {
-            type: Number as PropType<number>,
+            type: Number,
             required: false,
             default: 0,
         },
@@ -83,7 +83,7 @@ const ProgressBar: ProgressBarComp = defineComponent({
     emits: ["change", "down", "move", "up"],
     setup(props, { slots, emit }) {
         const vm = getCurrentInstance()!; //即this组件实例 
-
+        
         //是否可以移动
         const canMove = ref(false);
         //当前进度条状态
@@ -100,7 +100,7 @@ const ProgressBar: ProgressBarComp = defineComponent({
             },
         });
         //是否显示控制点
-        const isShowDot = ref(props.dotVisible);
+        const isShowDot = ref(props.dotFixed);
         //进度条元素引用
         const stripElmRef = ref<Element>()
 
@@ -142,7 +142,7 @@ const ProgressBar: ProgressBarComp = defineComponent({
         //获取偏移值
         const getTranslate = (ev: PlainObject) => {
             const { offset, long, attrs } = progressbarInfo;
-            let tarTranslate = ev[attrs.mouseOffset!] - offset;
+            let tarTranslate = ev[attrs.mouseOffset!] - offset; 
             if (tarTranslate > long) {
                 tarTranslate = long;
             } else if (tarTranslate < 0) {
@@ -156,26 +156,27 @@ const ProgressBar: ProgressBarComp = defineComponent({
         //更新进度条状态
         const updateCurrentProgress = (ev: PlainObject) => {
             const translate = getTranslate(ev);
-            const tarDemical = translate / progressbarInfo.long;
+            const tarDemical = translate / progressbarInfo.long; 
             currentProgress.decimal = tarDemical;
             currentProgress.ratio = decimalToPercent(tarDemical, 2);
         };
 
         //按下进度条时
         const down = (ev: MouseEvent) => {
+            console.info(888)
             canMove.value = true;
-            isShowDot.value = true;
+            !props.dotFixed && (isShowDot.value = true);
             updateCurrentProgress(ev);
-            emit("change", currentProgress);
             emit("down", currentProgress);
+            emit("change", currentProgress);
         };
 
         //移动进度条时
         const move = (ev: MouseEvent) => {
             if (!canMove.value) return;
             updateCurrentProgress(ev);
-            emit("change", currentProgress);
             emit("move", currentProgress);
+            emit("change", currentProgress);
         };
 
         //松开进度条时
@@ -184,7 +185,7 @@ const ProgressBar: ProgressBarComp = defineComponent({
                 emit("up", currentProgress);
             }
             canMove.value = false;
-            isShowDot.value = false;
+            !props.dotFixed && (isShowDot.value = false);
         };
 
         useEventListener(document, "mousemove", move)
@@ -212,6 +213,7 @@ const ProgressBar: ProgressBarComp = defineComponent({
                 { dir: "horizontal", offset: "left", long: "width", mouseOffset: "pageX", },
             ];
             const tarAttrObj = stripAttrs.find(({ dir: tarDir }) => tarDir === dir)!;
+            console.info(stripElmRect)
             progressbarInfo.long = Math.round(stripElmRect[tarAttrObj.long]);
             progressbarInfo.offset = Math.round(stripElmRect[tarAttrObj.offset]);
             progressbarInfo.attrs = tarAttrObj;
@@ -225,8 +227,8 @@ const ProgressBar: ProgressBarComp = defineComponent({
                 <div
                     ref={stripElmRef}
                     class={progressbarClass.value}
-                    defaultDotShow={isShowDot.value}
-                    isShowDot={isShowDot.value}
+                    defaultdotshow={props.dotFixed}
+                    showdot={isShowDot.value}
                     onMousedown={down}
                 >
                     <div class="progressbar-buffer" style={progressbarBufferStyle.value}>

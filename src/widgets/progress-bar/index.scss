@@ -16,7 +16,7 @@
     height: 100%;
     padding: 0 6px;
     .progressbar-buffer {
-      width: 2px;
+      width: 4px;
       height: 100%;
       transform: scale(-1);
     }
@@ -45,14 +45,14 @@
     }
   }
 
-  &[defaultDotShow="false"]:hover .progressbar-buffer,
-  &[defaultDotShow="false"][isShowDot="true"] {
+  &[defaultdotshow="false"]:hover .progressbar-buffer,
+  &[defaultdotshow="false"][showdot="true"] {
     .progressbar-dot {
       opacity: 1;
     }
   }
 
-  &[defaultDotShow="false"][isShowDot="false"] {
+  &[defaultdotshow="false"][showdot="false"] {
     .progressbar-dot {
       opacity: 0;
     }

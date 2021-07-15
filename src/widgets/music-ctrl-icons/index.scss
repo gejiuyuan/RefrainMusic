@@ -1,0 +1,89 @@
+@import "@scss/variable";
+
+.play-switch {
+  @include flexHcVc();
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border-radius: 100%;
+  background-color: var(--theme);
+  color: #fff;
+  font-size: 22px;
+  cursor: pointer;
+  transition: filter 0.1s;
+
+  &:hover {
+    filter: brightness(125%);
+  }
+}
+
+.prev-music,
+.next-music {
+  margin: 0 8px;
+  color: #666;
+  font-size: 34px;
+  cursor: pointer;
+  transition: color 0.1s;
+  &:hover {
+    color: var(--theme);
+  }
+}
+
+.volume {
+  position: relative;
+  margin-right: 14px;
+
+  &-noumenon {
+    font-size: 24px;
+    color: #555;
+    cursor: pointer;
+    transition: color 0.1s;
+    &:hover {
+      color: var(--theme);
+    }
+  }
+
+  &-suspension {
+    position: absolute;
+    bottom: calc(100% + 18px);
+    left: 50%;
+    z-index: 99;
+    height: 180px;
+    padding: 28px 24px;
+    background-color: #fff;
+    transform: translateX(-50%);
+    border-radius: 8px;
+    filter: drop-shadow(0 0 28px rgba(117, 102, 98, 0.4));
+
+    &::after {
+      content: "";
+      display: block;
+      width: 0;
+      height: 0;
+      border-top: 9px solid #fff;
+      border-left: 9px solid transparent;
+      border-right: 9px solid transparent;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 28px;
+    }
+  }
+}
+
+.music-love-icon {
+  font-size: 22px;
+  color: #777;
+  cursor: pointer;
+  transition: color .1s;
+
+  &:hover {
+    color: var(--theme);
+  }
+
+}
+
+.current-playtime {
+  font-size: 15px;
+  color: #777;
+  padding-right: 20px;
+}

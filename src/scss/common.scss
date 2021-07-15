@@ -4,12 +4,7 @@
 * {
   box-sizing: border-box;
 }
-
-html {
-  font-size: 12.8px;
-  line-height: 1;
-}
-
+ 
 body,
 p,
 h1,
@@ -94,6 +89,13 @@ i {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+[visibility="true"] {
+  visibility: visible;
+}
+[visibility="false"] {
+  visibility: hidden;
 }
 
 @supports (aspect-ratio: 1) {
