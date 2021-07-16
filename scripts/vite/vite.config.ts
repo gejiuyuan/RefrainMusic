@@ -52,7 +52,7 @@ const baseConfig: UserConfig = {
             { find: '@', replacement: pathResolve('src') },
             { find: '@api', replacement: pathResolve('src/api') },
             { find: '@router', replacement: pathResolve('src/router') },
-            { find: '@types', replacement: pathResolve('src/types') },
+            { find: '@type', replacement: pathResolve('src/types') },
             { find: '@components', replacement: pathResolve('src/components') },
             { find: '@scss', replacement: pathResolve('src/scss') },
             { find: '@views', replacement: pathResolve('src/views') },

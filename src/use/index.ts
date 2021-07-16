@@ -5,8 +5,8 @@ import {
     useMagicKeys,
     MaybeElementRef,
 } from '@vueuse/core';
-import { onMounted, ref } from "@vue/runtime-core";
-import { EMPTY_OBJ } from '@/utils';
+import { onMounted, ref, watchEffect, watch, } from "@vue/runtime-core";
+import { EMPTY_OBJ } from '@/utils';   
 
 /**
  * 使用全屏方法（基于vueuse的useFullscreen，额外做了F11优化）

@@ -12,6 +12,7 @@ import { SongInfo } from "@/types/song";
 import { second2TimeStr, getLocaleDate, NOOP, EMPTY_OBJ, freeze } from "@utils/index";
 import InfinityScrolling from "@/widgets/infiity-scrolling";
 import "./index.scss";
+import { checkMusic, getMusic } from "@/api/music";
 
 export interface realSongInfo extends SongInfo {
   fullName: string;
@@ -61,6 +62,14 @@ export default defineComponent({
     const handleDownload = (songItem: realSongInfo) => {
       console.info(songItem);
     };
+
+    const playBtnClickHandler = (songItem: realSongInfo) => {
+      const { id } = songItem
+      console.log(songItem);
+      
+      checkMusic({id}).then(console.info)
+      getMusic({id}).then(console.info)
+    }
 
     const renderMainSongTable = (infinityScrollProps: any) => {
       if (!songData.value.length) return;
@@ -116,7 +125,7 @@ export default defineComponent({
                         >
                           <i class="iconfont icon-plus"></i>
                         </div>
-                        <div class="song-tool-item" title="播放">
+                        <div class="song-tool-item" title="播放" onClick={() => playBtnClickHandler(scope.row)}>
                           <i class="iconfont icon-play"></i>
                         </div>
                         <div

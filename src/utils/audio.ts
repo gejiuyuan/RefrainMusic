@@ -1,17 +1,22 @@
 //类型声明需安装: npm i @types/howler
-import { Howl, Howler, HowlOptions } from 'howler';
+import { Howl, Howler, HowlErrorCallback, HowlOptions } from 'howler';
 
 //自动尝试在移动端和浏览器桌面端播放音频
 Howler.autoUnlock = true;
 //在30秒不活动后自动暂停Web Audio，以减少资源占用
 Howler.autoSuspend = true;
 
-export default class AudioMaster {
+export type HowlerCommonOnEventsType =
+    'load' | 'play' | 'end' | 'pause' | 'stop' | 'mute' | 'volume' | 'rate' | 'seek' | 'fade' | 'unlock';
 
-    protected howl: InstanceType<typeof Howl>;
+export type HowlerStateType = 
+    'loaded' | 'unloaded' | 'loading';
 
-    constructor(options: HowlOptions) {
+export default class HowlerMaster {
 
+    static howl: InstanceType<typeof Howl>;
+
+    static init(options: HowlOptions) {
         const howl = new Howl(options);
 
         //比如如果自动播放音频失败了，就再次手动触发
@@ -23,19 +28,27 @@ export default class AudioMaster {
 
     }
 
-    get volume() {
+    static get mute() {
+        return this.howl.mute();
+    }
+
+    static set mute(val: boolean) {
+        this.howl.mute(val)
+    }
+
+    static get volume() {
         return this.howl.volume();
     }
 
-    set volume(val: number) {
+    static set volume(val: number) {
         this.howl.volume(val)
     }
 
-    get rate() {
+    static get rate() {
         return this.howl.rate()
     }
 
-    set rate(val: number) {
+    static set rate(val: number) {
         if (val < 0.5) {
             val = 0.5
         } else if (val > 4.0) {
@@ -44,23 +57,23 @@ export default class AudioMaster {
         this.howl.rate(val);
     }
 
-    stop() {
+    static stop() {
         this.howl.stop();
     }
 
-    pause() {
+    static pause() {
         this.howl.pause();
     }
 
-    play() {
+    static play() {
         this.howl.play();
     }
 
-    get seek() {
+    static get seek() {
         return this.howl.seek() as number;
     }
 
-    set seek(ms: number) {
+    static set seek(ms: number) {
         const { duration } = this
         if (ms > duration || ms < 0) {
             console.error('the seek value is in invalid interval')
@@ -69,28 +82,73 @@ export default class AudioMaster {
         this.howl.seek(ms)
     }
 
-    get loop() {
+    static get loop() {
         return this.howl.loop()
     }
 
-    set loop(flag: boolean) {
+    static set loop(flag: boolean) {
         this.howl.loop(flag)
     }
 
-    get state() {
+    /**
+     * @return 'loaded' | 'unloaded' | 'loading' 
+     */
+    static get state() {
         return this.howl.state();
     }
 
-    get playing() {
-        return this.howl.playing()
+    static get playStatus() {
+        return this.howl.playing() ? 1 : 0
     }
 
-    get duration() {
+    static get duration() {
         return this.howl.duration()
     }
 
-    load() {
+    static load() {
         this.howl.load();
+    }
+
+    static destroy() {
+        this.howl.unload();
+    }
+
+    static onError(
+        callback: (
+            type: 'load' | 'play',
+            info: {
+                soundId: InferFuncParamsType<HowlErrorCallback>[0],
+                error: InferFuncParamsType<HowlErrorCallback>[1]
+            }
+        ) => void
+    ) {
+        this.howl.on('loaderror', (soundId, error) => {
+            callback('load', { soundId, error })
+        });
+        this.howl.on('playerror', (soundId, error) => {
+            callback('play', { soundId, error })
+        });
+    }
+
+    static on(
+        event: HowlerCommonOnEventsType,
+        callback: () => void
+    ) {
+        this.howl.on(event, callback);
+    }
+
+    static once(
+        event: HowlerCommonOnEventsType,
+        callback: () => void
+    ) {
+        this.howl.once(event, callback);
+    }
+
+    static off(
+        event: HowlerCommonOnEventsType,
+        callback?: () => void
+    ) {
+        this.howl.off(event, callback);
     }
 
 }

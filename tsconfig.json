@@ -34,7 +34,7 @@
       "@/*": ["src/*"],
       "@api/*": ["./src/api/*"],
       "@router/*": ["./src/router/*"],
-      "@types/*": ["src/types/*"],
+      "@type/*": ["src/types/*"],
       "@scss/*": ["./src/scss/*"],
       "@components/*": ["./src/components/*"],
       "@views/*": ["./src/views/*"],

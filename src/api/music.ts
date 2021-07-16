@@ -1,5 +1,8 @@
 import { anfrage } from "@/request";
 import { filterUselessKey } from "@utils/index";
+import {
+  SongUrlInfo
+} from '@type/song';
 
 /**
  * 获取音乐 url
@@ -16,7 +19,7 @@ export function getMusic(params: {
     url: "/song/url",
     method: "get",
     params: filterUselessKey(params),
-  });
+  }).then(({ data }) => data);
 }
 
 /**

@@ -38,3 +38,22 @@ export declare type SongInfo = {
     chargeInfoList: SongChargeInfo[];
   };
 };
+
+export declare type SongUrlInfo = {
+  type: 'mp3' | 'm4a';
+  encodeType: 'mp3',
+  canExtend: boolean;
+  fee: 8 | number;
+  url: string;
+  size: number;
+  id: number;
+  md5: string;
+  gain: 0 | number;
+  level: 'standard' | string;
+  played: 0 | 1;
+  //免费试听时间段，单位：秒
+  freeTrialInfo: {
+    start: number;
+    end: number;
+  } | null;
+}
