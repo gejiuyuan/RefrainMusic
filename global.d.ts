@@ -23,9 +23,13 @@ declare type Writeable<T> = {
   -readonly [K in keyof T]: T[K];
 };
 
-declare type InferFuncOneParamType<T> = T extends (params: infer P) => any ? P : T;
+declare type InferFuncOneParamType<T> = T extends (params: infer P) => any
+  ? P
+  : T;
 
-declare type InferFuncParamsType<T> = T extends (...params: infer P) => any ? P : T;
+declare type InferFuncParamsType<T> = T extends (...params: infer P) => any
+  ? P
+  : T;
 
 declare type InferCtorParamType<T extends new (...args: any[]) => any> =
   T extends new (...args: infer P) => any ? P : never;

@@ -11,6 +11,7 @@ import {
 import {
   NIcon
 } from 'naive-ui';
+import { onKeyUp, onKeyDown, onKeyPressed, onKeyStroke } from "@vueuse/core";
 
 export default defineComponent({
   name: "Player",
@@ -18,6 +19,7 @@ export default defineComponent({
 
     const route = useRoute();
     const router = useRouter();
+    const playerDetailRef = ref();
     const isShow = ref(false);
 
     watch(() => route.query.playerStatus, (playerStatus) => {
@@ -39,25 +41,35 @@ export default defineComponent({
 
     const exitPlayerDetailPage = () => {
       const newQuery = { ...route.query };
-      delete newQuery.playerStatus;
-      router.push({
-        path: route.path,
-        query: newQuery
-      })
+      if (!!newQuery.playerStatus) {
+        delete newQuery.playerStatus;
+        router.push({
+          path: route.path,
+          query: newQuery
+        });
+      }
     }
+
+    onKeyStroke('Escape', () => {
+      exitPlayerDetailPage();
+    }, {
+      eventName: 'keyup',
+      target: playerDetailRef.value,
+      passive: true,
+    })
 
     return () => {
 
       return (
-        <div class="player-detail" show={isShow.value} style="background-color: rgb(20, 26, 26)">
+        <div class="player-detail" ref={playerDetailRef} show={isShow.value} style="background-color: rgb(20, 26, 26)">
 
           <div
             class="player-bgcover-mask"
             style={{ backgroundImage: `url(${playbill.src})` }}
           ></div>
 
-          <div class="player-back" onClick={exitPlayerDetailPage}>
-            <NIcon size="28" color={'#fff'}>
+          <div class="player-back" onClick={exitPlayerDetailPage} title={"收一下：ESC"}>
+            <NIcon size="28" color={'#eee'}>
               <ChevronDown20Regular></ChevronDown20Regular>
             </NIcon>
           </div>

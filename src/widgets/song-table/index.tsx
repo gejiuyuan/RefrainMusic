@@ -1,18 +1,13 @@
 import {
   ref,
   computed,
-  onUnmounted,
-  onDeactivated,
-  onActivated,
-  defineProps,
   defineComponent,
-  HTMLAttributes,
 } from "vue";
 import { SongInfo } from "@/types/song";
 import { second2TimeStr, getLocaleDate, NOOP, EMPTY_OBJ, freeze } from "@utils/index";
 import InfinityScrolling from "@/widgets/infiity-scrolling";
 import "./index.scss";
-import { checkMusic, getMusic } from "@/api/music";
+import useAudioStore from "@/stores/audio";
 
 export interface realSongInfo extends SongInfo {
   fullName: string;
@@ -63,12 +58,17 @@ export default defineComponent({
       console.info(songItem);
     };
 
+    const audioStore = useAudioStore();
     const playBtnClickHandler = (songItem: realSongInfo) => {
       const { id } = songItem
-      console.log(songItem);
-      
-      checkMusic({id}).then(console.info)
-      getMusic({id}).then(console.info)
+      // console.log(songItem);
+
+      audioStore.srcOrId = id;
+
+      // checkMusic({ id }).then(console.info)
+      // getMusic({ id }).then(console.info) 
+
+
     }
 
     const renderMainSongTable = (infinityScrollProps: any) => {

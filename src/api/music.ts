@@ -1,8 +1,6 @@
 import { anfrage } from "@/request";
 import { filterUselessKey } from "@utils/index";
-import {
-  SongUrlInfo
-} from '@type/song';
+import { SongUrlInfo } from "@type/song";
 
 /**
  * 获取音乐 url
@@ -11,14 +9,21 @@ import {
  *      !!!未登录状态返回试听片段(返回字段包含被截取的正常歌曲的开始时间和结束时间)
  * @param {string} id - 音乐的 id，例如 id=405998841,33894312
  */
-export function getMusic(params: {
-  id: number | string;
-  br?: number | string;
-}) {
+export function getMusic(
+  params: {
+    id: number | string;
+    br?: number | string;
+  },
+  proxy: boolean = true
+) {
+  const queryParams = filterUselessKey({ ...params });
+  // if (proxy) {
+  //   queryParams.proxy = location.origin;
+  // }
   return anfrage({
     url: "/song/url",
     method: "get",
-    params: filterUselessKey(params),
+    params: queryParams,
   }).then(({ data }) => data);
 }
 
