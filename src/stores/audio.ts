@@ -5,24 +5,44 @@ const defaultAudioOptions = {
   volume: 0.5, //
   order: "order", // random、loop
   src: "",
-  playbackRate: 1,
-  playStatus: 0,
+  rate: 1,
+  playing: false,
   start: 0,
   end: Infinity,
   currentTime: 0,
+  nextSeekTime: 0,
   duration: 0,
+  loop: true,
+  mute: false,
 };
 
 export type AudioStateType = {
   srcOrId: string | number;
+  picUrl: string;
+  musicName: string;
+  singer: string;
 } & typeof defaultAudioOptions;
 
 const useAudioStore = defineStore({
   id: "audioStore",
   state() {
     const audioState: AudioStateType = {
-      ...defaultAudioOptions,
+      volume: 0.5, //
+      order: "order", // random、loop
+      src: "",
+      rate: 1,
+      playing: false,
+      start: 0,
+      end: Infinity,
+      currentTime: 0,
+      nextSeekTime: 0,
+      duration: 0,
+      loop: true,
       srcOrId: "",
+      picUrl: "",
+      musicName: "",
+      singer: "",
+      mute: false,
     };
     return audioState;
   },

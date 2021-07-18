@@ -8,6 +8,10 @@ import { second2TimeStr, getLocaleDate, NOOP, EMPTY_OBJ, freeze } from "@utils/i
 import InfinityScrolling from "@/widgets/infiity-scrolling";
 import "./index.scss";
 import useAudioStore from "@/stores/audio";
+import { getMusic } from "@/api/music";
+import { getFullName, getFullNames } from "@/utils/apiSpecial";
+import usePlayerStore from "@/stores/player";
+import player from "@/views/player";
 
 export interface realSongInfo extends SongInfo {
   fullName: string;
@@ -58,15 +62,14 @@ export default defineComponent({
       console.info(songItem);
     };
 
+    const playerStore = usePlayerStore();
     const audioStore = useAudioStore();
     const playBtnClickHandler = (songItem: realSongInfo) => {
-      const { id } = songItem
-      // console.log(songItem);
-
+      const { id, } = songItem
+      console.info(songItem)
       audioStore.srcOrId = id;
-
-      // checkMusic({ id }).then(console.info)
-      // getMusic({ id }).then(console.info) 
+      playerStore.currentSongInfo = songItem;
+      // getMusic({ id }).then(console.info)
 
 
     }

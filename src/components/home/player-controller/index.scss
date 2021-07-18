@@ -60,7 +60,7 @@
     padding-left: 16px;
 
     .name,
-    .singer {
+    .singer > span {
       cursor: pointer;
       &:hover {
         color: var(--theme);
@@ -85,9 +85,9 @@
     cursor: pointer;
     transition: color 0.1s;
     padding-left: 20px;
-    
+
     i {
-      font-size: 34px; 
+      font-size: 34px;
     }
 
     span {

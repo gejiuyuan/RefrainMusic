@@ -46,10 +46,6 @@ export declare type ProgressBarComp = DefineComponent<{
         type: BooleanConstructor;
         default: boolean;
     },
-    bufferRatio: {
-        type: PropType<string | number>;
-        default: number;
-    },
     currentRatio: {
         type: NumberConstructor;
         default: number;
@@ -74,11 +70,6 @@ const ProgressBar: ProgressBarComp = defineComponent({
             required: false,
             default: false,
         },
-        bufferRatio: {
-            type: [String, Number],
-            required: false,
-            default: 0,
-        },
         currentRatio: {
             type: Number,
             required: false,
@@ -88,7 +79,7 @@ const ProgressBar: ProgressBarComp = defineComponent({
     emits: ["change", "down", "move", "up"],
     setup(props, { slots, emit }) {
         const vm = getCurrentInstance()!; //即this组件实例 
-        
+
         //是否可以移动
         const canMove = ref(false);
         //当前进度条状态
@@ -147,7 +138,7 @@ const ProgressBar: ProgressBarComp = defineComponent({
         //获取偏移值
         const getTranslate = (ev: PlainObject) => {
             const { offset, long, attrs } = progressbarInfo;
-            let tarTranslate = ev[attrs.mouseOffset!] - offset; 
+            let tarTranslate = ev[attrs.mouseOffset!] - offset;
             if (tarTranslate > long) {
                 tarTranslate = long;
             } else if (tarTranslate < 0) {
@@ -161,13 +152,13 @@ const ProgressBar: ProgressBarComp = defineComponent({
         //更新进度条状态
         const updateCurrentProgress = (ev: PlainObject) => {
             const translate = getTranslate(ev);
-            const tarDemical = translate / progressbarInfo.long; 
+            const tarDemical = translate / progressbarInfo.long;
             currentProgress.decimal = tarDemical;
             currentProgress.ratio = decimalToPercent(tarDemical, 2);
         };
 
         //按下进度条时
-        const down = (ev: MouseEvent) => { 
+        const down = (ev: MouseEvent) => {
             canMove.value = true;
             !props.dotFixed && (isShowDot.value = true);
             updateCurrentProgress(ev);
@@ -176,9 +167,9 @@ const ProgressBar: ProgressBarComp = defineComponent({
         };
 
         //移动进度条时
-        const move = (ev: MouseEvent) => { 
+        const move = (ev: MouseEvent) => {
             if (!canMove.value) return;
-            updateCurrentProgress(ev); 
+            updateCurrentProgress(ev);
             emit("move", currentProgress);
             emit("change", currentProgress);
         };
@@ -198,6 +189,10 @@ const ProgressBar: ProgressBarComp = defineComponent({
         watch(
             () => props.currentRatio,
             (val, oldVal) => {
+                //如果在移动操作中，就不允许外界改变
+                if (canMove.value) {
+                    return;
+                }
                 currentProgress.decimal = percentToDecimal(val);
                 currentProgress.ratio = `${val}%`;
             },
@@ -216,7 +211,7 @@ const ProgressBar: ProgressBarComp = defineComponent({
                 { dir: "vertical", offset: "top", long: "height", mouseOffset: "pageY", },
                 { dir: "horizontal", offset: "left", long: "width", mouseOffset: "pageX", },
             ];
-            const tarAttrObj = stripAttrs.find(({ dir: tarDir }) => tarDir === dir)!; 
+            const tarAttrObj = stripAttrs.find(({ dir: tarDir }) => tarDir === dir)!;
             progressbarInfo.long = Math.round(stripElmRect[tarAttrObj.long]);
             progressbarInfo.offset = Math.round(stripElmRect[tarAttrObj.offset]);
             progressbarInfo.attrs = tarAttrObj;

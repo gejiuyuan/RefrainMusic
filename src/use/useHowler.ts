@@ -20,7 +20,6 @@ export type UseHowlerOptions = Partial<Pick<HowlOptions, "src">> &
 
 //自动尝试在移动端和浏览器桌面端播放音频
 Howler.autoUnlock = true;
-Howler.usingWebAudio = true;
 //在30秒不活动后自动暂停Web Audio，以减少资源占用
 Howler.autoSuspend = true;
 
@@ -79,13 +78,10 @@ const useHowler = (() => {
     const muteRef = customRef<boolean>((track, trigger) => ({
       get() {
         track();
-        return howl.volume() === 0;
+        return howl?.volume() === 0;
       },
       set(val) {
-        if (val !== true) return;
-        process.env.NODE_ENV === "development" &&
-          console.warn(`you must set true to 'mute.value'`);
-        howl.volume(0);
+        howl?.mute(val);
         trigger();
       },
     }));
@@ -93,21 +89,21 @@ const useHowler = (() => {
     const loopRef = customRef<boolean>((track, trigger) => ({
       get() {
         track();
-        return howl.loop();
+        return howl?.loop();
       },
       set(val) {
-        howl.loop(val);
+        howl?.loop(val);
         trigger();
       },
     }));
 
-    const seekRef = customRef<number>((track, trigger) => ({
+    const currentTimeRef = customRef<number>((track, trigger) => ({
       get() {
         track();
-        return howl.seek() as number;
+        return howl?.seek() as number;
       },
       set(val) {
-        howl.seek(val);
+        howl?.seek(val);
         trigger();
       },
     }));
@@ -115,12 +111,12 @@ const useHowler = (() => {
     const volumeRef = customRef<number>((track, trigger) => ({
       get() {
         track();
-        return howl.volume();
+        return howl?.volume();
       },
       set(val) {
         if (val < 0) val = 0;
         else if (val > 1) val = 1;
-        howl.volume(val);
+        howl?.volume(val);
         trigger();
       },
     }));
@@ -133,7 +129,7 @@ const useHowler = (() => {
       set(val) {
         if (val < 0.5) val = 0.5;
         else if (val > 4) val = 4;
-        howl.rate(val);
+        howl?.rate(val);
         trigger();
       },
     }));
@@ -141,7 +137,7 @@ const useHowler = (() => {
     const durationRef = customRef<number>((track, trigger) => ({
       get() {
         track();
-        return howl.duration();
+        return howl?.duration();
       },
       set(value) {
         track();
@@ -151,24 +147,35 @@ const useHowler = (() => {
     const stateRef = customRef<HowlerStateType>((track, trigger) => ({
       get() {
         track();
-        return howl.state();
+        return howl?.state();
       },
       set(value) {
         track();
       },
     }));
 
+    const playingRef = customRef<boolean>((track, trigger) => ({
+      get() {
+        track();
+        return howl?.playing();
+      },
+      set(val) {
+        trigger();
+        howl?.[val ? "play" : "pause"]();
+      },
+    }));
+
     return {
       volume: volumeRef,
       rate: rateRef,
-      seek: seekRef,
+      currentTime: currentTimeRef,
       loop: loopRef,
       mute: muteRef,
       duration: durationRef,
+      playing: playingRef,
       state: stateRef,
 
       playSound,
-
       load: () => howl?.load(),
       unload: () => howl?.unload(),
       on: (...args: InferFuncParamsType<Howl["on"]>) => {

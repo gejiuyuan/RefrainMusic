@@ -1,4 +1,4 @@
-import { defineComponent, watch, ref } from "@vue/runtime-core";
+import { defineComponent, watch, ref, computed } from "@vue/runtime-core";
 import {
   routerViewLocationKey,
   useRoute,
@@ -12,6 +12,8 @@ import {
   NIcon
 } from 'naive-ui';
 import { onKeyUp, onKeyDown, onKeyPressed, onKeyStroke } from "@vueuse/core";
+import usePlayerStore from "@/stores/player";
+import { padPicCrop } from "@/utils";
 
 export default defineComponent({
   name: "Player",
@@ -21,6 +23,7 @@ export default defineComponent({
     const router = useRouter();
     const playerDetailRef = ref();
     const isShow = ref(false);
+    const playerStore = usePlayerStore();
 
     watch(() => route.query.playerStatus, (playerStatus) => {
       isShow.value = !!+playerStatus!;
@@ -28,11 +31,12 @@ export default defineComponent({
       immediate: true
     })
 
-    const playbill = {
-      src: 'https://p1.music.126.net/uSCBlYEiFPDgBvzmQGUe7A==/109951166096775188.jpg',
-      size: [400, 400,],
-
-    }
+    const playbillRef = computed(() => {
+      return {
+        src: playerStore.currentSongInfo.al.picUrl,
+        size: [400, 400,],
+      }
+    })
 
     const currentSongInfo = {
       title: '哈哈哈',
@@ -59,13 +63,14 @@ export default defineComponent({
     })
 
     return () => {
-
+      let { size, src } = playbillRef.value;
+      src = padPicCrop(src, { x: 500, y: 500 })
       return (
         <div class="player-detail" ref={playerDetailRef} show={isShow.value} style="background-color: rgb(20, 26, 26)">
 
           <div
             class="player-bgcover-mask"
-            style={{ backgroundImage: `url(${playbill.src})` }}
+            style={{ backgroundImage: `url(${src})` }}
           ></div>
 
           <div class="player-back" onClick={exitPlayerDetailPage} title={"收一下：ESC"}>
@@ -80,10 +85,10 @@ export default defineComponent({
               <div class="player-cover">
                 <img
                   class="player-playbill"
-                  src={playbill.src}
-                  width={playbill.size[0]}
-                  height={playbill.size[1]}
-                  alt={playbill.src}
+                  src={src}
+                  width={size[0]}
+                  height={size[1]}
+                  alt={src}
                 />
               </div>
 

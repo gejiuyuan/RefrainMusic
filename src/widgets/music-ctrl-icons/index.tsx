@@ -1,29 +1,22 @@
 
-import { defineComponent, ref, shallowReactive } from 'vue';
+import { computed, customRef, defineComponent, ref, shallowReactive, watch } from 'vue';
 import ProgressBar, { ProgressBarComp, ProgressInfo } from '@widgets/progress-bar';
 import './index.scss';
-import { rmDemicalInPercent } from '@/utils';
+import { decimalToPercent, rmDemicalInPercent, second2TimeStr } from '@/utils';
 import { onClickOutside } from '@vueuse/core';
-
-
-export enum PlayingStatus {
-    '暂停' = 0,
-    '播放' = 1,
-}
+import useAudioStore from '@/stores/audio';
 
 export const PlaySwitch = defineComponent({
     name: 'PlaySwitch',
     setup(props, { slots, emit }) {
-
-        const playStatus = ref(1);
-        const switchPlaying = () => playStatus.value = (playStatus.value + 1) % 2;
-
+        const audioStore = useAudioStore();
+        const switchPlaying = () => audioStore.playing = !audioStore.playing;
         return () => {
-            const status = playStatus.value;
+            const { playing } = audioStore;
             return (
-                <div className="play-switch" onClick={switchPlaying} title={PlayingStatus[status]}>
-                    <i class="iconfont icon-bofan" hidden={!status}></i>
-                    <i class="iconfont icon-pause" hidden={!!status}></i>
+                <div className="play-switch" onClick={switchPlaying} title={playing ? '暂停' : '播放'}>
+                    <i class="iconfont icon-bofan" hidden={playing}></i>
+                    <i class="iconfont icon-pause" hidden={!playing}></i>
                 </div>
             )
 
@@ -35,76 +28,62 @@ export const PlaySwitch = defineComponent({
 export const PrevMusic = defineComponent({
     name: 'PrevMusic',
     setup(props, { slots, emit }) {
-
         return () => {
-
             return (
                 <div className="prev-music" title="上一首">
                     <i class="iconfont icon-prevmusic"></i>
                 </div>
             )
-
         }
-
     }
 })
 
 export const NextMusic = defineComponent({
     name: 'NextMusic',
     setup(props, { slots, emit }) {
-
         return () => {
-
             return (
                 <div className="next-music">
-                    <i class="iconfont icon-nextmusic" title="上一首"></i>
+                    <i class="iconfont icon-nextmusic" title="下一首"></i>
                 </div>
             )
-
         }
-
     }
 })
 
 export const Volume = defineComponent({
     name: 'Volume',
     setup(props, { slots, emit }) {
-
         const isShow = ref(false)
         const volumeRef = ref<HTMLDivElement>()
         const switchShow = () => isShow.value = !isShow.value;
-
-        const isMuted = ref(false);
-
-        const volumeData = shallowReactive<ProgressInfo>({
-            ratio: '50%',
-            decimal: 0.5,
-        })
-
-        const volumeChange = (data: ProgressInfo) => {
-            const { decimal, ratio } = data;
-            isMuted.value = !decimal;
-            volumeData.decimal = decimal;
-            volumeData.ratio = rmDemicalInPercent(ratio)
-        }
-
-        const switchMuted = () => {
-            //如果已经是静音了，就return
-            if (volumeData.decimal === 0) {
-                return
+        const audioStore = useAudioStore();
+        const volumeData = computed(() => {
+            const volume = audioStore.volume;
+            return {
+                decimal: volume,
+                ratio: decimalToPercent(volume),
             }
-            isMuted.value = !isMuted.value
+        });
+        const volumeChange = ({ decimal }: ProgressInfo) => {
+            audioStore.volume = decimal;
         }
-
+        const switchMuted = () => {
+            //如果音量为0，就return
+            if (audioStore.volume === 0) return;
+            //切换静音状态
+            audioStore.mute = !audioStore.mute;
+        }
         onClickOutside(volumeRef, () => isShow.value = false, { event: 'pointerup' });
 
         return () => {
-            const muted = isMuted.value;
+            const { mute } = audioStore;
+            const { ratio, decimal } = volumeData.value;
             return (
                 <div class="volume" ref={volumeRef}>
                     <div className="volume-noumenon" onClick={switchShow}>
-                        <i className="iconfont icon-yinliang" hidden={muted}></i>
-                        <i className="iconfont icon-mute" hidden={!muted}></i>
+                        <i className="iconfont icon-yinliang" hidden={mute}></i>
+                        <i className="iconfont icon-mute" hidden={!mute}></i>
                     </div>
                     <div className="volume-suspension" visibility={isShow.value}>
                         <div className="volume-progressbar">
@@ -112,15 +91,15 @@ export const Volume = defineComponent({
                                 dir="vertical"
                                 dotFixed={true}
                                 onChange={volumeChange}
-                                currentRatio={volumeData.decimal * 100}
+                                currentRatio={decimal * 100}
                             ></ProgressBar>
                         </div>
                         <div className="volume-ratio">
-                            {volumeData.ratio}
+                            {ratio}
                         </div>
                         <div class="volume-duplicate" onClick={switchMuted}>
-                            <i className="iconfont icon-yinliang" hidden={muted}></i>
-                            <i className="iconfont icon-mute" hidden={!muted}></i>
+                            <i className="iconfont icon-yinliang" hidden={mute}></i>
+                            <i className="iconfont icon-mute" hidden={!mute}></i>
                         </div>
                     </div>
                 </div>
@@ -139,9 +118,7 @@ export enum MusicLoveTitle {
 export const MusicLoveIcon = defineComponent({
     name: 'MusicLoveIcon',
     setup(props, { slots, emit }) {
-
         const loveStatus = ref(1)
-
         return () => {
             return (
                 <div className="music-love-icon" title={MusicLoveTitle[1]}>
@@ -149,24 +126,26 @@ export const MusicLoveIcon = defineComponent({
                 </div>
             )
         }
-
     }
 })
 
 export const CurrentPlayTime = defineComponent({
     name: 'CurrentPlayTime',
     setup(props, { slots, emit }) {
-
+        const audioStore = useAudioStore();
         return () => {
-
             return (
                 <div className="current-playtime">
                     <span class="current">
-                        00:40
+                        {
+                            second2TimeStr(audioStore.currentTime)
+                        }
                     </span>
                     <span> / </span>
                     <span class="total">
-                        03:39
+                        {
+                            second2TimeStr(audioStore.duration)
+                        }
                     </span>
                 </div>
             )

@@ -1,7 +1,7 @@
-import { defineComponent, ref } from "vue";
+import { computed, defineComponent, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import "./index.scss";
-import ProgressBar from "@/widgets/progress-bar";
+import ProgressBar, { ProgressInfo } from "@/widgets/progress-bar";
 import {
   PlaySwitch,
   PrevMusic,
@@ -11,6 +11,9 @@ import {
   CurrentPlayTime
 } from "@/widgets/music-ctrl-icons";
 import usePlayerStore from "@/stores/player";
+import useAudioStore from "@/stores/audio";
+import { getFullName, getFullNames } from "@/utils/apiSpecial";
+import { padPicCrop } from "@/utils";
 
 export default defineComponent({
   name: "PlayerController",
@@ -18,6 +21,7 @@ export default defineComponent({
     const router = useRouter();
     const route = useRoute();
     const playerStore = usePlayerStore();
+    const audioStore = useAudioStore();
 
     const showPlayerDetailPage = () => {
       const { query, path } = route;
@@ -34,15 +38,44 @@ export default defineComponent({
       playerStore.playerQueueShow = true;
     }
 
+    const progressUp = ({ decimal }: ProgressInfo) => {
+      audioStore.nextSeekTime = audioStore.duration * decimal;
+      audioStore.playing = true;
+    }
+
+    const currentSongInfo = computed(() => {
+      const { id, ar, name, alia: alias, al } = playerStore.currentSongInfo;
+      return {
+        id,
+        musicName: getFullName({ name, alias }),
+        singer: ar.map(({ id, name, alias }) => {
+          return {
+            id,
+            name: getFullName({ name, alias })
+          }
+        }),
+        al
+      }
+    })
+    const toSingerDetailPage = (id: number) => {
+      router.push({
+        path: '/artist',
+        query: { id }
+      })
+    }
+
     return () => {
+      const { currentTime, duration, } = audioStore
+      const { id, musicName, singer, al: album } = currentSongInfo.value;
       return (
         <section class="player-controller">
           <div className="controller-progressbar">
             <ProgressBar
-              onDown={() => console.info('down')}
-              onMove={() => console.info('move')}
-              onChange={() => console.info('change')}
-              onUp={() => console.info('up')}
+              currentRatio={currentTime * 100 / duration}
+              onDown={() => { }}
+              onMove={() => { }}
+              onChange={() => { }}
+              onUp={progressUp}
             ></ProgressBar>
           </div>
 
@@ -51,7 +84,7 @@ export default defineComponent({
             <section class="main-block main-left">
 
               <div class="music-playbill" onClick={showPlayerDetailPage}>
-                <img src="https://p2.music.126.net/G4_5qI_QWcGMTyCJoRggHw==/109951163139102894.jpg?param=160y160" alt="" />
+                <img src={padPicCrop(album.picUrl, { x: 180, y: 180 })} alt="" />
                 <div class="playbill-mask">
                   <i class="iconfont icon-shanghua"></i>
                 </div>
@@ -59,10 +92,19 @@ export default defineComponent({
 
               <div className="music-info">
                 <div class="name">
-                  Latin Girl
+                  {musicName}
                 </div>
                 <div class="singer">
-                  Justin Bieber
+                  {
+                    singer.map(({ id, name }, i) => {
+                      return (
+                        <>
+                          <span onClick={() => toSingerDetailPage(id)}>{name}</span>
+                          {i !== singer.length - 1 && <em></em>}
+                        </>
+                      )
+                    })
+                  }
                 </div>
               </div>
 

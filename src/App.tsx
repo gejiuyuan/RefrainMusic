@@ -4,7 +4,7 @@ import "./App.scss";
 import AudioMaster from '@views/audio-master';
 import Player from '@views/player';
 import usePlayerStore from "./stores/player";
-import { GlobalThemeOverrides, NBackTop, NConfigProvider, NThemeEditor } from "naive-ui";
+import { GlobalThemeOverrides, NBackTop, NConfigProvider, NLoadingBarProvider, NThemeEditor } from "naive-ui";
 
 
 export default defineComponent({
@@ -31,19 +31,21 @@ export default defineComponent({
       return (
         <section class="theme-layer" style={themeLayerStyle.value}>
           <NConfigProvider themeOverrides={NaiveThemeConfig.value}>
-            <RouterView></RouterView>
-            <Player></Player>
-            <AudioMaster></AudioMaster>
-            <NBackTop
-              listenTo=".player-container"
-              visibilityHeight={320}
-              bottom={90}
-              themeOverrides={{
-                width: "38px",
-                height: "38px",
-                iconSize: "20px",
-              }}
-            ></NBackTop>
+            <NLoadingBarProvider>
+              <RouterView></RouterView>
+              <Player></Player>
+              <AudioMaster></AudioMaster>
+              <NBackTop
+                listenTo=".player-container"
+                visibilityHeight={320}
+                bottom={90}
+                themeOverrides={{
+                  width: "38px",
+                  height: "38px",
+                  iconSize: "20px",
+                }}
+              ></NBackTop>
+            </NLoadingBarProvider>
           </NConfigProvider>
         </section>
       );
