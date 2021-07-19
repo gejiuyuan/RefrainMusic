@@ -42,7 +42,13 @@
     left: 20px;
     top: 20px;
     z-index: 155;
+    color: #fff;
+    font-size: 28px;
     cursor: pointer;
+    transition: color 0.12s;
+    &:hover {
+      color: var(--theme);
+    }
   }
 
   .player-content {
@@ -59,6 +65,7 @@
   backdrop-filter: blur(20px);
 
   .player-body {
+    height: 100%;
     padding: 80px 0 60px 0;
     flex: 1;
     @include flexHbVe();
@@ -74,23 +81,41 @@
     }
 
     .player-info {
+      height: 100%;
       flex: 2;
+    }
 
-      .player-song {
-        padding-bottom: 20px;
-        color: $colorbase;
-        text-align: center;
+    .player-song {
+      padding-bottom: 20px;
+      color: $colorbase;
+      text-align: center;
 
-        .player-title {
-          height: 22px;
-          font-size: 22px;
-          font-weight: 500;
-        }
+      .player-title {
+        height: 22px;
+        font-size: 22px;
+        font-weight: 500;
+      }
 
-        .player-author {
-          padding: 16px 0 40px 0;
-          font-size: 15px;
+      .player-author {
+        padding: 16px 0 40px 0;
+        font-size: 15px;
+
+        > span {
           opacity: 0.6;
+        }
+      }
+
+      .player-author-text {
+        em {
+          opacity: 0.6;
+        }
+        span {
+          opacity: 0.6;
+          cursor: pointer;
+          transition: opacity 0.12s;
+          &:hover {
+            opacity: 0.9;
+          }
         }
       }
     }

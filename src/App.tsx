@@ -1,11 +1,9 @@
 import { computed, defineComponent, reactive, toRef, watch } from "vue";
 import { RouterView, useRoute } from "vue-router";
 import "./App.scss";
-import AudioMaster from '@views/audio-master';
 import Player from '@views/player';
 import usePlayerStore from "./stores/player";
 import { GlobalThemeOverrides, NBackTop, NConfigProvider, NLoadingBarProvider, NThemeEditor } from "naive-ui";
-
 
 export default defineComponent({
   name: "YuanPlayer",
@@ -23,7 +21,7 @@ export default defineComponent({
           borderHoverWarning: globalTheme,
           borderFocus: globalTheme,
           borderHover: globalTheme
-        }
+        },
       }
     })
 
@@ -34,7 +32,6 @@ export default defineComponent({
             <NLoadingBarProvider>
               <RouterView></RouterView>
               <Player></Player>
-              <AudioMaster></AudioMaster>
               <NBackTop
                 listenTo=".player-container"
                 visibilityHeight={320}

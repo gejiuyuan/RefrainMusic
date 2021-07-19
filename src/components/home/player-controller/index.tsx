@@ -43,20 +43,6 @@ export default defineComponent({
       audioStore.playing = true;
     }
 
-    const currentSongInfo = computed(() => {
-      const { id, ar, name, alia: alias, al } = playerStore.currentSongInfo;
-      return {
-        id,
-        musicName: getFullName({ name, alias }),
-        singer: ar.map(({ id, name, alias }) => {
-          return {
-            id,
-            name: getFullName({ name, alias })
-          }
-        }),
-        al
-      }
-    })
     const toSingerDetailPage = (id: number) => {
       router.push({
         path: '/artist',
@@ -66,7 +52,7 @@ export default defineComponent({
 
     return () => {
       const { currentTime, duration, } = audioStore
-      const { id, musicName, singer, al: album } = currentSongInfo.value;
+      const { id, musicName, singer, al: album } = playerStore.currentSongModifiedInfo;
       return (
         <section class="player-controller">
           <div className="controller-progressbar">
@@ -100,14 +86,13 @@ export default defineComponent({
                       return (
                         <>
                           <span onClick={() => toSingerDetailPage(id)}>{name}</span>
-                          {i !== singer.length - 1 && <em></em>}
+                          {i !== singer.length - 1 && <em> / </em>}
                         </>
                       )
                     })
                   }
                 </div>
               </div>
-
 
             </section>
 

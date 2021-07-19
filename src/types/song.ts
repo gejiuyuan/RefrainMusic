@@ -22,7 +22,7 @@ export declare type SongInfo = {
   ar: {
     id: number;
     name: string;
-    alias: string[];
+    alias?: string[];
   }[];
   //专辑
   al: {
@@ -40,8 +40,8 @@ export declare type SongInfo = {
 };
 
 export declare type SongUrlInfo = {
-  type: 'mp3' | 'm4a';
-  encodeType: 'mp3',
+  type: "mp3" | "m4a";
+  encodeType: "mp3";
   canExtend: boolean;
   fee: 8 | number;
   url: string;
@@ -49,11 +49,11 @@ export declare type SongUrlInfo = {
   id: number;
   md5: string;
   gain: 0 | number;
-  level: 'standard' | string;
+  level: "standard" | string;
   played: 0 | 1;
   //免费试听时间段，单位：秒
   freeTrialInfo: {
     start: number;
     end: number;
   } | null;
-}
+};

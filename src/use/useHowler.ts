@@ -140,7 +140,7 @@ const useHowler = (() => {
         return howl?.duration();
       },
       set(value) {
-        track();
+        trigger();
       },
     }));
 
@@ -150,7 +150,7 @@ const useHowler = (() => {
         return howl?.state();
       },
       set(value) {
-        track();
+        trigger();
       },
     }));
 

@@ -8,7 +8,7 @@ import { second2TimeStr, getLocaleDate, NOOP, EMPTY_OBJ, freeze } from "@utils/i
 import InfinityScrolling from "@/widgets/infiity-scrolling";
 import "./index.scss";
 import useAudioStore from "@/stores/audio";
-import { getMusic } from "@/api/music";
+import { getLyric, getMusic, getMusicDetail } from "@/api/music";
 import { getFullName, getFullNames } from "@/utils/apiSpecial";
 import usePlayerStore from "@/stores/player";
 import player from "@/views/player";
@@ -64,14 +64,8 @@ export default defineComponent({
 
     const playerStore = usePlayerStore();
     const audioStore = useAudioStore();
-    const playBtnClickHandler = (songItem: realSongInfo) => {
-      const { id, } = songItem
-      console.info(songItem)
-      audioStore.srcOrId = id;
-      playerStore.currentSongInfo = songItem;
-      // getMusic({ id }).then(console.info)
-
-
+    const playBtnClickHandler = async (songItem: realSongInfo) => {
+      playerStore.handlePlaySoundNeededData(songItem.id);
     }
 
     const renderMainSongTable = (infinityScrollProps: any) => {

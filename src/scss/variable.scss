@@ -1,10 +1,13 @@
 @use "sass:math";
 
-$scrollbarWidth: 8px; 
-$playbillWidth: 360px; 
+$scrollbarWidth: 8px;
+$playbillWidth: 360px;
 $colorscrollbar: rgba(0, 0, 0, 0.18);
 $colornoop: transparent;
-$colorbase: rgb(254,254,254);
+$colorbase: rgb(254, 254, 254);
+
+$lyricContainerMaxheight: 440px;
+$lyricItemheihgt: $lyricContainerMaxheight / 11;
 
 /* 控制不同类型的图标实时显示 */
 $iconTypes: order, singalLoop, random, loop, play, pause, volume, muted, full,

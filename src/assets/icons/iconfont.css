@@ -1,15 +1,19 @@
 @font-face {
   font-family: "iconfont"; /* Project id 2672275 */
-  src: url('iconfont.woff2?t=1626357968092') format('woff2'),
-       url('iconfont.woff?t=1626357968092') format('woff'),
-       url('iconfont.ttf?t=1626357968092') format('truetype');
+  src: url("iconfont.woff2?t=1626710895102") format("woff2"),
+    url("iconfont.woff?t=1626710895102") format("woff"),
+    url("iconfont.ttf?t=1626710895102") format("truetype");
 }
 
 .iconfont {
-  font-family: "iconfont" !important; 
+  font-family: "iconfont" !important;
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-xiajiantou:before {
+  content: "\e63b";
 }
 
 .icon-nextmusic:before {
@@ -251,4 +255,3 @@
 .icon-zuopin:before {
   content: "\e61c";
 }
-

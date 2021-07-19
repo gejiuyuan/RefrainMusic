@@ -16,11 +16,13 @@ export const is: Is = [
   (is, typeStr) => ((is[typeStr] = (ins) => typeOf(ins) === typeStr), is),
   {} as Is
 );
-is.function = (ins) => typeof ins === "function";
+is.function = (ins): ins is Function => typeof ins === "function";
 is.array = Array.isArray;
-is.emptyArray = (ins) => is.array(ins) && ins.length === 0;
-is.object = (ins) => typeof ins === "object" && ins !== null;
-is.emptyObject = (ins) => is.object(ins) && ins.length === 0;
+is.emptyArray = (ins): ins is Array<any> => is.array(ins) && ins.length === 0;
+is.object = (ins): ins is PlainObject<any> =>
+  typeof ins === "object" && ins !== null;
+is.emptyObject = (ins): ins is PlainObject<any> =>
+  is.object(ins) && ins.length === 0;
 
 export const isURL = (url: string) =>
   /(([^:]+:)\/\/(([^:\/\?#]+)(:\d+)?))(\/[^?#]*)?(\?[^#]*)?(#.*)?/.test(url);

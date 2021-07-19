@@ -61,7 +61,7 @@ export function getLyric(params: { id: string | number }) {
     url: "/lyric",
     method: "get",
     params,
-  });
+  }).then(({ data }) => data);
 }
 
 /**
@@ -114,7 +114,7 @@ export function getMusicDetail(params: { ids: string }) {
     url: "/song/detail",
     method: "get",
     params,
-  });
+  }).then(({ data }) => data);
 }
 
 /**

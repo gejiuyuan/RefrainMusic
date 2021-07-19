@@ -3,9 +3,9 @@ export const getFullName = ({
   alias,
 }: {
   name: string;
-  alias: string[];
+  alias?: string[];
 }) => {
-  return `${name}${alias.length ? `(${alias.join("、")})` : ""}`;
+  return `${name}${alias?.length ? `(${alias.join("、")})` : ""}`;
 };
 
 export const getFullNames = (

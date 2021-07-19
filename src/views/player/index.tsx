@@ -14,10 +14,16 @@ import {
 import { onKeyUp, onKeyDown, onKeyPressed, onKeyStroke } from "@vueuse/core";
 import usePlayerStore from "@/stores/player";
 import { padPicCrop } from "@/utils";
+import PlayerLyric from '@components/player/lyric';
+import {
+  useAudioHandler
+} from '@use/index';
 
 export default defineComponent({
   name: "Player",
   setup(props, context) {
+    //处理音频等交互行为
+    useAudioHandler();
 
     const route = useRoute();
     const router = useRouter();
@@ -33,7 +39,7 @@ export default defineComponent({
 
     const playbillRef = computed(() => {
       return {
-        src: playerStore.currentSongInfo.al.picUrl,
+        src: playerStore.currentSongModifiedInfo.al.picUrl,
         size: [400, 400,],
       }
     })
@@ -54,6 +60,13 @@ export default defineComponent({
       }
     }
 
+    const toSingerDetailPage = (id: number) => {
+      router.push({
+        path: '/artist',
+        query: { id }
+      })
+    }
+
     onKeyStroke('Escape', () => {
       exitPlayerDetailPage();
     }, {
@@ -63,8 +76,9 @@ export default defineComponent({
     })
 
     return () => {
+      const { musicName, singer } = playerStore.currentSongModifiedInfo;
       let { size, src } = playbillRef.value;
-      src = padPicCrop(src, { x: 500, y: 500 })
+      src = padPicCrop(src, { x: 700, y: 700 })
       return (
         <div class="player-detail" ref={playerDetailRef} show={isShow.value} style="background-color: rgb(20, 26, 26)">
 
@@ -74,9 +88,7 @@ export default defineComponent({
           ></div>
 
           <div class="player-back" onClick={exitPlayerDetailPage} title={"收一下：ESC"}>
-            <NIcon size="28" color={'#eee'}>
-              <ChevronDown20Regular></ChevronDown20Regular>
-            </NIcon>
+            <i className="iconfont icon-xiajiantou"></i>
           </div>
 
           <div class="player-content">
@@ -96,17 +108,26 @@ export default defineComponent({
 
                 <div class="player-song">
                   <h4 class="player-title">
-                    {currentSongInfo && currentSongInfo.title}
+                    {musicName}
                   </h4>
 
                   <p class="player-author">
                     <span>歌手&nbsp;:&nbsp;</span>
                     <em class="player-author-text">
-                      {currentSongInfo && currentSongInfo.author}
+                      {
+                        singer.map(({ id, name }, i) => {
+                          return (
+                            <>
+                              <span onClick={() => toSingerDetailPage(id)}>{name}</span>
+                              {i !== singer.length - 1 && <em> / </em>}
+                            </>
+                          )
+                        })
+                      }
                     </em>
                   </p>
 
-                  {/* <Lyric></Lyric> */}
+                  <PlayerLyric></PlayerLyric>
                 </div>
               </div>
             </div>
