@@ -427,7 +427,9 @@ export default defineComponent({
             </div >
           </div >
           <div class="player-lyric-empty" hidden={exist}>
-            {emptyTextVal}
+            <div className="empty-main">
+              {emptyTextVal}
+            </div>
           </div>
         </div >
       )

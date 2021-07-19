@@ -132,11 +132,14 @@
   }
 
   &-empty {
-    @include flexHcVc;
-    height: $lyricContainerMaxheight;
     min-height: inherit;
-    font-size: 18px;
-    opacity: 0.9;
+    .empty-main {
+      @include flexHcVc;
+      height: $lyricContainerMaxheight;
+      min-height: inherit;
+      font-size: 18px;
+      opacity: 0.9;
+    }
   }
 
   &-translate {
