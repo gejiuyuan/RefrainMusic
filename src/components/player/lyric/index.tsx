@@ -12,7 +12,7 @@ import {
   reactive,
   onBeforeUnmount,
 } from "vue";
-import { computedStyle, NOOP } from "@utils/index";
+import { computedStyle, NOOP, UNICODE_CHAR } from "@utils/index";
 import './index.scss';
 import usePlayerStore from "@/stores/player";
 import useAudioStore from "@/stores/audio";
@@ -280,7 +280,7 @@ export default defineComponent({
 
     //重置歌词数据
     const resetLrcData = () => {
-      emptyText.value = "~纯音乐，请欣赏~";
+      emptyText.value = `小右没有发现歌词喔~~${UNICODE_CHAR.pensive}`;
       lrcItemInfo.heightArr = [];
       lrcItemInfo.lastHeight = 0;
       lrcItemInfo.firstHeight = 0;

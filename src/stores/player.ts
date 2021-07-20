@@ -47,7 +47,19 @@ const usePlayerStore = defineStore({
       theme: "#ff7875",
       playerQueue: {
         show: false,
-        songList: [],
+        songList: [
+          {
+            name: "my All",
+            alia: [],
+            id: 0,
+            ar: [{ name: "滨崎步", alias: [], id: 0 }],
+            al: {
+              id: 0,
+              name: "",
+              picUrl: "",
+            },
+          },
+        ],
       },
     };
     return playerState;
@@ -76,6 +88,8 @@ const usePlayerStore = defineStore({
   actions: {
     //处理播放歌曲需要的数据
     handlePlaySoundNeededData(id: number) {
+      //如果已经是当前播放的歌曲了，就return
+      if (this.currentSongInfo.id === id) return;
       //重置相关音频状态
       const audioStore = useAudioStore();
       audioStore.resetAudioStatus();
@@ -84,7 +98,15 @@ const usePlayerStore = defineStore({
       //获取音乐详细信息，因为存在偶现型songItem中picUrl不存在
       getMusicDetail({ ids: String(id) }).then(
         ({ songs: [songDetailData] }) => {
+          //设置当前要播放歌曲的信息
           this.currentSongInfo = songDetailData as realSongInfo;
+          //同时添加该歌曲到播放队列中
+          const queueSongList = this.playerQueue.songList;
+          if (
+            !queueSongList.some(({ id: queueSongId }) => id === queueSongId)
+          ) {
+            queueSongList.push(songDetailData);
+          }
         }
       );
       //获取歌词

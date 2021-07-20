@@ -1,3 +1,5 @@
+@import "@scss/variable";
+
 .player-queue {
   position: absolute;
   left: 100%;
@@ -11,5 +13,48 @@
 
   &[slideShow="true"] {
     transform: translateX(-100%);
+  }
+
+  .queue-header {
+    padding-top: 38px;
+    padding-left: 26px;
+
+    h3 {
+      color: #333;
+      font-size: 22px;
+    }
+
+    .header-layer {
+      .total-songs {
+        color: #888;
+        font-size: 13px;
+      }
+      line-height: 3;
+    }
+  }
+
+  .queue-body {
+    overflow: hidden;
+    .song-item {
+      padding: 16px 28px 16px 26px;
+      transition: background-color 0.12s;
+
+      &[active="true"],
+      &:hover {
+        background-color: rgba(107, 87, 93, 0.1);
+      }
+
+      h6 {
+        color: #444;
+        font-size: 15px;
+      }
+      em {
+        color: #777;
+        font-size: 13px;
+      }
+      .item-layer {
+        padding-top: 10px;
+      }
+    }
   }
 }

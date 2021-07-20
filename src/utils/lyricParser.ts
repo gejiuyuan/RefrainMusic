@@ -37,29 +37,25 @@ export class LyricParser implements LyricParserType {
   }
 
   init(lrc: string, transLrc: string) {
-    const exist = lrc.length !== 0;
-    const canTranslate = transLrc.length !== 0;
-    this.exist = exist;
-    this.canTranslate = canTranslate;
     //移除掉（）()等括号，因为一些英文歌词存在格式错误
     const bracketReg = /\(|\)|（|）/g;
-    exist && (this.commonLrcArr = this.parse(lrc.replace(bracketReg, "")));
-    canTranslate &&
-      (this.translationLrcArr = this.parse(transLrc.replace(bracketReg, "")));
+    this.commonLrcArr = this.parse(lrc.replace(bracketReg, ""));
+    this.translationLrcArr = this.parse(transLrc.replace(bracketReg, ""));
+    this.exist = this.commonLrcArr.length !== 0;
+    this.canTranslate = this.translationLrcArr.length !== 0;
     this.mergeToLrcArr();
+    console.info(this);
   }
 
   mergeToLrcArr() {
     const { commonLrcArr, translationLrcArr } = this;
     const lrcArr: LrcItem[] = [];
-    if (![commonLrcArr, translationLrcArr].some(is.emptyArray)) {
-      for (let i = 0, { length } = commonLrcArr; i < length; ++i) {
-        const { time, text, timeStr } = commonLrcArr[i];
-        const translation =
-          translationLrcArr.find(({ time: transTime }) => transTime === time)
-            ?.text || "";
-        lrcArr.push({ time, text, timeStr, translation });
-      }
+    for (let i = 0, { length } = commonLrcArr; i < length; ++i) {
+      const { time, text, timeStr } = commonLrcArr[i];
+      const translation =
+        translationLrcArr.find(({ time: transTime }) => transTime === time)
+          ?.text || "";
+      lrcArr.push({ time, text, timeStr, translation });
     }
     this.lrcArr = lrcArr;
   }
