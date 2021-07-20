@@ -1,23 +1,26 @@
 import { spliceTime2Second } from "./time";
 import { deepCopy, is } from "./common";
 
-export type LrcItem = {
+export type LrcCommonOrTranslateItem = {
   time: number;
   timeStr: string;
   text: string;
-  translation?: string;
 };
+
+export interface LrcItem extends LrcCommonOrTranslateItem {
+  translation: string;
+}
 
 export interface LyricType {
   lrcArr: LrcItem[];
-  commonLrcArr: LrcItem[];
-  translationLrcArr: LrcItem[];
+  commonLrcArr: LrcCommonOrTranslateItem[];
+  translationLrcArr: LrcCommonOrTranslateItem[];
   exist: boolean;
   canTranslate: boolean;
 }
 
 export interface LyricParserType extends LyricType {
-  parse(lrc: string): LrcItem[];
+  parse(lrc: string): LrcCommonOrTranslateItem[];
 }
 
 export class LyricParser implements LyricParserType {
@@ -25,8 +28,8 @@ export class LyricParser implements LyricParserType {
 
   public exist!: boolean;
   public lrcArr: LrcItem[] = [];
-  public translationLrcArr: LrcItem[] = [];
-  public commonLrcArr: LrcItem[] = [];
+  public translationLrcArr: LrcCommonOrTranslateItem[] = [];
+  public commonLrcArr: LrcCommonOrTranslateItem[] = [];
   public canTranslate: boolean = false;
 
   constructor(lrc: string, transLrc: string = "") {
@@ -48,26 +51,20 @@ export class LyricParser implements LyricParserType {
 
   mergeToLrcArr() {
     const { commonLrcArr, translationLrcArr } = this;
-    const lrcArr = deepCopy(commonLrcArr);
+    const lrcArr: LrcItem[] = [];
     if (![commonLrcArr, translationLrcArr].some(is.emptyArray)) {
-      const firstTranslateTime = translationLrcArr[0].time;
-      const canStartTranslateIdx = commonLrcArr.findIndex(
-        ({ time }) => time === firstTranslateTime
-      );
-      if (~canStartTranslateIdx) {
-        let idx = canStartTranslateIdx;
-        const { length } = lrcArr;
-        while (idx < length) {
-          lrcArr[idx].translation =
-            translationLrcArr[idx - canStartTranslateIdx].text;
-          ++idx;
-        }
+      for (let i = 0, { length } = commonLrcArr; i < length; ++i) {
+        const { time, text, timeStr } = commonLrcArr[i];
+        const translation =
+          translationLrcArr.find(({ time: transTime }) => transTime === time)
+            ?.text || "";
+        lrcArr.push({ time, text, timeStr, translation });
       }
     }
     this.lrcArr = lrcArr;
   }
 
-  parse(lrc: string): LrcItem[] {
+  parse(lrc: string): LrcCommonOrTranslateItem[] {
     const lyricArr = [];
     const lrcSplitArr = lrc.split("\n");
     const { length } = lrcSplitArr;
@@ -86,10 +83,9 @@ export class LyricParser implements LyricParserType {
         .toFixed(3);
 
       const text = lrcStr.replace(timeText, "").trim();
-      //由于接口返回数据存在某些没有翻译的情况，因而删除此处判断逻辑
-      // if (text.length === 0) {
-      //   continue;
-      // }
+      if (text.length === 0) {
+        continue;
+      }
       lyricArr.push({ time, timeStr, text });
     }
 

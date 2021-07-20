@@ -39,13 +39,6 @@ export function useAudioHandler() {
     }
   );
 
-  watch(
-    () => playerStore.lyricParsed,
-    (data) => {
-      console.info(data);
-    }
-  );
-
   watchEffect(() => {
     currentTime.value = audioStore.nextSeekTime;
   });
