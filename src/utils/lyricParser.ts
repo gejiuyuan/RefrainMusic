@@ -38,8 +38,11 @@ export class LyricParser implements LyricParserType {
     const canTranslate = transLrc.length !== 0;
     this.exist = exist;
     this.canTranslate = canTranslate;
-    exist && (this.commonLrcArr = this.parse(lrc));
-    canTranslate && (this.translationLrcArr = this.parse(transLrc));
+    //移除掉（）()等括号，因为一些英文歌词存在格式错误
+    const bracketReg = /\(|\)|（|）/g;
+    exist && (this.commonLrcArr = this.parse(lrc.replace(bracketReg, "")));
+    canTranslate &&
+      (this.translationLrcArr = this.parse(transLrc.replace(bracketReg, "")));
     this.mergeToLrcArr();
   }
 
@@ -82,10 +85,11 @@ export class LyricParser implements LyricParserType {
         .apply(null, [timePatt[3], timePatt[2], timePatt[1]])
         .toFixed(3);
 
-      let text = lrcStr.replace(timeText, "").trim();
-      if (text.length === 0) {
-        continue;
-      }
+      const text = lrcStr.replace(timeText, "").trim();
+      //由于接口返回数据存在某些没有翻译的情况，因而删除此处判断逻辑
+      // if (text.length === 0) {
+      //   continue;
+      // }
       lyricArr.push({ time, timeStr, text });
     }
 

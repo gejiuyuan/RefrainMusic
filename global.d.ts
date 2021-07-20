@@ -15,6 +15,7 @@ interface Navigator {
 
 interface window {
   webkitAudioContext: AudioContext;
+  requestIdleCallback: (cb: Function, options?: { timeout: number }) => void;
 }
 
 declare type PlainObject<T = any> = Record<string, T>;

@@ -12,10 +12,10 @@ export default defineComponent({
 
         const playerStore = usePlayerStore()
 
-        const hidePlayerQueueHandler = () => playerStore.playerQueueShow = false;
- 
+        const hidePlayerQueueHandler = () => playerStore.playerQueue.show = false;
+
         return () => {
-            const show = playerStore.playerQueueShow;
+            const { show } = playerStore.playerQueue;
             return (
                 <section class="player-queue" slideShow={show}>
                     播放队列

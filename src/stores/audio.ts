@@ -51,6 +51,12 @@ const useAudioStore = defineStore({
     setCurrentTime(currentTime: number) {
       this.currentTime = currentTime;
     },
+    resetAudioStatus() {
+      this.start = 0;
+      this.end = Infinity;
+      this.currentTime = this.nextSeekTime = 0;
+      this.duration = 0;
+    },
   },
 });
 

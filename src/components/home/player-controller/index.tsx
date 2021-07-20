@@ -35,7 +35,7 @@ export default defineComponent({
     }
 
     const showPlayerQueueHandler = () => {
-      playerStore.playerQueueShow = true;
+      playerStore.playerQueue.show = true;
     }
 
     const progressUp = ({ decimal }: ProgressInfo) => {

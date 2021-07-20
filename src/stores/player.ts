@@ -7,10 +7,18 @@ import { getMusicDetail, getLyric } from "@api/music";
 import { SongLyricItem } from "@/types/lyric";
 import { getFullName, getFullNames } from "@/utils/apiSpecial";
 
+type PlayStoreCurrentSongInfo = Pick<
+  realSongInfo,
+  "name" | "alia" | "id" | "ar" | "al"
+>;
+
 export type PlayerStoreStateType = {
-  currentSongInfo: Pick<realSongInfo, "name" | "alia" | "id" | "ar" | "al">;
+  currentSongInfo: PlayStoreCurrentSongInfo;
   theme: string;
-  playerQueueShow: boolean;
+  playerQueue: {
+    songList: PlayStoreCurrentSongInfo[];
+    show: boolean;
+  };
   lyric: {
     common: string;
     translation: string;
@@ -37,14 +45,18 @@ const usePlayerStore = defineStore({
         translation: "",
       },
       theme: "#ff7875",
-      playerQueueShow: false,
+      playerQueue: {
+        show: false,
+        songList: [],
+      },
     };
     return playerState;
   },
   getters: {
     lyricParsed(state: PlayerStoreStateType) {
       const { common, translation } = state.lyric;
-      return new LyricParser(common, translation);
+      const lyricData = new LyricParser(common, translation);
+      return lyricData;
     },
     currentSongModifiedInfo(state: PlayerStoreStateType) {
       const { id, ar, name, alia: alias, al } = state.currentSongInfo;
@@ -64,8 +76,11 @@ const usePlayerStore = defineStore({
   actions: {
     //处理播放歌曲需要的数据
     handlePlaySoundNeededData(id: number) {
+      //重置相关音频状态
+      const audioStore = useAudioStore();
+      audioStore.resetAudioStatus();
       //设置全局音频src，以便howler加载mp3的url
-      useAudioStore().srcOrId = id;
+      audioStore.srcOrId = id;
       //获取音乐详细信息，因为存在偶现型songItem中picUrl不存在
       getMusicDetail({ ids: String(id) }).then(
         ({ songs: [songDetailData] }) => {
