@@ -44,7 +44,6 @@ export class LyricParser implements LyricParserType {
     this.exist = this.commonLrcArr.length !== 0;
     this.canTranslate = this.translationLrcArr.length !== 0;
     this.mergeToLrcArr();
-    console.info(this);
   }
 
   mergeToLrcArr() {

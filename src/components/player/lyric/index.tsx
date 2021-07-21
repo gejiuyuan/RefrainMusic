@@ -31,9 +31,11 @@ export type Suspension = {
 //歌词容器
 export type LrcWrap = {
   height: number; //高度
-  isDown: boolean; //是否按下
-  canMove: boolean; //是否可以移动
-  rateFactor: number; //移动速率
+  // isWheel: boolean; //是否在用鼠标滚轮/笔记本触控板滑动
+  isMouseDown: boolean; //是否按下
+  canMouseMove: boolean; //是否可以移动
+  mouseMoveRateFactor: number; //鼠标移动速率
+  wheelRateFactor: number; //鼠标滚轮滑动速率
   transition: {
     defaultVal: string; //默认过渡时长
     value: string; //当前过渡时长
@@ -70,9 +72,10 @@ export default defineComponent({
     //歌词容器
     const lrcWrap = reactive<LrcWrap>({
       height: 0,
-      isDown: false,
-      canMove: false,
-      rateFactor: 1,
+      isMouseDown: false,
+      canMouseMove: false,
+      mouseMoveRateFactor: 1,
+      wheelRateFactor: 1,
       transition: {
         defaultVal: "0.28s",
         value: "0.28s",
@@ -98,6 +101,36 @@ export default defineComponent({
 
     //歌词为空时的文本
     const emptyText = ref("小果音乐，让生活充满音乐~");
+
+    //歌词区相对定位父级元素
+    const lrcContainerRef = ref<HTMLDivElement>();
+
+    //监听滚轮事件
+    const wheelHandler = async (ev: WheelEvent) => {
+      //让suspension悬浮区显示
+      setSuspensionShow(true);
+      //清空隐藏suspension悬浮区的定时器
+      clearSuspensionHiddenTimer();
+      //更新suspension悬浮区相关信息
+      updateSuspensionPlayInfo();
+      const {
+        translateY: { current },
+        wheelRateFactor,
+      } = lrcWrap;
+      //1表示向下滑动，-1表示向上滑动
+      const polarity = ev.deltaY > 0 ? 1 : -1;
+      //之所以要异步执行，是因为updateSuspensionPlayInfo中异步更新了suspension.tarIndex
+      await nextTick();
+      const tarTranslateY =
+        current +
+        lrcItemInfo.heightArr[suspension.tarIndex] *
+          -polarity *
+          wheelRateFactor;
+      setTranslateY(tarTranslateY);
+      //重新设置隐藏suspension悬浮区的定时器
+      setSuspensionHiddenTimer();
+    };
+    useEventListener(lrcContainerRef, "wheel", wheelHandler);
 
     watch(
       () => audioStore.currentTime,
@@ -165,6 +198,12 @@ export default defineComponent({
 
     //设置translateY值
     const setTranslateY = (value: number) => {
+      const { min, max } = lrcWrap.translateY;
+      if (value > max) {
+        value = max;
+      } else if (value < min) {
+        value = min;
+      }
       lrcWrap.translateY.current = value;
     };
 
@@ -257,7 +296,9 @@ export default defineComponent({
     };
 
     //设置悬浮条的隐藏的timer计时器
-    const setSuspensionHiddenTimer = (interval: number) => {
+    const setSuspensionHiddenTimer = (
+      interval: number = suspension.interval
+    ) => {
       suspension.hiddenTimer = setTimeout(() => {
         setSuspensionShow(false);
         //设置lrcWraptranslateY
@@ -331,8 +372,8 @@ export default defineComponent({
 
     const lyricDown = (ev: MouseEvent) => {
       if (ev.button !== 0) return;
-      lrcWrap.isDown = true;
-      lrcWrap.canMove = true;
+      lrcWrap.isMouseDown = true;
+      lrcWrap.canMouseMove = true;
       setSuspensionShow(true);
       clearSuspensionHiddenTimer();
       updateSuspensionPlayInfo();
@@ -340,27 +381,22 @@ export default defineComponent({
 
     const lyricMove = (ev: MouseEvent) => {
       const {
-        canMove,
+        canMouseMove,
         translateY: lrcWrapTranslateY,
-        rateFactor,
+        mouseMoveRateFactor,
       } = toRefs(lrcWrap);
-      if (!canMove.value) return;
-      const { min, max, current } = lrcWrapTranslateY.value;
-      let translateY = current + ev.movementY * rateFactor.value;
-      if (translateY > max) {
-        translateY = max;
-      } else if (translateY < min) {
-        translateY = min;
-      }
-      lrcWrap.translateY.current = translateY;
+      if (!canMouseMove.value) return;
+      const { current } = lrcWrapTranslateY.value;
+      let tarTranslateY = current + ev.movementY * mouseMoveRateFactor.value;
+      setTranslateY(tarTranslateY);
       updateSuspensionPlayInfo();
     };
 
     const lyricUp = (ev: MouseEvent) => {
-      if (!lrcWrap.isDown) return;
-      lrcWrap.isDown = false;
-      lrcWrap.canMove = false;
-      setSuspensionHiddenTimer(suspension.interval);
+      if (!lrcWrap.isMouseDown) return;
+      lrcWrap.isMouseDown = false;
+      lrcWrap.canMouseMove = false;
+      setSuspensionHiddenTimer();
     };
 
     return () => {
@@ -374,7 +410,11 @@ export default defineComponent({
         <div class="player-lyric" translated={showtransIcon}>
           <div class="player-lyric-exsit" hidden={!exist}>
             <div class="exsit-operator">
-              <div class="operator-textarea" onMousedown={lyricDown}>
+              <div
+                class="operator-textarea"
+                onMousedown={lyricDown}
+                ref={lrcContainerRef}
+              >
                 <div
                   visibility={isShow}
                   class="textarea-suspension suspension-left"
