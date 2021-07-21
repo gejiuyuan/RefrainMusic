@@ -5,18 +5,16 @@ import { defineStore } from "pinia";
 import useAudioStore from "./audio";
 import { getMusicDetail, getLyric } from "@api/music";
 import { SongLyricItem } from "@/types/lyric";
-import { getFullName, getFullNames } from "@/utils/apiSpecial";
+import { getModifiedCurrentSongInfo } from "@/utils/apiSpecial";
 
-type PlayStoreCurrentSongInfo = Pick<
-  realSongInfo,
-  "name" | "alia" | "id" | "ar" | "al"
->;
+//实际使用的currentSongInfo的类型
+export type CurrentSongInfoType = ReturnType<typeof getModifiedCurrentSongInfo>;
 
 export type PlayerStoreStateType = {
-  currentSongInfo: PlayStoreCurrentSongInfo;
+  currentSongInfo: CurrentSongInfoType;
   theme: string;
   playerQueue: {
-    songList: PlayStoreCurrentSongInfo[];
+    songList: CurrentSongInfoType[];
     show: boolean;
   };
   lyric: {
@@ -25,21 +23,22 @@ export type PlayerStoreStateType = {
   };
 };
 
+//初始的currentSongInfo
+const initialCurrentSongInfo: CurrentSongInfoType = {
+  id: 0,
+  ar: [],
+  name: "",
+  alia: [],
+  al: { id: 0, name: "", picUrl: "" },
+  musicName: "",
+  singer: [{ id: 0, name: "" }],
+};
+
 const usePlayerStore = defineStore({
   id: "playerStore",
   state() {
     const playerState: PlayerStoreStateType = {
-      currentSongInfo: {
-        name: "",
-        alia: [],
-        id: 0,
-        ar: [{ name: "", alias: [], id: 0 }],
-        al: {
-          id: 0,
-          name: "",
-          picUrl: "",
-        },
-      },
+      currentSongInfo: initialCurrentSongInfo,
       lyric: {
         common: "",
         translation: "",
@@ -47,19 +46,7 @@ const usePlayerStore = defineStore({
       theme: "#ff7875",
       playerQueue: {
         show: false,
-        songList: [
-          {
-            name: "my All",
-            alia: [],
-            id: 0,
-            ar: [{ name: "滨崎步", alias: [], id: 0 }],
-            al: {
-              id: 0,
-              name: "",
-              picUrl: "",
-            },
-          },
-        ],
+        songList: [],
       },
     };
     return playerState;
@@ -69,20 +56,6 @@ const usePlayerStore = defineStore({
       const { common, translation } = state.lyric;
       const lyricData = new LyricParser(common, translation);
       return lyricData;
-    },
-    currentSongModifiedInfo(state: PlayerStoreStateType) {
-      const { id, ar, name, alia: alias, al } = state.currentSongInfo;
-      return {
-        id,
-        musicName: getFullName({ name, alias }),
-        singer: ar.map(({ id, name, alias }) => {
-          return {
-            id,
-            name: getFullName({ name, alias }),
-          };
-        }),
-        al,
-      };
     },
   },
   actions: {
@@ -99,7 +72,9 @@ const usePlayerStore = defineStore({
       getMusicDetail({ ids: String(id) }).then(
         ({ songs: [songDetailData] }) => {
           //设置当前要播放歌曲的信息
-          this.currentSongInfo = songDetailData as realSongInfo;
+          this.currentSongInfo = getModifiedCurrentSongInfo(
+            songDetailData as realSongInfo
+          );
           //同时添加该歌曲到播放队列中
           const queueSongList = this.playerQueue.songList;
           if (

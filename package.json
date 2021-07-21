@@ -5,7 +5,8 @@
     "dev": "vite -c scripts/vite/vite.config.ts --host",
     "preview": "vite preview -c scripts/vite/vite.config.ts",
     "optimize": "vite optimize -c scripts/vite/vite.config.ts",
-    "build": "vite build -c scripts/vite/vite.config.ts"
+    "build": "vite build -c scripts/vite/vite.config.ts",
+    "check:tsc": "tsc --noEmit"
   },
   "dependencies": {
     "@vueuse/core": "^5.1.3",

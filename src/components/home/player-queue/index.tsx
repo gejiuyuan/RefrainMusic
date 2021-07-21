@@ -32,7 +32,7 @@ export default defineComponent({
 
     return () => {
       const {
-        currentSongModifiedInfo: { id: curSongId },
+        currentSongInfo: { id: curSongId },
       } = playerStore;
       const { show, songList } = playerQueue;
       return (
