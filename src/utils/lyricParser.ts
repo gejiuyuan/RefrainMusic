@@ -52,9 +52,17 @@ export class LyricParser implements LyricParserType {
     const lrcArr: LrcItem[] = [];
     for (let i = 0, { length } = commonLrcArr; i < length; ++i) {
       const { time, text, timeStr } = commonLrcArr[i];
+      // const translation =
+      //   translationLrcArr.find(({ time: transTime }) => transTime === time)
+      //     ?.text || "";
+      //此处改为判断timeStr是否相等。因为接口返回值可能存在错误，如：
+      //正常：'01:34:640' 翻译：'01:34:64'，毫秒数不对
+      const replaceFrontEndZero = (str: string) => str.replace(/^0|0$/g, "");
       const translation =
-        translationLrcArr.find(({ time: transTime }) => transTime === time)
-          ?.text || "";
+        translationLrcArr.find(
+          ({ timeStr: transTimeStr }) =>
+            replaceFrontEndZero(transTimeStr) === replaceFrontEndZero(timeStr)
+        )?.text || "";
       lrcArr.push({ time, text, timeStr, translation });
     }
     this.lrcArr = lrcArr;
