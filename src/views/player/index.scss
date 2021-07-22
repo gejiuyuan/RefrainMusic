@@ -97,24 +97,26 @@
       }
 
       .player-author {
+        @include flexHcVc();
         padding: 16px 0 40px 0;
         font-size: 15px;
 
         > span {
           opacity: 0.6;
         }
-      }
 
-      .player-author-text {
-        em {
-          opacity: 0.6;
-        }
-        span {
-          opacity: 0.6;
-          cursor: pointer;
-          transition: opacity 0.12s;
-          &:hover {
-            opacity: 0.9;
+        &-text {
+          em {
+            opacity: 0.6;
+          }
+          span {
+            opacity: 0.6;
+            cursor: pointer;
+            transition: opacity 0.12s;
+            &:hover {
+              color: $colorbase;
+              opacity: 0.9;
+            }
           }
         }
       }

@@ -1,15 +1,21 @@
-import {
-  ref,
-  computed,
-  defineComponent,
-} from "vue";
+import { ref, computed, defineComponent, PropType } from "vue";
 import { SongInfo } from "@/types/song";
-import { second2TimeStr, getLocaleDate, NOOP, EMPTY_OBJ, freeze } from "@utils/index";
+import {
+  second2TimeStr,
+  getLocaleDate,
+  NOOP,
+  EMPTY_OBJ,
+  freeze,
+} from "@utils/index";
 import InfinityScrolling from "@/widgets/infiity-scrolling";
 import "./index.scss";
 import useAudioStore from "@/stores/audio";
 import { getLyric, getMusic, getMusicDetail } from "@/api/music";
-import { getFullName, getFullNames } from "@/utils/apiSpecial";
+import {
+  getFullName,
+  getFullNames,
+  getModifiedSongInfo,
+} from "@/utils/apiSpecial";
 import usePlayerStore from "@/stores/player";
 import player from "@/views/player";
 
@@ -27,31 +33,21 @@ export default defineComponent({
       required: false,
     },
     dataList: {
-      type: Array,
+      type: Array as PropType<SongInfo[]>,
       required: true,
     },
   },
   setup(props, ctx) {
-    const isRenderPublishTime = ref(false);
-
     const songData = computed(() => {
-      const dataList = freeze(([...props.dataList] as realSongInfo[]) || []);
-      dataList.forEach((song) => {
-        const { alia = [], name, dt, publishTime } = song;
-        song.fullName = name + (alia.length ? " - " + alia.join("、") : "");
-        song.localedTime = second2TimeStr(dt / 1000);
-        //如果没有publishTime属性，就不显示对应列
-        if (publishTime != null) {
-          isRenderPublishTime.value = true;
-          song.localedPublishTime = publishTime
-            ? getLocaleDate(publishTime, {
-              delimiter: "-",
-              divide: "day",
-            })
-            : "未知";
-        }
+      const dataList = freeze([...props.dataList] || []);
+      return dataList.map((songInfo) => {
+        const realSongInfo = getModifiedSongInfo(songInfo);
+        return realSongInfo;
       });
-      return dataList;
+    });
+
+    const isRenderPublishTime = computed(() => {
+      return props.dataList.some(({ publishTime }) => publishTime != null);
     });
 
     const indexDefiner = (idx: number) => idx + 1;
@@ -66,7 +62,7 @@ export default defineComponent({
     const audioStore = useAudioStore();
     const playBtnClickHandler = async (songItem: realSongInfo) => {
       playerStore.handlePlaySoundNeededData(songItem.id);
-    }
+    };
 
     const renderMainSongTable = (infinityScrollProps: any) => {
       if (!songData.value.length) return;
@@ -94,6 +90,8 @@ export default defineComponent({
             width="540"
             v-slots={{
               default(scope: any) {
+                const { row } = scope;
+                const { musicName } = row;
                 return (
                   <el-row
                     class="song-item-body"
@@ -104,12 +102,8 @@ export default defineComponent({
                       <div class="song-love" title="添加至我喜欢">
                         <i class="iconfont icon-xihuan"></i>
                       </div>
-                      <div
-                        class="song-name"
-                        title={scope.row.fullName}
-                        singallinedot
-                      >
-                        {scope.row.fullName}
+                      <div class="song-name" title={musicName} singallinedot>
+                        {musicName}
                       </div>
                     </el-col>
 
@@ -122,13 +116,17 @@ export default defineComponent({
                         >
                           <i class="iconfont icon-plus"></i>
                         </div>
-                        <div class="song-tool-item" title="播放" onClick={() => playBtnClickHandler(scope.row)}>
+                        <div
+                          class="song-tool-item"
+                          title="播放"
+                          onClick={() => playBtnClickHandler(row)}
+                        >
                           <i class="iconfont icon-play"></i>
                         </div>
                         <div
                           class="song-tool-item"
                           title="下载"
-                          onClick={() => handleDownload(scope.row)}
+                          onClick={() => handleDownload(row)}
                         >
                           <i class="iconfont icon-download"></i>
                         </div>
@@ -147,9 +145,14 @@ export default defineComponent({
             width="400"
             v-slots={{
               default(scope: any) {
+                const {
+                  row: {
+                    al: { name },
+                  },
+                } = scope;
                 return (
-                  <div title={scope.row.al.name} singallinedot>
-                    {scope.row.al.name}
+                  <div title={name} singallinedot>
+                    {name}
                   </div>
                 );
               },
@@ -162,9 +165,10 @@ export default defineComponent({
             sortable
             v-slots={{
               default(scope: any) {
+                const { localedTime } = scope.row;
                 return (
-                  <div title={scope.row.localedTime} singallinedot>
-                    {scope.row.localedTime}
+                  <div title={localedTime} singallinedot>
+                    {localedTime}
                   </div>
                 );
               },
@@ -178,13 +182,14 @@ export default defineComponent({
               sortable
               v-slots={{
                 default(scope: any) {
+                  const { localedPublishTime } = scope.row;
                   return (
                     <div
                       class="song-publish-time"
-                      title={scope.row.localedPublishTime}
+                      title={localedPublishTime}
                       singallinedot
                     >
-                      {scope.row.localedPublishTime}
+                      {localedPublishTime}
                     </div>
                   );
                 },

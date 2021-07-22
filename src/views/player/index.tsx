@@ -8,6 +8,7 @@ import usePlayerStore from "@/stores/player";
 import { padPicCrop } from "@/utils";
 import PlayerLyric from "@components/player/lyric";
 import { useAudioHandler } from "@use/index";
+import { MusicSinger } from "@/widgets/music-tiny-comp";
 
 export default defineComponent({
   name: "Player",
@@ -49,13 +50,6 @@ export default defineComponent({
       }
     };
 
-    const toSingerDetailPage = (id: number) => {
-      router.push({
-        path: "/artist",
-        query: { id },
-      });
-    };
-
     onKeyStroke(
       "Escape",
       () => {
@@ -69,7 +63,7 @@ export default defineComponent({
     );
 
     return () => {
-      const { musicName, singer } = playerStore.currentSongInfo;
+      const { musicName, singers } = playerStore.currentSongInfo;
       let { size, src } = playbillRef.value;
       src = padPicCrop(src, { x: 700, y: 700 });
       return (
@@ -108,21 +102,13 @@ export default defineComponent({
                 <div class="player-song">
                   <h4 class="player-title">{musicName}</h4>
 
-                  <p class="player-author">
+                  <div class="player-author">
                     <span>歌手&nbsp;:&nbsp;</span>
-                    <em class="player-author-text">
-                      {singer.map(({ id, name }, i) => {
-                        return (
-                          <>
-                            <span onClick={() => toSingerDetailPage(id)}>
-                              {name}
-                            </span>
-                            {i !== singer.length - 1 && <em> / </em>}
-                          </>
-                        );
-                      })}
-                    </em>
-                  </p>
+                    <MusicSinger
+                      class="player-author-text"
+                      singers={singers}
+                    ></MusicSinger>
+                  </div>
 
                   <PlayerLyric></PlayerLyric>
                 </div>

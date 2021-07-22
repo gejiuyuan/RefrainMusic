@@ -68,7 +68,7 @@ export function useAudioHandler() {
     timeUpdateInterval = setInterval(() => {
       if (!playing.value) return;
       audioStore.currentTime = currentTime.value;
-    }, 1000);
+    }, 500);
   });
 
   on("loaderror", () => {

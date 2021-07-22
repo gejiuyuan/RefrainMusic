@@ -55,7 +55,7 @@ const useHowler = (() => {
   const eventFuncQueue: Function[] = [];
   return (baseOptions: UseHowlerOptions = defaultHowlOptions) => {
     const playSound = (
-      srcOrId: InferFuncOneParamType<typeof getSoundUrl>,
+      srcOrId: FuncParamsType<typeof getSoundUrl>[0],
       options: UseHowlerOptions = defaultHowlOptions
     ) => {
       //先销毁前面的实例
@@ -178,22 +178,21 @@ const useHowler = (() => {
       playSound,
       load: () => howl?.load(),
       unload: () => howl?.unload(),
-      on: (...args: InferFuncParamsType<Howl["on"]>) => {
+      on: (...args: FuncParamsType<Howl["on"]>) => {
         eventFuncQueue.push(() => {
           howl.on(...args);
         });
       },
-      once: (...args: InferFuncParamsType<Howl["once"]>) => {
+      once: (...args: FuncParamsType<Howl["once"]>) => {
         eventFuncQueue.push(() => {
           howl.once(...args);
         });
       },
-      off: (...args: InferFuncParamsType<Howl["off"]>) => howl?.off(...args),
-      fade: (...args: InferFuncParamsType<Howl["fade"]>) => howl?.fade(...args),
-      stop: (...args: InferFuncParamsType<Howl["stop"]>) => howl?.stop(...args),
-      play: (...args: InferFuncParamsType<Howl["play"]>) => howl?.play(...args),
-      pause: (...args: InferFuncParamsType<Howl["pause"]>) =>
-        howl?.pause(...args),
+      off: (...args: FuncParamsType<Howl["off"]>) => howl?.off(...args),
+      fade: (...args: FuncParamsType<Howl["fade"]>) => howl?.fade(...args),
+      stop: (...args: FuncParamsType<Howl["stop"]>) => howl?.stop(...args),
+      play: (...args: FuncParamsType<Howl["play"]>) => howl?.play(...args),
+      pause: (...args: FuncParamsType<Howl["pause"]>) => howl?.pause(...args),
     };
   };
 })();

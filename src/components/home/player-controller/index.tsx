@@ -9,7 +9,8 @@ import {
   Volume,
   MusicLoveIcon,
   CurrentPlayTime,
-} from "@/widgets/music-ctrl-icons";
+  MusicSinger,
+} from "@/widgets/music-tiny-comp";
 import usePlayerStore from "@/stores/player";
 import useAudioStore from "@/stores/audio";
 import { getFullName, getFullNames } from "@/utils/apiSpecial";
@@ -43,17 +44,10 @@ export default defineComponent({
       audioStore.playing = true;
     };
 
-    const toSingerDetailPage = (id: number) => {
-      router.push({
-        path: "/artist",
-        query: { id },
-      });
-    };
-
     return () => {
       const { currentTime, duration } = audioStore;
       const {
-        currentSongInfo: { id, musicName, singer, al: album },
+        currentSongInfo: { id, musicName, singers, al: album },
         playerQueue: { songList },
       } = playerStore;
 
@@ -83,18 +77,7 @@ export default defineComponent({
 
               <div className="music-info">
                 <div class="name">{musicName}</div>
-                <div class="singer">
-                  {singer.map(({ id, name }, i) => {
-                    return (
-                      <>
-                        <span onClick={() => toSingerDetailPage(id)}>
-                          {name}
-                        </span>
-                        {i !== singer.length - 1 && <em> / </em>}
-                      </>
-                    );
-                  })}
-                </div>
+                <MusicSinger singers={singers}></MusicSinger>
               </div>
             </section>
 

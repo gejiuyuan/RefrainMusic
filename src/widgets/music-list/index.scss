@@ -1,0 +1,28 @@
+@import "@scss/variable";
+@import "@scss/common";
+
+.music-list {
+  .music-item {
+    @include flexVc();
+    padding: 16px;
+    transition: background-color 0.12s;
+    border-radius: 6px;
+
+    &:hover {
+      background-color: rgba(103, 89, 120, 0.2);
+    }
+
+    .playbill {
+      width: 25%;
+    }
+
+    .info {
+      @include flexHevVc();
+      max-width: 120px;
+      h6 {
+        font-size: 14px;
+        font-weight: 500;
+      }
+    }
+  }
+}

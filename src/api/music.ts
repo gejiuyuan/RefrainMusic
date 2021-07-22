@@ -1,6 +1,6 @@
 import { anfrage } from "@/request";
 import { filterUselessKey } from "@utils/index";
-import { SongUrlInfo } from "@type/song";
+import { SongInfo, SongUrlInfo } from "@type/song";
 
 /**
  * 获取音乐 url
@@ -108,13 +108,15 @@ export function getMusicComment(params: {
  *
  *
  */
-
+export type GetMusicDetailReturnType = {
+  songs: SongInfo[];
+};
 export function getMusicDetail(params: { ids: string }) {
   return anfrage({
     url: "/song/detail",
     method: "get",
     params,
-  }).then(({ data }) => data);
+  }).then<GetMusicDetailReturnType>(({ data }) => data);
 }
 
 /**

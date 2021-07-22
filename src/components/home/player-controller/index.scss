@@ -59,23 +59,14 @@
   .music-info {
     padding-left: 16px;
 
-    .name,
-    .singer > span {
+    .name {
+      padding-bottom: 10px;
+      font-size: 16px;
+      font-weight: 500;
       cursor: pointer;
       &:hover {
         color: var(--theme);
       }
-    }
-
-    .name {
-      font-size: 16px;
-      font-weight: 500;
-    }
-
-    .singer {
-      margin-top: 10px;
-      font-size: 13px;
-      font-weight: 400;
     }
   }
 

@@ -1,20 +1,16 @@
-import { SongInfo } from "@/types/song";
 import { LyricParser } from "@/utils";
-import { realSongInfo } from "@/widgets/song-table";
 import { defineStore } from "pinia";
 import useAudioStore from "./audio";
 import { getMusicDetail, getLyric } from "@api/music";
 import { SongLyricItem } from "@/types/lyric";
-import { getModifiedCurrentSongInfo } from "@/utils/apiSpecial";
+import { getModifiedSongInfo, RealSongInfo } from "@/utils/apiSpecial";
 
 //实际使用的currentSongInfo的类型
-export type CurrentSongInfoType = ReturnType<typeof getModifiedCurrentSongInfo>;
-
 export type PlayerStoreStateType = {
-  currentSongInfo: CurrentSongInfoType;
+  currentSongInfo: RealSongInfo;
   theme: string;
   playerQueue: {
-    songList: CurrentSongInfoType[];
+    songList: RealSongInfo[];
     show: boolean;
   };
   lyric: {
@@ -24,14 +20,23 @@ export type PlayerStoreStateType = {
 };
 
 //初始的currentSongInfo
-const initialCurrentSongInfo: CurrentSongInfoType = {
+const initialCurrentSongInfo: RealSongInfo = {
   id: 0,
+  dt: 0,
   ar: [],
-  name: "",
   alia: [],
-  al: { id: 0, name: "", picUrl: "" },
+  name: "",
   musicName: "",
-  singer: [{ id: 0, name: "" }],
+  publishTime: 0,
+  mark: 0,
+  privilege: {
+    chargeInfoList: [{ rate: 0, chargeUrl: "" }],
+  },
+  al: { id: 0, name: "", picUrl: "" },
+  singers: [{ id: 0, name: "" }],
+  localedDuration: "",
+  localedMark: "",
+  localedPublishTime: "",
 };
 
 const usePlayerStore = defineStore({
@@ -72,15 +77,13 @@ const usePlayerStore = defineStore({
       getMusicDetail({ ids: String(id) }).then(
         ({ songs: [songDetailData] }) => {
           //设置当前要播放歌曲的信息
-          this.currentSongInfo = getModifiedCurrentSongInfo(
-            songDetailData as realSongInfo
-          );
+          this.currentSongInfo = getModifiedSongInfo(songDetailData);
           //同时添加该歌曲到播放队列中
           const queueSongList = this.playerQueue.songList;
           if (
             !queueSongList.some(({ id: queueSongId }) => id === queueSongId)
           ) {
-            queueSongList.push(songDetailData);
+            queueSongList.push(this.currentSongInfo);
           }
         }
       );

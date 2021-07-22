@@ -9,6 +9,9 @@ export declare type PlayRecord = {
   song: SongInfo;
 }[];
 
+/**
+ * 音乐
+ */
 export declare type SongInfo = {
   //歌曲名字
   name: string;
@@ -31,11 +34,70 @@ export declare type SongInfo = {
     picUrl: string;
   };
   //发行时间
-  publishTime: number;
+  publishTime: number | null | undefined;
   //评论数量
   mark: number;
   privilege: {
     chargeInfoList: SongChargeInfo[];
+  };
+};
+
+/**
+ * 最新音乐
+ */
+export declare type NewestSongInfo = {
+  bMusic: {
+    bitrate: number;
+    extension: string;
+    id: number;
+    playTime: number;
+    size: number;
+    sr: number;
+    name: null | string;
+  };
+
+  alias: string[];
+  duration: number;
+  id: number;
+  fee: number;
+  name: string;
+  mvid: number;
+  no: number;
+  playedNum: number;
+  popularity: number;
+  singer: string;
+  starred: boolean;
+  starredNum: number;
+  mp3Url: string;
+
+  album: {
+    alias: string[];
+    picUrl: string;
+    blurPicUrl: string;
+    description: string;
+    artist: {
+      img1v1Id: number;
+      topicPerson: number;
+      followed: boolean;
+      musicSize: number;
+      alias: string[];
+    };
+    artists: NewestSongInfo["album"]["artist"][];
+    briefDesc: string;
+    company: string;
+    companyId: number;
+    copyrightId: number;
+    id: number;
+    name: string;
+    onSale: boolean;
+    paid: boolean;
+    publishTime: number;
+    size: number;
+    songs: any[];
+    status: number;
+    subType: string;
+    tags: string;
+    type: string;
   };
 };
 
