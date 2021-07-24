@@ -3,25 +3,67 @@
 
 .music-list {
   .music-item {
+    position: relative;
     @include flexVc();
-    padding: 16px;
+    padding: 12px;
     transition: background-color 0.12s;
     border-radius: 6px;
 
     &:hover {
-      background-color: rgba(103, 89, 120, 0.2);
+      background-color: rgba(120, 102, 110, 0.1);
     }
 
     .playbill {
-      width: 25%;
+      width: 20%;
+      border-radius: inherit;
+      overflow: hidden;
     }
 
     .info {
-      @include flexHevVc();
-      max-width: 120px;
+      @include flexHev();
+      flex-direction: column;
+      max-width: 170px;
+      padding: 0 12px;
       h6 {
+        color: #333;
+        padding-bottom: 12px;
         font-size: 14px;
         font-weight: 500;
+      }
+      > div {
+        color: #777;
+      }
+    }
+
+    .suspension {
+      position: absolute;
+      left: 0;
+      top: 0;
+      max-width: 70%;
+      width: 50%;
+      filter: drop-shadow(0 0 20px rgba(80, 80, 80, 0.2));
+      z-index: 80;
+
+      h6 {
+        padding: 10px 18px;
+        background-color: var(--theme);
+        color: $colorbase;
+        filter: brightness(115%);
+        // background-color: rgba(244, 243, 244, 0.95);
+        // color: #566;
+        font-size: 14px;
+      }
+
+      .desc {
+        padding: 10px 18px;
+        background-color: $colorbase;
+        color: #666;
+        font-size: 13px;
+
+        p {
+          padding: 4px 0;
+          line-height: 1.4;
+        }
       }
     }
   }

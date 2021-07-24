@@ -1,4 +1,5 @@
-import { SongInfo } from "@/types/song";
+import { NewestSongInfo, SongInfo } from "@/types/song";
+import { is } from "@utils/index";
 import { getLocaleCount } from "./calc";
 import { getLocaleDate, second2TimeStr } from "./time";
 
@@ -17,26 +18,40 @@ export const getFullNames = (args: FuncParamsType<typeof getFullName>[0][]) => {
 };
 
 /**
- * 获取修正后的songInfo
- * @param songInfo 从api接口中返回的songInfo
- * @returns
+ * 获取歌曲附加的信息
  */
-export interface RealSongInfo extends SongInfo {
+export type ExtraSongInfo = {
+  artists: SongInfo["ar"];
+  publishTime?: number;
+  mark?: number;
+  name: string;
+  duration: number;
+  alias: string[];
+  album: {
+    name: string;
+    alias?: string[];
+  };
+};
+
+export const getSongExtraInfo = (
+  param: ExtraSongInfo
+): {
   musicName: string; //完整的音乐名称（本名 + 别名）
-  localedMark: string; //评论数（本地化版）
+  albumName: string; //完整的专辑名称（本名 + 别名）
+  localedMark?: string; //评论数（本地化版）
   localedDuration: string; //时长（本地化版）
   localedPublishTime?: string; //发布时间（本地化版）
   singers: Pick<SongInfo["ar"][number], "id" | "name">[]; //音乐的作者（歌手）信息
-}
-export const getModifiedSongInfo = (songInfo: SongInfo): RealSongInfo => {
-  const { ar, name, alia, dt, publishTime, mark } = songInfo;
-  const musicName = getFullName({ name, alias: alia });
-  const singers = ar.map(({ id, name, alias }) => ({
+} => {
+  const { name, mark, alias, duration, publishTime, artists } = param;
+  const musicName = getFullName({ name, alias });
+  const albumName = getFullName({ name, alias });
+  const localedMark = is.number(mark) ? getLocaleCount(mark) : void 0;
+  const singers = artists.map(({ id, name, alias }) => ({
     id,
     name: getFullName({ name, alias }),
   }));
-  const localedMark = getLocaleCount(mark);
-  const localedDuration = second2TimeStr(dt / 1000);
+  const localedDuration = second2TimeStr(duration / 1000);
   const localedPublishTime =
     publishTime != null
       ? getLocaleDate(publishTime, {
@@ -45,11 +60,96 @@ export const getModifiedSongInfo = (songInfo: SongInfo): RealSongInfo => {
         })
       : "未知";
   return {
-    ...songInfo,
-    singers,
     musicName,
+    albumName,
     localedMark,
+    singers,
     localedDuration,
     localedPublishTime,
+  };
+};
+
+/**
+ * 当前播放歌曲信息
+ */
+export type CurrentSongInfo =
+  | ReturnType<typeof getModifiedSongInfo>
+  | ReturnType<typeof getModifiedNewestSongInfo>;
+
+/**
+ * 获取修正后的songInfo
+ * @param songInfo 从api接口中返回的songInfo
+ * @returns
+ */
+
+export const getModifiedSongInfo = (songInfo: SongInfo) => {
+  const {
+    ar: artists,
+    name,
+    alia: alias,
+    dt: duration,
+    publishTime,
+    mark,
+    id,
+    al: album,
+  } = songInfo;
+
+  return {
+    id,
+    name,
+    mark,
+    alias,
+    album,
+    artists,
+    duration,
+    publishTime,
+    ...getSongExtraInfo({
+      artists,
+      alias,
+      duration,
+      publishTime,
+      mark,
+      name,
+      album,
+    }),
+  };
+};
+
+/**
+ * 获取修正后的NewestSongInfo
+ * @param newestSongInfo 从api接口中返回的NewestSongInfo
+ * @returns
+ */
+export const getModifiedNewestSongInfo = (newestSongInfo: NewestSongInfo) => {
+  const {
+    artists,
+    name,
+    alias,
+    duration,
+    id,
+    fee,
+    album,
+    starredNum,
+    starred,
+    mvid,
+    playedNum,
+    popularity,
+  } = newestSongInfo;
+  const { publishTime } = album;
+  return {
+    id,
+    fee,
+    name,
+    mvid,
+    alias,
+    album,
+    artists,
+    starred,
+    starredNum,
+    duration,
+    publishTime,
+    playedNum,
+    popularity,
+    ...getSongExtraInfo({ artists, name, alias, duration, publishTime, album }),
   };
 };

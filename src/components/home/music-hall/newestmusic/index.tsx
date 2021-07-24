@@ -15,12 +15,15 @@ import InfinityScrolling, {
 } from "@/widgets/infiity-scrolling";
 import "./index.scss";
 import { padPicCrop } from "@/utils";
+import { getModifiedNewestSongInfo } from "@/utils/apiSpecial";
+import music from "../../songlist/music";
+import { NewestSongInfo } from "@/types/song";
 
 export default defineComponent({
   name: "MusicHallNewestmusic",
   setup(props, context) {
     const vm = getCurrentInstance()!;
-    const musicList = markRaw<any[]>([]);
+    const musicList = markRaw<NewestSongInfo[]>([]);
 
     const sliceInterval = ref(12); //切片间隔
     const baseCount = ref(24); //基础显示数量
@@ -41,33 +44,36 @@ export default defineComponent({
     ) => {
       if (!musicList.length) return;
       const { currentCount } = infinityScrollProps;
-      console.info(musicList);
+
       return (
-        // <MusicList musiclists={musicList.slice(0, currentCount)}></MusicList>
-        <section class="music-wrap">
-          <NGrid xGap={35} yGap={35} cols={7}>
-            {musicList.slice(0, currentCount).map((list) => (
-              <NGridItem key={list.name}>
-                <div class="music-item">
-                  <div class="music-cover" aspectratio="1">
-                    <img
-                      loading="lazy"
-                      src={padPicCrop(list.album.blurPicUrl, {
-                        x: 340,
-                        y: 340,
-                      })}
-                      alt=""
-                    />
-                  </div>
-                  <div class="music-body">
-                    <h6 title={list.name}>{list.name}</h6>
-                    <p title={list.singer}>{list.singer}</p>
-                  </div>
-                </div>
-              </NGridItem>
-            ))}
-          </NGrid>
-        </section>
+        <MusicList
+          musiclists={musicList.slice(0, currentCount)}
+          category="newest"
+        ></MusicList>
+        // <section class="music-wrap">
+        //   <NGrid xGap={35} yGap={35} cols={7}>
+        //     {musicList.slice(0, currentCount).map((list) => (
+        //       <NGridItem key={list.name}>
+        //         <div class="music-item">
+        //           <div class="music-cover" aspectratio="1">
+        //             <img
+        //               loading="lazy"
+        //               src={padPicCrop(list.album.blurPicUrl, {
+        //                 x: 340,
+        //                 y: 340,
+        //               })}
+        //               alt=""
+        //             />
+        //           </div>
+        //           <div class="music-body">
+        //             <h6 title={list.name}>{list.name}</h6>
+        //             <p title={list.singer}>{list.singer}</p>
+        //           </div>
+        //         </div>
+        //       </NGridItem>
+        //     ))}
+        //   </NGrid>
+        // </section>
       );
     };
 

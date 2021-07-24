@@ -34,7 +34,7 @@ export declare type SongInfo = {
     picUrl: string;
   };
   //发行时间
-  publishTime: number | null | undefined;
+  publishTime?: number;
   //评论数量
   mark: number;
   privilege: {
@@ -55,7 +55,17 @@ export declare type NewestSongInfo = {
     sr: number;
     name: null | string;
   };
-
+  artists: {
+    id: number;
+    alias: string[];
+    name: string;
+    musicSize: number;
+    albumSize: number;
+    picUrl: string;
+    brifDesc: string;
+    followed: boolean;
+    trans: string;
+  }[];
   alias: string[];
   duration: number;
   id: number;

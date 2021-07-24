@@ -3,14 +3,14 @@ import { defineStore } from "pinia";
 import useAudioStore from "./audio";
 import { getMusicDetail, getLyric } from "@api/music";
 import { SongLyricItem } from "@/types/lyric";
-import { getModifiedSongInfo, RealSongInfo } from "@/utils/apiSpecial";
+import { CurrentSongInfo, getModifiedSongInfo } from "@/utils/apiSpecial";
 
 //实际使用的currentSongInfo的类型
 export type PlayerStoreStateType = {
-  currentSongInfo: RealSongInfo;
+  currentSongInfo: CurrentSongInfo;
   theme: string;
   playerQueue: {
-    songList: RealSongInfo[];
+    songList: CurrentSongInfo[];
     show: boolean;
   };
   lyric: {
@@ -20,19 +20,16 @@ export type PlayerStoreStateType = {
 };
 
 //初始的currentSongInfo
-const initialCurrentSongInfo: RealSongInfo = {
+const initialCurrentSongInfo: CurrentSongInfo = {
   id: 0,
-  dt: 0,
-  ar: [],
-  alia: [],
+  duration: 0,
+  artists: [],
+  alias: [],
   name: "",
   musicName: "",
   publishTime: 0,
   mark: 0,
-  privilege: {
-    chargeInfoList: [{ rate: 0, chargeUrl: "" }],
-  },
-  al: { id: 0, name: "", picUrl: "" },
+  album: { id: 0, name: "", picUrl: "" },
   singers: [{ id: 0, name: "" }],
   localedDuration: "",
   localedMark: "",

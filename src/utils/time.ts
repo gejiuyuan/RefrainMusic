@@ -1,4 +1,4 @@
-export const getDate = (time: number) => {
+export const getDate = (time?: number) => {
   const date = time == void 0 ? new Date() : new Date(time);
   return {
     year: date.getFullYear(),
@@ -117,7 +117,7 @@ export const padSingalDigit = (val: string | number) =>
   `${+val < 10 ? "0" : ""}${val}`;
 
 export const getLocaleDate = (
-  time: number,
+  time?: number,
   factor: {
     showZero?: boolean;
     divide?: string;

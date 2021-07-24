@@ -27,7 +27,7 @@ export default defineComponent({
     const updateSearchValue = (keywords: string) => {
       searchWord.value = keywords;
     };
-    const seachChange = () => {
+    const searchChange = () => {
       router.push({
         path: "/search",
         query: {
@@ -46,20 +46,27 @@ export default defineComponent({
     return () => {
       return (
         <>
-
           <section className="header-left">
             <div class="page-turn">
-              <i class="iconfont icon-arrowleft" title="后退" onClick={toPrevPage}></i>
+              <i
+                class="iconfont icon-arrowleft"
+                title="后退"
+                onClick={toPrevPage}
+              ></i>
             </div>
 
             <div class="page-turn">
-              <i class="iconfont icon-arrowright" title="前进" onClick={toNextPage}></i>
+              <i
+                class="iconfont icon-arrowright"
+                title="前进"
+                onClick={toNextPage}
+              ></i>
             </div>
 
             <NInput
               class="music-search-input"
               size="small"
-              onChange={seachChange}
+              onChange={searchChange}
               onUpdateValue={updateSearchValue}
               placeholder="搜索音乐、视频、歌词、电台"
               clearable={true}
@@ -72,9 +79,7 @@ export default defineComponent({
             <HeaderSetting></HeaderSetting>
             <FullScreen></FullScreen>
           </section>
-
         </>
-
       );
     };
   },

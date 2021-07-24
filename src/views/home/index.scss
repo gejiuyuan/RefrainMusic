@@ -26,7 +26,8 @@
         width: 100px;
         object-fit: contain;
         object-position: left center;
-        filter: invert(49%) sepia(8%) saturate(3293%) hue-rotate(313deg) brightness(119%) contrast(100%);
+        filter: invert(49%) sepia(8%) saturate(3293%) hue-rotate(313deg)
+          brightness(119%) contrast(100%);
         // filter: invert(50%) sepia(87%) saturate(1967%) hue-rotate(116deg)
         //   brightness(104%) contrast(93%);
       }
@@ -38,7 +39,7 @@
       @include flexHbVc();
       height: $hometopheight;
       padding-right: 35px;
-      padding-left: 30px; 
+      padding-left: 30px;
       backdrop-filter: drop-shadow(0px 0px 20px rgb(246, 246, 246))
         saturate(180%) blur(28px);
     }
@@ -54,11 +55,12 @@
         height: calc(100% - 30px);
         padding-right: 35px;
         margin-bottom: 30px;
+        overflow-x: hidden;
       }
     }
 
     .main-footer {
-      height: $homebottomheight; 
+      height: $homebottomheight;
     }
   }
 }

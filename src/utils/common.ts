@@ -4,26 +4,23 @@ import ColorThief from "colorthief";
 export const typeOf = (ins: any): string =>
   toString.call(ins).slice(8, -1).toLowerCase();
 
-export type Is = PlainObject<(ins: any) => boolean>;
-export const is: Is = [
-  "string",
-  "number",
-  "undefined",
-  "data",
-  "regexp",
-  "boolean",
-  "null",
-].reduce(
-  (is, typeStr) => ((is[typeStr] = (ins) => typeOf(ins) === typeStr), is),
-  {} as Is
-);
-is.function = (ins): ins is Function => typeof ins === "function";
-is.array = Array.isArray;
-is.emptyArray = (ins): ins is Array<any> => is.array(ins) && ins.length === 0;
-is.object = (ins): ins is PlainObject<any> =>
-  typeof ins === "object" && ins !== null;
-is.emptyObject = (ins): ins is PlainObject<any> =>
-  is.object(ins) && ins.length === 0;
+export const is = {
+  string: (ins: any): ins is string => typeof ins === "string",
+  undefined: (ins: any): ins is undefined => ins === void 0,
+  data: (ins: any): ins is Date => typeOf(ins) === "data",
+  regexp: (ins: any): ins is RegExp => typeOf(ins) === "regexp",
+  boolean: (ins: any): ins is boolean => typeof ins === "boolean",
+  null: (ins: any): ins is null => ins === null,
+  function: (ins: any): ins is Function => typeof ins === "function",
+  number: (ins: any): ins is number => typeof ins === "number",
+  emptyArray: (ins: any): ins is Array<void> =>
+    is.array(ins) && ins.length === 0,
+  emptyObject: (ins: any): ins is PlainObject<void> =>
+    is.object(ins) && ins.length === 0,
+  object: <T = any>(ins: any): ins is PlainObject<T> =>
+    typeof ins === "object" && ins !== null,
+  array: <T = any>(ins: any): ins is Array<T> => Array.isArray(ins),
+};
 
 export const isURL = (url: string) =>
   /(([^:]+:)\/\/(([^:\/\?#]+)(:\d+)?))(\/[^?#]*)?(\?[^#]*)?(#.*)?/.test(url);

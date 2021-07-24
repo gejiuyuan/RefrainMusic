@@ -147,7 +147,7 @@ export default defineComponent({
               default(scope: any) {
                 const {
                   row: {
-                    al: { name },
+                    album: { name },
                   },
                 } = scope;
                 return (

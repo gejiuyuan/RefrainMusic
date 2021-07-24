@@ -48,7 +48,7 @@ export default defineComponent({
           </header>
           <section class="queue-body">
             <ul>
-              {songList.map(({ name, ar, id }) => {
+              {songList.map(({ name, artists, id }) => {
                 return (
                   <li
                     class="song-item"
@@ -57,7 +57,7 @@ export default defineComponent({
                   >
                     <h6>{name}</h6>
                     <div className="item-layer">
-                      <em>{ar[0].name}</em>
+                      <em>{artists[0].name}</em>
                     </div>
                   </li>
                 );

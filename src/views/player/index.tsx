@@ -34,7 +34,7 @@ export default defineComponent({
 
     const playbillRef = computed(() => {
       return {
-        src: playerStore.currentSongInfo.al.picUrl,
+        src: playerStore.currentSongInfo.album.picUrl,
         size: [400, 400],
       };
     });

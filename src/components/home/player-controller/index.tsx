@@ -47,7 +47,7 @@ export default defineComponent({
     return () => {
       const { currentTime, duration } = audioStore;
       const {
-        currentSongInfo: { id, musicName, singers, al: album },
+        currentSongInfo: { id, musicName, singers, album },
         playerQueue: { songList },
       } = playerStore;
 
