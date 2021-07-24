@@ -7,13 +7,12 @@ import {
 // import { Store } from "vuex";
 
 /* eslint-disable */
-declare module '*.vue' {
-  import type { DefineComponent } from 'vue'
-  const component: DefineComponent<{}, {}, any>
-  export default component
+declare module "*.vue" {
+  import type { DefineComponent } from "vue";
+  const component: DefineComponent<{}, {}, any>;
+  export default component;
 }
- 
- 
+
 //由于vuex 4删除了其在vue组件中this.$store等的全局类型，因此需要手动增添类型声明
 declare module "@vue/runtime-core" {
   interface ComponentCustomProperties {
@@ -25,9 +24,8 @@ declare module "@vue/runtime-core" {
 
   //让getCurrentInstance中支持ctx上下文属性
   interface ComponentInternalInstance {
-    ctx: ComponentPublicInstance, 
+    ctx: ComponentPublicInstance;
   }
-
 }
 
 /**
@@ -41,7 +39,4 @@ declare module "@vue/runtime-dom" {
     aspectratio?: string | number;
     loading?: string;
   }
-
-
 }
- 

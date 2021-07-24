@@ -5,7 +5,7 @@ import { ChevronDown20Regular } from "@vicons/fluent";
 import { NIcon } from "naive-ui";
 import { onKeyUp, onKeyDown, onKeyPressed, onKeyStroke } from "@vueuse/core";
 import usePlayerStore from "@/stores/player";
-import { padPicCrop } from "@/utils";
+import { getImageMainColor, padPicCrop } from "@/utils";
 import PlayerLyric from "@components/player/lyric";
 import { useAudioHandler } from "@use/index";
 import { MusicSinger } from "@/widgets/music-tiny-comp";
@@ -67,15 +67,12 @@ export default defineComponent({
       let { size, src } = playbillRef.value;
       src = padPicCrop(src, { x: 700, y: 700 });
       return (
-        <div
-          class="player-detail"
-          ref={playerDetailRef}
-          show={isShow.value}
-          style="background-color: rgb(20, 26, 26)"
-        >
+        <div class="player-detail" ref={playerDetailRef} show={isShow.value}>
           <div
             class="player-bgcover-mask"
-            style={{ backgroundImage: `url(${src})` }}
+            style={{
+              backgroundImage: `url(${src})`,
+            }}
           ></div>
 
           <div
@@ -117,9 +114,6 @@ export default defineComponent({
 
             {/* <Controller></Controller> */}
           </div>
-
-          {/* <Playlist></Playlist>
-          <Audio></Audio> */}
         </div>
       );
     };

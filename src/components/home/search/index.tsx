@@ -280,16 +280,17 @@ export default defineComponent({
       ));
     };
 
-
     return () => {
       const { artist, album } = searchMulMatchData;
-      if ([artist, album].every(is.emptyArray)) return;
+      const hasSearchMutiMatch = [artist, album].some((_) => !is.emptyArray(_));
       return (
         <section class="yplayer-search">
-          <section class="search-multimatch">
-            {renderArtists()}
-            {renderAlbums()}
-          </section>
+          {hasSearchMutiMatch && (
+            <section class="search-multimatch">
+              {renderArtists()}
+              {renderAlbums()}
+            </section>
+          )}
           <CommonRouterList routelist={searchCate}></CommonRouterList>
           <KeepAliveRouterview></KeepAliveRouterview>
         </section>
