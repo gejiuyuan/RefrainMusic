@@ -1,13 +1,15 @@
 import { watch, toRefs, watchEffect } from "vue";
 import useHowler from "@/use/useHowler";
 import useAudioStore from "@/stores/audio";
-import { useLoadingBar } from "naive-ui";
+import { useLoadingBar, useMessage } from "naive-ui";
 import usePlayerStore from "@/stores/player";
+import { messageApiInjectionKey } from "naive-ui/lib/message/src/MessageProvider";
+import { UNICODE_CHAR } from "@/utils";
 
 export function useAudioHandler() {
   const loadingBar = useLoadingBar()!;
+  const message = useMessage();
   const audioStore = useAudioStore();
-
   const playerStore = usePlayerStore();
 
   const {
@@ -73,5 +75,8 @@ export function useAudioHandler() {
 
   on("loaderror", () => {
     loadingBar.error();
+    message.error(`歌曲加载失败啦~${UNICODE_CHAR.pensive}`, {
+      duration: 2000,
+    })
   });
 }
