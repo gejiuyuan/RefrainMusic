@@ -15,9 +15,9 @@ import ProgressBar, {
 import "./index.scss";
 import { decimalToPercent, rmDemicalInPercent, second2TimeStr } from "@/utils";
 import { onClickOutside } from "@vueuse/core";
-import useAudioStore from "@/stores/audio";
-import { RealSongInfo } from "@/utils/apiSpecial";
+import useAudioStore from "@/stores/audio"; 
 import { useRouter } from "vue-router";
+import { CurrentSongInfo } from "@/utils/apiSpecial";
 
 export const PlaySwitch = defineComponent({
   name: "PlaySwitch",
@@ -162,7 +162,7 @@ export const MusicSinger = defineComponent({
   name: "MusicSinger",
   props: {
     singers: {
-      type: Array as PropType<RealSongInfo["singers"]>,
+      type: Array as PropType<CurrentSongInfo["singers"]>,
       required: true,
     },
     class: {

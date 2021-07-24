@@ -26,6 +26,7 @@ const initialCurrentSongInfo: CurrentSongInfo = {
   artists: [],
   alias: [],
   name: "",
+  albumName: '',
   musicName: "",
   publishTime: 0,
   mark: 0,

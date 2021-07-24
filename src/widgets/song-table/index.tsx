@@ -12,18 +12,12 @@ import "./index.scss";
 import useAudioStore from "@/stores/audio";
 import { getLyric, getMusic, getMusicDetail } from "@/api/music";
 import {
+  CurrentSongInfo,
   getFullName,
   getFullNames,
   getModifiedSongInfo,
 } from "@/utils/apiSpecial";
 import usePlayerStore from "@/stores/player";
-import player from "@/views/player";
-
-export interface realSongInfo extends SongInfo {
-  fullName: string;
-  localedTime: string;
-  localedPublishTime: string;
-}
 
 export default defineComponent({
   name: "SongTable",
@@ -54,13 +48,13 @@ export default defineComponent({
     const baseCount = ref(14);
     const sliceInterval = ref(14);
 
-    const handleDownload = (songItem: realSongInfo) => {
+    const handleDownload = (songItem: CurrentSongInfo) => {
       console.info(songItem);
     };
 
     const playerStore = usePlayerStore();
     const audioStore = useAudioStore();
-    const playBtnClickHandler = async (songItem: realSongInfo) => {
+    const playBtnClickHandler = async (songItem: CurrentSongInfo) => {
       playerStore.handlePlaySoundNeededData(songItem.id);
     };
 

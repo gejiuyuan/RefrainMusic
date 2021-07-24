@@ -2,11 +2,8 @@
   "compilerOptions": {
     "target": "esnext",
     "module": "esnext",
-    "lib": [
-      "dom",
-      "esnext",
-    ],
-    "jsx": "preserve", 
+    "lib": ["dom", "esnext"],
+    "jsx": "preserve",
     "allowJs": true,
     "strict": true,
     "esModuleInterop": true,
@@ -22,14 +19,8 @@
     "rootDir": "./",
     "outDir": "dist",
     "baseUrl": "./",
-    "types": [
-      "vite/client",
-      "node",
-      "vite-svg-loader",
-    ],
-    "plugins": [
-      {"name": "@vuedx/typescript-plugin-vue"}
-    ],
+    "types": ["vite/client", "node", "vite-svg-loader"],
+    "plugins": [{ "name": "@vuedx/typescript-plugin-vue" }],
     "paths": {
       "@/*": ["src/*"],
       "@api/*": ["./src/api/*"],
@@ -40,7 +31,7 @@
       "@views/*": ["./src/views/*"],
       "@assets/*": ["./src/assets/*"],
       "@request/*": ["./src/request/*"],
-      "@utils/*": ["./src/utils/*"], 
+      "@utils/*": ["./src/utils/*"],
       "@stores/*": ["./src/stores/*"],
       "@use/*": ["./src/use/*"],
       "@database/*": ["./src/database/*"],
@@ -53,12 +44,8 @@
     "src/**/*.ts",
     "src/**/*.d.ts",
     "src/**/*.tsx",
-    "src/**/*.vue", 
+    "src/**/*.vue",
     "global.d.ts"
   ],
-  "exclude": [
-    "dist",
-    "node_modules",
-    "public"
-  ]
+  "exclude": ["dist", "node_modules", "public"]
 }
