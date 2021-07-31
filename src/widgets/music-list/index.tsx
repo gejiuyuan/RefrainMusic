@@ -118,10 +118,10 @@ export const MusicItem = defineComponent({
               {musicName}
             </h6>
             <div className="desc">
-              <p>时长：{localedDuration}</p>
-              <p>专辑：《{albumName}》</p>
-              {localedMark && <p>评论数：{localedMark}</p>}
-              <p>发布时间：{localedPublishTime}</p>
+              <p><em>时长：</em>{localedDuration}</p>
+              {localedMark && <p><em>评论数：</em>{localedMark}</p>}
+              <p><em>发布时间：</em>{localedPublishTime}</p>
+              <p><em>专辑：</em>《{albumName}》</p>
             </div>
           </aside>
         </div>
