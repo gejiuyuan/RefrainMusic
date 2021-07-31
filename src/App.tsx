@@ -35,7 +35,7 @@ export default defineComponent({
                 <Player></Player>
                 <NBackTop
                   listenTo=".player-container"
-                  visibilityHeight={320}
+                  visibilityHeight={100}
                   bottom={90}
                   themeOverrides={{
                     width: "38px",

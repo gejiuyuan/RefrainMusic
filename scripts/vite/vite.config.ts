@@ -23,7 +23,7 @@ import viteConstant from './constant';
 const { extend } = viteConstant
 
 import path from 'path'
-const pathResolve = path.resolve
+const pathResolve = path.resolve 
 
 const baseConfig: UserConfig = {
 
@@ -104,9 +104,11 @@ const baseConfig: UserConfig = {
 
     //优化依赖
     optimizeDeps: {
+      
         esbuildOptions: {
             keepNames: true,
-        }
+        },
+    
         //需要强制预打包的依赖
         // include: [
         // ],
@@ -148,13 +150,7 @@ const devConfig: UserConfig = extend(baseConfig, {
         //热更新：借助websocket实现
         hmr: {
             overlay: true, //是否覆盖报错，若为false，则不会显示错误提示界面
-        },
-        fs: {
-            strict: false,
-            allow: [
-              
-            ]
-        }
+        }, 
     }  
 
 });

@@ -7,7 +7,7 @@ $colornoop: transparent;
 $colorbase: rgb(254, 254, 254);
 
 $lyricContainerMaxheight: 440px;
-$lyricItemheihgt: $lyricContainerMaxheight / 11;
+$lyricItemheihgt: math.div($lyricContainerMaxheight , 11);
 
 /* 控制不同类型的图标实时显示 */
 $iconTypes: order, singalLoop, random, loop, play, pause, volume, muted, full,

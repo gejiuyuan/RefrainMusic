@@ -1,3 +1,4 @@
+@use "sass:math";
 @import "@scss/variable";
 
 .player-lyric {
@@ -48,7 +49,7 @@
     }
 
     .suspension-left {
-      right: calc(100% + #{$lyricItemheihgt / 2});
+      right: calc(100% + #{math.div($lyricItemheihgt, 2)});
 
       .suspension-time {
         margin-right: 10px;
@@ -68,7 +69,7 @@
 
     .suspension-right {
       @include flexHcVc();
-      left: calc(100% + #{$lyricItemheihgt / 2});
+      left: calc(100% + #{math.div($lyricItemheihgt, 2)});
       cursor: pointer;
       transition: 0.12s;
 

@@ -41,17 +41,17 @@ declare module "*.jpg";
 declare module "*.webp";
 declare module "*.svg";
 
-declare module "colorthief" {
-  class ColorThief {
-    getColor: (
-      src: HTMLOrSVGImageElement,
-      quality?: number
-    ) => [number, number, number];
-    getPalette: (
-      src: HTMLOrSVGImageElement,
-      colorCount?: number,
-      quality?: number
-    ) => Array<[number, number, number]>;
-  }
-  export default ColorThief;
-}
+// declare module "colorthief" {
+//   class ColorThief {
+//     getColor: (
+//       src: HTMLOrSVGImageElement,
+//       quality?: number
+//     ) => [number, number, number];
+//     getPalette: (
+//       src: HTMLOrSVGImageElement,
+//       colorCount?: number,
+//       quality?: number
+//     ) => Array<[number, number, number]>;
+//   }
+//   export default ColorThief;
+// }

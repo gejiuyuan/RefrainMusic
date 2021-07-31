@@ -1,5 +1,5 @@
 import { toString, isPrototypeOf, isExtensible } from "./constants";
-import ColorThief from "colorthief";
+// import ColorThief from "colorthief";
 
 export const typeOf = (ins: any): string =>
   toString.call(ins).slice(8, -1).toLowerCase();
@@ -167,19 +167,19 @@ export const padPicCrop = (
   { x, y }: Record<"x" | "y", number>
 ) => picUrl + `?param=${x}y${y}`;
 
-const colorthief = new ColorThief();
-export const getImageMainColor = (imgUrl: string) => {
-  return new Promise<ReturnType<typeof colorthief.getColor>>(
-    (resolve, reject) => {
-      const img = new Image();
-      img.src = imgUrl;
-      img.crossOrigin = "anonymous";
-      img.onload = () => {
-        resolve(colorthief.getColor(img));
-      };
-      img.onerror = () => {
-        reject("load error!");
-      };
-    }
-  );
-};
+// const colorthief = new ColorThief();
+// export const getImageMainColor = (imgUrl: string) => {
+//   return new Promise<ReturnType<typeof colorthief.getColor>>(
+//     (resolve, reject) => {
+//       const img = new Image();
+//       img.src = imgUrl;
+//       img.crossOrigin = "anonymous";
+//       img.onload = () => {
+//         resolve(colorthief.getColor(img));
+//       };
+//       img.onerror = () => {
+//         reject("load error!");
+//       };
+//     }
+//   );
+// };

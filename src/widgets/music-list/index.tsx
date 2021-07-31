@@ -77,7 +77,7 @@ export const MusicItem = defineComponent({
           onMouseleave={itemMouseLeave}
         >
           <div className="playbill" aspectratio="1">
-            <img src={padPicCrop(picUrl, { x: 200, y: 200 })} alt="" />
+            <img loading="lazy" src={padPicCrop(picUrl, { x: 200, y: 200 })} alt="" />
             <i className="iconfont icon-bofan-radius" onClick={() => playBtnClickHandler()}></i>
           </div>
           <div class="info">

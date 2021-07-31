@@ -1,11 +1,9 @@
 import { defineComponent, watch, ref, computed } from "@vue/runtime-core";
 import { routerViewLocationKey, useRoute, useRouter } from "vue-router";
 import "./index.scss";
-import { ChevronDown20Regular } from "@vicons/fluent";
-import { NIcon } from "naive-ui";
-import { onKeyUp, onKeyDown, onKeyPressed, onKeyStroke } from "@vueuse/core";
+import { onKeyStroke } from "@vueuse/core";
 import usePlayerStore from "@/stores/player";
-import { getImageMainColor, padPicCrop } from "@/utils";
+import { padPicCrop } from "@/utils";
 import PlayerLyric from "@components/player/lyric";
 import { useAudioHandler } from "@use/index";
 import { MusicSinger } from "@/widgets/music-tiny-comp";
