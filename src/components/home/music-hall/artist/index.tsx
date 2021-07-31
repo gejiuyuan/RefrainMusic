@@ -20,9 +20,9 @@ import singer from "../../search/singer";
 type SingerListInfo = {
   limit: number;
   offset: number;
-  initial?: string;
-  type?: string;
-  area?: string;
+  initial?: number;
+  type?: number;
+  area?: number;
   sizeArr: number[];
 };
 
@@ -76,11 +76,7 @@ export default defineComponent({
     } = defaultSingerInfo;
 
     const singerListInfo = shallowReactive<SingerListInfo>({
-      limit: dftLimit,
-      offset: dftOffset,
-      initial: dftInitial,
-      type: catList[0].text,
-      area: areaList[0].text,
+      ...defaultSingerInfo,
       sizeArr: Array(3)
         .fill(0)
         .map((v, i) => dftLimit * (i + 1)),
@@ -109,11 +105,9 @@ export default defineComponent({
         singers.singerList = freeze(artists);
         singerListInfo.limit = +limit;
         singerListInfo.offset = +offset;
-        singerListInfo.area = areaList.find(({ key }) => key == area)?.text;
-        singerListInfo.type = catList.find(({ key }) => key == type)?.text;
-        singerListInfo.initial = initialList.find(
-          ({ key }) => key === initial
-        )?.text;
+        singerListInfo.area = +area;
+        singerListInfo.type = +type;
+        singerListInfo.initial = initial;
       }
     };
     getArtistsInfo(route.query);
@@ -123,30 +117,28 @@ export default defineComponent({
       next();
     });
 
-    const areaChange = (areaText: string | number) => {
+    const areaChange = (areaKey: string | number) => {
       router.push({
         query: {
           ...route.query,
-          area: areaList.find(({ text }) => text == areaText)?.key ?? dftArea,
+          area: areaKey
         },
       });
     }
 
-    const typeChange = (typeText: string) =>
+    const typeChange = (typeKey: string | number) =>
       router.push({
         query: {
           ...route.query,
-          type: catList.find(({ text }) => text == typeText)?.key ?? dftType,
+          type: typeKey
         },
       });
 
-    const initialChange = (initialText: string) =>
+    const initialChange = (initialKey: string | number) =>
       router.push({
         query: {
           ...route.query,
-          initial:
-            initialList.find(({ text }) => text === initialText)?.key ??
-            dftInitial,
+          initial: initialKey
         },
       });
 
@@ -154,54 +146,60 @@ export default defineComponent({
       return (
         <>
           <section class="singer-layer singer-area">
-            <el-radio-group
-              v-model={singerListInfo.area}
-              size="mini"
-              onChange={areaChange}
+            <NRadioGroup
+              value={singerListInfo.area}
+              onUpdateValue={areaChange}
+              size="small"
             >
               {
-                areaList.map((item) =>
-                  <el-radio-button
-                    label={item.text}
-                    key={item.text}
-                  ></el-radio-button>
+                areaList.map(item =>
+                  <NRadioButton
+                    key={item.key}
+                    value={item.key}
+                  >
+                    {item.text}
+                  </NRadioButton>
                 )
               }
-            </el-radio-group>
+            </NRadioGroup>
           </section>
 
           <section class="singer-layer singer-cat">
-            <el-radio-group
-              v-model={singerListInfo.type}
-              size="mini"
-              onChange={typeChange}
+            <NRadioGroup
+              value={singerListInfo.type}
+              onUpdateValue={typeChange}
+              size="small"
             >
               {
-                catList.map((item) =>
-                  <el-radio-button
-                    label={item.text}
-                    key={item.text}
-                  ></el-radio-button>
+                catList.map(item =>
+                  <NRadioButton
+                    key={item.key}
+                    value={item.key}
+                  >
+                    {item.text}
+                  </NRadioButton>
                 )
               }
-            </el-radio-group>
+            </NRadioGroup>
           </section>
 
           <section class="singer-layer singer-char">
-            <el-radio-group
-              v-model={singerListInfo.initial}
-              size="mini"
-              onChange={initialChange}
+            <NRadioGroup
+              value={singerListInfo.initial}
+              onUpdateValue={initialChange}
+              size="small"
             >
               {
-                initialList.map((item) =>
-                  <el-radio-button
-                    label={item.text}
+                initialList.map(item =>
+                  <NRadioButton
                     key={item.key}
-                  ></el-radio-button>
+                    value={item.key}
+                  >
+                    {item.text}
+                  </NRadioButton>
                 )
               }
-            </el-radio-group>
+            </NRadioGroup>
           </section>
 
           <ArtistList singerList={singers.singerList} cols={8}></ArtistList>

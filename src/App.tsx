@@ -22,6 +22,14 @@ export default defineComponent({
           borderFocus: globalTheme,
           borderHover: globalTheme
         },
+        Radio: {
+          buttonBorderColorActive: globalTheme,
+          buttonBorderColorHover: globalTheme,
+          buttonTextColorActive: globalTheme,
+          buttonTextColorHover: globalTheme,
+          buttonBoxShadowFocus: 'none',
+          fontSizeSmall: '12px',
+        }
       }
     })
 
