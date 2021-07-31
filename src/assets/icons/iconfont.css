@@ -1,15 +1,35 @@
 @font-face {
   font-family: "iconfont"; /* Project id 2672275 */
-  src: url("iconfont.woff2?t=1626710895102") format("woff2"),
-    url("iconfont.woff?t=1626710895102") format("woff"),
-    url("iconfont.ttf?t=1626710895102") format("truetype");
+  src: url('iconfont.woff2?t=1627715219821') format('woff2'),
+       url('iconfont.woff?t=1627715219821') format('woff'),
+       url('iconfont.ttf?t=1627715219821') format('truetype');
 }
 
 .iconfont {
-  font-family: "iconfont" !important;
+  font-family: "iconfont" !important; 
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-loved:before {
+  content: "\e6c9";
+}
+
+.icon-xihuan1:before {
+  content: "\e621";
+}
+
+.icon-loving:before {
+  content: "\e620";
+}
+
+.icon-love:before {
+  content: "\e61f";
+}
+
+.icon-bofan-radius:before {
+  content: "\e61e";
 }
 
 .icon-xiajiantou:before {
@@ -255,3 +275,4 @@
 .icon-zuopin:before {
   content: "\e61c";
 }
+

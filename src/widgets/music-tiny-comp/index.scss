@@ -86,14 +86,19 @@
 }
 
 .music-love-icon {
-  font-size: 22px;
+  font-size: 24px;
   color: #777;
   cursor: pointer;
-  transition: color 0.1s;
-
+  transition: filter 0.1s;  
+  
   &:hover {
+    filter: brightness(116%);
+  }
+
+  &[loved="true"] {
     color: var(--theme);
   }
+
 }
 
 .current-playtime {

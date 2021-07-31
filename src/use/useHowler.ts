@@ -60,15 +60,16 @@ const useHowler = (() => {
     ) => {
       //先销毁前面的实例
       Howler.unload();
-      howl = new Howl({
+      const realHowlOptions = {
         ...baseOptions,
         ...options,
         src: getSoundUrl(srcOrId),
-      });
+      }
+      howl = new Howl(realHowlOptions);
       eventFuncQueue.forEach((func) => func());
 
       //解决某些浏览器自动播放失效问题
-      if (options.autoplay) {
+      if (realHowlOptions.autoplay) {
         howl.on("playerror", () => {
           howl.once("unlock", () => howl.play());
         });

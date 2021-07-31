@@ -7,7 +7,7 @@ import {
   shallowReactive,
 } from "vue";
 
-import { NGrid, NGridItem } from "naive-ui";
+import { NGrid, NGridItem, NIcon } from "naive-ui";
 import "./index.scss";
 import { NewestSongInfo, SongInfo } from "@/types/song";
 import { freeze, getPointerOffsetElm, padPicCrop } from "@/utils";
@@ -16,7 +16,8 @@ import {
   getModifiedNewestSongInfo,
   getModifiedSongInfo,
 } from "@/utils/apiSpecial";
-import { MusicSinger } from "../music-tiny-comp";
+import { MusicLoveIcon, MusicSinger } from "../music-tiny-comp";
+import usePlayerStore from "@/stores/player";
 
 export const MusicItem = defineComponent({
   name: "MusicItem",
@@ -28,7 +29,7 @@ export const MusicItem = defineComponent({
   },
   setup(props, { slots, emit }) {
     const musicItemRef = ref<HTMLDivElement>();
-
+    const playerStore = usePlayerStore();
     const suspensionInfo = shallowReactive({
       x: 0,
       y: 0,
@@ -52,6 +53,10 @@ export const MusicItem = defineComponent({
       suspensionInfo.show = false;
     };
 
+    const playBtnClickHandler = () => {
+      playerStore.handlePlaySoundNeededData(props.musicInfo.id);
+    };
+
     return () => {
       const {
         album: { picUrl },
@@ -73,6 +78,7 @@ export const MusicItem = defineComponent({
         >
           <div className="playbill" aspectratio="1">
             <img src={padPicCrop(picUrl, { x: 200, y: 200 })} alt="" />
+            <i className="iconfont icon-bofan-radius" onClick={() => playBtnClickHandler()}></i>
           </div>
           <div class="info">
             <h6 singallinedot title={musicName}>
@@ -80,6 +86,25 @@ export const MusicItem = defineComponent({
             </h6>
             <div singallinedot>
               <MusicSinger singers={singers}></MusicSinger>
+            </div>
+          </div>
+          <div class="tools">
+            <div
+              class="tool-item"
+              title="添加到"
+              singallinedot
+            >
+              <i class="iconfont icon-plus"></i>
+            </div>
+            {
+              <MusicLoveIcon></MusicLoveIcon>
+            }
+            <div
+              class="tool-item"
+              title="下载"
+              onClick={() => { }}
+            >
+              <i class="iconfont icon-download"></i>
             </div>
           </div>
           <aside

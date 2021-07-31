@@ -15,7 +15,7 @@ import ProgressBar, {
 import "./index.scss";
 import { decimalToPercent, rmDemicalInPercent, second2TimeStr } from "@/utils";
 import { onClickOutside } from "@vueuse/core";
-import useAudioStore from "@/stores/audio"; 
+import useAudioStore from "@/stores/audio";
 import { useRouter } from "vue-router";
 import { CurrentSongInfo } from "@/utils/apiSpecial";
 
@@ -131,11 +131,15 @@ export enum MusicLoveTitle {
 export const MusicLoveIcon = defineComponent({
   name: "MusicLoveIcon",
   setup(props, { slots, emit }) {
-    const loveStatus = ref(1);
+    const loved = ref(false);
+    const loveSwitch = () => loved.value = !loved.value;
     return () => {
+      const isLove = loved.value;
+      const loveTitle = MusicLoveTitle[isLove ? 0 : 1];
       return (
-        <div className="music-love-icon" title={MusicLoveTitle[1]}>
-          <i className="iconfont icon-xihuan"></i>
+        <div className="music-love-icon" title={loveTitle} loved={isLove} onClick={loveSwitch}>
+          <i className="iconfont icon-love" hidden={isLove}></i>
+          <i className="iconfont icon-loved" hidden={!isLove}></i>
         </div>
       );
     };

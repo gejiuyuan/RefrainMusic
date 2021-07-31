@@ -1,19 +1,20 @@
-import { shallowReactive, toRefs, onActivated, defineComponent } from "vue";
+import { shallowReactive, toRefs, onActivated, defineComponent, watch, WatchStopHandle, onDeactivated } from "vue";
 import {
   useRouter,
   useRoute,
   onBeforeRouteUpdate,
   RouteLocationNormalized,
+  LocationQuery,
+  onBeforeRouteLeave,
 } from "vue-router";
 
 import SongTable from "@/widgets/song-table";
 import RoutePagination from "@widgets/route-pagination";
 import { EMPTY_OBJ, freeze } from "@/utils";
-
 import { SongInfo } from "@/types/song";
-
 import { artistSongs } from "@api/singer";
 import "./index.scss";
+import { NRadioGroup, NSpace, NRadio } from "naive-ui";
 
 const orders = [
   { text: "最新", key: "time" },
@@ -51,14 +52,14 @@ export default defineComponent({
       songList: [] as SongInfo[],
     });
 
-    const getAllSongs = async (route: RouteLocationNormalized) => {
+    const getAllSongs = async (query: LocationQuery) => {
       const {
         id,
         limit = dftLimit,
         offset = dftOffset,
         order = dftOrder,
-      } = route.query as any;
-
+      } = query as any;
+      songPagiInfo.order = String(order);
       const { data = {} } = await artistSongs({
         id,
         limit,
@@ -69,17 +70,31 @@ export default defineComponent({
       songsData.songList = freeze(songs);
     };
 
+    let queryWatcher: WatchStopHandle;
     onActivated(() => {
-      getAllSongs(route);
+      queryWatcher = watch(
+        () => route.query, (query) => {
+          getAllSongs(query);
+        },
+        {
+          immediate: true
+        }
+      );
     });
 
-    onBeforeRouteUpdate((to, from, next) => {
-      getAllSongs(to);
-      next();
+    onBeforeRouteLeave(() => {
+      queryWatcher();
     });
 
-    const handleOrderChange = (order: string) =>
-      router.push({ path: route.path, query: { ...route.query, order } });
+    const handleOrderChange = (order: string | number) => {
+      router.push({
+        path: route.path,
+        query: {
+          ...route.query,
+          order
+        }
+      });
+    }
 
     return () => {
       const { songList } = toRefs(songsData);
@@ -87,16 +102,20 @@ export default defineComponent({
         <section class="yplayer-artist-allSongs">
           <section class="allSongs-header">
             <section class="allSong-order">
-              {orders.map((item, i) => {
-                <elRadio
-                  key={item.key}
-                  v-model={songPagiInfo.order}
-                  label={item.key}
-                  onChange={handleOrderChange}
-                >
-                  {item.text}
-                </elRadio>;
-              })}
+              <NRadioGroup
+                value={songPagiInfo.order}
+                onUpdateValue={handleOrderChange}
+              >
+                <NSpace>
+                  {
+                    orders.map((item, i) => (
+                      <NRadio value={item.key} key={item.key}>
+                        {item.text}
+                      </NRadio>
+                    ))
+                  }
+                </NSpace>
+              </NRadioGroup>
             </section>
           </section>
           <section class="allSongs-wrap">

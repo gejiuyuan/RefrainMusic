@@ -10,18 +10,20 @@
   .page-turn {
     @include flexVc();
     margin-right: 30px;
-    cursor: pointer;
-  } 
-
-  .icon-arrowleft,
-  .icon-arrowright {
+    color: #777;
     font-size: 24px;
+    cursor: pointer;
+
+    &[disabled="true"] {
+      cursor: initial;
+      color: rgba(180,180,180);
+    }
 
     &:hover {
       color: var(--theme);
-    }
+    } 
 
-  }
+  } 
  
   .music-search-input {
     input {

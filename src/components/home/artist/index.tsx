@@ -51,7 +51,7 @@ export interface MenuList extends ArtistMenu {
 }
 
 const artistMenu: readonly ArtistMenu[] = freeze([
-  { text: "精选", key: "featured" },
+  { text: "热门歌曲", key: "featured" },
   { text: "所有歌曲", key: "allSongs" },
   { text: "专辑", key: "album" },
   { text: "MV", key: "mv" },

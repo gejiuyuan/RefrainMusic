@@ -21,6 +21,7 @@ export declare type SongInfo = {
   id: number;
   //单曲时长，单位：毫秒
   dt: number;
+  fee: number;
   //歌手信息
   ar: {
     id: number;
@@ -115,7 +116,7 @@ export declare type SongUrlInfo = {
   type: "mp3" | "m4a";
   encodeType: "mp3";
   canExtend: boolean;
-  fee: 8 | number;
+  fee: 8 | 0 | 4 | 1 | number;
   url: string;
   size: number;
   id: number;

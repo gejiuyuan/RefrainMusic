@@ -2,7 +2,7 @@ import { shallowReactive, onActivated, defineComponent } from "vue";
 import { useRouter, useRoute, useLink, LocationQueryValue } from "vue-router";
 
 import SongTable from "@/widgets/song-table";
-
+import MusicList from "@/widgets/music-list";
 import { artistTopSong } from "@api/singer";
 import { SongInfo } from "@/types/song";
 import "./index.scss";
@@ -29,12 +29,8 @@ export default defineComponent({
     return () => (
       <section class="yplayer-artist-featured">
         <section class="featured-layer featured-songs">
-          <h6>热门歌曲</h6>
           <section class="song-data">
-            <SongTable
-              dataList={featuredData.hotSongs}
-              showIndex={true}
-            ></SongTable>
+            <MusicList musiclists={featuredData.hotSongs} cols={4}></MusicList>
           </section>
         </section>
       </section>
