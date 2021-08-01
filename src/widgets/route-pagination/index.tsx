@@ -1,3 +1,4 @@
+import { is } from "@/utils";
 import { NPagination } from "naive-ui";
 import { computed, toRefs, defineComponent, Ref, PropType } from "vue";
 import { useRouter, useRoute } from "vue-router";
@@ -18,23 +19,10 @@ export default defineComponent({
       required: true,
     },
   },
-  setup(props, { emit, slots }) {
+  setup(props, { slots, emit }) {
+
     const router = useRouter();
     const route = useRoute();
-
-    const layoutInfo = computed(() => {
-      const total = props.pagiInfo.total;
-      return [
-        total && "total",
-        "sizes",
-        "prev",
-        total && "pager",
-        "next",
-        "jumper",
-      ]
-        .filter((_) => _)
-        .join(",");
-    });
 
     const handleSizeChange = (curSize: number) =>
       router.push({
@@ -54,22 +42,33 @@ export default defineComponent({
     };
 
     return () => {
-      const paginationInfo = props.pagiInfo;
+      let { offset, total, limit, sizeArr } = props.pagiInfo;
+      is.string(total) && (total = +total);
       return (
-        <section class="yplayer-route-pagination">
-          <el-pagination
-            onSizeChange={handleSizeChange}
-            onCurrentChange={handleCurrentChange}
-            currentPage={+paginationInfo.offset + 1}
-            pageSizes={paginationInfo.sizeArr}
-            pageSize={+paginationInfo.limit}
-            total={Number(paginationInfo.total)}
-            prev-text="上一页"
-            next-text="下一页"
-            layout={layoutInfo.value}
-          ></el-pagination>
+        <section class="naive-pagination">
+
+          <NPagination
+            page={+offset + 1}
+            itemCount={total}
+            pageSize={+limit}
+            pageSizes={sizeArr}
+            onUpdatePage={handleCurrentChange}
+            onUpdatePageSize={handleSizeChange}
+            show-quick-jumper
+            show-size-picker
+          >
+            {
+              {
+                prefix({ itemCount }: PlainObject<number>) {
+                  if (itemCount !== void 0) {
+                    return <em>共{itemCount}项</em>
+                  }
+                }
+              }
+            }
+          </NPagination>
         </section>
-      );
+      )
     };
   },
 });

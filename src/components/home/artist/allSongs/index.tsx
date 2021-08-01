@@ -43,6 +43,7 @@ export default defineComponent({
       limit: dftLimit,
       offset: dftOffset,
       order: dftOrder,
+      total: 0,
       sizeArr: Array(3)
         .fill(0)
         .map((v, i) => dftLimit * (i + 1)),
@@ -59,14 +60,17 @@ export default defineComponent({
         offset = dftOffset,
         order = dftOrder,
       } = query as any;
-      songPagiInfo.order = String(order);
       const { data = {} } = await artistSongs({
         id,
         limit,
         offset,
         order,
       });
-      const { songs = [] } = data;
+      const { songs = [], total } = data;
+      songPagiInfo.order = order;
+      songPagiInfo.limit = limit;
+      songPagiInfo.offset = offset;
+      songPagiInfo.total = total;
       songsData.songList = freeze(songs);
     };
 
