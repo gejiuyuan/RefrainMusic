@@ -1,4 +1,4 @@
-import { reactive, shallowReactive, onActivated, defineComponent } from "vue";
+import { reactive, shallowReactive, onActivated, defineComponent, ref } from "vue";
 import {
   useRouter,
   onBeforeRouteUpdate,
@@ -32,6 +32,8 @@ export default defineComponent({
       albumList: [],
     });
 
+    const hasMore = ref(true);
+
     const albumPagiInfo = reactive({
       limit: dftLimit,
       offset: dftOffset,
@@ -41,13 +43,13 @@ export default defineComponent({
     });
     const getAlbum = async (route: RouteLocationNormalized) => {
       const { id, limit = dftLimit, offset = dftOffset } = route.query as any;
-      const { data = {} } = await artistAlbum({
+      const { data = {}, more } = await artistAlbum({
         id,
         limit,
         offset,
       });
       const { hotAlbums = [] } = data;
-
+      hasMore.value = more;
       albumPagiInfo.limit = +limit;
       albumPagiInfo.offset = +offset;
 
@@ -74,7 +76,7 @@ export default defineComponent({
         <section class="yplayer-artist-album">
           <AlbumList albumList={albumInfo.albumList}></AlbumList>
           <section class="album-pagination">
-            <RoutePagination pagiInfo={albumPagiInfo}></RoutePagination>
+            <RoutePagination pagiInfo={albumPagiInfo} hasMore={hasMore.value}></RoutePagination>
           </section>
         </section>
       </>

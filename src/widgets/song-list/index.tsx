@@ -45,6 +45,11 @@ export default defineComponent({
       type: Number as PropType<number>,
       required: false,
       default: 7
+    },
+    hasMore: {
+      type: Boolean as PropType<boolean>,
+      required: false,
+      default: true
     }
   },
   setup(props, context) {
@@ -135,11 +140,12 @@ export default defineComponent({
     };
 
     return () => {
+
       return (
         <section class="song-list">
           {renderMainList()}
           <section class="songlist-pagination">
-            <RoutePagination pagiInfo={topListInfo}></RoutePagination>
+            <RoutePagination pagiInfo={topListInfo} hasMore={props.hasMore}></RoutePagination>
           </section>
         </section>
       );

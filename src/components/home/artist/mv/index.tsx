@@ -1,4 +1,4 @@
-import { shallowReactive, onActivated, defineComponent } from "vue";
+import { shallowReactive, onActivated, defineComponent, ref } from "vue";
 import {
   useRouter,
   useRoute,
@@ -10,7 +10,7 @@ import { getLocaleDate, getLocaleCount, padPicCrop, freeze } from "@utils/index"
 import { artistAlbum, artistMv } from "@api/singer";
 import { Mv } from "@/types/mv";
 import "./index.scss";
-import RoutePagination from "@widgets/route-pagination"; 
+import RoutePagination from "@widgets/route-pagination";
 
 const defaultSingalMvInfo = {
   limit: 25,
@@ -32,7 +32,7 @@ export default defineComponent({
     const mvInfo = shallowReactive<RealMvInfo>({
       mvList: [],
     });
-
+    const hasMore = ref(true);
     const mvPagiInfo = shallowReactive({
       limit: dftLimit,
       offset: dftOffset,
@@ -43,12 +43,13 @@ export default defineComponent({
 
     const getArtistMvs = async (route: RouteLocationNormalized) => {
       const { id, limit = dftLimit, offset = dftOffset } = route.query as any;
-      const { data = {} } = await artistMv({
+      const { data = {}, hasMore: more } = await artistMv({
         id,
         limit,
         offset,
       });
       const { mvs = [] } = data;
+      hasMore.value = more;
       mvPagiInfo.limit = limit;
       mvPagiInfo.offset = offset;
       mvs.forEach((item: Mv) => {
@@ -98,7 +99,7 @@ export default defineComponent({
                 <section class="yplayer-artist-mv">
                   {mvWrapRenderer(mvList)}
                   <div class="mv-pagination">
-                    <RoutePagination pagiInfo={mvPagiInfo}></RoutePagination>
+                    <RoutePagination pagiInfo={mvPagiInfo} hasMore={hasMore.value}></RoutePagination>
                   </div>
                 </section>
               )

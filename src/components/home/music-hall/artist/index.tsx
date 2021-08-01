@@ -1,4 +1,4 @@
-import { shallowReactive, defineComponent } from "vue";
+import { shallowReactive, defineComponent, ref } from "vue";
 import {
   useRouter,
   useRoute,
@@ -66,6 +66,7 @@ export default defineComponent({
   setup(props, context) {
     const router = useRouter();
     const route = useRoute();
+    const hasMore = ref(true);
 
     const {
       limit: dftLimit,
@@ -93,7 +94,7 @@ export default defineComponent({
       limit = dftLimit,
       area = dftArea,
     }) => {
-      const { data: willShowArtist } = await artistList({
+      const { data: willShowArtist, more } = await artistList({
         type,
         offset,
         area,
@@ -108,6 +109,7 @@ export default defineComponent({
         singerListInfo.area = +area;
         singerListInfo.type = +type;
         singerListInfo.initial = initial;
+        hasMore.value = more;
       }
     };
     getArtistsInfo(route.query);
@@ -205,7 +207,7 @@ export default defineComponent({
           <ArtistList singerList={singers.singerList} cols={8}></ArtistList>
 
           <section class="singer-layer singer-pagination">
-            <RoutePagination pagiInfo={singerListInfo}></RoutePagination>
+            <RoutePagination pagiInfo={singerListInfo} hasMore={hasMore.value}></RoutePagination>
           </section>
         </>
       );

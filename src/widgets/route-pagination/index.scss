@@ -1,6 +1,13 @@
 @import '@scss/variable';
+@import '@scss/common';
 
 .naive-pagination {
   @include flexHc();
   padding: 30px 0;
+
+  .no-total {
+    @include flexHcVc();
+ 
+  }
+
 }

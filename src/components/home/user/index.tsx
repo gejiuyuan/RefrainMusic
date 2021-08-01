@@ -7,7 +7,7 @@ import {
   computed,
   provide,
   onActivated,
-  WatchStopHandle, 
+  WatchStopHandle,
   defineComponent,
 } from "vue";
 import {
@@ -17,7 +17,7 @@ import {
   RouterView,
 } from "vue-router";
 import { userDetail, userSubcount, userRecord, userPlaylist } from "@api/user";
-import { getLocaleDate, NOOP, objToQuery, padPicCrop } from "@utils/index";
+import { EMPTY_ARR, EMPTY_OBJ, getLocaleDate, NOOP, objToQuery, padPicCrop } from "@utils/index";
 import { PlayRecord } from "@/types/song";
 import { UserDetail } from "@/types/user";
 import "./index.scss";
@@ -65,14 +65,21 @@ export default defineComponent({
 
     //歌单（包括收藏和创建）
     const songlists = shallowReactive({
-      created: [] as PlaylistCommon[],
-      collection: [] as PlaylistCommon[],
+      created: {
+        data: [] as PlaylistCommon[],
+        hasMore: true
+      },
+      collection: {
+        data: [] as PlaylistCommon[],
+        hasMore: true
+      },
     });
+
     provide("songlists", songlists);
     const getUserPlaylist = async (query: any) => {
       const { id: uid, limit, offset } = query;
-      const { data = {} } = await userPlaylist({ uid, limit, offset });
-      const { playlist = [] } = data;
+      const { data = EMPTY_OBJ, } = await userPlaylist({ uid, limit, offset });
+      const { playlist = EMPTY_ARR, more } = data;
       const collection: PlaylistCommon[] = [];
       const created: PlaylistCommon[] = [];
       playlist.forEach((list: PlaylistCommon) => {
@@ -81,8 +88,14 @@ export default defineComponent({
         } = list;
         (userId === uid ? created : collection).push(list);
       });
-      songlists.created = created;
-      songlists.collection = collection;
+      songlists.created = {
+        data: created,
+        hasMore: more
+      };
+      songlists.collection = {
+        data: collection,
+        hasMore: more
+      };
     };
 
     //获取用户最近播放记录
