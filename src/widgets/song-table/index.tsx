@@ -12,7 +12,8 @@ import {
 import usePlayerStore from "@/stores/player";
 import YuanTable, { YuanTableColumn } from "./yuan-table";
 import { NGrid, NGridItem } from "naive-ui";
-import { MusicLoveIcon } from "../music-tiny-comp";
+import { MusicLoveIcon, PlaySwitch } from "../music-tiny-comp";
+import useAudioStore from "@/stores/audio";
 
 export default defineComponent({
   name: "SongTable",
@@ -34,6 +35,8 @@ export default defineComponent({
         return realSongInfo;
       });
     });
+    const playerStore = usePlayerStore();
+    const audioStore = useAudioStore();
 
     const isRenderPublishTime = computed(() => {
       return props.dataList.some(({ publishTime }) => publishTime != null);
@@ -46,13 +49,20 @@ export default defineComponent({
       console.info(songItem);
     };
 
-    const playerStore = usePlayerStore();
     const playBtnClickHandler = async (songItem: CurrentSongInfo) => {
-      playerStore.handlePlaySoundNeededData(songItem.id);
+      if (playerStore.currentSongInfo.id === songItem.id) {
+        audioStore.playing = !audioStore.playing;
+      }
+      else {
+        playerStore.handlePlaySoundNeededData(songItem.id);
+      }
     };
 
     const renderMainSongTable = (infinityScrollProps: any) => {
       if (!songData.value.length) return;
+      const { currentSongInfo } = playerStore;
+      const { playing } = audioStore;
+
       return (
 
         <YuanTable
@@ -68,7 +78,8 @@ export default defineComponent({
             span={4}
             v-slots={{
               default(curSongInfo: any) {
-                const { musicName } = curSongInfo;
+                const { musicName, id } = curSongInfo;
+                const isPlaying = playing && (id === currentSongInfo.id)
                 return (
                   <NGrid
                     class="song-item-body"
@@ -96,7 +107,8 @@ export default defineComponent({
                           title="播放"
                           onClick={() => playBtnClickHandler(curSongInfo)}
                         >
-                          <i class="iconfont icon-play"></i>
+                          <i class="iconfont icon-play" hidden={isPlaying}></i>
+                          <i className="iconfont icon-pause" hidden={!isPlaying}></i>
                         </div>
                         <div
                           class="tool-item"
