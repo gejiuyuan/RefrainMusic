@@ -4,7 +4,7 @@ import { defineConfig, UserConfig, UserConfigFn , ServerOptions } from 'vite';
 import VueJsx from '@vitejs/plugin-vue-jsx';
 
 //element-plus style loader
-import styleImport from 'vite-plugin-style-import'
+// import styleImport from 'vite-plugin-style-import'
 
 //插件：解析.svg成内联元素
 import svgLoader from 'vite-svg-loader'
@@ -82,21 +82,7 @@ const baseConfig: UserConfig = {
         vue(), //.vue文件解析插件
         image(), //图片导入解析插件
         Markdown(), //.md文件解析插件
-        svgLoader(), //svg图片解析成内联代码    
-        styleImport({
-            libs: [{
-                libraryName: 'element-plus',
-                esModule: true,
-                ensureStyleFile: true,
-                resolveStyle: (name) => {
-                    name = name.slice(3)
-                    return `element-plus/packages/theme-chalk/src/${name}.scss`;
-                },
-                resolveComponent: (name) => {
-                    return `element-plus/lib/${name}`;
-                },
-            }]
-        }),
+        svgLoader(), //svg图片解析成内联代码   
         VueJsx({
             transformOn: true,
         })

@@ -34,7 +34,7 @@ export default defineComponent({
             updateOnImagesReady={true}
             autoHeight={true}
             observeParents={true}
-            observer={true} 
+            observer={true}
             autoplay={{
               delay: 8000,
               waitForTransition: true,
@@ -75,10 +75,10 @@ export default defineComponent({
               )
             }
             <div class="next-button">
-              <i class="el-icon-arrow-right"></i>
+              <i class="iconfont icon-arrowright"></i>
             </div>
             <div class="prev-button">
-              <i className="el-icon-arrow-left"></i>
+              <i className="iconfont icon-arrowleft"></i>
             </div>
           </Swiper>
           <section className="banner-pagination">
