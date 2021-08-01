@@ -1,5 +1,6 @@
 import usePlayerStore from "@/stores/player";
 import { onClickOutside } from "@vueuse/core";
+import { spawn } from "node:child_process";
 import { defineComponent, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import "./index.scss";
@@ -46,7 +47,7 @@ export default defineComponent({
               </em>
             </div>
           </header>
-          <section class="queue-body">
+          <section class="queue-body" scrollbar="overlay">
             <ul>
               {songList.map(({ name, artists, id }) => {
                 return (
@@ -64,6 +65,12 @@ export default defineComponent({
               })}
             </ul>
           </section>
+          <footer class="queue-foot">
+            <em onClick={hidePlayerQueueHandler}>
+              <i className="iconfont icon-icon-1" title={"收起"}></i>
+              <span>收起</span>
+            </em>
+          </footer>
         </aside>
       );
     };

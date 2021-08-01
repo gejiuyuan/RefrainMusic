@@ -13,7 +13,7 @@ import {
   onBeforeRouteLeave,
   onBeforeRouteUpdate,
 } from "vue-router";
-import RoutePagination from "@widgets/route-pagination";
+import RoutePagination from "@/widgets/route-pagination";
 import "./index.scss";
 import { NEmpty, NGrid, NGridItem } from "naive-ui";
 import { UNICODE_CHAR, padPicCrop } from "@utils/index";

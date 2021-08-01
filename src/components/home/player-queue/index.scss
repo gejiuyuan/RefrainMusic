@@ -1,6 +1,10 @@
 @import "@scss/variable";
+@import "@scss/common";
+
 
 .player-queue {
+  @include flex();
+  flex-direction: column;
   position: absolute;
   left: 100%;
   top: 0;
@@ -16,8 +20,7 @@
   }
 
   .queue-header {
-    padding-top: 38px;
-    padding-left: 26px;
+    padding: 38px 28px 0 26px;
 
     h3 {
       color: #333;
@@ -34,7 +37,7 @@
   }
 
   .queue-body {
-    overflow: hidden;
+    flex: 1;
     .song-item {
       padding: 16px 28px 16px 26px;
       transition: background-color 0.12s;
@@ -57,4 +60,31 @@
       }
     }
   }
+
+  .queue-foot {
+    @include flexHeVc();
+    height: 80px;
+    padding: 0 28px 0 26px;
+
+    em {
+      color: #666;
+      transition: color .1s;
+      cursor: pointer;
+      &:hover {
+        color: var(--theme);
+      }
+    }
+
+    span {
+      font-size: 14px;
+      text-indent: .2em;
+      vertical-align: middle;
+    }
+
+    i {
+      font-size: 30px;
+      vertical-align: middle;
+    }
+  }
+
 }
