@@ -16,10 +16,9 @@ import {
   useRoute,
   useRouter,
 } from "vue-router";
-import SongTable from "@/widgets/song-table";
 import { searchCloud } from "@api/search";
 import "./index.scss";
-import { SearchCloundData } from "../index";
+import MusicList from "@/widgets/music-list";
 
 export default defineComponent({
   name: "SearchSongs",
@@ -40,7 +39,7 @@ export default defineComponent({
       const { result } = data;
       result &&
         ((songlistData.songCount = result.songCount),
-        (songlistData.songs = result.songs));
+          (songlistData.songs = result.songs));
     };
 
     getSearchSongs(route.query);
@@ -53,7 +52,7 @@ export default defineComponent({
     return () => {
       return (
         <section class="search-radio">
-          <SongTable showIndex={true} dataList={songlistData.songs}></SongTable>
+          <MusicList musiclists={songlistData.songs} cols={4}></MusicList>
         </section>
       );
     };

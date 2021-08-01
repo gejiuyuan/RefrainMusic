@@ -35,7 +35,7 @@ export default defineComponent({
                 </header>
 
                 <section class="main-content">
-                  <div class="player-container" scrollbar="auto">
+                  <div class="player-container" scrollbar="overlay">
                     <RouterView></RouterView>
                   </div>
                 </section>

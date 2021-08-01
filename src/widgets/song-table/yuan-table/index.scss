@@ -1,0 +1,32 @@
+@import '@scss/variable';
+
+.yuan-table {
+
+  &-header {
+
+  }
+
+  &-layer {
+    @include flex();
+    transition: background-color .1s;
+
+    .grid-item {
+      $gridMinWidth: calc(2em + 14 * 2px);
+      min-width: $gridMinWidth;
+      padding: 14px 10px;
+      white-space: nowrap;
+    }
+
+    &.header-layer {
+      color: #555;
+    }
+
+    &.body-layer {
+      color: #677;
+   
+    }
+  }
+ 
+
+
+}

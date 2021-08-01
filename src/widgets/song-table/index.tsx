@@ -1,23 +1,18 @@
 import { ref, computed, defineComponent, PropType } from "vue";
 import { SongInfo } from "@/types/song";
 import {
-  second2TimeStr,
-  getLocaleDate,
-  NOOP,
-  EMPTY_OBJ,
   freeze,
 } from "@utils/index";
 import InfinityScrolling from "@/widgets/infiity-scrolling";
 import "./index.scss";
-import useAudioStore from "@/stores/audio";
-import { getLyric, getMusic, getMusicDetail } from "@/api/music";
 import {
   CurrentSongInfo,
-  getFullName,
-  getFullNames,
   getModifiedSongInfo,
 } from "@/utils/apiSpecial";
 import usePlayerStore from "@/stores/player";
+import YuanTable, { YuanTableColumn } from "./yuan-table";
+import { NGrid, NGridItem } from "naive-ui";
+import { MusicLoveIcon } from "../music-tiny-comp";
 
 export default defineComponent({
   name: "SongTable",
@@ -44,7 +39,6 @@ export default defineComponent({
       return props.dataList.some(({ publishTime }) => publishTime != null);
     });
 
-    const indexDefiner = (idx: number) => idx + 1;
     const baseCount = ref(14);
     const sliceInterval = ref(14);
 
@@ -53,97 +47,83 @@ export default defineComponent({
     };
 
     const playerStore = usePlayerStore();
-    const audioStore = useAudioStore();
     const playBtnClickHandler = async (songItem: CurrentSongInfo) => {
       playerStore.handlePlaySoundNeededData(songItem.id);
     };
 
     const renderMainSongTable = (infinityScrollProps: any) => {
       if (!songData.value.length) return;
-      const { showIndex } = props;
       return (
-        <elTable
-          class="song-table"
-          data={songData.value.slice(0, infinityScrollProps.currentCount)}
-          rowClassName="song-list-item"
-          cellClassName="song-list-cell"
-          defaultSort={{ prop: "index", order: "ascending" }}
-        >
-          {showIndex && (
-            <elTableColumn
-              prop="index"
-              type="index"
-              index={indexDefiner}
-            ></elTableColumn>
-          )}
 
-          <elTableColumn
+        <YuanTable
+          class="song-table"
+          rowClass="song-list-item"
+          data={songData.value.slice(0, infinityScrollProps.currentCount)}
+          showSerial
+          serialDefiner={(idx) => ++idx}
+        >
+
+          <YuanTableColumn
             label="歌曲"
-            prop="song"
-            sortable
-            width="540"
+            span={4}
             v-slots={{
-              default(scope: any) {
-                const { row } = scope;
-                const { musicName } = row;
+              default(curSongInfo: any) {
+                const { musicName } = curSongInfo;
                 return (
-                  <el-row
+                  <NGrid
                     class="song-item-body"
-                    type="flex"
-                    justify="space-between"
                   >
-                    <el-col class="song-body-left" span={18}>
+                    <NGridItem class="song-body-left" span={18}>
                       <div class="song-love" title="添加至我喜欢">
                         <i class="iconfont icon-xihuan"></i>
                       </div>
                       <div class="song-name" title={musicName} singallinedot>
                         {musicName}
                       </div>
-                    </el-col>
+                    </NGridItem>
 
-                    <el-col span={5}>
-                      <div class="song-tools">
+                    <NGridItem span={5}>
+                      <div class="tools">
                         <div
-                          class="song-tool-item"
+                          class="tool-item"
                           title="添加到"
                           singallinedot
                         >
                           <i class="iconfont icon-plus"></i>
                         </div>
                         <div
-                          class="song-tool-item"
+                          class="tool-item"
                           title="播放"
-                          onClick={() => playBtnClickHandler(row)}
+                          onClick={() => playBtnClickHandler(curSongInfo)}
                         >
                           <i class="iconfont icon-play"></i>
                         </div>
                         <div
-                          class="song-tool-item"
+                          class="tool-item"
                           title="下载"
-                          onClick={() => handleDownload(row)}
+                          onClick={() => handleDownload(curSongInfo)}
                         >
                           <i class="iconfont icon-download"></i>
                         </div>
+                        <div className="tool-item">
+                          {
+                            <MusicLoveIcon></MusicLoveIcon>
+                          }
+                        </div>
                       </div>
-                    </el-col>
-                  </el-row>
-                );
-              },
+                    </NGridItem>
+                  </NGrid>
+                )
+              }
             }}
-          ></elTableColumn>
+          ></YuanTableColumn>
 
-          <elTableColumn
+          <YuanTableColumn
             label="专辑"
-            prop="ablum"
-            sortable
-            width="400"
+            span={2}
             v-slots={{
-              default(scope: any) {
-                const {
-                  row: {
-                    album: { name },
-                  },
-                } = scope;
+              default(curSongInfo: any) {
+                const { album: { name } } = curSongInfo;
                 return (
                   <div title={name} singallinedot>
                     {name}
@@ -151,46 +131,48 @@ export default defineComponent({
                 );
               },
             }}
-          ></elTableColumn>
+          ></YuanTableColumn>
 
-          <elTableColumn
+          <YuanTableColumn
             label="时长"
-            prop="duration"
-            sortable
+            span={2}
             v-slots={{
-              default(scope: any) {
-                const { localedTime } = scope.row;
+              default(curSongInfo: any) {
+                const { localedDuration } = curSongInfo;
                 return (
-                  <div title={localedTime} singallinedot>
-                    {localedTime}
+                  <div title={localedDuration} singallinedot>
+                    {localedDuration}
                   </div>
                 );
               },
             }}
-          ></elTableColumn>
+          ></YuanTableColumn>
 
-          {isRenderPublishTime.value && (
-            <elTableColumn
-              label="发行时间"
-              prop="publishTime"
-              sortable
-              v-slots={{
-                default(scope: any) {
-                  const { localedPublishTime } = scope.row;
-                  return (
-                    <div
-                      class="song-publish-time"
-                      title={localedPublishTime}
-                      singallinedot
-                    >
-                      {localedPublishTime}
-                    </div>
-                  );
-                },
-              }}
-            ></elTableColumn>
-          )}
-        </elTable>
+          {
+            isRenderPublishTime.value && (
+              <YuanTableColumn
+                span={2}
+                label="发行时间"
+                v-slots={{
+                  default(curSongInfo: any) {
+                    const { localedPublishTime } = curSongInfo;
+                    return (
+                      <div
+                        class="song-publish-time"
+                        title={localedPublishTime}
+                        singallinedot
+                      >
+                        {localedPublishTime}
+                      </div>
+                    );
+                  },
+                }
+                }
+              ></YuanTableColumn>
+            )
+          }
+        </YuanTable>
+
       );
     };
 

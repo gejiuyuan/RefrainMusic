@@ -40,7 +40,7 @@
         transform: translate(-50%,-50%);
         transition: .14s;
         color: #eee;
-        font-size: 26px;
+        font-size: 22px;
         &:hover {
           filter:brightness(120%)
         } 
@@ -83,7 +83,7 @@
       position: absolute;
       left: 0;
       top: 0;
-      max-width: 400px;
+      max-width: 320px;
       width: 80%;
       filter: drop-shadow(0 0 20px rgba(80, 80, 80, 0.2));
       z-index: 80;

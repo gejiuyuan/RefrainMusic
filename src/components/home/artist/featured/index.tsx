@@ -1,7 +1,5 @@
 import { shallowReactive, onActivated, defineComponent } from "vue";
 import { useRouter, useRoute, useLink, LocationQueryValue } from "vue-router";
-
-import SongTable from "@/widgets/song-table";
 import MusicList from "@/widgets/music-list";
 import { artistTopSong } from "@api/singer";
 import { SongInfo } from "@/types/song";

@@ -1,6 +1,6 @@
 import { defineComponent, inject, onActivated, toRefs } from "vue";
-import SongTable from "@/widgets/song-table";
 import "./index.scss";
+import MusicList from "@/widgets/music-list";
 
 export default defineComponent({
   name: "songlistComment",
@@ -9,7 +9,7 @@ export default defineComponent({
     return () => {
       const { playlist, showIndex } = songlistInfo;
       return (
-        <SongTable dataList={playlist.tracks} showIndex={true}></SongTable>
+        <MusicList musiclists={playlist.tracks} cols={4}></MusicList>
       );
     };
   },

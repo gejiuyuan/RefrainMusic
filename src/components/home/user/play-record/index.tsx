@@ -2,18 +2,15 @@ import {
   toRefs,
   watch,
   ref,
-  reactive,
-  shallowReactive,
-  shallowRef,
   Ref,
   computed,
   inject,
   defineComponent,
 } from "vue";
 import { useRouter, useRoute, onBeforeRouteLeave } from "vue-router";
+import MusicList from "@/widgets/music-list";
 
 import { PlayRecord } from "@/types/song";
-import SongTable from "@/widgets/song-table";
 import { defaultPlayRecordType, playRecordTimeRange } from "../config";
 import "./index.scss";
 import {
@@ -92,7 +89,7 @@ export default defineComponent({
           {
             peopleCanSeeMyPlayRecord
               ? (
-                <SongTable showIndex={true} dataList={musiclist.value}></SongTable>
+                <MusicList musiclists={musiclist.value} cols={4}></MusicList>
               )
               : (
                 <p class="canNotSee">

@@ -189,11 +189,11 @@ export const MusicSinger = defineComponent({
     return () => {
       const { singers } = props;
       return (
-        <p class={className.value}>
+        <p class={className.value} singallinedot>
           {singers.map(({ id, name }, i) => {
             return (
               <>
-                <span onClick={() => toSingerDetailPage(id)}>{name}</span>
+                <span onClick={() => toSingerDetailPage(id)} title={name}>{name}</span>
                 {i !== singers.length - 1 && <em> / </em>}
               </>
             );
