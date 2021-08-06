@@ -3,6 +3,7 @@ import { useRoute, useRouter } from "vue-router";
 import HeaderSetting from "@/widgets/header-setting";
 import Battery from "@/widgets/battery";
 import FullScreen from "@/widgets/fullscreen";
+import UserLogin from "@widgets/user-login";
 import "./index.scss";
 
 import { NMention, NInput, NGrid, NGridItem } from "naive-ui";
@@ -61,6 +62,7 @@ export default defineComponent({
           </section>
 
           <section class="header-right">
+            <UserLogin></UserLogin>
             <Battery></Battery>
             <HeaderSetting></HeaderSetting>
             <FullScreen></FullScreen>

@@ -42,6 +42,8 @@ import Video from "@components/home/video";
 
 import Album from "@components/home/album";
 
+import MyPage from "@components/home/my-page";
+
 // const MusicHall = () => import("@components/home/music-hall");
 // const MusicHallRecommend = () =>
 //   import("@components/home/music-hall/recommend");
@@ -83,6 +85,7 @@ import Album from "@components/home/album";
 // const SearchSinger = () => import("@components/home/search/singer");
 
 const routes = [
+
   {
     path: "/",
     redirect: "/musichall",
@@ -261,7 +264,12 @@ const routes = [
       {
         path: 'album',
         component: Album
-      }
+      },
+
+      {
+        path: "/myPage",
+        component: MyPage,
+      },
 
     ],
   }

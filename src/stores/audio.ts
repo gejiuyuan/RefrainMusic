@@ -1,4 +1,3 @@
-import { type } from "os";
 import { defineStore } from "pinia";
 
 const defaultAudioOptions = {

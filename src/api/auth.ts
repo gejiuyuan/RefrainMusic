@@ -20,11 +20,15 @@ export const loginWithPhone = (params: {
   countrycode?: string;
   md5_password?: string;
 }) => {
-  anfrage({
+  const formData = new FormData();  
+  Object.entries(filterUselessKey(params)).forEach(([key,value]) => {
+    formData.append(key, value)
+  })
+  return anfrage({
     url: "/login/cellphone",
     method: "post",
-    params: filterUselessKey(params),
-  });
+    data: formData,
+  }).then(({data}) => data);
 };
 
 /**

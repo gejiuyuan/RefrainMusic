@@ -40,3 +40,5 @@ declare module "@vue/runtime-dom" {
     loading?: string;
   }
 }
+
+declare type NaiveFormValidateError = Array<PlainObject<string>> | undefined;

@@ -1,3 +1,4 @@
+import { useMessage } from "naive-ui";
 import ryoko, { abortPendingRequest } from "ryoko";
 
 export const anfrage = ryoko.create({
@@ -8,35 +9,22 @@ export const anfrage = ryoko.create({
   onDefer(deferMsg) {
     console.info(deferMsg);
   },
-  responseType: "json",
+  verifyStatus(status) {
+    return status >= 200 && status < 400;
+  },
+  responseType: "json", 
 });
+
+anfrage.interceptors.request.use((config:any) => { 
+  config.headers = {
+    Authorization: localStorage.getItem('userToken') || "",
+  }
+  return config
+}, err => {
+  return err
+})
 
 export const getAll = ryoko.all;
 export const getSpread = ryoko.spread;
 
-export const get = ryoko.create({
-  mode: "cors",
-  timeout: 10000,
-  verifyStatus(status) {
-    return status >= 200 && status < 400;
-  },
-  onDefer() {
-    console.info(this);
-  },
-});
-
-get.interceptors.request.use((config) => {
-  return config;
-});
-get.interceptors.response.use((res) => {
-  return res;
-});
-
-export const getPlaylist = (url: string): Promise<any> =>
-  get({ url }).then((res) => {
-    return res.data.json();
-  });
-export const getLyric = (url: string): Promise<any> =>
-  get({ url }).then((res) => res.data.text());
-export const getPlaybill = (url: string): Promise<any> =>
-  get({ url }).then((res) => res.data.url);
+ 
