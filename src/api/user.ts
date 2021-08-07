@@ -185,7 +185,7 @@ export function userRecord(params: { uid: string | number; type?: 0 | 1 }) {
       ...filterUselessKey(params),
       timestamp: new Date().valueOf(),
     },
-  });
+  }).then(({data}) => data);
 }
 
 /**

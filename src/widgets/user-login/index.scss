@@ -2,23 +2,23 @@
 
 .user-login {
   @include flexVc();
-  max-width: 168px;
-  padding-right: 30px; 
+  max-width: 158px;
+  margin-right: 50px; 
   color: #555;
   transition: color .09s;
   cursor: pointer;
 
   &:hover {
-    color: dodgerblue;
+    color: var(--theme);
   }
   .user-avatar {
-    height: 38px;
-    width: 38px;
+    height: 34px;
+    width: 34px;
     border-radius: 50%;
     background-image: url("@assets/img/user.svg");
     background-size: 40px;
     background-repeat: no-repeat;
-    background-position: 0 0;
+    background-position: 0 center;
   }
 
   .user-text {

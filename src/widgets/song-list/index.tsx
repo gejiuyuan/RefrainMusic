@@ -50,6 +50,11 @@ export default defineComponent({
       type: Boolean as PropType<boolean>,
       required: false,
       default: true
+    },
+    showPagination: {
+      type: Boolean,
+      required: false,
+      default: true
     }
   },
   setup(props, context) {
@@ -96,7 +101,7 @@ export default defineComponent({
       router.push({ path: "/songlist", query: { id } });
 
     const renderMainList = () => {
-      const { playlists, gaps, cols } = props;
+      const { playlists, gaps, cols, showPagination } = props;
       return (
         <section class="music-wrap">
           {
@@ -144,9 +149,15 @@ export default defineComponent({
       return (
         <section class="song-list">
           {renderMainList()}
-          <section class="songlist-pagination">
-            <RoutePagination pagiInfo={topListInfo} hasMore={props.hasMore}></RoutePagination>
-          </section>
+
+          {
+            props.showPagination && (
+              <section class="songlist-pagination">
+                <RoutePagination pagiInfo={topListInfo} hasMore={props.hasMore}></RoutePagination>
+              </section>
+            )
+          }
+
         </section>
       );
     };

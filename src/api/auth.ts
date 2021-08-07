@@ -86,6 +86,6 @@ export function logout() {
 export function loginStatus() {
   return anfrage({
     url: "/login/status",
-    method: "post",
+    method: "get",
   });
 }

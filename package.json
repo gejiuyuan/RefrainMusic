@@ -17,6 +17,7 @@
     "@vueuse/core": "~5.2.0",
     "dexie": "~3.0.3",
     "howler": "^2.2.3",
+    "js-cookie": "^3.0.0",
     "naive-ui": "~2.15.11",
     "pinia": "2.0.0-beta.5",
     "ryoko": "^0.1.51",
@@ -27,6 +28,7 @@
   "devDependencies": {
     "@rollup/plugin-image": "^2.1.0",
     "@types/howler": "^2.2.3",
+    "@types/js-cookie": "^2.2.7",
     "@types/node": "^16.4.8",
     "@vicons/antd": "^0.10.0",
     "@vicons/fluent": "^0.10.0",

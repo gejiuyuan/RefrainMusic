@@ -91,7 +91,6 @@ export default defineComponent({
           phone: phoneInfo.number,
           password: phoneInfo.password
         })
-        console.info(result)
         result && userStore.setUserInfo(result)
       })
     }

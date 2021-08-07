@@ -99,7 +99,7 @@ i {
 }
 
 @supports (aspect-ratio: 1) {
-  @for $ratio from 1 through 30 {
+  @for $ratio from 1 through 70 {
     $realRatio: math.div($ratio, 10);
 
     [aspectratio="#{$realRatio}"] {
@@ -115,7 +115,7 @@ i {
 }
 
 @supports not (aspect-ratio: 1) {
-  @for $ratio from 1 through 30 {
+  @for $ratio from 1 through 70 {
     $realRatio: math.div($ratio, 10);
     $paddingBottomPercent: math.div(10, $ratio) * 100%;
 
