@@ -10,7 +10,7 @@ import {
 import { NGrid, NGridItem, NIcon } from "naive-ui";
 import "./index.scss";
 import { NewestSongInfo, SongInfo } from "@/types/song";
-import { freeze, getPointerOffsetElm, padPicCrop } from "@/utils";
+import { closest, freeze, getPointerOffsetElm, padPicCrop } from "@/utils";
 import {
   CurrentSongInfo,
   getModifiedNewestSongInfo,
@@ -18,6 +18,7 @@ import {
 } from "@/utils/apiSpecial";
 import { MusicLoveIcon, MusicSinger } from "../music-tiny-comp";
 import usePlayerStore from "@/stores/player";
+
 
 export const MusicItem = defineComponent({
   name: "MusicItem",
@@ -30,28 +31,7 @@ export const MusicItem = defineComponent({
   setup(props, { slots, emit }) {
     const musicItemRef = ref<HTMLDivElement>();
     const playerStore = usePlayerStore();
-    const suspensionInfo = shallowReactive({
-      x: 0,
-      y: 0,
-      show: false,
-    });
-    const setSuspensionXY = (ev: MouseEvent) => {
-      const { offsetX, offsetY } = getPointerOffsetElm(ev, musicItemRef.value!);
-      suspensionInfo.x = offsetX + 10;
-      suspensionInfo.y = offsetY + 10;
-    };
-    const itemMouseEnter = (ev: MouseEvent) => {
-      setSuspensionXY(ev);
-      suspensionInfo.show = true;
-    };
 
-    const itemMouseMove = (ev: MouseEvent) => {
-      setSuspensionXY(ev);
-    };
-
-    const itemMouseLeave = (ev: MouseEvent) => {
-      suspensionInfo.show = false;
-    };
 
     const playBtnClickHandler = () => {
       playerStore.handlePlaySoundNeededData(props.musicInfo.id);
@@ -72,9 +52,6 @@ export const MusicItem = defineComponent({
         <div
           class="music-item"
           ref={musicItemRef}
-          onMouseenter={itemMouseEnter}
-          onMousemove={itemMouseMove}
-          onMouseleave={itemMouseLeave}
         >
           <div className="playbill" aspectratio="1">
             <img loading="lazy" src={padPicCrop(picUrl, { x: 200, y: 200 })} alt="" />
@@ -107,23 +84,6 @@ export const MusicItem = defineComponent({
               <i class="iconfont icon-download"></i>
             </div>
           </div>
-          <aside
-            className="suspension"
-            style={{
-              visibility: suspensionInfo.show ? "visible" : "hidden",
-              transform: `translate(${suspensionInfo.x}px, ${suspensionInfo.y}px)`,
-            }}
-          >
-            <h6 singallinedot title={musicName}>
-              {musicName}
-            </h6>
-            <div className="desc">
-              <p><em>时长：</em>{localedDuration}</p>
-              {localedMark && <p><em>评论数：</em>{localedMark}</p>}
-              <p><em>发布时间：</em>{localedPublishTime}</p>
-              <p><em>专辑：</em>《{albumName}》</p>
-            </div>
-          </aside>
         </div>
       );
     };
@@ -166,6 +126,9 @@ export default defineComponent({
   },
   setup(props, { slots, emit }) {
     const category = props.category;
+
+    const musicListRef = ref<HTMLElement>();
+
     const songData = computed(() => {
       const dataList = freeze([...props.musiclists] || []);
       if (category === "newest") {
@@ -182,6 +145,61 @@ export default defineComponent({
         });
       }
     });
+    const suspensionInfo = shallowReactive({
+      x: 0,
+      y: 0,
+      show: false,
+    });
+
+    const currentHoverMusicInfo = ref({} as typeof songData.value[number]);
+
+    const judgeModifySuspension = (ev: MouseEvent) => {
+      const tarMusicItemElm = closest(ev.target as Element, '.index-layer');
+      if (!tarMusicItemElm) {
+        suspensionInfo.show = false;
+        return;
+      }
+      currentHoverMusicInfo.value = songData.value[+tarMusicItemElm.getAttribute('index')!];
+      const { offsetX, offsetY } = getPointerOffsetElm(ev, musicListRef.value!);
+      suspensionInfo.show = true;
+      suspensionInfo.x = offsetX + 10;
+      suspensionInfo.y = offsetY + 10;
+    };
+    const itemMouseEnter = (ev: MouseEvent) => {
+      judgeModifySuspension(ev);
+    };
+
+    const itemMouseMove = (ev: MouseEvent) => {
+      judgeModifySuspension(ev);
+    };
+
+    const itemMouseLeave = (ev: MouseEvent) => {
+      suspensionInfo.show = false;
+    };
+
+    const renderCurrentHoverItemSuspension = () => {
+      const { musicName, localedDuration, localedMark, localedPublishTime, albumName } = currentHoverMusicInfo.value;
+      return (
+        <aside
+          className="suspension"
+          style={{
+            visibility: suspensionInfo.show ? "visible" : "hidden",
+            transform: `translate(${suspensionInfo.x}px, ${suspensionInfo.y}px)`,
+          }
+          }
+        >
+          <h6 singallinedot title={musicName}>
+            {musicName}
+          </h6>
+          <div className="desc">
+            <p><em>时长：</em>{localedDuration}</p>
+            {localedMark && <p><em>评论数：</em>{localedMark}</p>}
+            <p><em>发布时间：</em>{localedPublishTime}</p>
+            <p><em>专辑：</em>《{albumName}》</p>
+          </div>
+        </aside >
+      )
+    }
 
     return () => {
       const {
@@ -189,16 +207,27 @@ export default defineComponent({
         cols,
       } = props;
       return (
-        <section class="music-list">
+        <section
+          class="music-list"
+          ref={musicListRef}
+          onMouseenter={itemMouseEnter}
+          onMousemove={itemMouseMove}
+          onMouseleave={itemMouseLeave}
+        >
           <NGrid xGap={x} yGap={y} cols={cols}>
-            {songData.value.map((item) => {
+            {songData.value.map((item, index) => {
               return (
                 <NGridItem>
-                  <MusicItem musicInfo={item}></MusicItem>
+                  <div className="index-layer" index={index}>
+                    <MusicItem musicInfo={item}></MusicItem>
+                  </div>
                 </NGridItem>
               );
             })}
           </NGrid>
+          {
+            renderCurrentHoverItemSuspension()
+          }
         </section>
       );
     };

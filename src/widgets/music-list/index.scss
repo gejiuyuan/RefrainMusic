@@ -2,6 +2,9 @@
 @import "@scss/common";
 
 .music-list {
+
+  position: relative;
+
   .music-item {
     position: relative;
     @include flexVc();
@@ -79,45 +82,47 @@
       }
     }
 
-    .suspension {
-      position: absolute;
-      left: 0;
-      top: 0;
-      max-width: 320px;
-      width: 80%;
-      filter: drop-shadow(0 0 20px rgba(80, 80, 80, 0.2));
-      z-index: 80;
-      border-radius: inherit;
-      overflow:hidden;
-      
-      h6 {
-        padding: 8px 14px;
-        background-color: var(--theme);
-        color: $colorbase;
-        filter: brightness(115%);
-        // background-color: rgba(244, 243, 244, 0.95);
-        // color: #566;
-        font-size: 14px;
-      }
+  }
+ 
+  .suspension {
+    position: absolute;
+    left: 0;
+    top: 0;
+    max-width: 340px;
+    min-width: 140px;
+    filter: drop-shadow(0 0 20px rgba(80, 80, 80, 0.2));
+    z-index: 80;
+    border-radius: inherit;
+    overflow:hidden;
+    
+    h6 {
+      padding: 8px 14px;
+      background-color: var(--theme);
+      color: $colorbase;
+      filter: brightness(115%);
+      // background-color: rgba(244, 243, 244, 0.95);
+      // color: #566;
+      font-size: 14px;
+    }
 
-      .desc {
-        padding: 6px 14px;
-        background-color: $colorbase;
-        color: #666;
-        font-size: 13px;
+    .desc {
+      padding: 6px 14px;
+      background-color: $colorbase;
+      color: #666;
+      font-size: 13px;
 
-        p {
-          @include flex();
-          padding: 4px 0;
-          line-height: 1.4;
+      p {
+        @include flex();
+        padding: 4px 0;
+        line-height: 1.4;
 
-          > em {
-            width: 5em;
-            white-space: nowrap;
-          }
-
+        > em {
+          width: 5em;
+          white-space: nowrap;
         }
+
       }
     }
   }
+
 }
