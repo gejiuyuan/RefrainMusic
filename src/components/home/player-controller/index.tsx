@@ -56,9 +56,9 @@ export default defineComponent({
           <div className="controller-progressbar">
             <ProgressBar
               currentRatio={(currentTime * 100) / duration}
-              onDown={() => {}}
-              onMove={() => {}}
-              onChange={() => {}}
+              onDown={() => { }}
+              onMove={() => { }}
+              onChange={() => { }}
               onUp={progressUp}
             ></ProgressBar>
           </div>
@@ -76,7 +76,7 @@ export default defineComponent({
               </div>
 
               <div className="music-info">
-                <div class="name">{musicName}</div>
+                <div class="name" title={musicName} singallinedot>{musicName}</div>
                 <MusicSinger singers={singers}></MusicSinger>
               </div>
             </section>

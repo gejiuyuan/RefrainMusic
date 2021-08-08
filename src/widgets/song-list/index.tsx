@@ -17,6 +17,7 @@ import RoutePagination from "@/widgets/route-pagination";
 import "./index.scss";
 import { NEmpty, NGrid, NGridItem } from "naive-ui";
 import { UNICODE_CHAR, padPicCrop } from "@utils/index";
+import { getFullName, getFullNames } from "@/utils/apiSpecial";
 
 export default defineComponent({
   name: "Songlist",
@@ -109,27 +110,29 @@ export default defineComponent({
               ? (
                 <NGrid xGap={gaps.x} yGap={gaps.y} cols={cols}>
                   {
-                    playlists.map((item: any) => (
-                      <NGridItem key={item.id}>
-                        <section
-                          class="music-item"
-                          onClick={() => toSonglistDetailPage(item.id)}
-                        >
-                          <div class="music-cover" aspectratio="1">
-                            <img
-                              loading="lazy"
-                              src={padPicCrop(item.coverImgUrl, { x: 340, y: 340 })}
-                              alt={`${item.name}-${item.description}`}
-                              title={`${item.name}-${item.description}`}
-                            />
-                          </div>
-                          <div class="music-body">
-                            <h6 title={item.name}>{item.name}</h6>
-                            <p title={item.singer}>{item.description}</p>
-                          </div>
-                        </section>
-                      </NGridItem>
-                    ))
+                    playlists.map(({ name, id, singer, coverImgUrl, description }: any) => {
+                      return (
+                        <NGridItem key={id}>
+                          <section
+                            class="music-item"
+                            onClick={() => toSonglistDetailPage(id)}
+                          >
+                            <div class="music-cover" aspectratio="1">
+                              <img
+                                loading="lazy"
+                                src={padPicCrop(coverImgUrl, { x: 340, y: 340 })}
+                                alt={`${name}-${description}`}
+                                title={`${name}-${description}`}
+                              />
+                            </div>
+                            <div class="music-body">
+                              <h6 title={name}>{name}</h6>
+                              <p title={description}>{description}</p>
+                            </div>
+                          </section>
+                        </NGridItem>
+                      )
+                    })
                   }
                 </NGrid>
               )

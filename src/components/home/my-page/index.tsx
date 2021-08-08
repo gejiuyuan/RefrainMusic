@@ -1,14 +1,17 @@
+import { getMyLevelInfo } from "@/api/auth";
 import { userPlaylist, userRecord } from "@/api/user";
 import useUserStore from "@/stores/user";
-import { phoneVerifyPatt, UNICODE_CHAR } from "@/utils";
+import { getDate, getLocaleDate, phoneVerifyPatt, UNICODE_CHAR } from "@/utils";
 import MusicList from "@/widgets/music-list";
 import SongList from "@/widgets/song-list";
 import { FormItemRule, NButton, NCol, NEmpty, useMessage } from "naive-ui";
 import {
+  computed,
   defineComponent,
   nextTick,
   reactive,
   watch,
+  watchEffect,
 } from "vue";
 import { onBeforeRouteLeave, useRoute, useRouter } from "vue-router";
 import './index.scss';
@@ -20,12 +23,24 @@ export default defineComponent({
     const userStore = useUserStore();
     const route = useRoute();
 
+    // getMyLevelInfo().then((res) => {
+    //   console.info(res)
+    // })
+
     const myData = reactive({
       playlist: {
         myCreated: [],
         myCollection: []
       },
       playRecord: [],
+    })
+
+    const relativeInfos = computed(() => {
+      const profile = userStore.detail.profile;
+      const infos = [];
+      infos.push({ name: `村龄${UNICODE_CHAR.smile}`, content: `${new Date().getFullYear() - getDate(profile.createTime).year}年（${getLocaleDate(profile.createTime)}）` })
+      infos.push({ name: '个人签名', content: profile.signature })
+      return infos
     })
 
     watch(() => userStore.isLogin, (isLogin) => {
@@ -91,6 +106,18 @@ export default defineComponent({
               <h3 class="my-nickname">
                 {userStore.detail.profile.nickname}
               </h3>
+
+              {
+                relativeInfos.value.map(({ name, content }) => {
+                  return (
+                    <p class="header-layer">
+                      <span>{name}：</span>
+                      <em>{content}</em>
+                    </p>
+                  )
+                })
+              }
+
             </div>
 
           </section>

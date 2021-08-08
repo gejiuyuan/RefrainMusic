@@ -1,42 +1,7 @@
 @import "@scss/variable";
 
-.music-wrap {
-  padding: 20px;
-
-  .music-item { 
-    transition: transform 0.2s ease-in-out, filter 0.18s, backdrop-filter 0.18s;
-    cursor: pointer;
-
-    &:hover {
-      transform: translateY(-8px);
-      filter: drop-shadow(0 0 34px rgba(50, 50, 50, 0.2));
-      backdrop-filter: blur(10px);
-    }
-
-    .music-cover {
-      img {
-        border-radius: 6px;
-      }
-    }
-
-    .music-body {
-      h6 {
-        color: #555;
-        font-size: 16px;
-        font-weight: bold;
-        line-height: 2.4;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-      p {
-        color: #677;
-        font-size: 14px;
-        line-height: 1.8;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-    }
+.music-hall-newestmusic {  
+  .newestmusic-layer {
+    margin: 24px 0;
   }
 }

@@ -4,7 +4,8 @@
 .music-list {
 
   position: relative;
-
+  min-height: 340px;
+  
   .music-item {
     position: relative;
     @include flexVc();
@@ -89,7 +90,7 @@
     left: 0;
     top: 0;
     max-width: 340px;
-    min-width: 140px;
+    min-width: 240px;
     filter: drop-shadow(0 0 20px rgba(80, 80, 80, 0.2));
     z-index: 80;
     border-radius: inherit;

@@ -1,4 +1,4 @@
-import { toString, isPrototypeOf, isExtensible } from "./constants";
+import { toString, isPrototypeOf, isExtensible, EMPTY_OBJ } from "./constants";
 // import ColorThief from "colorthief";
 
 export const typeOf = (ins: any): string =>
@@ -30,7 +30,7 @@ export const trim = function (s: string) {
   return (s || "").replace(/^[\s\uFEFF]+|[\s\uFEFF]+$/g, "");
 };
 
-export const filterUselessKey = (obj: PlainObject<any>) => {
+export const filterUselessKey = (obj: PlainObject<any> = EMPTY_OBJ) => {
   Object.keys(obj).forEach((key) => {
     if (obj[key] === void 0) {
       delete obj[key];

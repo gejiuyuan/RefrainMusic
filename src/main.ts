@@ -5,7 +5,9 @@ import routerObj from "@router/index";
 import "@scss/main.scss";
 import YuanPlayer from "./App";
 import './swiper';   
+
  
+
 //创建app根实例
 const vueApp = createApp(YuanPlayer);
  

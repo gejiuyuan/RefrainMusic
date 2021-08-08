@@ -30,7 +30,7 @@ const routerObj = createRouter({
 
 routerObj.beforeEach((to, from, next) => {
   nextTick(() => {
-    const homeMainElm = document.querySelector(".main-content");
+    const homeMainElm = document.querySelector(".player-container");
     homeMainElm && (homeMainElm.scrollTop = 0);
   });
   next();

@@ -76,3 +76,13 @@ export function allTopListDetail() {
     },
   }).then(({ data }) => data);
 }
+
+/**
+ * 国家编码列表
+ * @returns 
+ */
+export function getCountryCode() {
+  return anfrage({
+    url: '/countries/code/list',
+  }).then(({data}) => data);
+}

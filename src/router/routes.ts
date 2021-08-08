@@ -5,6 +5,7 @@ import MusicHallTop from "@components/home/music-hall/top";
 import MusicHallNewest from "@components/home/music-hall/newestmusic";
 import MusicHallSonglist from "@components/home/music-hall/songlist";
 import MusicHallArtist from "@components/home/music-hall/artist";
+import MusicHallNewdisc from "@/components/home/music-hall/newestdisc";
 
 import MusicRadio from "@components/home/music-radio";
 import OnlineVideo from "@components/home/online-video";
@@ -110,6 +111,10 @@ const routes = [
           {
             path: "newestmusic",
             component: MusicHallNewest,
+          },
+          {
+            path: "newestdisc",
+            component: MusicHallNewdisc,
           },
           {
             path: "songlist",

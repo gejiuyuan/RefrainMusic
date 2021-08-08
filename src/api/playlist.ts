@@ -266,7 +266,7 @@ export function newAlbumPutOn(params: {
   year?: number | string;
   month?: number | string;
 }) {
-  const { limit = 50, offset = 0, area, type, year, month } = params;
+  const { limit = 50, offset = 0, area = "ALL", type = 'new', year, month } = params;
   return anfrage({
     url: "/top/album",
     method: "get",
