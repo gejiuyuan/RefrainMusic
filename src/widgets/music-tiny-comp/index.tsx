@@ -21,6 +21,65 @@ import { useRouter } from "vue-router";
 import { CurrentSongInfo } from "@/utils/apiSpecial";
 import usePlayerStore from "@/stores/player";
 
+export type PlayOrderType = 'order' | 'random' | 'singleLoop';
+export enum PlayOrderInfo {
+  order = '顺序播放',
+  random = '随机播放',
+  singleLoop = '单曲循环'
+}
+export const PlayOrder = defineComponent({
+  name: 'PlayOrder',
+  setup(props, { slots, emit }) {
+    const playOrderRef = ref<HTMLDivElement>()
+    const playerStore = usePlayerStore();
+    const suspensionShow = ref(false);
+
+    onClickOutside(playOrderRef, () => {
+      suspensionShow.value = false;
+    })
+
+    const switchOrderStatus = (orderStatus: PlayOrderType) => {
+      playerStore.order = orderStatus;
+      suspensionShow.value = false;
+    }
+
+    const noumenonClick = () => {
+      suspensionShow.value = true;
+    }
+
+    return () => {
+      const { order } = playerStore;
+      return (
+        <div class="play-order controller-widget" ref={playOrderRef}>
+          <div className="play-order-noumenon controller-widget-noumenon" onClick={noumenonClick}>
+            <i className="iconfont icon-random" hidden={order !== 'random'}></i>
+            <i className="iconfont icon-order" hidden={order !== 'order'}></i>
+            <i className="iconfont icon-single-loop" hidden={order !== 'singleLoop'}></i>
+          </div>
+          <div className="play-order-suspension controller-widget-suspension" visibility={suspensionShow.value}>
+            <div class="play-order-duplicate controller-widget-duplicate">
+              <div className="play-order-duplicate-item" onClick={() => switchOrderStatus('random')}>
+                <i className="iconfont icon-random"></i>
+                <span>{PlayOrderInfo.random}</span>
+              </div>
+              <div className="play-order-duplicate-item" onClick={() => switchOrderStatus('order')}>
+                <i className="iconfont icon-order" hidden={false}></i>
+                <span>{PlayOrderInfo.order}</span>
+              </div>
+              <div className="play-order-duplicate-item" onClick={() => switchOrderStatus('singleLoop')}>
+                <i className="iconfont icon-single-loop" hidden={false}></i>
+                <span>{PlayOrderInfo.singleLoop}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )
+
+    }
+
+  }
+})
+
 export const PlaySwitch = defineComponent({
   name: 'PlaySwitch',
   props: {
@@ -131,12 +190,12 @@ export const Volume = defineComponent({
       const { mute } = audioStore;
       const { ratio, decimal } = volumeData.value;
       return (
-        <div class="volume" ref={volumeRef}>
-          <div className="volume-noumenon" onClick={switchShow}>
+        <div class="volume controller-widget" ref={volumeRef}>
+          <div className="volume-noumenon controller-widget-noumenon" onClick={switchShow}>
             <i className="iconfont icon-yinliang" hidden={mute}></i>
             <i className="iconfont icon-mute" hidden={!mute}></i>
           </div>
-          <div className="volume-suspension" visibility={isShow.value}>
+          <div className="volume-suspension controller-widget-suspension" visibility={isShow.value}>
             <div className="volume-progressbar">
               <ProgressBar
                 dir="vertical"
@@ -146,7 +205,7 @@ export const Volume = defineComponent({
               ></ProgressBar>
             </div>
             <div className="volume-ratio">{ratio}</div>
-            <div class="volume-duplicate" onClick={switchMuted}>
+            <div class="volume-duplicate controller-widget-duplicate" onClick={switchMuted}>
               <i className="iconfont icon-yinliang" hidden={mute}></i>
               <i className="iconfont icon-mute" hidden={!mute}></i>
             </div>

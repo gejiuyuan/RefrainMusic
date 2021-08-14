@@ -1,8 +1,7 @@
 import { defineStore } from "pinia";
 
 const defaultAudioOptions = {
-  volume: 0.5, //
-  order: "order", // random、loop
+  volume: 0.5, // 
   src: "",
   rate: 1,
   playing: false,
@@ -27,7 +26,6 @@ const useAudioStore = defineStore({
   state() {
     const audioState: AudioStateType = {
       volume: 0.5, //
-      order: "order", // random、loop
       src: "",
       rate: 1,
       playing: false,

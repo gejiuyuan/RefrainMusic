@@ -5,7 +5,7 @@ module.exports = {
   printWidth: 70,
 
   //是否制表符替代空格控制缩进
-  useTabs: true,
+  // useTabs: true,
 
   //每一行后始终打印分号
   semi: true,

@@ -2,7 +2,7 @@
 
 .music-hall-songlist {
   .songlist-all-link {
-    @include flexInline;
+    @include flexInline();
     padding: 6px 16px;
     background-color: rgba(90, 90, 90, 0.15);
     color: #222;

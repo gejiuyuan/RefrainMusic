@@ -1,5 +1,6 @@
 @import "@scss/variable";
 
+
 .play-switch {
   @include flexHcVc();
   position: relative;
@@ -18,19 +19,22 @@
   }
 }
 
-.volume {
+.controller-widget {
   position: relative;
-  margin-right: 50px;
 
   &-noumenon,
   &-duplicate {
-    font-size: 22px;
     color: #555;
-    cursor: pointer;
-    transition: color 0.1s;
+    cursor: pointer;  
+    i {  
+      font-size: 22px;  
+    } 
+  }
+
+  &-noumenon {
     &:hover {
       color: var(--theme);
-    }
+    }  
   }
 
   &-suspension {
@@ -40,9 +44,10 @@
     z-index: 99;
     background-color: #fff;
     transform: translateX(-50%);
+    padding: 8px 0;
     border-radius: 8px;
     filter: drop-shadow(0 0 28px rgba(117, 102, 98, 0.4));
-
+  
     &::after {
       content: "";
       position: absolute;
@@ -55,6 +60,40 @@
     }
   }
 
+} 
+
+.play-order {
+  margin-left: 50px;
+
+  &-duplicate {
+    &-item {
+      @include flexHcVc();
+      padding: 8px 18px;
+      margin: 0 2px;
+      &:not(:last-of-type) {
+        border-bottom: 1px solid #eee;
+      }
+
+      &:hover {
+        color: var(--theme);
+        background-color: rgb(248, 245, 244);
+      }  
+
+      span {
+        @include flexInline();
+        width: 4rem;
+        margin-left: .5rem;
+        font-size: 14px;
+      }
+    }
+  }
+
+}
+
+.volume {
+  position: relative;
+  margin-right: 50px;
+ 
   &-progressbar {
     @include flexHc();
     height: 160px;
@@ -69,8 +108,11 @@
   }
 
   &-duplicate {
-    padding: 12px 28px;
+    padding: 10px 28px 2px 28px;
     border-top: 1px solid #eee;
+    &:hover {
+      color: var(--theme);
+    }  
   }
 }
 

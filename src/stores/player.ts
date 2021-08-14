@@ -4,6 +4,8 @@ import useAudioStore from "./audio";
 import { getMusicDetail, getLyric } from "@api/music";
 import { SongLyricItem } from "@/types/lyric";
 import { CurrentSongInfo, getModifiedSongInfo } from "@/utils/apiSpecial";
+import { PlayOrderType } from "@/widgets/music-tiny-comp";
+
 
 //实际使用的currentSongInfo的类型
 export type PlayerStoreStateType = {
@@ -13,6 +15,7 @@ export type PlayerStoreStateType = {
     songList: CurrentSongInfo[];
     show: boolean;
   };
+  order: PlayOrderType,
   lyric: {
     common: string;
     translation: string;
@@ -47,6 +50,7 @@ const usePlayerStore = defineStore({
         translation: "",
       },
       theme: "#ff7875",
+      order: "order", // random、singleLoop
       playerQueue: {
         show: false,
         songList: [],

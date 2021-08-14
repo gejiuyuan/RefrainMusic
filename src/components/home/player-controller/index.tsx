@@ -10,6 +10,7 @@ import {
   MusicLoveIcon,
   CurrentPlayTime,
   MusicSinger,
+  PlayOrder,
 } from "@/widgets/music-tiny-comp";
 import usePlayerStore from "@/stores/player";
 import useAudioStore from "@/stores/audio";
@@ -88,6 +89,7 @@ export default defineComponent({
                 <PlaySwitch></PlaySwitch>
               </div>
               <NextMusic></NextMusic>
+              <PlayOrder></PlayOrder>
             </section>
 
             <section class="main-block main-right">
