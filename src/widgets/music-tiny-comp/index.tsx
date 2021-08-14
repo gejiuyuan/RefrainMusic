@@ -7,38 +7,72 @@ import {
   ref,
   shallowReactive,
   watch,
+  watchEffect,
 } from "vue";
 import ProgressBar, {
   ProgressBarComp,
   ProgressInfo,
 } from "@widgets/progress-bar";
 import "./index.scss";
-import { decimalToPercent, rmDemicalInPercent, second2TimeStr } from "@/utils";
+import { decimalToPercent, EMPTY_OBJ, rmDemicalInPercent, second2TimeStr } from "@/utils";
 import { onClickOutside } from "@vueuse/core";
 import useAudioStore from "@/stores/audio";
 import { useRouter } from "vue-router";
 import { CurrentSongInfo } from "@/utils/apiSpecial";
+import usePlayerStore from "@/stores/player";
 
 export const PlaySwitch = defineComponent({
-  name: "PlaySwitch",
+  name: 'PlaySwitch',
+  props: {
+    id: {
+      type: [String, Number] as PropType<string | number>,
+      default: '',
+    }
+  },
   setup(props, { slots, emit }) {
+
     const audioStore = useAudioStore();
-    const switchPlaying = () => (audioStore.playing = !audioStore.playing);
+    const playerStore = usePlayerStore();
+    const playIconClass = computed(() => {
+      return props.id === '' ? 'icon-bofan' : 'icon-play'
+    })
+
+    //是否是当前正在播放的歌曲
+    const isCurrentPlayingSong = computed(() => {
+      const id = props.id;
+      return id === '' || playerStore.currentSongInfo.id === id
+    });
+
+    //播放按钮状态
+    const playing = computed(() => {
+      return isCurrentPlayingSong.value ? audioStore.playing : false;
+    });
+
+    const switchHandler = () => {
+      if (isCurrentPlayingSong.value) {
+        audioStore.playing = !audioStore.playing;
+      }
+      else {
+        playerStore.handlePlaySoundNeededData(+props.id);
+      }
+    }
     return () => {
-      const { playing } = audioStore;
+      const playingValue = playing.value;
+      const playingIconClassValue = playIconClass.value;
       return (
         <div
           className="play-switch"
-          onClick={switchPlaying}
-          title={playing ? "暂停" : "播放"}
+          onClick={switchHandler}
+          title={playingValue ? "暂停" : "播放"}
         >
-          <i class="iconfont icon-bofan" hidden={playing}></i>
-          <i class="iconfont icon-pause" hidden={!playing}></i>
+          <i class={`iconfont ${playingIconClassValue}`} hidden={playingValue}></i>
+          <i class="iconfont icon-pause" hidden={!playingValue}></i>
         </div>
-      );
-    };
-  },
-});
+      )
+    }
+
+  }
+})
 
 export const PrevMusic = defineComponent({
   name: "PrevMusic",

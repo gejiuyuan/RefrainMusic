@@ -13,8 +13,8 @@ import {
 } from "@/widgets/music-tiny-comp";
 import usePlayerStore from "@/stores/player";
 import useAudioStore from "@/stores/audio";
-import { getFullName, getFullNames } from "@/utils/apiSpecial";
 import { padPicCrop } from "@/utils";
+
 
 export default defineComponent({
   name: "PlayerController",
@@ -84,7 +84,9 @@ export default defineComponent({
             <section class="main-block main-center">
               <Volume></Volume>
               <PrevMusic></PrevMusic>
-              <PlaySwitch></PlaySwitch>
+              <div class="controller-play-switch">
+                <PlaySwitch></PlaySwitch>
+              </div>
               <NextMusic></NextMusic>
             </section>
 

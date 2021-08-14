@@ -85,6 +85,20 @@
     }
   }
 
+  .controller-play-switch {
+    @include flexHcVc();
+    width: 44px;
+    height: 44px;
+    border-radius: 100%;
+    background-color: var(--theme);
+    color: #fff;
+    font-size: 22px;
+    transition: filter 0.1s;
+    &:hover {
+      filter: brightness(115%);
+    }
+  }
+
   .play-queue-icon {
     @include flexVc();
     color: #666777;

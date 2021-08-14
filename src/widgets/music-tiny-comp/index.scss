@@ -3,18 +3,7 @@
 .play-switch {
   @include flexHcVc();
   position: relative;
-  width: 44px;
-  height: 44px;
-  border-radius: 100%;
-  background-color: var(--theme);
-  color: #fff;
-  font-size: 22px;
   cursor: pointer;
-  transition: filter 0.1s;
-
-  &:hover {
-    filter: brightness(115%);
-  }
 }
 
 .prev-music,
@@ -86,7 +75,7 @@
 }
 
 .music-love-icon {
-  font-size: 24px;
+  font-size: 22px;
   color: #777;
   cursor: pointer;
   transition: filter 0.1s;  
@@ -95,6 +84,7 @@
     filter: brightness(116%);
   }
 
+  &:hover,
   &[loved="true"] {
     color: var(--theme);
   }

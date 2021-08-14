@@ -1,18 +1,11 @@
 import usePlayerStore from "@/stores/player";
 import { onClickOutside } from "@vueuse/core";
-import { spawn } from "node:child_process";
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, watchEffect } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import "./index.scss";
+import { MusicLoveIcon, PlaySwitch, } from "@widgets/music-tiny-comp";
+import useAudioStore from "@/stores/audio";
 
-export const PlayerQueueSongItem = defineComponent({
-  name: "PlayerQueueSongItem",
-  setup(props, { emit, slots }) {
-    return () => {
-      return <li class="song-item"></li>;
-    };
-  },
-});
 
 export default defineComponent({
   name: "PlayerQueue",
@@ -59,6 +52,19 @@ export default defineComponent({
                     <h6>{name}</h6>
                     <div className="item-layer">
                       <em>{artists[0].name}</em>
+                    </div>
+                    <div class="tools">
+                      <div className="tool-item">
+                        <PlaySwitch id={id}></PlaySwitch>
+                      </div>
+                      <MusicLoveIcon></MusicLoveIcon>
+                      <div
+                        class="tool-item"
+                        title="添加到"
+                        singallinedot
+                      >
+                        <i class="iconfont icon-plus"></i>
+                      </div>
                     </div>
                   </li>
                 );
