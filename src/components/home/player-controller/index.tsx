@@ -102,7 +102,7 @@ export default defineComponent({
 
               <MusicLoveIcon songInfo={playerStore.currentSongInfo}></MusicLoveIcon>
 
-              <div className="play-queue-icon" onClick={showPlayerQueueHandler}>
+              <div className="play-queue-icon" onClick={showPlayerQueueHandler} title="播放队列">
                 <i className="iconfont icon-yinleliebiao"></i>
                 <span>{songList.length}</span>
               </div>

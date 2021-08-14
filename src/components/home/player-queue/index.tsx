@@ -73,8 +73,8 @@ export default defineComponent({
             </ul>
           </section>
           <footer class="queue-foot">
-            <em onClick={hidePlayerQueueHandler}>
-              <i className="iconfont icon-icon-1" title={"收起"}></i>
+            <em onClick={hidePlayerQueueHandler} title="收起">
+              <i className="iconfont icon-icon-1"></i>
               <span>收起</span>
             </em>
           </footer>

@@ -17,7 +17,7 @@ import ProgressBar, {
 } from "@widgets/progress-bar";
 import "./index.scss";
 import { decimalToPercent, EMPTY_OBJ, is, rmDemicalInPercent, second2TimeStr, UNICODE_CHAR } from "@/utils";
-import { onClickOutside, useStorage } from "@vueuse/core";
+import { onClickOutside, onKeyStroke, useStorage } from "@vueuse/core";
 import useAudioStore from "@/stores/audio";
 import { useRouter } from "vue-router";
 import { CurrentSongInfo, getSongExtraInfo } from "@/utils/apiSpecial";
@@ -61,7 +61,7 @@ export const PlayOrder = defineComponent({
       const { order } = playerStore;
       return (
         <div class="play-order controller-widget" ref={playOrderRef}>
-          <div className="play-order-noumenon controller-widget-noumenon" onClick={noumenonClick}>
+          <div className="play-order-noumenon controller-widget-noumenon" onClick={noumenonClick} title={PlayOrderInfo[order]}>
             <i className="iconfont icon-random" hidden={order !== 'random'}></i>
             <i className="iconfont icon-order" hidden={order !== 'order'}></i>
             <i className="iconfont icon-single-loop" hidden={order !== 'singleLoop'}></i>
@@ -143,6 +143,14 @@ export const PlayStatusSwitch = defineComponent({
   }
 })
 
+
+export const isCtrlAndArrowUp = ({ key, ctrlKey }: KeyboardEvent) => {
+  return ctrlKey && key === "ArrowUp";
+}
+export const isCtrlAndArrowDown = ({ key, ctrlKey }: KeyboardEvent) => {
+  return ctrlKey && key === 'ArrowDown';
+}
+
 export const Volume = defineComponent({
   name: "Volume",
   setup(props, { slots, emit }) {
@@ -170,16 +178,33 @@ export const Volume = defineComponent({
       event: "pointerup",
     });
 
+    onKeyStroke(isCtrlAndArrowUp, () => {
+      let tarVolume = audioStore.volume + .05;
+      tarVolume > 1 && (tarVolume = 1);
+      audioStore.volume = tarVolume;
+    }, {
+      eventName: 'keyup',
+    })
+
+    onKeyStroke(isCtrlAndArrowDown, () => {
+      let tarVolume = audioStore.volume - .05;
+      tarVolume < 0 && (tarVolume = 0);
+      audioStore.volume = tarVolume;
+    }, {
+      eventName: 'keyup',
+    })
+
     return () => {
       const { mute } = audioStore;
       const { ratio, decimal } = volumeData.value;
+      const title = `音量：${ratio}；增大音量：Ctrl+Up；减小音量：Ctrl+Down`
       return (
         <div class="volume controller-widget" ref={volumeRef}>
-          <div className="volume-noumenon controller-widget-noumenon" onClick={switchShow}>
+          <div className="volume-noumenon controller-widget-noumenon" onClick={switchShow} title={title}>
             <i className="iconfont icon-yinliang" hidden={mute}></i>
             <i className="iconfont icon-mute" hidden={!mute}></i>
           </div>
-          <div className="volume-suspension controller-widget-suspension" visibility={isShow.value}>
+          <div className="volume-suspension controller-widget-suspension" visibility={isShow.value} title={title}>
             <div className="volume-progressbar">
               <ProgressBar
                 dir="vertical"
