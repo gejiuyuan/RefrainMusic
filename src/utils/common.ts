@@ -1,4 +1,4 @@
-import { toString, isPrototypeOf, isExtensible, EMPTY_OBJ } from "./constants";
+import { toString, isPrototypeOf, isExtensible, EMPTY_OBJ, hasOwnProperty } from "./constants";
 // import ColorThief from "colorthief";
 
 export const typeOf = (ins: any): string =>
@@ -11,7 +11,7 @@ export const is = {
   regexp: (ins: any): ins is RegExp => typeOf(ins) === "regexp",
   boolean: (ins: any): ins is boolean => typeof ins === "boolean",
   null: (ins: any): ins is null => ins === null,
-  function: (ins: any): ins is Function => typeof ins === "function",
+  function: (ins: any): ins is (...args: any[]) => any => typeof ins === "function",
   number: (ins: any): ins is number => typeof ins === "number",
   emptyArray: (ins: any): ins is Array<void> =>
     is.array(ins) && ins.length === 0,
@@ -39,7 +39,7 @@ export const filterUselessKey = (obj: PlainObject<any> = EMPTY_OBJ) => {
   return obj;
 };
 
-export function deepCopy<T extends object>(
+export function deepCopy<T extends PlainObject<unknown>>(
   obj: T,
   hash: WeakMap<T, any> = new WeakMap()
 ): Writeable<T> {
@@ -78,7 +78,7 @@ export const camelize = (str: string) =>
 
 export const merge = (defaults: PlainObject, options: PlainObject) => {
   for (const key in defaults) {
-    if (defaults.hasOwnProperty(key)) {
+    if (hasOwnProperty.call(defaults, key)) {
       options[key] === void 0 && (options[key] = defaults[key]);
     }
   }
@@ -159,13 +159,19 @@ export const objToQuery = (obj: PlainObject<string>, prefix = false) =>
   is.emptyObject(obj)
     ? ""
     : `${prefix ? "?" : ""}${Object.entries(obj)
-        .map((arr) => arr.join("="))
-        .join("&")}`;
+      .map((arr) => arr.join("="))
+      .join("&")}`;
 
 export const padPicCrop = (
   picUrl: string,
   { x, y }: Record<"x" | "y", number>
 ) => picUrl + `?param=${x}y${y}`;
+
+export const randomSorter = (a: any, b: any) => Math.random() - .5;
+
+export const getRandomList = <T>(list: T[], sorter: (a: T, b: T) => any = randomSorter) => {
+  return [...list].sort(sorter);
+}
 
 // const colorthief = new ColorThief();
 // export const getImageMainColor = (imgUrl: string) => {

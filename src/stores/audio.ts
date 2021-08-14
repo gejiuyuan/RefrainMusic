@@ -10,7 +10,6 @@ const defaultAudioOptions = {
   currentTime: 0,
   nextSeekTime: 0,
   duration: 0,
-  loop: true,
   mute: false,
 };
 
@@ -34,7 +33,6 @@ const useAudioStore = defineStore({
       currentTime: 0,
       nextSeekTime: 0,
       duration: 0,
-      loop: true,
       srcOrId: "",
       picUrl: "",
       musicName: "",

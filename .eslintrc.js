@@ -1,3 +1,8 @@
+/**
+ * @introduction 详见： 
+ *  eslint rules： https://eslint.bootcss.com/docs/rules/
+ *  eslint typescript rules： https://www.npmjs.com/package/@typescript-eslint/eslint-plugin
+ */
 module.exports = {
     "env": {
         "browser": true,
@@ -19,8 +24,16 @@ module.exports = {
     ],
     "rules": {
         "no-alert": "off",
+        //是否禁用不必要的\转义字符
+        "no-useless-escape": "off",
         "@typescript-eslint/no-var-requires": "off",
         "@typescript-eslint/no-empty-function": "off",
         "@typescript-eslint/no-unused-vars": "off",
+        //允许!非空断言
+        "@typescript-eslint/no-non-null-assertion": "off",
+        //允许声明any类型
+        "@typescript-eslint/no-explicit-any": "off",
+        //导出函数和类的公共类方法是否需要显式返回和参数类型 
+        "@typescript-eslint/explicit-module-boundary-types": "off",
     }
 };

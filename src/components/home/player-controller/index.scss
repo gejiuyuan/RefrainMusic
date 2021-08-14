@@ -118,4 +118,17 @@
       color: var(--theme);
     }
   }
+
+  .prev-music,
+  .next-music {
+    margin: 0 8px;
+    color: #666;
+    font-size: 34px;
+    cursor: pointer;
+    transition: color 0.1s;
+    &:hover {
+      color: var(--theme);
+    }
+  }
+
 }

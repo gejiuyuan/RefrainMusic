@@ -11,7 +11,7 @@ import {
 import usePlayerStore from "@/stores/player";
 import YuanTable, { YuanTableColumn } from "./yuan-table";
 import { NGrid, NGridItem } from "naive-ui";
-import { MusicLoveIcon, PlaySwitch } from "../music-tiny-comp";
+import { MusicLoveIcon, PlayStatusSwitch } from "../music-tiny-comp";
 import useAudioStore from "@/stores/audio";
 import { useRoute } from "vue-router";
 
@@ -99,7 +99,7 @@ export default defineComponent({
                           <div
                             class="tool-item"
                           >
-                            <PlaySwitch id={id}></PlaySwitch>
+                            <PlayStatusSwitch id={id}></PlayStatusSwitch>
                           </div>
                           <div
                             class="tool-item"

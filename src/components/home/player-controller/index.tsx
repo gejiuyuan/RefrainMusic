@@ -3,9 +3,7 @@ import { useRoute, useRouter } from "vue-router";
 import "./index.scss";
 import ProgressBar, { ProgressInfo } from "@/widgets/progress-bar";
 import {
-  PlaySwitch,
-  PrevMusic,
-  NextMusic,
+  PlayStatusSwitch,
   Volume,
   MusicLoveIcon,
   CurrentPlayTime,
@@ -15,6 +13,7 @@ import {
 import usePlayerStore from "@/stores/player";
 import useAudioStore from "@/stores/audio";
 import { padPicCrop } from "@/utils";
+import usePlaySwitch from "@/use/usePlaySwitch";
 
 
 export default defineComponent({
@@ -24,6 +23,8 @@ export default defineComponent({
     const route = useRoute();
     const playerStore = usePlayerStore();
     const audioStore = useAudioStore();
+
+    const { toNext, toPrevious } = usePlaySwitch();
 
     const showPlayerDetailPage = () => {
       const { query, path } = route;
@@ -84,11 +85,15 @@ export default defineComponent({
 
             <section class="main-block main-center">
               <Volume></Volume>
-              <PrevMusic></PrevMusic>
-              <div class="controller-play-switch">
-                <PlaySwitch></PlaySwitch>
+              <div className="prev-music" title="上一首 Ctrl+Left" onClick={toPrevious}>
+                <i class="iconfont icon-prevmusic"></i>
               </div>
-              <NextMusic></NextMusic>
+              <div class="controller-play-switch">
+                <PlayStatusSwitch></PlayStatusSwitch>
+              </div>
+              <div className="next-music" title="下一首 Ctrl+Right" onClick={toNext}>
+                <i class="iconfont icon-nextmusic"></i>
+              </div>
               <PlayOrder></PlayOrder>
             </section>
 

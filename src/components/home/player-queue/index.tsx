@@ -3,7 +3,7 @@ import { onClickOutside } from "@vueuse/core";
 import { defineComponent, ref, watchEffect } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import "./index.scss";
-import { MusicLoveIcon, PlaySwitch, } from "@widgets/music-tiny-comp";
+import { MusicLoveIcon, PlayStatusSwitch, } from "@widgets/music-tiny-comp";
 import useAudioStore from "@/stores/audio";
 
 
@@ -55,7 +55,7 @@ export default defineComponent({
                     </div>
                     <div class="tools">
                       <div className="tool-item">
-                        <PlaySwitch id={id}></PlaySwitch>
+                        <PlayStatusSwitch id={id}></PlayStatusSwitch>
                       </div>
                       <MusicLoveIcon></MusicLoveIcon>
                       <div

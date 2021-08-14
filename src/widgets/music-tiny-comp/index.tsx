@@ -22,6 +22,10 @@ import { CurrentSongInfo } from "@/utils/apiSpecial";
 import usePlayerStore from "@/stores/player";
 
 export type PlayOrderType = 'order' | 'random' | 'singleLoop';
+export const isByOrder = (id: PlayOrderType) => id === 'order';
+export const isSingleLoopOrder = (id: PlayOrderType) => id === 'singleLoop';
+export const isRandomOrder = (order: PlayOrderType) => order === 'random';
+
 export enum PlayOrderInfo {
   order = '顺序播放',
   random = '随机播放',
@@ -80,8 +84,8 @@ export const PlayOrder = defineComponent({
   }
 })
 
-export const PlaySwitch = defineComponent({
-  name: 'PlaySwitch',
+export const PlayStatusSwitch = defineComponent({
+  name: 'PlayStatusSwitch',
   props: {
     id: {
       type: [String, Number] as PropType<string | number>,
@@ -132,32 +136,6 @@ export const PlaySwitch = defineComponent({
 
   }
 })
-
-export const PrevMusic = defineComponent({
-  name: "PrevMusic",
-  setup(props, { slots, emit }) {
-    return () => {
-      return (
-        <div className="prev-music" title="上一首">
-          <i class="iconfont icon-prevmusic"></i>
-        </div>
-      );
-    };
-  },
-});
-
-export const NextMusic = defineComponent({
-  name: "NextMusic",
-  setup(props, { slots, emit }) {
-    return () => {
-      return (
-        <div className="next-music">
-          <i class="iconfont icon-nextmusic" title="下一首"></i>
-        </div>
-      );
-    };
-  },
-});
 
 export const Volume = defineComponent({
   name: "Volume",

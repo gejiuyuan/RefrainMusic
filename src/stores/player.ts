@@ -66,6 +66,10 @@ const usePlayerStore = defineStore({
     },
   },
   actions: {
+    //发布后置执行的标识
+    publishAfterMark(mark: any) {
+      return mark;
+    },
     //处理播放歌曲需要的数据
     handlePlaySoundNeededData(id: number) {
       //如果已经是当前播放的歌曲了，就return

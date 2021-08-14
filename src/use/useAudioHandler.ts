@@ -1,10 +1,16 @@
 import { watch, toRefs, watchEffect } from "vue";
-import useHowler from "@/use/useHowler";
+import useHowler, { UseHowlerOptions } from "@/use/useHowler";
 import useAudioStore from "@/stores/audio";
 import { useLoadingBar, useMessage } from "naive-ui";
 import usePlayerStore from "@/stores/player";
 import { messageApiInjectionKey } from "naive-ui/lib/message/src/MessageProvider";
 import { UNICODE_CHAR } from "@/utils";
+import { isSingleLoopOrder } from "@/widgets/music-tiny-comp";
+
+/**
+ * 播放下一首歌的标识，用于在pinia.$action中的after中接受
+ */
+export const TO_NEXT_MARK = 'toNextMark';
 
 export function useAudioHandler() {
   const loadingBar = useLoadingBar()!;
@@ -19,8 +25,8 @@ export function useAudioHandler() {
     volume,
     rate,
     mute,
-    load,
     loop,
+    load,
     play,
     stop,
     currentTime,
@@ -30,16 +36,34 @@ export function useAudioHandler() {
     once,
   } = useHowler();
   let timeUpdateInterval: ReturnType<typeof setInterval>;
+
   watch(
     () => audioStore.srcOrId,
     (val) => {
-      playSound(val, {
-        loop: audioStore.loop,
-      });
+      playSound(val);
+      //设置是否循环播放
+      setLoopStatus();
       audioStore.playing = true;
       loadingBar.start();
     }
   );
+
+  const setLoopStatus = () => {
+    loop.value = isSingleLoopOrder(playerStore.order);
+  }
+
+  watchEffect(() => {
+    //是否单曲循环播放
+    loop.value = playerStore.order === 'singleLoop';
+  });
+
+  on('end', () => {
+    if (playerStore.order === 'singleLoop') {
+      return;
+    }
+    //通知playerStore执行toNext切换下一首方法
+    playerStore.publishAfterMark(TO_NEXT_MARK);
+  });
 
   watchEffect(() => {
     currentTime.value = audioStore.nextSeekTime;
@@ -65,6 +89,7 @@ export function useAudioHandler() {
     loadingBar.finish();
 
     audioStore.duration = duration.value;
+    loop.value = playerStore.order === 'singleLoop';
 
     clearInterval(timeUpdateInterval);
     timeUpdateInterval = setInterval(() => {
@@ -75,8 +100,12 @@ export function useAudioHandler() {
 
   on("loaderror", () => {
     loadingBar.error();
-    message.error(`歌曲加载失败啦~${UNICODE_CHAR.pensive}`, {
+    message.error(`歌曲加载失败啦~将在2秒后播放下一首喔~${UNICODE_CHAR.pensive}`, {
       duration: 2000,
     })
+    setTimeout(() => {
+      //通知playerStore执行toNext切换下一首方法
+      playerStore.publishAfterMark(TO_NEXT_MARK);
+    }, 2000)
   });
 }
