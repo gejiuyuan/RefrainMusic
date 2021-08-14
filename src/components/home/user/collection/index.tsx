@@ -13,9 +13,12 @@ import {
 import { useRouter, useRoute, onBeforeRouteLeave } from "vue-router";
 import Songlist from "@widgets/song-list";
 import "./index.scss";
+import { COMPONENT_NAME, PAGE_SIZE } from "@/utils/preference";
+
+const defaultLimit = PAGE_SIZE[COMPONENT_NAME.USER_COLLECTION];
 
 export default defineComponent({
-  name: "UserCollection",
+  name: COMPONENT_NAME.USER_COLLECTION,
   setup(props, context) {
     const songlists = inject("songlists") as any;
     return () => {
@@ -28,7 +31,7 @@ export default defineComponent({
               收藏的
               <span>{data.length}</span>
             </h5>
-            <Songlist playlists={data} hasMore={hasMore}></Songlist>
+            <Songlist playlists={data} hasMore={hasMore} defaultLimit={defaultLimit}></Songlist>
           </section>
         </section>
       )

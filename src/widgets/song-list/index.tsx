@@ -18,6 +18,9 @@ import "./index.scss";
 import { NEmpty, NGrid, NGridItem } from "naive-ui";
 import { UNICODE_CHAR, padPicCrop } from "@utils/index";
 import { getFullName, getFullNames } from "@/utils/apiSpecial";
+import { PAGE_SIZE } from "@/utils/preference";
+
+const songlistDefaultLimit = PAGE_SIZE.DEFAULT;
 
 export default defineComponent({
   name: "Songlist",
@@ -30,7 +33,7 @@ export default defineComponent({
     defaultLimit: {
       type: Number as PropType<number>,
       required: false,
-      default: 30,
+      default: songlistDefaultLimit,
     },
     total: {
       type: Number as PropType<number>,
@@ -69,28 +72,16 @@ export default defineComponent({
       sizeArr: [] as number[],
     });
 
-    watch(
-      () => props,
-      (props) => {
-        const defaultLimit = props.defaultLimit;
-        topListInfo.limit = defaultLimit;
-        topListInfo.total = props.total;
-        topListInfo.sizeArr = Array(3)
-          .fill("")
-          .map((v, i) => defaultLimit * (i + 1));
-      },
-      {
-        immediate: true,
-        deep: true,
-      }
-    );
-
     const updateTolListInfo = (query: PlainObject) => {
-      const { limit = props.defaultLimit, offset = 0 } = query;
+      const { defaultLimit, total } = props;
+      const { limit = defaultLimit, offset = 0 } = query;
       topListInfo.limit = limit;
       topListInfo.offset = offset;
+      topListInfo.total = total;
+      topListInfo.sizeArr = Array(2)
+        .fill("")
+        .map((v, i) => defaultLimit * (i + 1));
     };
-
     updateTolListInfo(route.query as PlainObject);
 
     onBeforeRouteUpdate((to, from, next) => {

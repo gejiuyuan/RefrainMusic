@@ -15,6 +15,7 @@ import { SongInfo } from "@/types/song";
 import { artistSongs } from "@api/singer";
 import "./index.scss";
 import { NRadioGroup, NSpace, NRadio } from "naive-ui";
+import { COMPONENT_NAME, PAGE_SIZE } from "@/utils/preference";
 
 const orders = [
   { text: "最新", key: "time" },
@@ -23,12 +24,12 @@ const orders = [
 
 const defaultAllSongs = {
   order: orders[0].key,
-  limit: 30,
+  limit: PAGE_SIZE[COMPONENT_NAME.ARTIST_ALLSONGS],
   offset: 0,
 };
 
 export default defineComponent({
-  name: "ArtistAllSongs",
+  name: COMPONENT_NAME.ARTIST_ALLSONGS,
   setup(props, context) {
     const router = useRouter();
     const route = useRoute();

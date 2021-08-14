@@ -11,9 +11,10 @@ import { artistAlbum } from "@api/singer";
 import { AlbumInfo } from "@/types/album";
 import RoutePagination from "@/widgets/route-pagination";
 import AlbumList from "@/widgets/album-list";
+import { COMPONENT_NAME, PAGE_SIZE } from "@/utils/preference";
 
 const defaultSingerAlbumInfo = {
-  limit: 18,
+  limit: PAGE_SIZE[COMPONENT_NAME.ARTIST_ALBUM],
   offset: 0,
 };
 
@@ -22,7 +23,7 @@ export interface RealAlbumInfo {
 }
 
 export default defineComponent({
-  name: "ArtistAlbum",
+  name: COMPONENT_NAME.ARTIST_ALBUM,
   setup(props, { slots, emit }) {
     const router = useRouter();
 

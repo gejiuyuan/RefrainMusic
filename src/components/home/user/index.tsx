@@ -113,7 +113,8 @@ export default defineComponent({
 
     //获取用户详细信息
     const getUserDetail = async (uid: string | number) => {
-      const { data = {} } = await userDetail(uid);
+      const data = await userDetail(uid);
+      console.info(data)
       data && (userInfo.value = data);
     };
 
@@ -178,11 +179,11 @@ export default defineComponent({
                 </NSpace>
               </div>
               <p class="userinfo-layer user-desc">
-                <span>个性签名：</span>
+                <em>个性签名：</em>
                 <span>{userInfo.value.profile.signature || "暂无"}</span>
               </p>
               <p class="userinfo-layer user-birthday">
-                <span>生日：</span>
+                <em>生日：</em>
                 <span>
                   {getLocaleDate(Number(userInfo.value.profile.birthday)) ||
                     "暂无"}

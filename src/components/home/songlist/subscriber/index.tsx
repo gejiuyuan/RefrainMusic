@@ -19,15 +19,17 @@ import { PlaylistSubscribe } from "@api/playlist";
 import { Subscriber, SubscriberList } from "@/types/songlist";
 import { override } from "@/utils";
 import "./index.scss";
+import { COMPONENT_NAME, PAGE_SIZE } from "@/utils/preference";
+
+const defaultLimit = PAGE_SIZE[COMPONENT_NAME.SONGLIST_SUBSCRIBER]
 
 export default defineComponent({
-  name: "songlistSubscriber",
+  name: COMPONENT_NAME.SONGLIST_SUBSCRIBER,
   setup(props, context) {
     const route = useRoute();
-    const vm = getCurrentInstance() as any;
+    const vm = getCurrentInstance()!;
     const subscribers = shallowReactive<Subscriber[]>([]);
 
-    const defaultLimit = 30;
     const isShowPagi = ref(false);
     const subscriberPagiInfo = shallowReactive<PagiInfo>({
       limit: defaultLimit,

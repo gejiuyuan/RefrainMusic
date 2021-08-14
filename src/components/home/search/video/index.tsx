@@ -28,17 +28,20 @@ import "./index.scss";
 import RoutePagination, { PagiInfo } from "@widgets/route-pagination";
 import { SearchCloundData } from "../index";
 import VideoList from '@widgets/video-list';
+import { COMPONENT_NAME, PAGE_SIZE } from "@/utils/preference";
+
+const defaultLimie = PAGE_SIZE[COMPONENT_NAME.SEARCH_VIDEO];
 
 const defaultSearchVideoInfo = {
   offset: 0,
-  limit: 30,
+  limit: defaultLimie,
   sizeArr: Array(3)
     .fill(0)
-    .map((v, i) => 30 * (i + 1)),
+    .map((v, i) => defaultLimie * (i + 1)),
 };
 
 export default defineComponent({
-  name: "SearchVideo",
+  name: COMPONENT_NAME.SEARCH_VIDEO,
   setup(props, context) {
     const route = useRoute();
     const {

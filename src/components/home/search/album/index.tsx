@@ -13,17 +13,20 @@ import { SearchCloundData } from "../index";
 import "./index.scss";
 import AlbumList from "@widgets/album-list";
 import RoutePagination, { PagiInfo } from "@widgets/route-pagination";
+import { COMPONENT_NAME, PAGE_SIZE } from "@/utils/preference";
+
+const defaultLimit = PAGE_SIZE[COMPONENT_NAME.SEARCH_ALBUM];
 
 const defaultSearchVideoInfo = {
   offset: 0,
-  limit: 30,
+  limit: defaultLimit,
   sizeArr: Array(3)
     .fill(0)
-    .map((v, i) => 30 * (i + 1)),
+    .map((v, i) => defaultLimit * (i + 1)),
 };
 
 export default defineComponent({
-  name: "SearchAlbum",
+  name: COMPONENT_NAME.SEARCH_ALBUM,
   setup(props, context) {
     const route = useRoute();
     const {

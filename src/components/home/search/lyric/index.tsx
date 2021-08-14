@@ -18,13 +18,16 @@ import { SearchCloundData } from "../index";
 import "./index.scss";
 import { SearchLyricItem } from "@/types/lyric";
 import RoutePagination, { PagiInfo } from "@widgets/route-pagination";
+import { COMPONENT_NAME, PAGE_SIZE } from "@/utils/preference";
+
+const defaultLimit = PAGE_SIZE[COMPONENT_NAME.SEARCH_LYRIC]
 
 const defaultSearchLyricInfo = {
   offset: 0,
-  limit: 30,
+  limit: defaultLimit,
   sizeArr: Array(3)
     .fill(0)
-    .map((v, i) => 30 * (i + 1)),
+    .map((v, i) => defaultLimit * (i + 1)),
 };
 
 //渲染歌词内容
@@ -111,7 +114,7 @@ export const LyricContentItem = defineComponent({
 });
 
 export default defineComponent({
-  name: "SearchLyric",
+  name: COMPONENT_NAME.SEARCH_LYRIC,
   setup(props, context) {
     const route = useRoute();
     const searchData = inject<SearchCloundData>("searchCloundData")!;

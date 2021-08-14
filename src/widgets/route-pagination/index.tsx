@@ -1,7 +1,7 @@
 import { is } from "@/utils";
 import { ChevronDown20Regular } from "@vicons/fluent";
 import { NButton, NButtonGroup, NDropdown, NGradientText, NIcon, NInputNumber, NPagination, NSpace, NTag, NText, NxButton } from "naive-ui";
-import { computed, toRefs, defineComponent, Ref, PropType } from "vue";
+import { computed, toRefs, defineComponent, Ref, PropType, shallowReactive, watch } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import "./index.scss";
 
@@ -30,13 +30,14 @@ export default defineComponent({
     const router = useRouter();
     const route = useRoute();
 
-    const handleSizeChange = (curSize: number) =>
+    const handleSizeChange = (curSize: number) => {
       router.push({
         query: {
           ...route.query,
           limit: curSize,
         },
       });
+    }
 
     const handleCurrentChange = (curPage: number) => {
       router.push({

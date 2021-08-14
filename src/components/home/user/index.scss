@@ -21,8 +21,19 @@
   }
 
   .userinfo-layer {
+    @include flex();
     padding-bottom: 1em;
-    color: #666;
+
+    > em {
+      width: 5rem;
+      color: #455;
+    }
+
+    > span {
+      flex: 1;
+      line-height: 1.4;
+      color: #666;
+    }
   }
 }
 

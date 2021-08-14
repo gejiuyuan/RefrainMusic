@@ -11,9 +11,10 @@ import { artistAlbum, artistMv } from "@api/singer";
 import { Mv } from "@/types/mv";
 import "./index.scss";
 import RoutePagination from "@widgets/route-pagination";
+import { COMPONENT_NAME, PAGE_SIZE } from "@/utils/preference";
 
 const defaultSingalMvInfo = {
-  limit: 25,
+  limit: PAGE_SIZE[COMPONENT_NAME.ARTIST_MV],
   offset: 0,
 };
 
@@ -22,7 +23,7 @@ export interface RealMvInfo {
 }
 
 export default defineComponent({
-  name: "ArtistAlbum",
+  name: COMPONENT_NAME.ARTIST_MV,
   setup(props, context) {
     const router = useRouter();
     const route = useRoute();

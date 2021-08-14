@@ -16,6 +16,7 @@ import { SingerInfo } from "@/types/singer";
 import "./index.scss";
 import { NRadio, NRadioButton, NRadioGroup, NSpace } from "naive-ui";
 import singer from "../../search/singer";
+import { COMPONENT_NAME, PAGE_SIZE } from "@/utils/preference";
 
 type SingerListInfo = {
   limit: number;
@@ -57,12 +58,12 @@ const defaultSingerInfo = {
   initial: initialList[0].key,
   type: catList[0].key,
   area: areaList[0].key,
-  limit: 30,
+  limit: PAGE_SIZE[COMPONENT_NAME.MUSICHALL_ARTIST],
   offset: 0,
 };
 
 export default defineComponent({
-  name: "musicHallArtist",
+  name: COMPONENT_NAME.MUSICHALL_ARTIST,
   setup(props, context) {
     const router = useRouter();
     const route = useRoute();

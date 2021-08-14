@@ -4,9 +4,12 @@ import { useRoute, useRouter } from "vue-router";
 import { SearchCloundData } from "../index";
 import RoutePagination, { PagiInfo } from "@widgets/route-pagination";
 import "./index.scss";
+import { COMPONENT_NAME, PAGE_SIZE } from "@/utils/preference";
+
+const defaultLimit = PAGE_SIZE[COMPONENT_NAME.SEARCH_SONGLIST];
 
 export default defineComponent({
-  name: "SearchSongList",
+  name: COMPONENT_NAME.SEARCH_SONGLIST,
   setup(props, context) {
     const router = useRouter();
     const route = useRoute();
@@ -35,9 +38,9 @@ export default defineComponent({
         total: playlistCount,
         sizeArr: Array(3)
           .fill(0)
-          .map((v, i) => 30 * ++i),
+          .map((v, i) => defaultLimit * ++i),
         offset: route.query.offset as string,
-        limit: 30,
+        limit: defaultLimit,
       };
       return <RoutePagination pagiInfo={pagiInfo}></RoutePagination>;
     };

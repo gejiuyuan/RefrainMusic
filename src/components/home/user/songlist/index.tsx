@@ -8,9 +8,12 @@ import {
 import { onBeforeRouteUpdate, useRoute, useRouter } from "vue-router";
 import Songlist from "@widgets/song-list";
 import "./index.scss";
+import { COMPONENT_NAME, PAGE_SIZE } from "@/utils/preference";
+
+const defaultLimit = PAGE_SIZE[COMPONENT_NAME.USER_SONGLIST];
 
 export default defineComponent({
-  name: "UserSonglist",
+  name: COMPONENT_NAME.USER_SONGLIST,
   components: {
     Songlist,
   },
@@ -29,7 +32,7 @@ export default defineComponent({
               创建的
               <span>{data.length}</span>
             </h5>
-            <Songlist playlists={data} hasMore={hasMore}></Songlist>
+            <Songlist playlists={data} hasMore={hasMore} defaultLimit={defaultLimit}></Songlist>
           </section>
 
         </section>

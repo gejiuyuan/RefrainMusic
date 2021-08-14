@@ -26,6 +26,7 @@ import {
   NIcon,
 } from "naive-ui";
 import { ChevronDown20Regular } from "@vicons/fluent";
+import { COMPONENT_NAME, PAGE_SIZE } from "@/utils/preference";
 
 const obtainCategory = (data: any) => {
   const { categories, sub } = data;
@@ -49,7 +50,7 @@ const orders = [
 ];
 
 export default defineComponent({
-  name: "MusicHallSonglist",
+  name: COMPONENT_NAME.MUSICHALL_SONGLIST,
   setup(props, context) {
     const router = useRouter();
     const route = useRoute();
@@ -62,7 +63,7 @@ export default defineComponent({
     const listExtraInfo = shallowReactive({
       order: defaultOrder,
       cat: "",
-      defaultLimit: 30,
+      defaultLimit: PAGE_SIZE[COMPONENT_NAME.MUSICHALL_SONGLIST],
     });
 
     const showingList = shallowReactive({

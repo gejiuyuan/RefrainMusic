@@ -13,6 +13,13 @@ import YuanTable, { YuanTableColumn } from "./yuan-table";
 import { NGrid, NGridItem } from "naive-ui";
 import { MusicLoveIcon, PlaySwitch } from "../music-tiny-comp";
 import useAudioStore from "@/stores/audio";
+import { useRoute } from "vue-router";
+
+export const getRealTabelSerial = (index: number) => {
+  const { offset = 0, limit = 30 } = useRoute().query;
+  const accumulate = Number(offset) * Number(limit);
+  return ++index + accumulate;
+}
 
 export default defineComponent({
   name: "SongTable",
@@ -27,6 +34,7 @@ export default defineComponent({
     },
   },
   setup(props, ctx) {
+    const route = useRoute();
     const songData = computed(() => {
       const dataList = freeze([...props.dataList] || []);
       return dataList.map((songInfo) => {
@@ -67,7 +75,7 @@ export default defineComponent({
             rowClass="song-list-item"
             data={songData.value}
             showSerial
-            serialDefiner={(idx) => ++idx}
+            serialDefiner={getRealTabelSerial}
           >
 
             <YuanTableColumn
@@ -82,9 +90,7 @@ export default defineComponent({
                       class="song-item-body"
                     >
                       <NGridItem class="song-body-left" span={18}>
-                        <div class="song-love" title="添加至我喜欢">
-                          <i class="iconfont icon-xihuan"></i>
-                        </div>
+                        <MusicLoveIcon></MusicLoveIcon>
                         <div class="song-name" title={musicName} singallinedot>
                           {musicName}
                         </div>
@@ -113,11 +119,6 @@ export default defineComponent({
                             onClick={() => handleDownload(curSongInfo)}
                           >
                             <i class="iconfont icon-download"></i>
-                          </div>
-                          <div className="tool-item">
-                            {
-                              <MusicLoveIcon></MusicLoveIcon>
-                            }
                           </div>
                         </div>
                       </NGridItem>
