@@ -100,7 +100,7 @@ export default defineComponent({
             <section class="main-block main-right">
               <CurrentPlayTime></CurrentPlayTime>
 
-              <MusicLoveIcon></MusicLoveIcon>
+              <MusicLoveIcon songInfo={playerStore.currentSongInfo}></MusicLoveIcon>
 
               <div className="play-queue-icon" onClick={showPlayerQueueHandler}>
                 <i className="iconfont icon-yinleliebiao"></i>

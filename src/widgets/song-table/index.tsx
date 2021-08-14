@@ -81,7 +81,7 @@ export default defineComponent({
                       class="song-item-body"
                     >
                       <NGridItem class="song-body-left" span={18}>
-                        <MusicLoveIcon></MusicLoveIcon>
+                        <MusicLoveIcon songInfo={curSongInfo}></MusicLoveIcon>
                         <div class="song-name" title={musicName} singallinedot>
                           {musicName}
                         </div>

@@ -10,7 +10,7 @@ import {
 import { NGrid, NGridItem, NIcon } from "naive-ui";
 import "./index.scss";
 import { NewestSongInfo, SongInfo } from "@/types/song";
-import { closest, freeze, getPointerOffsetElm, padPicCrop } from "@/utils";
+import { closest, freeze, getPointerOffsetElm, hasOwnProperty, is, padPicCrop } from "@/utils";
 import {
   CurrentSongInfo,
   getModifiedNewestSongInfo,
@@ -31,7 +31,6 @@ export const MusicItem = defineComponent({
   setup(props, { slots, emit }) {
     const musicItemRef = ref<HTMLDivElement>();
     const playerStore = usePlayerStore();
-
 
     const playBtnClickHandler = () => {
       playerStore.handlePlaySoundNeededData(props.musicInfo.id);
@@ -74,7 +73,7 @@ export const MusicItem = defineComponent({
               <i class="iconfont icon-plus"></i>
             </div>
             {
-              <MusicLoveIcon></MusicLoveIcon>
+              <MusicLoveIcon songInfo={props.musicInfo}></MusicLoveIcon>
             }
             <div
               class="tool-item"
@@ -116,7 +115,7 @@ export default defineComponent({
     gaps: {
       type: Object as PropType<Partial<Record<"x" | "y", number>>>,
       required: false,
-      default: { x: 20, y: 20 },
+      default: () => ({ x: 20, y: 20 }),
     },
     cols: {
       type: Number as PropType<number>,
@@ -130,20 +129,22 @@ export default defineComponent({
     const musicListRef = ref<HTMLElement>();
 
     const songData = computed(() => {
-      const dataList = freeze([...props.musiclists] || []);
+      const dataList = [...props.musiclists] || [];
+      let realSongInfo: CurrentSongInfo[];
       if (category === "newest") {
-        return dataList.map((info) => {
+        realSongInfo = dataList.map((info) => {
           const realSongInfo = getModifiedNewestSongInfo(
             info as NewestSongInfo
           );
           return realSongInfo;
         });
       } else {
-        return dataList.map((info) => {
+        realSongInfo = dataList.map((info) => {
           const realSongInfo = getModifiedSongInfo(info as SongInfo);
           return realSongInfo;
         });
       }
+      return reactive(realSongInfo);
     });
     const suspensionInfo = shallowReactive({
       x: 0,

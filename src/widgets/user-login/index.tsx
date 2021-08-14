@@ -1,5 +1,5 @@
 import { loginStatus, loginWithPhone } from "@/api/auth";
-import { userAccount, userDetail, userSubcount } from "@/api/user";
+import { userAccount, userDetail, userLikeList, userSubcount } from "@/api/user";
 import { NaiveFormValidateError } from "@/shim";
 import useUserStore from "@/stores/user";
 import { phoneVerifyPatt } from "@/utils";
@@ -35,10 +35,15 @@ export default defineComponent({
           userDetail(id).then(detail => {
             userStore.detail = detail
           })
+          //我喜欢的音乐ids
+          userLikeList({
+            uid: id
+          }).then(({ ids }) => userStore.myLoveListIds = ids);
         })
         userSubcount().then((subCount) => {
           userStore.subCount = subCount;
         });
+
       }
 
     }, {

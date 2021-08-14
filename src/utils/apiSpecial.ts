@@ -43,7 +43,7 @@ export const getSongExtraInfo = (
   localedPublishTime?: string; //发布时间（本地化版）
   singers: Pick<SongInfo["ar"][number], "id" | "name">[]; //音乐的作者（歌手）信息
 } => {
-  const { name, mark, alias, duration, publishTime, artists , album } = param;
+  const { name, mark, alias, duration, publishTime, artists, album } = param;
   const musicName = getFullName({ name, alias });
   const albumName = getFullName(album);
   const localedMark = is.number(mark) ? getLocaleCount(mark) : void 0;
@@ -55,9 +55,9 @@ export const getSongExtraInfo = (
   const localedPublishTime =
     publishTime != null
       ? getLocaleDate(publishTime, {
-          delimiter: "-",
-          divide: "day",
-        })
+        delimiter: "-",
+        divide: "day",
+      })
       : "未知";
   return {
     musicName,
@@ -91,6 +91,7 @@ export const getModifiedSongInfo = (songInfo: SongInfo) => {
     publishTime,
     mark,
     id,
+    starred,
     al: album,
   } = songInfo;
 
@@ -101,6 +102,7 @@ export const getModifiedSongInfo = (songInfo: SongInfo) => {
     alias,
     album,
     artists,
+    starred,
     duration,
     publishTime,
     ...getSongExtraInfo({

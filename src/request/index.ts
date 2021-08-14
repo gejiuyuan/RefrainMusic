@@ -12,13 +12,10 @@ export const anfrage = ryoko.create({
   verifyStatus(status) {
     return status >= 200 && status < 400;
   },
-  responseType: "json", 
+  responseType: "json",
 });
 
-anfrage.interceptors.request.use((config:any) => { 
-  config.headers = {
-    Authorization: localStorage.getItem('userToken') || "",
-  }
+anfrage.interceptors.request.use((config: any) => {
   return config
 }, err => {
   return err
@@ -27,4 +24,3 @@ anfrage.interceptors.request.use((config:any) => {
 export const getAll = ryoko.all;
 export const getSpread = ryoko.spread;
 
- 

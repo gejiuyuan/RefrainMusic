@@ -3,6 +3,8 @@ import {
   customRef,
   defineAsyncComponent,
   defineComponent,
+  getCurrentInstance,
+  isProxy,
   PropType,
   ref,
   shallowReactive,
@@ -14,12 +16,16 @@ import ProgressBar, {
   ProgressInfo,
 } from "@widgets/progress-bar";
 import "./index.scss";
-import { decimalToPercent, EMPTY_OBJ, rmDemicalInPercent, second2TimeStr } from "@/utils";
-import { onClickOutside } from "@vueuse/core";
+import { decimalToPercent, EMPTY_OBJ, is, rmDemicalInPercent, second2TimeStr, UNICODE_CHAR } from "@/utils";
+import { onClickOutside, useStorage } from "@vueuse/core";
 import useAudioStore from "@/stores/audio";
 import { useRouter } from "vue-router";
-import { CurrentSongInfo } from "@/utils/apiSpecial";
+import { CurrentSongInfo, getSongExtraInfo } from "@/utils/apiSpecial";
 import usePlayerStore from "@/stores/player";
+import { userLikeMusic } from "@/api/user";
+import useUserStore from "@/stores/user";
+import { useMessage } from "naive-ui";
+import { XboxConsole20Filled } from "@vicons/fluent";
 
 export type PlayOrderType = 'order' | 'random' | 'singleLoop';
 export const isByOrder = (id: PlayOrderType) => id === 'order';
@@ -201,17 +207,67 @@ export enum MusicLoveTitle {
 
 export const MusicLoveIcon = defineComponent({
   name: "MusicLoveIcon",
+  props: {
+    songInfo: {
+      type: Object as PropType<CurrentSongInfo>,
+      required: true,
+    }
+  },
   setup(props, { slots, emit }) {
     const loved = ref(false);
-    const loveSwitch = () => loved.value = !loved.value;
+    const playerStore = usePlayerStore();
+    const userStore = useUserStore();
+    const message = useMessage();
+    const vm = getCurrentInstance()!;
+
+    const isLoved = customRef<boolean>((track, trigger) => ({
+      get() {
+        track();
+        return userStore.myLoveListIds.includes(props.songInfo.id);
+      },
+      set(isLove) {
+        const curId = props.songInfo.id;
+        if (isLove) {
+          userStore.myLoveListIds.push(curId);
+        } else {
+          userStore.myLoveListIds.some((tarId, i) => {
+            if (tarId === curId) {
+              userStore.myLoveListIds.splice(i, 1);
+              return true;
+            }
+          })
+        }
+        trigger();
+      }
+    }))
+
+    const loveSwitch = async () => {
+      const { id, } = props.songInfo;
+      if (!id) {
+        message.error(`还没有播放的歌曲哦~${UNICODE_CHAR.hugface}`);
+        return;
+      }
+      const willIsLovedValue = !isLoved.value;
+      const { code } = await userLikeMusic({
+        id,
+        like: willIsLovedValue
+      })
+      if (code == 200) {
+        isLoved.value = willIsLovedValue;
+        message.success(`${willIsLovedValue ? `喜欢成功${UNICODE_CHAR.hugface}` : `已移除${UNICODE_CHAR.pensive}`}`);
+        return;
+      }
+
+    }
+
     return () => {
-      const isLove = loved.value;
-      const loveTitle = MusicLoveTitle[isLove ? 0 : 1];
+      const isLovedValue = isLoved.value;
+      const loveTitle = MusicLoveTitle[isLovedValue ? 0 : 1];
       return (
-        <div className="music-love-icon" title={loveTitle} loved={isLove} onClick={loveSwitch}>
-          <i className="iconfont icon-love" hidden={isLove}></i>
-          <i className="iconfont icon-loved" hidden={!isLove}></i>
-        </div>
+        <div className="music-love-icon" title={loveTitle} loved={isLovedValue} onClick={loveSwitch}>
+          <i className="iconfont icon-love" hidden={isLovedValue}></i>
+          <i className="iconfont icon-loved" hidden={!isLovedValue}></i>
+        </div >
       );
     };
   },

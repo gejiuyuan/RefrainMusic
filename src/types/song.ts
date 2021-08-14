@@ -34,6 +34,8 @@ export declare type SongInfo = {
     name: string;
     picUrl: string;
   };
+  //也许没有喜欢
+  starred?: boolean;
   //发行时间
   publishTime?: number;
   //评论数量

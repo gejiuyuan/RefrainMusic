@@ -42,7 +42,8 @@ export default defineComponent({
           </header>
           <section class="queue-body" scrollbar="overlay">
             <ul>
-              {songList.map(({ name, artists, id }) => {
+              {songList.map((songInfo) => {
+                const { name, artists, id } = songInfo;
                 return (
                   <li
                     class="song-item"
@@ -57,7 +58,7 @@ export default defineComponent({
                       <div className="tool-item">
                         <PlayStatusSwitch id={id}></PlayStatusSwitch>
                       </div>
-                      <MusicLoveIcon></MusicLoveIcon>
+                      <MusicLoveIcon songInfo={songInfo}></MusicLoveIcon>
                       <div
                         class="tool-item"
                         title="添加到"
