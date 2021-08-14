@@ -53,15 +53,6 @@ export default defineComponent({
       console.info(songItem);
     };
 
-    const playBtnClickHandler = async (songItem: CurrentSongInfo) => {
-      if (playerStore.currentSongInfo.id === songItem.id) {
-        audioStore.playing = !audioStore.playing;
-      }
-      else {
-        playerStore.handlePlaySoundNeededData(songItem.id);
-      }
-    };
-
     return () => {
       if (!songData.value.length) return;
       const { currentSongInfo } = playerStore;
@@ -107,11 +98,8 @@ export default defineComponent({
                           </div>
                           <div
                             class="tool-item"
-                            title="播放"
-                            onClick={() => playBtnClickHandler(curSongInfo)}
                           >
-                            <i class="iconfont icon-play" hidden={isPlaying}></i>
-                            <i className="iconfont icon-pause" hidden={!isPlaying}></i>
+                            <PlaySwitch id={id}></PlaySwitch>
                           </div>
                           <div
                             class="tool-item"

@@ -11,6 +11,7 @@
     transition: background-color .1s;
 
     .grid-item {
+      @include flexVc();
       $gridMinWidth: calc(2em + 14 * 2px);
       min-width: $gridMinWidth;
       padding: 14px 10px;
