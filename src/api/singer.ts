@@ -147,7 +147,7 @@ export function artistMv(params: {
       limit,
       offset: +limit * +offset,
     }),
-  });
+  }).then(({ data }) => data);
 }
 
 /**

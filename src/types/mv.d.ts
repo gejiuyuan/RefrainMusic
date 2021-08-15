@@ -9,8 +9,25 @@ export declare type Mv = {
   status: number;
   subed: boolean;
   playCount: number;
-  aartist: any;
+  artist: any;
 
   //额外的
-  playCountStr: string;
+  playCountStr?: string;
 };
+
+export declare type SearchMv = {
+  alias: null | any;
+  artistId: number;
+  artistName: string;
+  artists: any[];
+  desc: string | null;
+  briefDesc: string | null;
+  cover: string;
+  duration: number;
+  id: number;
+  mark: number;
+  name: number;
+  playCount: number;
+  playCountStr: string;
+  transNames: string[] | null
+}

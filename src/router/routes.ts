@@ -34,12 +34,15 @@ import SearchSongs from "@components/home/search/songs";
 import SearchAlbum from "@components/home/search/album";
 import SearchLyric from "@components/home/search/lyric";
 import SearchRadio from "@components/home/search/radio";
+import SearchMv from "@components/home/search/mv";
 import SearchVideo from "@components/home/search/video";
 import SearchUser from "@components/home/search/user";
 import SearchSonglist from "@components/home/search/songlist";
 import SearchSinger from "@components/home/search/singer";
 
 import Video from "@components/home/video";
+
+import Mv from '@components/home/mv';
 
 import Album from "@components/home/album";
 
@@ -247,6 +250,10 @@ const routes = [
             component: SearchVideo,
           },
           {
+            path: "mv",
+            component: SearchMv,
+          },
+          {
             path: "user",
             component: SearchUser,
           },
@@ -259,6 +266,11 @@ const routes = [
             component: SearchSinger,
           },
         ],
+      },
+
+      {
+        path: 'mv',
+        component: Mv
       },
 
       {

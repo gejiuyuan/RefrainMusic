@@ -43,8 +43,8 @@ export const baseSearchCate = [
   { text: "歌单", to: "/search/songlist", type: 1000, limit: PAGE_SIZE[COMPONENT_NAME.SEARCH_SONGLIST] },
   { text: "歌词", to: "/search/lyric", type: 1006, limit: PAGE_SIZE[COMPONENT_NAME.SEARCH_LYRIC] },
   { text: "歌手", to: "/search/singer", type: 100, limit: PAGE_SIZE.DEFAULT },
-  { text: "电台", to: "/search/singer", type: 1009, limit: PAGE_SIZE.DEFAULT },
-  { text: "MV", to: "/search/singer", type: 1004, limit: PAGE_SIZE[COMPONENT_NAME.SEARCH_MV] },
+  { text: "电台", to: "/search/radio", type: 1009, limit: PAGE_SIZE.DEFAULT },
+  { text: "MV", to: "/search/mv", type: 1004, limit: PAGE_SIZE[COMPONENT_NAME.SEARCH_MV] },
   { text: "用户", to: "/search/user", type: 1002, limit: PAGE_SIZE.DEFAULT },
 ];
 

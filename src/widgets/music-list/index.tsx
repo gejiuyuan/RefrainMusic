@@ -18,6 +18,7 @@ import {
 } from "@/utils/apiSpecial";
 import { MusicLoveIcon, MusicSinger } from "../music-tiny-comp";
 import usePlayerStore from "@/stores/player";
+import { PAGE_SIZE } from "@/utils/preference";
 
 
 export const MusicItem = defineComponent({
@@ -105,7 +106,7 @@ export default defineComponent({
     defaultLimit: {
       type: Number as PropType<number>,
       required: false,
-      default: 30,
+      default: PAGE_SIZE.DEFAULT,
     },
     total: {
       type: Number as PropType<number>,

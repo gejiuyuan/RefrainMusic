@@ -1,0 +1,59 @@
+@import "@scss/variable";
+
+.mv-list {
+  min-height: 400px;
+  padding-top: 1em;
+
+  .mv-item {
+    position: relative;
+    transition: transform 0.2s, filter 0.14s;
+    cursor: pointer;
+
+    &:hover {
+      filter: drop-shadow(0 0 30px rgba(100, 100, 100, 0.3));
+      transform: translateY(-6px);
+      img {
+        filter: brightness(75%);
+      }
+    }
+
+    img {
+      border-radius: 8px;
+    }
+
+    em.playCount {
+      position: absolute;
+      right: 1em;
+      top: 1em;
+      padding: 0.5em;
+      background-color: rgba(170, 180, 180, 0.36);
+      color: rgba(240, 240, 240);
+      font-size: 13px;
+      border-radius: 0.5em;
+    }
+
+    h6 {
+      padding: .5em 0;
+      color: #555; 
+      font-size: 14px;
+      text-align: justify;
+      line-height: 1.6;
+    }
+ 
+
+    .desc { 
+      .publishtime,
+      .duration {
+        color: #777;
+        line-height: 1.6;
+        span {
+          @include flexInline(); 
+        }
+        em {
+          opacity: .7;
+        }
+      }
+    }
+
+  }
+}
