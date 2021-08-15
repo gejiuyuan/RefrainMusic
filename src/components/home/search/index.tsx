@@ -34,17 +34,18 @@ import { SearchSingerItem } from "@/types/singer";
 import { SearchUserProfileItem } from "@/types/user";
 
 import { NTabs, NTabPane } from "naive-ui";
+import { COMPONENT_NAME, PAGE_SIZE } from "@/utils/preference";
 
 export const baseSearchCate = [
-  { text: "歌曲", to: "/search/songs", type: 1 },
-  { text: "视频", to: "/search/video", type: 1014 },
-  { text: "专辑", to: "/search/album", type: 10 },
-  { text: "歌单", to: "/search/songlist", type: 1000 },
-  { text: "歌词", to: "/search/lyric", type: 1006 },
-  { text: "歌手", to: "/search/singer", type: 100 },
-  { text: "电台", to: "/search/singer", type: 1009 },
-  { text: "MV", to: "/search/singer", type: 1004 },
-  { text: "用户", to: "/search/user", type: 1002 },
+  { text: "歌曲", to: "/search/songs", type: 1, limit: PAGE_SIZE.DEFAULT },
+  { text: "视频", to: "/search/video", type: 1014, limit: PAGE_SIZE[COMPONENT_NAME.SEARCH_VIDEO] },
+  { text: "专辑", to: "/search/album", type: 10, limit: PAGE_SIZE[COMPONENT_NAME.SEARCH_ALBUM] },
+  { text: "歌单", to: "/search/songlist", type: 1000, limit: PAGE_SIZE[COMPONENT_NAME.SEARCH_SONGLIST] },
+  { text: "歌词", to: "/search/lyric", type: 1006, limit: PAGE_SIZE[COMPONENT_NAME.SEARCH_LYRIC] },
+  { text: "歌手", to: "/search/singer", type: 100, limit: PAGE_SIZE.DEFAULT },
+  { text: "电台", to: "/search/singer", type: 1009, limit: PAGE_SIZE.DEFAULT },
+  { text: "MV", to: "/search/singer", type: 1004, limit: PAGE_SIZE[COMPONENT_NAME.SEARCH_MV] },
+  { text: "用户", to: "/search/user", type: 1002, limit: PAGE_SIZE.DEFAULT },
 ];
 
 export enum SearchKeyTypeMap {
@@ -185,9 +186,9 @@ export default defineComponent({
         const { keywords: oldKeywords, type: oldType } = oldQuery || EMPTY_OBJ;
         const { keywords, type } = query as PlainObject<string>;
         searchCate.forEach((item: typeof baseSearchCate[number], i) => {
-          const { to: baseTo, type } = baseSearchCate[i];
+          const { to: baseTo, type, limit } = baseSearchCate[i];
           const queryStr = objToQuery(
-            { keywords, type: `${type}`, limit: "30", offset: "0" },
+            { keywords, type: `${type}`, limit, offset: "0" },
             true
           );
           item.to = baseTo + queryStr;

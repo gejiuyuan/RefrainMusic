@@ -35,5 +35,7 @@ module.exports = {
         "@typescript-eslint/no-explicit-any": "off",
         //导出函数和类的公共类方法是否需要显式返回和参数类型 
         "@typescript-eslint/explicit-module-boundary-types": "off",
+        //是否允许空接口（interface）
+        "@typescript-eslint/no-empty-interface": ["off"]
     }
 };

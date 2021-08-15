@@ -15,10 +15,15 @@ interface Navigator {
 
 interface window {
   webkitAudioContext: AudioContext;
-  requestIdleCallback: (cb: Function, options?: { timeout: number }) => void;
+  requestIdleCallback: (cb: CommonFunction, options?: { timeout: number }) => void;
 }
 
+declare type CommonFunction = (...args: any[]) => any;
+
 declare type PlainObject<T = any> = Record<string, T>;
+
+//让数组也继承纯对象特性
+interface Array<T> extends PlainObject<T> { }
 
 declare type Writeable<T> = {
   -readonly [K in keyof T]: T[K];

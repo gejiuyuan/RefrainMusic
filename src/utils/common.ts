@@ -155,7 +155,7 @@ export const fileDownloader = (url: any, filename: string) => {
     });
 };
 
-export const objToQuery = (obj: PlainObject<string>, prefix = false) =>
+export const objToQuery = (obj: PlainObject, prefix = false) =>
   is.emptyObject(obj)
     ? ""
     : `${prefix ? "?" : ""}${Object.entries(obj)
