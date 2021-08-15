@@ -36,54 +36,82 @@
     }
   }
 
-  .queue-body {
+  .queue-main {
+    position: relative;
     flex: 1;
-    .song-item {
+    overflow: hidden;
+    
+    .list-body {
       position: relative;
-      padding: 16px 28px 16px 26px;
-      transition: background-color 0.12s;
+      height: 100%;
 
-      &[active="true"],
-      &:hover {
-        background-color: rgba(127, 134, 127, 0.1);
-        .tools {
-          opacity: 1;
-        }
-      }
-
-      h6 {
-        color: #444;
-        font-size: 15px;
-      }
-      em {
-        color: #777;
-        font-size: 13px;
-      }
-      .item-layer {
-        padding-top: 10px;
-      }
-
-      .tools {
-        opacity: 0;
-        @include flexVc();
-        position: absolute;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        padding-right: 20px;
-
-        .tool-item {
-          color: #888;
-          cursor: pointer;
-          margin: 0 6px;
-          font-size: 24px;
-          &:hover {
-            color: var(--theme)
+      .song-item {
+        position: relative;
+        padding: 16px 28px 16px 26px;
+        transition: background-color 0.12s;
+  
+        &[active="true"],
+        &:hover {
+          background-color: rgba(127, 134, 127, 0.1);
+          .tools {
+            opacity: 1;
           }
         }
-
+  
+        h6 {
+          color: #444;
+          font-size: 15px;
+        }
+        em {
+          color: #777;
+          font-size: 13px;
+        }
+        .item-layer {
+          padding-top: 10px;
+        }
+  
+        .tools {
+          opacity: 0;
+          @include flexVc();
+          position: absolute;
+          right: 0;
+          top: 0;
+          bottom: 0;
+          padding-right: 20px;
+  
+          .tool-item {
+            color: #888;
+            cursor: pointer;
+            margin: 0 6px;
+            font-size: 24px;
+            &:hover {
+              color: var(--theme)
+            }
+          }
+  
+        }
       }
     }
+ 
+    .locate-to-current {
+      position: absolute;
+      right: 40px;
+      bottom: 40px;
+      padding: 2px;
+      background-color: $colorbase;
+      color: #999;
+      font-size: 22px;
+      border-radius: 100%;
+      transition: .28s;
+      box-shadow: 0 0 28px rgba(120, 140,132, .5);
+      cursor: pointer;
+
+      &:active {
+        box-shadow: 0 0 60px $colortaobao;
+        filter: contrast(200%);
+      }
+    }
+
   }
 
   .queue-foot {

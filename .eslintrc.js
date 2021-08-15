@@ -24,6 +24,7 @@ module.exports = {
     ],
     "rules": {
         "no-alert": "off",
+        "no-unsafe-finally": "off",
         //是否禁用不必要的\转义字符
         "no-useless-escape": "off",
         "@typescript-eslint/no-var-requires": "off",
@@ -36,6 +37,8 @@ module.exports = {
         //导出函数和类的公共类方法是否需要显式返回和参数类型 
         "@typescript-eslint/explicit-module-boundary-types": "off",
         //是否允许空接口（interface）
-        "@typescript-eslint/no-empty-interface": ["off"]
+        "@typescript-eslint/no-empty-interface": ["off"],
+        //是否允许有额外的分号（;），如{}块级作用域后就不需要;
+        "@typescript-eslint/no-extra-semi": ["warn"]
     }
 };

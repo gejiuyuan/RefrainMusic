@@ -80,3 +80,18 @@ export const getPointerOffsetElm = (ev: MouseEvent, elm: Element) => {
     height,
   };
 };
+
+/**
+ * 获取elm2到elm1的边缘距离
+ * @param elm1 
+ * @param elm2 
+ * @returns 
+ */
+export const getElmOffsetToElm = (elm1: Element, elm2: Element) => {
+  const { left: left1, top: top1 } = getElmRectInfo(elm1);
+  const { left: left2, top: top2 } = getElmRectInfo(elm2);
+  return {
+    offsetLeft: left2 - left1,
+    offsetTop: top2 - top1,
+  }
+}
