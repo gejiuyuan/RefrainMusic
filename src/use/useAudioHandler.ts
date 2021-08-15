@@ -36,10 +36,16 @@ export function useAudioHandler() {
     once,
   } = useHowler();
   let timeUpdateInterval: ReturnType<typeof setInterval>;
+  let playToNextTimeoutInError: ReturnType<typeof setTimeout>;
 
   watch(
     () => audioStore.srcOrId,
     (val) => {
+      //清除播放失败后要播放下一首的的定时器
+      clearTimeout(playToNextTimeoutInError);
+      //同时清除播放失败消息提示
+      message.destroyAll();
+
       playSound(val);
       //设置是否循环播放
       setLoopStatus();
@@ -103,7 +109,7 @@ export function useAudioHandler() {
     message.error(`歌曲加载失败啦~将在2秒后播放下一首喔~${UNICODE_CHAR.pensive}`, {
       duration: 2000,
     })
-    setTimeout(() => {
+    playToNextTimeoutInError = setTimeout(() => {
       //通知playerStore执行toNext切换下一首方法
       playerStore.publishAfterMark(TO_NEXT_MARK);
     }, 2000)

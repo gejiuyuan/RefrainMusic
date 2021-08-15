@@ -255,7 +255,10 @@ export function userLikeList(params: { uid: number | string }) {
   return anfrage({
     url: "/likelist",
     method: "get",
-    params,
+    params: {
+      ...params,
+      timeStamp: new Date().valueOf(),
+    },
   }).then(({ data }) => data);
 }
 
