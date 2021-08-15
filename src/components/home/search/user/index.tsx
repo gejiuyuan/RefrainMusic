@@ -21,6 +21,17 @@ export const SearchUserItem = defineComponent({
     },
   },
   setup({ userInfo }, context) {
+    const router = useRouter();
+    const route = useRoute();
+    const toUserDetailPage = (subPath?: string) => {
+      router.push({
+        path: `/user${subPath ? '/' + subPath : ''}`,
+        query: {
+          id: userInfo.userId,
+        }
+      })
+    }
+
     return () => {
       const {
         nickname,
@@ -32,20 +43,20 @@ export const SearchUserItem = defineComponent({
         mutual,
       } = userInfo;
       return (
-        <div class="search-user-item">
+        <div class="search-user-item" onClick={(ev) => toUserDetailPage()}>
           <img
             loading="lazy"
             src={padPicCrop(avatarUrl, { x: 100, y: 100 })}
             alt=""
           />
-
           <em class="user-name">{nickname}</em>
-
-          <em class="user-playlist-count">
+          <em class="user-playlist-count" onClick={(ev) => {
+            ev.stopPropagation();
+            toUserDetailPage('songlist')
+          }}>
             歌单：
             {getLocaleCount(playlistCount)}
           </em>
-
           <em class="user-fans">
             粉丝：
             {getLocaleCount(followeds)}

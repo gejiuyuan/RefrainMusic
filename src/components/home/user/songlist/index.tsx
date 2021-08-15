@@ -24,7 +24,6 @@ export default defineComponent({
 
     return () => {
       const { created: { data, hasMore } } = songlists;
-      console.info(songlists)
       return (
         <section class="user-songlist">
           <section class="songlist-layer songlist-created">

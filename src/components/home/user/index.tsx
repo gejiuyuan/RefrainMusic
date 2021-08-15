@@ -78,15 +78,14 @@ export default defineComponent({
     provide("songlists", songlists);
     const getUserPlaylist = async (query: any) => {
       const { id: uid, limit, offset } = query;
-      const { data = EMPTY_OBJ, } = await userPlaylist({ uid, limit, offset });
-      const { playlist = EMPTY_ARR, more } = data;
+      const { playlist = EMPTY_ARR, more } = await userPlaylist({ uid, limit, offset });
       const collection: PlaylistCommon[] = [];
       const created: PlaylistCommon[] = [];
       playlist.forEach((list: PlaylistCommon) => {
         const {
           creator: { userId },
         } = list;
-        (userId === uid ? created : collection).push(list);
+        (userId == uid ? created : collection).push(list);
       });
       songlists.created = {
         data: created,
@@ -100,21 +99,18 @@ export default defineComponent({
 
     //获取用户最近播放记录
     const getUserRecord = async (uid: string | number, type: 0 | 1) => {
-      const { data } = await userRecord({
+      const { weekData, allData } = await userRecord({
         uid,
         type,
       });
-      const { weekData, allData } = data || {};
-      if (data) {
-        playRecordData.length = 0;
-        playRecordData.push(...(weekData || allData));
-      }
+      const weekOrAllData = weekData || allData || [];
+      playRecordData.length = 0;
+      playRecordData.push(...weekOrAllData);
     };
 
     //获取用户详细信息
     const getUserDetail = async (uid: string | number) => {
       const data = await userDetail(uid);
-      console.info(data)
       data && (userInfo.value = data);
     };
 
