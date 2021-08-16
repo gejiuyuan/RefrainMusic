@@ -134,7 +134,7 @@ export declare type SongListCreator = {
 
 //歌单列表
 export declare type PlaylistCommon = {
-  coverImgUrl: number;
+  coverImgUrl: string;
   createTime: number;
   description: string;
   id: number;

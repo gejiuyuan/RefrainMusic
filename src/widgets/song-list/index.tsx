@@ -12,6 +12,7 @@ import {
   useRoute,
   onBeforeRouteLeave,
   onBeforeRouteUpdate,
+  RouterLink,
 } from "vue-router";
 import RoutePagination from "@/widgets/route-pagination";
 import "./index.scss";
@@ -19,6 +20,7 @@ import { NEmpty, NGrid, NGridItem } from "naive-ui";
 import { UNICODE_CHAR, padPicCrop } from "@utils/index";
 import { getFullName, getFullNames } from "@/utils/apiSpecial";
 import { PAGE_SIZE } from "@/utils/preference";
+import { PlaylistCommon } from "@/types/songlist";
 
 const songlistDefaultLimit = PAGE_SIZE.DEFAULT;
 
@@ -26,7 +28,7 @@ export default defineComponent({
   name: "Songlist",
   props: {
     playlists: {
-      type: Array as PropType<any[]>,
+      type: Array as PropType<PlaylistCommon[]>,
       required: false,
       default: () => [],
     },
@@ -43,7 +45,7 @@ export default defineComponent({
     gaps: {
       type: Object as PropType<Partial<Record<'x' | 'y', number>>>,
       required: false,
-      default: { x: 30, y: 30 },
+      default: () => ({ x: 30, y: 30 }),
     },
     cols: {
       type: Number as PropType<number>,
@@ -92,6 +94,14 @@ export default defineComponent({
     const toSonglistDetailPage = (id: string | number) =>
       router.push({ path: "/songlist", query: { id } });
 
+    const toUserDetailPage = (userId: string | number) =>
+      router.push({
+        path: '/user',
+        query: {
+          id: userId
+        }
+      })
+
     const renderMainList = () => {
       const { playlists, gaps, cols, showPagination } = props;
       return (
@@ -101,14 +111,14 @@ export default defineComponent({
               ? (
                 <NGrid xGap={gaps.x} yGap={gaps.y} cols={cols}>
                   {
-                    playlists.map(({ name, id, singer, coverImgUrl, description }: any) => {
+                    playlists.map(({ name, id, coverImgUrl, description, creator }) => {
+                      const { userId, nickname, avatarUrl } = creator;
                       return (
                         <NGridItem key={id}>
                           <section
                             class="music-item"
-                            onClick={() => toSonglistDetailPage(id)}
                           >
-                            <div class="music-cover" aspectratio="1">
+                            <div class="music-cover" aspectratio="1" onClick={() => toSonglistDetailPage(id)}>
                               <img
                                 loading="lazy"
                                 src={padPicCrop(coverImgUrl, { x: 340, y: 340 })}
@@ -118,7 +128,26 @@ export default defineComponent({
                             </div>
                             <div class="music-body">
                               <h6 title={name}>{name}</h6>
-                              <p title={description}>{description}</p>
+                              <div className="music-creator">
+                                <>
+                                  {
+                                    avatarUrl ? (
+                                      <div class="creator-avatar-wrap">
+                                        <div aspectratio="1" onClick={() => toUserDetailPage(userId)}>
+                                          <img src={padPicCrop(avatarUrl, { x: 60, y: 60 })} alt="" />
+                                        </div>
+                                      </div>
+                                    ) : (
+                                      <span class="creator-title">创建者：</span>
+                                    )
+                                  }
+                                  <em class="creator-nickname">
+                                    <span onClick={() => toUserDetailPage(userId)}>
+                                      {nickname}
+                                    </span>
+                                  </em>
+                                </>
+                              </div>
                             </div>
                           </section>
                         </NGridItem>
