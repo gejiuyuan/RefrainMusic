@@ -32,7 +32,7 @@ export default defineComponent({
 
     const singers = computed(() => {
       const list = props.singerList as SingerInfo[];
-      [...list].forEach((item) => {
+      ;[...list].forEach((item) => {
         const { alias, name } = item;
         const aliasStr = alias.join("、");
         item.fullName = name + (aliasStr && `（${aliasStr}）`);

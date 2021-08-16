@@ -40,7 +40,6 @@ export default defineComponent({
       const {
         mv: { mvs, mvCount },
       } = searchData;
-      console.info(mvs, mvCount)
       return (
         <section class="search-video">
           <MvList mvlists={mvs} showPagination={true} defaultLimit={defaultLimit} total={mvCount}></MvList>

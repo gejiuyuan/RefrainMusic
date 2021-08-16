@@ -17,8 +17,8 @@ import {
   onBeforeRouteUpdate,
   RouterView,
 } from "vue-router";
-import { playlistDetail, playlistDetailDynamic } from "@api/playlist";
-import { getLocaleDate, objToQuery, padPicCrop } from "@utils/index";
+import { playlistDetail, playlistDetailDynamic, relatedPlaylist } from "@api/playlist";
+import { getLocaleDate, objToQuery, padPicCrop, UNICODE_CHAR } from "@utils/index";
 import { getLocaleCount } from "@utils/calc";
 import "./index.scss";
 
@@ -27,6 +27,7 @@ import {
   NxButton,
   NMenu
 } from 'naive-ui';
+import Songlist from '@widgets/song-list';
 import CommonRouterList from "@/widgets/common-router-list";
 import KeepAliveRouterview from "@/widgets/keep-alive-routerview";
 
@@ -71,6 +72,8 @@ export default defineComponent({
       dynamicInfo: {
         commentCountStr: "",
       },
+      //推荐歌单
+      relativeRecommendSonglist: [],
     });
     provide("songlistInfo", songlistInfo);
 
@@ -92,6 +95,14 @@ export default defineComponent({
         commentCountStr,
       };
     };
+
+    const getRelativeRecommendSonglist = async () => {
+      const { playlists } = await relatedPlaylist({
+        id: route.query.id + '',
+      });
+      songlistInfo.relativeRecommendSonglist = playlists;
+    }
+    getRelativeRecommendSonglist();
 
     const updatePageData = async (query: PlainObject) => {
       const { id } = query;
@@ -124,6 +135,18 @@ export default defineComponent({
     const toCreatorDetailPage = (id: string) =>
       router.push({ path: "/user", query: { id } });
 
+
+    const renderRelativeRecommendSonglist = () => {
+      return (
+        <section class="songlist-relative-playlist">
+          <h5 class="relative-title">
+            相关歌单推荐 {UNICODE_CHAR.smile}
+          </h5>
+          <Songlist playlists={songlistInfo.relativeRecommendSonglist} showPagination={false} gaps={{ x: 40, y: 40 }} cols={7}></Songlist>
+        </section>
+      )
+    }
+
     return () => {
       const { playlist } = songlistInfo;
       const {
@@ -139,7 +162,7 @@ export default defineComponent({
 
       return (
 
-        <section class="yplayer-songlist">
+        <section class="songlist-page">
 
           <section class="songlist-header">
 
@@ -153,7 +176,6 @@ export default defineComponent({
                 />
               </div>
             </div>
-
 
             <section class="songlist-header-body">
 
@@ -259,6 +281,10 @@ export default defineComponent({
           <section class="songlist-main">
             <KeepAliveRouterview></KeepAliveRouterview>
           </section>
+
+          {
+            renderRelativeRecommendSonglist()
+          }
 
         </section>
 

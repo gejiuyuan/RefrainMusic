@@ -11,19 +11,13 @@ export default defineComponent({
   setup(props, context) {
     const router = useRouter();
     const searchData = inject<SearchCloundData>("searchCloundData")!;
-    const toArtistDetailPage = (id: number) =>
-      router.push({
-        path: "/artist",
-        query: { id },
-      });
-
     return () => {
       const {
-        singer: { artists, artistCount },
+        singer: { artists = [], artistCount },
       } = searchData;
       return (
         <section class="search-singer">
-          <ArtistList singerList={artists} gaps={{x: 40, y: 40}} cols={10}></ArtistList>
+          <ArtistList singerList={artists} gaps={{ x: 40, y: 40 }} cols={10}></ArtistList>
         </section>
       );
     };

@@ -1,95 +1,112 @@
 @import "@/scss/variable"; 
 
-.songlist-header {
-  position: relative;
-  @include flexVc();
-  padding-bottom: 2em;
+.songlist-page {
 
-  &-playbill {
-    flex: 1;
-    padding-right: 32px;
-    .songlist-pic {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 8px;
-    }
-  }
-
-  &-body {
-    flex: 5;
-    display: flow-root;
-  }
-
-  .songlist-info {
-    float: left;
-
-    h5 {
-      padding-bottom: 1em;
-      color: #444;
+  .songlist-relative-playlist {
+    .relative-title {
+      padding: 50px 0 20px 0;
+      color: #555;
       font-size: 26px;
       font-weight: 600;
     }
+  }
 
-    .songlist-creator {
-      @include flexVc();
+  .songlist-header {
+    position: relative;
+    @include flexVc();
+    padding-bottom: 2em;
 
-      &-detail {
+    &-playbill {
+      flex: 1;
+      padding-right: 32px;
+      .songlist-pic {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 8px;
+      }
+    }
+
+    &-body {
+      flex: 5;
+      display: flow-root;
+    }
+
+    .songlist-info {
+      float: left;
+
+      h5 {
+        padding-bottom: 1em;
+        color: #444;
+        font-size: 26px;
+        font-weight: 600;
+      }
+
+      .songlist-creator {
         @include flexVc();
-        cursor: pointer;
+
+        &-detail {
+          @include flexVc();
+          cursor: pointer;
+
+          em {
+            color: #566;
+            font-size: 1.1em;
+            text-indent: 1em;
+          }
+        }
+
+        &-avatar {
+          position: relative;
+
+          .detail-avatar {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            width: 14px;
+          }
+        }
+
+        .play-count {
+          margin-left: 2em;
+          cursor: default;
+        }
+      }
+
+      .desc {
+        @include flexVc();
+        padding: 1em 0;
+        color: #556;
+        line-height: 1.6;
 
         em {
-          color: #566;
-          font-size: 1.1em;
-          text-indent: 1em;
+          display: inline-block;
+          max-width: 40em;
         }
       }
 
-      &-avatar {
-        position: relative;
-
-        .detail-avatar {
-          position: absolute;
-          right: 0;
-          bottom: 0;
-          width: 14px;
-        }
-      }
-
-      .play-count {
-        margin-left: 2em;
-        cursor: default;
+      .relative-data {
+        line-height: 1.8;
+        color: #766;
       }
     }
 
-    .desc {
+    .songlist-tools {
+      float: right;
       @include flexVc();
-      padding: 1em 0;
-      color: #556;
-      line-height: 1.6;
+      margin-top: 10px;
 
-      em {
-        display: inline-block;
-        max-width: 40em;
-      }
-    }
-
-    .relative-data {
-      line-height: 1.8;
-      color: #766;
-    }
-  }
-
-  .songlist-tools {
-    float: right;
-    @include flexVc();
-    margin-top: 10px;
-
-    .songlist-btn {
-      &:not(:last-of-type) {
-        margin-right: 1em;
+      .songlist-btn {
+        &:not(:last-of-type) {
+          margin-right: 1em;
+        }
       }
     }
   }
+
+  .songlist-main {
+    min-height: 320px;
+  }
+
 }
  

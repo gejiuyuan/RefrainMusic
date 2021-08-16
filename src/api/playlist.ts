@@ -102,7 +102,7 @@ export function relatedPlaylist(params: { id: number | string }) {
     url: "/related/playlist",
     method: "get",
     params: filterUselessKey(params),
-  });
+  }).then(({ data }) => data);
 }
 
 /**
