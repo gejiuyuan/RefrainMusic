@@ -23,25 +23,17 @@ export default defineComponent({
     const userStore = useUserStore();
     const route = useRoute();
 
-    // getMyLevelInfo().then((res) => {
-    //   console.info(res)
-    // })
-
     const myData = reactive({
-      playlist: {
-        myCreated: [],
-        myCollection: []
-      },
       playRecord: [],
-    })
+    });
 
     const relativeInfos = computed(() => {
       const profile = userStore.detail.profile;
       const infos = [];
-      infos.push({ name: `村龄${UNICODE_CHAR.smile}`, content: `${new Date().getFullYear() - getDate(profile.createTime).year}年（${getLocaleDate(profile.createTime)}）` })
-      infos.push({ name: '个人签名', content: profile.signature })
-      return infos
-    })
+      infos.push({ name: `村龄${UNICODE_CHAR.smile}`, content: `${new Date().getFullYear() - getDate(profile.createTime).year}年（${getLocaleDate(profile.createTime)}）` });
+      infos.push({ name: '个人签名', content: profile.signature });
+      return infos;
+    });
 
     watch(() => userStore.isLogin, (isLogin) => {
       if (isLogin) {
@@ -50,38 +42,24 @@ export default defineComponent({
       else {
         message.warning(`亲~~还没有登录噢~~${UNICODE_CHAR.smile}`, {
           duration: 4000
-        })
+        });
       }
     }, {
       immediate: true
-    })
+    });
 
     const idWatcher = watch(() => route.query.id as string, (id) => {
       if (!id) return;
-      userPlaylist({ uid: id }).then(({ playlist }) => {
-
-        myData.playlist = playlist.reduce(
-          (categoryItem: any, list: any) => {
-            categoryItem[list.userId === +id ? 'myCreated' : 'myCollection'].push(list);
-            return categoryItem
-          },
-          {
-            myCreated: [],
-            myCollection: []
-          }
-        );
-      });
-
       userRecord({ uid: id }).then(({ weekData }) => {
         myData.playRecord = weekData.map(({ song }: any) => song);
       })
     }, {
       immediate: true
-    })
+    });
 
     onBeforeRouteLeave(() => {
       idWatcher();
-    })
+    });
 
     const renderRegisterSign = () => <i>{UNICODE_CHAR.registed}</i>
 
@@ -90,7 +68,8 @@ export default defineComponent({
       if (!userStore.isLogin) {
         return <NEmpty description="亲~~还没有登录噢~~" showDescription={true}></NEmpty>
       }
-      const { playlist: { myCreated, myCollection }, playRecord } = myData
+      const { playRecord } = myData;
+      const { playlist: { myCreated, myCollection } } = userStore;
 
       return (
         <section class="my-page">

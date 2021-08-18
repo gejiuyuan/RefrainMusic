@@ -52,8 +52,9 @@ export default defineComponent({
 
     const toSonglistDetailPage = (id: number | string) => {
       router.push({
-        path: "/songlist",
-        query: {
+        path: "/songlist/:id",
+        name: 'songlist',
+        params: {
           id
         }
       })

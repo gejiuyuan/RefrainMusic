@@ -155,6 +155,12 @@ export const fileDownloader = (url: any, filename: string) => {
     });
 };
 
+export const objToPathname = (obj: PlainObject, prefix = true) =>
+  is.emptyObject(obj)
+    ? ""
+    : `${prefix ? '/' : ''}${Object.values(obj).join('/')}`;
+
+
 export const objToQuery = (obj: PlainObject, prefix = false) =>
   is.emptyObject(obj)
     ? ""
@@ -171,6 +177,30 @@ export const randomSorter = (a: any, b: any) => Math.random() - .5;
 
 export const getRandomList = <T>(list: T[], sorter: (a: T, b: T) => any = randomSorter) => {
   return [...list].sort(sorter);
+}
+
+/**
+ * 是否为复杂数据类型
+ * @param data 
+ * @returns 
+ */
+export const isReferenceType = (data: any) => {
+  return Object(data) === data;
+}
+
+/**
+ * 判断两个参数是否相同（宽松型比对）
+ * @param args 
+ * @returns 
+ * @introduction 相同，即长得一样，而不是内存地址一致
+ */
+export const isLooseEqual = (...args: [any, any]) => {
+  if (args.every(isReferenceType)) {
+    return JSON.stringify(args[0]) === JSON.stringify(args[1]);
+  }
+  else {
+    return Object.is(...args);
+  }
 }
 
 // const colorthief = new ColorThief();

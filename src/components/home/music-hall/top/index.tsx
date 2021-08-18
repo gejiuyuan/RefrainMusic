@@ -50,7 +50,11 @@ export default defineComponent({
     getAllTopListDetail();
 
     const toSongListDetailPage = (list: any) => {
-      router.push({ path: "/songlist", query: { id: list.id } });
+      router.push({
+        path: "/songlist/:id",
+        name: 'songlist',
+        params: { id: list.id }
+      });
     };
 
     const renderSpecialList = () => (

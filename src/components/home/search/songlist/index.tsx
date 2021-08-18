@@ -27,8 +27,9 @@ export default defineComponent({
     //前往歌单详情页
     const toPlaylistDetailPage = (id: number) =>
       router.push({
-        path: "/songlist",
-        query: {
+        path: "/songlist/:id",
+        name: 'songlist',
+        params: {
           id,
         },
       });

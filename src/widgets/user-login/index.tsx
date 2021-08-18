@@ -1,5 +1,5 @@
 import { loginStatus, loginWithPhone } from "@/api/auth";
-import { userAccount, userDetail, userLikeList, userSubcount } from "@/api/user";
+import { userAccount, userDetail, userLikeList, userPlaylist, userSubcount } from "@/api/user";
 import { NaiveFormValidateError } from "@/shim";
 import useUserStore from "@/stores/user";
 import { phoneVerifyPatt } from "@/utils";
@@ -32,14 +32,32 @@ export default defineComponent({
     watch(() => userStore.isLogin, async (isLogin) => {
       if (isLogin) {
         userAccount().then(({ account: { id } }) => {
+
+          //我的详细信息
           userDetail(id).then(detail => {
             userStore.detail = detail
-          })
+          });
+
           //我喜欢的音乐ids
-          userLikeList({
-            uid: id
-          }).then(({ ids }) => userStore.myLoveListIds = ids);
-        })
+          userLikeList({ uid: id }).then(({ ids }) => userStore.myLoveListIds = ids);
+
+          //我的歌单
+          userPlaylist({ uid: id }).then(({ playlist }) => {
+            userStore.playlist = playlist.reduce(
+              (categoryItem: any, list: any) => {
+                categoryItem[list.userId === +id ? 'myCreated' : 'myCollection'].push(list);
+                return categoryItem;
+              },
+              {
+                myCreated: [],
+                myCollection: []
+              }
+            );
+          });
+
+        });
+
+        //订阅数量等相关信息
         userSubcount().then((subCount) => {
           userStore.subCount = subCount;
         });

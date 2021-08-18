@@ -95,3 +95,12 @@ export const getElmOffsetToElm = (elm1: Element, elm2: Element) => {
     offsetTop: top2 - top1,
   }
 }
+
+/**
+ * 获取路由地址（不包含origin）
+ * @returns 
+ */
+export const getHrefWithoutOrigin = () => {
+  const { href, origin } = location;
+  return decodeURIComponent(href).replace(origin, '');
+}

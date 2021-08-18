@@ -9,7 +9,11 @@ export type UserStateType = {
   detail: any;
   isLogin: boolean;
   //我喜欢的音乐ids
-  myLoveListIds: number[],
+  myLoveListIds: number[];
+  playlist: {
+    myCreated: any[];
+    myCollection: any[];
+  }
 }
 
 const useUserStore = defineStore({
@@ -26,6 +30,10 @@ const useUserStore = defineStore({
       subCount: {} as any,
       myLoveListIds: [],
       isLogin: judgeIsLogin(),
+      playlist: {
+        myCreated: [],
+        myCollection: [],
+      }
     };
     return userState;
   },

@@ -18,7 +18,7 @@ import {
   RouterView,
 } from "vue-router";
 import { playlistDetail, playlistDetailDynamic, relatedPlaylist } from "@api/playlist";
-import { getLocaleDate, objToQuery, padPicCrop, UNICODE_CHAR } from "@utils/index";
+import { getLocaleDate, objToPathname, objToQuery, padPicCrop, UNICODE_CHAR } from "@utils/index";
 import { getLocaleCount } from "@utils/calc";
 import "./index.scss";
 
@@ -32,9 +32,9 @@ import CommonRouterList from "@/widgets/common-router-list";
 import KeepAliveRouterview from "@/widgets/keep-alive-routerview";
 
 const baseSonglistRoutelists = [
-  { text: "歌曲列表", to: "/songlist/music" },
-  { text: "评论", to: "/songlist/comments" },
-  { text: "订阅者", to: "/songlist/subscribers" },
+  { text: "歌曲列表", to: "/songlist/:id/music", },
+  { text: "评论", to: "/songlist/:id/comments" },
+  { text: "订阅者", to: "/songlist/:id/subscribers" },
 ];
 
 const subscribedNumber = 99;
@@ -98,21 +98,21 @@ export default defineComponent({
 
     const getRelativeRecommendSonglist = async () => {
       const { playlists } = await relatedPlaylist({
-        id: route.query.id + '',
+        id: route.params.id + '',
       });
       songlistInfo.relativeRecommendSonglist = playlists;
     }
     getRelativeRecommendSonglist();
 
-    const updatePageData = async (query: PlainObject) => {
-      const { id } = query;
+    const updatePageData = async (params: PlainObject) => {
+      const { id } = params;
       await Promise.allSettled([getsonglist(id), getsonglistDetail(id)]);
       const tracksLen = songlistInfo.playlist.tracks.length;
       const commentCountStr = songlistInfo.dynamicInfo.commentCountStr;
       baseSonglistRoutelists.forEach(({ text, to }, i) => {
         songlistRoutelists[i] = {
           text,
-          to: to + objToQuery(query, true),
+          to: to.replace(':id', objToPathname(params, false)),
         };
       });
       songlistRoutelists[0].text += tracksLen ? `(${tracksLen})` : "";
@@ -121,19 +121,19 @@ export default defineComponent({
         : "";
     };
 
-    updatePageData(router.currentRoute.value.query);
+    updatePageData(router.currentRoute.value.params);
 
     onBeforeRouteUpdate((to: RouteLocationNormalized, from, next) => {
-      const { id: toId } = to.query as any;
-      const { id: fromId } = from.query;
+      const { id: toId } = to.params as any;
+      const { id: fromId } = from.params;
       if (toId != fromId) {
-        updatePageData(to.query);
+        updatePageData(to.params);
       }
       next();
     });
 
     const toCreatorDetailPage = (id: string) =>
-      router.push({ path: "/user", query: { id } });
+      router.push({ path: "/user", params: { id } });
 
 
     const renderRelativeRecommendSonglist = () => {

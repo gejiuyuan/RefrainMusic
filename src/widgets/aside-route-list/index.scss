@@ -1,6 +1,8 @@
 @import "@scss/variable";
 
 .yuan-router-menu {
+  padding-bottom: 40px;
+
   h5 {
     padding: 0 14px 18px 14px;
     color: #999;
@@ -19,7 +21,7 @@
       line-height: 32px;
       border-radius: 6px;
       overflow: hidden;
-      transition: background-color 0.2s ease-in, color 0.18s ease-out;
+      transition: background-color 0.05s ease-in, color 0.05s ease-out;
 
       &:not(.active-online-link):hover {
         background-color: rgba(120, 120, 120, 0.16);

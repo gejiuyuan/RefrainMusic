@@ -25,6 +25,7 @@ module.exports = {
     "rules": {
         "no-alert": "off",
         "no-unsafe-finally": "off",
+        "no-empty": "off",
         //是否禁用不必要的\转义字符
         "no-useless-escape": "off",
         "@typescript-eslint/no-var-requires": "off",

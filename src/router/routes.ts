@@ -47,6 +47,7 @@ import Mv from '@components/home/mv';
 import Album from "@components/home/album";
 
 import MyPage from "@components/home/my-page";
+import { RouteLocation, RouteRecordRaw } from "vue-router";
 
 // const MusicHall = () => import("@components/home/music-hall");
 // const MusicHallRecommend = () =>
@@ -88,7 +89,7 @@ import MyPage from "@components/home/my-page";
 // const SearchSonglist = () => import("@components/home/search/songlist");
 // const SearchSinger = () => import("@components/home/search/singer");
 
-const routes = [
+const routes: RouteRecordRaw[] = [
 
   {
     path: "/",
@@ -183,22 +184,34 @@ const routes = [
       },
 
       {
-        path: "songlist",
-        redirect: "/songlist/music",
+        path: "songlist/:id",
+        name: 'songlist',
+        redirect: (to: RouteLocation) => {
+          return {
+            path: 'songlist/:id/music',
+            name: 'songlistMusic',
+            params: {
+              id: to.params.id
+            }
+          }
+        },
         component: Songlist,
         children: [
           {
             path: "music",
+            name: 'songlistMusic',
             component: SonglistMusic,
           },
 
           {
             path: "comments",
+            name: 'songlistComments',
             component: SonglistComment,
           },
 
           {
             path: "subscribers",
+            name: 'songlistSubscribers',
             component: SonglistSubscriber,
           },
         ],

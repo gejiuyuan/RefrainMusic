@@ -1,8 +1,7 @@
 import { defineComponent, onMounted, ref } from "vue";
-import HomeCategory from "@/components/home/home-category";
+import HomeLeft from "@/components/home/home-left";
 import HomeHeader from "@components/home/home-header";
 import HomeController from "@/components/home/player-controller";
-import guoxiaoyouLogo from "@assets/img/guoxiaoyou.png";
 import "./index.scss";
 
 import PlayerQueue from "@/components/home/player-queue";
@@ -12,7 +11,6 @@ import { RouterView } from "vue-router";
 export default defineComponent({
   name: "Home",
   setup(props, context) {
-    const logo = ref(guoxiaoyouLogo);
     return () => {
       return (
         <>
@@ -20,12 +18,7 @@ export default defineComponent({
           <NGrid class="yplayer-homepage" cols={15}>
 
             <NGridItem span={2}>
-              <aside class="home-aside">
-                <h1 class="home-logo">
-                  <img loading="lazy" src={logo.value} />
-                </h1>
-                <HomeCategory></HomeCategory>
-              </aside>
+              <HomeLeft></HomeLeft>
             </NGridItem>
 
             <NGridItem span={13}>

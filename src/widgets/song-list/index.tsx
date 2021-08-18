@@ -92,7 +92,11 @@ export default defineComponent({
     });
 
     const toSonglistDetailPage = (id: string | number) =>
-      router.push({ path: "/songlist", query: { id } });
+      router.push({
+        path: "/songlist/:id",
+        name: 'songlist',
+        params: { id }
+      });
 
     const toUserDetailPage = (userId: string | number) =>
       router.push({

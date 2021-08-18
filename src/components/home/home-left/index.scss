@@ -1,0 +1,30 @@
+@import "@scss/variable";
+
+.home-left { 
+  height: 100vh;
+  background-color: rgb(246, 246, 246);
+
+  .home-logo {
+    @include flexVc();
+    height: $homeTopHeaderHeight;
+    padding-left: 30px;
+    padding-right: 16px;
+    img {
+      display: block;
+      width: 100px;
+      object-fit: contain;
+      object-position: left center;
+      filter: invert(49%) sepia(8%) saturate(3293%) hue-rotate(313deg)
+        brightness(119%) contrast(100%);
+      // filter: invert(50%) sepia(87%) saturate(1967%) hue-rotate(116deg)
+      //   brightness(104%) contrast(93%);
+    }
+  }
+
+  .home-category {
+    width: 100%;
+    height: calc(100% - #{$homeTopHeaderHeight});
+    padding-left: 20px;
+    padding-right: 20px; 
+  }
+}

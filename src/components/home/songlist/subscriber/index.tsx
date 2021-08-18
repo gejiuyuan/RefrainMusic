@@ -56,8 +56,8 @@ export default defineComponent({
     };
 
     watch(
-      () => route.query as any,
-      ({ id, limit, offset }) => {
+      () => route as any,
+      ({ params: { id }, query: { limit, offset } }) => {
         limit = limit || defaultLimit;
         offset = offset || 0;
         subscriberPagiInfo.limit = limit;
