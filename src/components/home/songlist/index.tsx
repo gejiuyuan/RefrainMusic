@@ -99,16 +99,14 @@ export default defineComponent({
       };
     };
 
-    const getRelativeRecommendSonglist = async () => {
-      const { playlists } = await relatedPlaylist({
-        id: route.params.id + '',
-      });
+    const getRelativeRecommendSonglist = async (id: string) => {
+      const { playlists } = await relatedPlaylist({ id });
       songlistInfo.relativeRecommendSonglist = playlists;
     }
-    getRelativeRecommendSonglist();
 
     const updatePageData = async (params: PlainObject) => {
       const { id } = params;
+      getRelativeRecommendSonglist(id);
       await Promise.allSettled([getsonglist(id), getsonglistDetail(id)]);
       const tracksLen = songlistInfo.playlist.tracks.length;
       const commentCountStr = songlistInfo.dynamicInfo.commentCountStr;
@@ -123,7 +121,6 @@ export default defineComponent({
         ? `(${commentCountStr})`
         : "";
     };
-
     updatePageData(router.currentRoute.value.params);
 
     onBeforeRouteUpdate((to: RouteLocationNormalized, from, next) => {
