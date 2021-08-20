@@ -123,7 +123,7 @@ export function playlistDetail(params: {
     url: "/playlist/detail",
     method: "get",
     params: filterUselessKey(params),
-  });
+  }).then(({ data }) => data);
 }
 
 /**

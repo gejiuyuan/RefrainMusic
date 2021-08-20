@@ -30,6 +30,7 @@ import {
 import Songlist from '@widgets/song-list';
 import CommonRouterList from "@/widgets/common-router-list";
 import KeepAliveRouterview from "@/widgets/keep-alive-routerview";
+import { getMusicDetail } from "@/api/music";
 
 const baseSonglistRoutelists = [
   { text: "歌曲列表", to: "/songlist/:id/music", },
@@ -78,13 +79,15 @@ export default defineComponent({
     provide("songlistInfo", songlistInfo);
 
     const getsonglist = async (id: string) => {
-      const { data = {} } = await playlistDetail({ id, s: subscribedNumber });
-      const { playlist = {} } = data;
+      const { playlist = {} } = await playlistDetail({ id, s: subscribedNumber });
       playlist.updateTimeStr = getLocaleDate(playlist.updateTime);
       playlist.createTimeStr = getLocaleDate(playlist.createTime);
       playlist.shareCountStr = getLocaleCount(playlist.shareCount);
       playlist.playCountStr = getLocaleCount(playlist.playCount);
       playlist.subscribedCountStr = getLocaleCount(playlist.subscribedCount);
+      //之所以再获取移除所有歌曲，是因为返回的playlsit.tracks不全
+      const { songs } = await getMusicDetail({ ids: playlist.trackIds.map((_: any) => _.id).join(',') });
+      playlist.tracks = songs;
       songlistInfo.playlist = playlist;
     };
 
