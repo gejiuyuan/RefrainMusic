@@ -6,7 +6,6 @@ import { SongLyricItem } from "@/types/lyric";
 import { CurrentSongInfo, getModifiedSongInfo } from "@/utils/apiSpecial";
 import { PlayOrderType } from "@/widgets/music-tiny-comp";
 
-
 //实际使用的currentSongInfo的类型
 export type PlayerStoreStateType = {
   currentSongInfo: CurrentSongInfo;
@@ -15,6 +14,10 @@ export type PlayerStoreStateType = {
     songList: CurrentSongInfo[];
     show: boolean;
   };
+  personalFM: {
+    songList: any[];
+    isFM: boolean;
+  },
   order: PlayOrderType,
   lyric: {
     common: string;
@@ -33,6 +36,7 @@ const initialCurrentSongInfo: CurrentSongInfo = {
   musicName: "",
   publishTime: 0,
   mark: 0,
+  starred: false,
   album: { id: 0, name: "", picUrl: "" },
   singers: [{ id: 0, name: "" }],
   localedDuration: "",
@@ -53,6 +57,10 @@ const usePlayerStore = defineStore({
       order: "order", // random、singleLoop
       playerQueue: {
         show: false,
+        songList: [],
+      },
+      personalFM: {
+        isFM: false,
         songList: [],
       },
     };

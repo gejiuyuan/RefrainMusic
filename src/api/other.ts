@@ -39,7 +39,7 @@ export function bannerInfo(params: { type?: number | string }) {
  * @returns
  */
 
-export function personalFm() {
+export function getPersonalFm() {
   return anfrage({
     url: "/personal_fm",
     method: "get",
