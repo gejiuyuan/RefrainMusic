@@ -17,7 +17,7 @@ import {
   onBeforeRouteUpdate,
   RouterView,
 } from "vue-router";
-import { playlistDetail, playlistDetailDynamic, relatedPlaylist } from "@api/playlist";
+import { playlistDetail, playlistDetailDynamic, playlistSimilar, relatedPlaylist } from "@api/playlist";
 import { getLocaleDate, objToPathname, objToQuery, padPicCrop, UNICODE_CHAR } from "@utils/index";
 import { getLocaleCount } from "@utils/calc";
 import "./index.scss";
@@ -133,7 +133,7 @@ export default defineComponent({
     });
 
     const toCreatorDetailPage = (id: string) =>
-      router.push({ path: "/user", params: { id } });
+      router.push({ path: "/user", query: { id } });
 
 
     const renderRelativeRecommendSonglist = () => {

@@ -115,7 +115,7 @@ export default defineComponent({
               ? (
                 <NGrid xGap={gaps.x} yGap={gaps.y} cols={cols}>
                   {
-                    playlists.map(({ name, id, coverImgUrl, description, creator }) => {
+                    playlists.map(({ name, id, coverImgUrl, picUrl, description, creator }) => {
                       const { userId, nickname, avatarUrl } = creator;
                       return (
                         <NGridItem key={id}>
@@ -125,7 +125,7 @@ export default defineComponent({
                             <div class="music-cover" aspectratio="1" onClick={() => toSonglistDetailPage(id)}>
                               <img
                                 loading="lazy"
-                                src={padPicCrop(coverImgUrl, { x: 340, y: 340 })}
+                                src={padPicCrop(coverImgUrl || picUrl, { x: 340, y: 340 })}
                                 alt={`${name}-${description}`}
                                 title={`${name}-${description}`}
                               />

@@ -3,7 +3,7 @@ import {
   onMounted,
   readonly,
   ref,
-  defineComponent, 
+  defineComponent,
 } from "vue";
 import CommonRouterList from "@widgets/common-router-list";
 import KeepAliveRouterview from "@widgets/keep-alive-routerview";
@@ -15,7 +15,7 @@ export default defineComponent({
   name: "MusicHall",
   setup(props, context) {
     const musichallCate = [
-      { text: "个性推荐", to: { path: "/musichall/recommend" } },
+      { text: "精选", to: { path: "/musichall/featrued" } },
       { text: "排行榜", to: { path: "/musichall/top" } },
       { text: "新歌速递", to: { path: "/musichall/newestmusic" } },
       { text: "新碟上架", to: { path: "/musichall/newestdisc" } },

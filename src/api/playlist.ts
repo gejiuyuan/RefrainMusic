@@ -240,7 +240,7 @@ export function playlistSimilar(params: { id: number | string }) {
     url: "/simi/playlist",
     method: "get",
     params,
-  });
+  }).then(({ data }) => data);
 }
 
 /**
@@ -251,7 +251,7 @@ export function playlistRecommend() {
   return anfrage({
     url: "/recommend/resource",
     method: "get",
-  });
+  }).then(({ data }) => data);
 }
 
 /**
@@ -317,10 +317,10 @@ export function newestAlbum() {
 }
 
 /**
- * 推荐歌单
+ * 推荐歌单（没登录时）
  */
 
-export function recommendAlbum(params: { limit?: number | string }) {
+export function recommendSonglist(params: { limit?: number | string }) {
   return anfrage({
     url: "/personalized",
     method: "get",

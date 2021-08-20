@@ -1,6 +1,6 @@
 import Home from "@views/home";
 import MusicHall from "@components/home/music-hall";
-import MusicHallRecommend from "@components/home/music-hall/recommend";
+import MusicHallFeatured from "@components/home/music-hall/featured";
 import MusicHallTop from "@components/home/music-hall/top";
 import MusicHallNewest from "@components/home/music-hall/newestmusic";
 import MusicHallSonglist from "@components/home/music-hall/songlist";
@@ -12,7 +12,7 @@ import OnlineVideo from "@components/home/online-video";
 import Setting from "@components/home/setting";
 
 import Artist from "@components/home/artist";
-import ArtistFeature from "@components/home/artist/featured";
+import ArtistFeatured from "@components/home/artist/featured";
 import ArtistAllSongs from "@components/home/artist/allSongs";
 import ArtistAlbum from "@components/home/artist/album";
 import artistMv from "@components/home/artist/mv";
@@ -46,12 +46,14 @@ import Mv from '@components/home/mv';
 
 import Album from "@components/home/album";
 
+import PersonalRecommend from '@components/home/personal-recommend';
+
 import MyPage from "@components/home/my-page";
 import { RouteLocation, RouteRecordRaw } from "vue-router";
 
 // const MusicHall = () => import("@components/home/music-hall");
-// const MusicHallRecommend = () =>
-//   import("@components/home/music-hall/recommend");
+// const MusicHallFeatured = () =>
+//   import("@components/home/music-hall/featured");
 // const MusicHallTop = () => import("@components/home/music-hall/top");
 // const MusicHallNewest = () => import("@components/home/music-hall/newestmusic");
 // const MusicHallSonglist = () => import("@components/home/music-hall/songlist");
@@ -62,7 +64,7 @@ import { RouteLocation, RouteRecordRaw } from "vue-router";
 // const Setting = () => import("@components/home/setting");
 
 // const Artist = () => import("@components/home/artist");
-// const ArtistFeature = () => import("@components/home/artist/featured");
+// const ArtistFeatured = () => import("@components/home/artist/featured");
 // const ArtistAllSongs = () => import("@components/home/artist/allSongs");
 // const ArtistAlbum = () => import("@components/home/artist/album");
 // const artistMv = () => import("@components/home/artist/mv");
@@ -101,12 +103,12 @@ const routes: RouteRecordRaw[] = [
     children: [
       {
         path: "musichall",
-        redirect: "/musichall/recommend",
+        redirect: "/musichall/featrued",
         component: MusicHall,
         children: [
           {
-            path: "recommend",
-            component: MusicHallRecommend,
+            path: "featrued",
+            component: MusicHallFeatured,
           },
           {
             path: "top",
@@ -147,13 +149,18 @@ const routes: RouteRecordRaw[] = [
       },
 
       {
+        path: 'personalRecommend',
+        component: PersonalRecommend,
+      },
+
+      {
         path: "artist",
         redirect: "/artist/featured",
         component: Artist,
         children: [
           {
             path: "featured",
-            component: ArtistFeature,
+            component: ArtistFeatured,
           },
 
           {

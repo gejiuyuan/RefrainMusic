@@ -21,15 +21,18 @@ export default defineComponent({
 
     const logo = ref(guoxiaoyouLogo);
 
-    const onlineMusic = reactive({
-      title: "在线音乐",
-      list: [
+    const onlineMusic = computed(() => {
+      const list = [
         { text: "音乐馆", to: { path: "/musichall" } },
         { text: "电台", to: { path: "/musicradio" } },
         { text: "视频", to: { path: "/onlinevideo" } },
-      ],
-    });
-
+      ]
+      userStore.isLogin && list.push({ text: "个性推荐", to: { path: "/personalRecommend" } });
+      return {
+        title: "在线音乐",
+        list
+      }
+    })
 
     const createdPlaylist = computed(() => {
       const list = userStore.playlist.myCreated.map(({ name, id }) => {
@@ -67,6 +70,7 @@ export default defineComponent({
 
     return () => {
 
+      const { list: onlineMusicList, title: onlineMusicTitle } = onlineMusic.value;
       const { list: createdList, title: createdTitle } = createdPlaylist.value;
       const { list: collectionList, title: collectionTitle } = collectedPlaylist.value;
 
@@ -77,8 +81,8 @@ export default defineComponent({
           </h1>
           <section class="home-category" scrollbar="overlay">
             <AsideRouterList
-              list={onlineMusic.list}
-              title={onlineMusic.title}
+              list={onlineMusicList}
+              title={onlineMusicTitle}
             ></AsideRouterList>
             <AsideRouterList
               list={createdList}

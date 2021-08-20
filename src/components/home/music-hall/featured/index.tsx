@@ -6,18 +6,20 @@ import {
   defineComponent,
   ComponentInternalInstance,
   ref,
+  watch,
 } from "vue";
 import {
   useRouter
 } from 'vue-router';
-import { recommendAlbum } from "@api/playlist";
+import { recommendSonglist } from "@api/playlist";
 import { bannerInfo } from "@api/other";
 import "./index.scss";
-import { padPicCrop } from "@/utils";
+import { is, padPicCrop } from "@/utils";
 import RecommendBanner from "./banner";
 import { NGrid, NGridItem } from "naive-ui";
+import useUserStore from "@/stores/user";
 
-export type RecommendItem = {
+export type FeaturedItem = {
   copywriter: string;
   id: number;
   name: string;
@@ -28,27 +30,29 @@ export type RecommendItem = {
 };
 
 export default defineComponent({
-  name: "MusicHallRecommend",
+  name: "MusicHallFeatured",
   setup(props, { slots, emit }) {
+    const userStore = useUserStore();
     const router = useRouter();
-    const recommendData = reactive({
+    const featuredData = reactive({
       bannerlist: [] as any[],
-      songlist: [] as any[]
-    })
+      songlist: [] as any[],
+      personalSonglist: [] as any[],
+    });
 
     const limit = 10;
     const vm = getCurrentInstance()!;
 
     const getBanner = async () => {
       const { banners = [] } = await bannerInfo({ type: 0 });
-      recommendData.bannerlist = banners;
+      featuredData.bannerlist = banners;
     };
     getBanner();
-    const getRecommendSonglist = async () => {
-      const { result = [] } = await recommendAlbum({ limit });
-      recommendData.songlist = result;
+    const getFeatruedSonglist = async () => {
+      const { result = [] } = await recommendSonglist({ limit });
+      featuredData.songlist = result;
     };
-    getRecommendSonglist();
+    getFeatruedSonglist();
 
     const toSonglistDetailPage = (id: number | string) => {
       router.push({
@@ -61,9 +65,9 @@ export default defineComponent({
     }
 
     return () => {
-      const { bannerlist, songlist } = recommendData
+      const { bannerlist, songlist } = featuredData
       return (
-        <section class="music-hall-recommend">
+        <section class="music-hall-featured">
           <RecommendBanner bannerList={bannerlist}></RecommendBanner>
           <section class="layer">
             <h6>推荐歌单</h6>
@@ -88,6 +92,8 @@ export default defineComponent({
               </NGrid>
             </section>
           </section>
+
+
         </section>
       );
     };

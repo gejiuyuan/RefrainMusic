@@ -46,7 +46,7 @@ export function personalFm() {
     params: {
       timeStamp: new Date().valueOf(),
     },
-  });
+  }).then(({ data }) => data);
 }
 
 /**
@@ -84,5 +84,5 @@ export function allTopListDetail() {
 export function getCountryCode() {
   return anfrage({
     url: '/countries/code/list',
-  }).then(({data}) => data);
+  }).then(({ data }) => data);
 }

@@ -134,7 +134,8 @@ export declare type SongListCreator = {
 
 //歌单列表
 export declare type PlaylistCommon = {
-  coverImgUrl: string;
+  coverImgUrl: string;//如普通歌单的图片
+  picUrl: string;//如个人推荐歌单的图片
   createTime: number;
   description: string;
   id: number;
