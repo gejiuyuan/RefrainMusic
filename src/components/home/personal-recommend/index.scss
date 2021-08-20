@@ -16,9 +16,8 @@
   .personal-fm {
     .fm-box {
       position: relative;
-      padding: math.div(1 , 12) * 100%;
-      background-color: $colorscrollbar;
-      border-radius: 8px;
+      padding: math.div(1 , 12) * 100%; 
+      border-radius: 8px; 
 
       .bubble {
         position: absolute;
@@ -57,7 +56,7 @@
         }
 
         .fm-singers {
-          color: $colorscrollbar;
+          color: #ddd;
           font-size: 14px;
           line-height: 2.2;
         }

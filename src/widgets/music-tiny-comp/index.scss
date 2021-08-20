@@ -106,9 +106,9 @@
 
 .music-love-icon {
   font-size: 22px;
-  color: #777;
+  color: currentColor;
   cursor: pointer;
-  transition: filter 0.1s;  
+  transition: filter .1s, color .1s;  
   
   &:hover {
     filter: brightness(116%);

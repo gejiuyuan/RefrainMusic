@@ -9,10 +9,11 @@ import {
   readonly,
   ref,
   watch,
+  watchEffect,
 } from "vue";
 import "./index.scss";
 import Songlist from '@widgets/song-list';
-import { is, padPicCrop } from "@/utils";
+import { getImageMainColorString, is, padPicCrop } from "@/utils";
 import { NGrid, NGridItem, useMessage } from "naive-ui";
 import { useRoute, useRouter } from "vue-router";
 import { musicRecommend } from "@/api/music";
@@ -46,14 +47,19 @@ export const PersonalFm = defineComponent({
       return personalFM.isFM ? playerStore.currentSongInfo : personalFM.songList[0];
     });
 
-    return () => {
+    const picMainColor = ref('');
+    watchEffect(async () => {
+      picMainColor.value = await getImageMainColorString(currentVisibleFM.value?.album?.picUrl);
+    });
 
-      const { detail } = userStore;
+    return () => {
       const currentVisibleFMValue = currentVisibleFM.value;
       if (is.undefined(currentVisibleFMValue)) {
         return;
       }
+      const { detail } = userStore;
       const { musicName, singers, album } = currentVisibleFMValue;
+      const picUrl = padPicCrop(album.picUrl, { x: 120, y: 120 });
 
       return (
         <section class="personal-recommend-layer personal-fm">
@@ -62,7 +68,7 @@ export const PersonalFm = defineComponent({
 
           <NGrid>
             <NGridItem span={9}>
-              <div className="fm-box">
+              <div className="fm-box" style={{ backgroundColor: picMainColor.value }}>
                 <i class="bubble" aspectratio="1"></i>
                 <em class="tip">
                   For
@@ -70,7 +76,7 @@ export const PersonalFm = defineComponent({
                   You
                 </em>
                 <div className="fm-main" aspectratio="3">
-                  <img class="fm-pic" src={padPicCrop(album.picUrl, { x: 120, y: 120 })} alt="" />
+                  <img class="fm-pic" src={picUrl} alt="" />
                   <div className="fm-content">
                     <h6 class="fm-name" singallinedot>
                       {

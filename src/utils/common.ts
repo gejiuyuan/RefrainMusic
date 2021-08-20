@@ -1,5 +1,5 @@
 import { toString, isPrototypeOf, isExtensible, EMPTY_OBJ, hasOwnProperty } from "./constants";
-// import ColorThief from "colorthief";
+import ColorThief from '@assets/js/colorthief';
 
 export const typeOf = (ins: any): string =>
   toString.call(ins).slice(8, -1).toLowerCase();
@@ -203,19 +203,28 @@ export const isLooseEqual = (...args: [any, any]) => {
   }
 }
 
-// const colorthief = new ColorThief();
-// export const getImageMainColor = (imgUrl: string) => {
-//   return new Promise<ReturnType<typeof colorthief.getColor>>(
-//     (resolve, reject) => {
-//       const img = new Image();
-//       img.src = imgUrl;
-//       img.crossOrigin = "anonymous";
-//       img.onload = () => {
-//         resolve(colorthief.getColor(img));
-//       };
-//       img.onerror = () => {
-//         reject("load error!");
-//       };
-//     }
-//   );
-// };
+const colorthief = new ColorThief();
+export const getImageMainColor = (imgUrl: string) => {
+  return new Promise<ReturnType<typeof colorthief.getColor>>(
+    (resolve, reject) => {
+      if (!imgUrl) {
+        resolve('');
+        return;
+      }
+      const img = new Image();
+      img.src = imgUrl;
+      img.crossOrigin = "anonymous";
+      img.onload = () => {
+        resolve(colorthief.getColor(img));
+      };
+      img.onerror = () => {
+        reject("load error!");
+      };
+    }
+  );
+};
+
+export const getImageMainColorString = async (imgUrl: string) => {
+  const colorArr = await getImageMainColor(imgUrl);
+  return `rgb(${colorArr.join(',')})`;
+}

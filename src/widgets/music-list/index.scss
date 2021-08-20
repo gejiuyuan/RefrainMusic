@@ -73,10 +73,10 @@
       opacity: 0;
       @include flexHeVc();
       width: 30%;
+      color: rgba(80, 80, 80, 0.65);
       .tool-item {
         font-size: 24px;
         cursor: pointer;
-        color: rgba(80, 80, 80, 0.65);
         &:hover {
           color: var(--theme);
         }

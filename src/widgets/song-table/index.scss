@@ -33,9 +33,9 @@ $baseSongTableHeight: 40em;
   .tools {
     @include flexVc();
     opacity: 0;
+    color: #888;
     .tool-item {
       margin: 0 6px;
-      color: #888;
       font-size: 28px;
       cursor: pointer;
 

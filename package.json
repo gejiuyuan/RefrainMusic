@@ -7,7 +7,7 @@
     "optimize": "vite optimize -c scripts/vite/vite.config.ts",
     "build": "vite build -c scripts/vite/vite.config.ts",
     "check:tsc": "npx tsc --noEmit",
-    "check:eslint":"npx eslint",
+    "check:eslint": "npx eslint",
     "prettier:check": "npx prettier --check .",
     "prettier:write": "npx prettier --ignore-unknown --write .",
     "prettier": "npm run prettier:write",

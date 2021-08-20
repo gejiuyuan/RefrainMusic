@@ -3196,6 +3196,11 @@ reusify@^1.0.4:
   resolved "https://registry.npm.taobao.org/reusify/download/reusify-1.0.4.tgz"
   integrity sha1-kNo4Kx4SbvwCFG6QhFqI2xKSXXY=
 
+rgbaster@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.nlark.com/rgbaster/download/rgbaster-2.1.1.tgz#d83c0801ffd8887c0a96b0d2b756fc7e1fd68614"
+  integrity sha1-2DwIAf/YiHwKlrDSt1b8fh/WhhQ=
+
 rimraf@^3.0.2:
   version "3.0.2"
   resolved "https://registry.npm.taobao.org/rimraf/download/rimraf-3.0.2.tgz?cache=0&sync_timestamp=1589682814592&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Frimraf%2Fdownload%2Frimraf-3.0.2.tgz"
