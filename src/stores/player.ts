@@ -127,17 +127,17 @@ const usePlayerStore = defineStore({
       //获取音乐详细信息，因为存在偶现型songItem中picUrl不存在
       getMusicDetail({ ids: String(id) }).then(
         ({ songs: [songDetailData] }) => {
+          const currentSong = getModifiedSongInfo(songDetailData);
           //设置当前要播放歌曲的信息
-          this.currentSongInfo = getModifiedSongInfo(songDetailData);
+          this.currentSongInfo = currentSong;
           //同时添加该歌曲到播放队列中
           const queueSongList = this.playerQueue.songList;
-          if (
-            !queueSongList.some(({ id: queueSongId }) => id === queueSongId)
-          ) {
-            queueSongList.push(this.currentSongInfo);
+          if (!queueSongList.some(({ id: queueSongId }) => id === queueSongId)) {
+            queueSongList.push(currentSong);
           }
-          //保存当前播放的歌曲到IndexedDB 
-          options.needSave && getOrPutCurrentSong(this.currentSongInfo);
+          //保存当前播放的歌曲到IndexedDB
+          options.needSave && getOrPutCurrentSong(currentSong);
+          getOrPutPlayQueue(currentSong);
         }
       );
       //获取歌词
