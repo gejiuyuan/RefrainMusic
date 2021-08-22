@@ -17,38 +17,32 @@ export const isCtrlAndArrowLeft = ({ ctrlKey, key }: KeyboardEvent) => {
 export default function usePlaySwitch() {
 
   const playerStore = usePlayerStore();
-  const audioStore = useAudioStore();
 
-  const playlist = playerStore.playerQueue.songList;
-
-  const randomPlaylist = ref<typeof playlist>([]);
+  const randomPlaylist = ref<typeof playerStore.playerQueue.songList>([]);
 
   watchEffect(() => {
     if (isRandomOrder(playerStore.order)) {
-      randomPlaylist.value = getRandomList(playlist);
+      randomPlaylist.value = getRandomList(playerStore.playerQueue.songList);
     }
   });
 
-  const currentPlayIndex = (() => {
+  const realPlaylist = computed(() => {
+    return isRandomOrder(playerStore.order) ? randomPlaylist.value : playerStore.playerQueue.songList
+  })
 
-    const getRealPlaylist = () => {
-      return isRandomOrder(playerStore.order) ? randomPlaylist.value : playlist
+  const currentPlayIndex = customRef<number>((track, trigger) => ({
+    get() {
+      track();
+      const { currentSongInfo: { id: currentSongId } } = playerStore;
+      return realPlaylist.value.findIndex(({ id }) => id == currentSongId) || 0
+    },
+    set(idx) {
+      const targetId = realPlaylist.value[idx].id
+      playerStore.handlePlaySoundNeededData(targetId);
+      trigger();
     }
+  }));
 
-    return customRef<number>((track, trigger) => ({
-      get() {
-        track();
-        const { currentSongInfo: { id: currentSongId } } = playerStore;
-        return getRealPlaylist().findIndex(({ id }) => id === currentSongId) || 0
-      },
-      set(idx) {
-        const targetId = getRealPlaylist()[idx].id
-        playerStore.handlePlaySoundNeededData(targetId);
-        trigger();
-      }
-    }));
-
-  })();
 
   //监听action方法执行
   playerStore.$onAction(({ after, onError }) => {
@@ -66,7 +60,7 @@ export default function usePlaySwitch() {
    */
   const toNext = () => {
     let value = currentPlayIndex.value;
-    if (++value >= playlist.length) {
+    if (++value >= realPlaylist.value.length) {
       value = 0;
     }
     currentPlayIndex.value = value;
@@ -78,7 +72,7 @@ export default function usePlaySwitch() {
   const toPrevious = () => {
     let value = currentPlayIndex.value;
     if (--value < 0) {
-      value = playlist.length - 1;
+      value = realPlaylist.value.length - 1;
     }
     currentPlayIndex.value = value;
   }
