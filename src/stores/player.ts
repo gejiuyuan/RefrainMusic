@@ -5,7 +5,7 @@ import { getMusicDetail, getLyric } from "@api/music";
 import { SongLyricItem } from "@/types/lyric";
 import { CurrentSongInfo, getModifiedSongInfo } from "@/utils/apiSpecial";
 import { PlayOrderType } from "@/widgets/music-tiny-comp";
-import { getOrPutPlayQueue } from "@/database";
+import { getOrPutCurrentSong, getOrPutPlayQueue, playerDB } from "@/database";
 
 //实际使用的currentSongInfo的类型
 export type PlayerStoreStateType = {
@@ -34,6 +34,19 @@ export async function initPlayQueueFromDB() {
   const playQueue = await getOrPutPlayQueue();
   if (playQueue) {
     playerStore.playerQueue.songList = playQueue;
+  }
+}
+
+/**
+ * 从DB中获取currentSongInfo
+ */
+export async function initCurrentSongInfo() {
+  const playerStore = usePlayerStore();
+  const currentSong = await getOrPutCurrentSong();
+  if (currentSong) {
+    //先初始化加载音乐播放相关资源或数据
+    playerStore.handlePlaySoundNeededData(currentSong.id);
+    playerStore.currentSongInfo = currentSong;
   }
 }
 

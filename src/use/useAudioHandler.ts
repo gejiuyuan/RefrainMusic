@@ -1,4 +1,4 @@
-import { watch, toRefs, watchEffect } from "vue";
+import { watch, toRefs, watchEffect, toRaw } from "vue";
 import useHowler, { UseHowlerOptions } from "@/use/useHowler";
 import useAudioStore from "@/stores/audio";
 import { useLoadingBar, useMessage } from "naive-ui";
@@ -6,6 +6,7 @@ import usePlayerStore from "@/stores/player";
 import { messageApiInjectionKey } from "naive-ui/lib/message/src/MessageProvider";
 import { UNICODE_CHAR } from "@/utils";
 import { isSingleLoopOrder } from "@/widgets/music-tiny-comp";
+import { getOrPutCurrentSong } from "@/database";
 
 /**
  * 播放下一首歌的标识，用于在pinia.$action中的after中接受
@@ -96,6 +97,9 @@ export function useAudioHandler() {
 
     audioStore.duration = duration.value;
     loop.value = playerStore.order === 'singleLoop';
+
+    //保存当前播放的歌曲到IndexedDB 
+    getOrPutCurrentSong(playerStore.currentSongInfo);
 
     clearInterval(timeUpdateInterval);
     timeUpdateInterval = setInterval(() => {
