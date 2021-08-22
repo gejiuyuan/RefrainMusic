@@ -6,6 +6,7 @@ import { SongLyricItem } from "@/types/lyric";
 import { CurrentSongInfo, getModifiedSongInfo } from "@/utils/apiSpecial";
 import { PlayOrderType } from "@/widgets/music-tiny-comp";
 import { getOrPutCurrentSong, getOrPutPlayQueue, playerDB } from "@/database";
+import { toRefs } from "vue";
 
 //实际使用的currentSongInfo的类型
 export type PlayerStoreStateType = {
@@ -45,8 +46,10 @@ export async function initCurrentSongInfo() {
   const currentSong = await getOrPutCurrentSong();
   if (currentSong) {
     //先初始化加载音乐播放相关资源或数据
-    playerStore.handlePlaySoundNeededData(currentSong.id);
-    playerStore.currentSongInfo = currentSong;
+    playerStore.handlePlaySoundNeededData(currentSong.id, {
+      needJudge: false,
+      needSave: false,
+    });
   }
 }
 
@@ -93,8 +96,8 @@ const usePlayerStore = defineStore({
   },
   getters: {
     lyricParsed(state: PlayerStoreStateType) {
-      const { common, translation } = state.lyric;
-      const lyricData = new LyricParser(common, translation);
+      const { common, translation } = toRefs(state.lyric);
+      const lyricData = new LyricParser(common.value, translation.value);
       return lyricData;
     },
   },
@@ -104,9 +107,18 @@ const usePlayerStore = defineStore({
       return mark;
     },
     //处理播放歌曲需要的数据
-    handlePlaySoundNeededData(id: number) {
+    handlePlaySoundNeededData(
+      id: number,
+      options: {
+        needJudge: boolean;
+        needSave: boolean;
+      } = {
+          needJudge: true,
+          needSave: true
+        }
+    ) {
       //如果已经是当前播放的歌曲了，就return
-      if (this.currentSongInfo.id === id) return;
+      if (options.needJudge && this.currentSongInfo.id === id) return;
       //重置相关音频状态
       const audioStore = useAudioStore();
       audioStore.resetAudioStatus();
@@ -123,8 +135,9 @@ const usePlayerStore = defineStore({
             !queueSongList.some(({ id: queueSongId }) => id === queueSongId)
           ) {
             queueSongList.push(this.currentSongInfo);
-            getOrPutPlayQueue(this.currentSongInfo);
           }
+          //保存当前播放的歌曲到IndexedDB 
+          options.needSave && getOrPutCurrentSong(this.currentSongInfo);
         }
       );
       //获取歌词

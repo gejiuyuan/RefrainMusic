@@ -98,9 +98,6 @@ export function useAudioHandler() {
     audioStore.duration = duration.value;
     loop.value = playerStore.order === 'singleLoop';
 
-    //保存当前播放的歌曲到IndexedDB 
-    getOrPutCurrentSong(playerStore.currentSongInfo);
-
     clearInterval(timeUpdateInterval);
     timeUpdateInterval = setInterval(() => {
       if (!playing.value) return;

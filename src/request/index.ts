@@ -1,4 +1,3 @@
-import { useMessage } from "naive-ui";
 import ryoko, { abortPendingRequest } from "ryoko";
 
 export const anfrage = ryoko.create({
@@ -15,9 +14,16 @@ export const anfrage = ryoko.create({
   responseType: "json",
 });
 
-anfrage.interceptors.request.use((config: any) => {
+anfrage.interceptors.request.use((config) => {
   return config
 }, err => {
+  return err
+})
+
+anfrage.interceptors.response.use((res: any) => {
+  return res
+}, err => {
+  console.dir(err)
   return err
 })
 

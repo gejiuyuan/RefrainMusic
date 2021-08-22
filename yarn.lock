@@ -3196,11 +3196,6 @@ reusify@^1.0.4:
   resolved "https://registry.npm.taobao.org/reusify/download/reusify-1.0.4.tgz"
   integrity sha1-kNo4Kx4SbvwCFG6QhFqI2xKSXXY=
 
-rgbaster@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.nlark.com/rgbaster/download/rgbaster-2.1.1.tgz#d83c0801ffd8887c0a96b0d2b756fc7e1fd68614"
-  integrity sha1-2DwIAf/YiHwKlrDSt1b8fh/WhhQ=
-
 rimraf@^3.0.2:
   version "3.0.2"
   resolved "https://registry.npm.taobao.org/rimraf/download/rimraf-3.0.2.tgz?cache=0&sync_timestamp=1589682814592&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Frimraf%2Fdownload%2Frimraf-3.0.2.tgz"
@@ -3229,10 +3224,10 @@ rxjs@^6.6.7:
   dependencies:
     tslib "^1.9.0"
 
-ryoko@^0.1.51:
-  version "0.1.51"
-  resolved "https://registry.nlark.com/ryoko/download/ryoko-0.1.51.tgz"
-  integrity sha1-tzhgQK3sDFsq2t9mawaQf9yxRww=
+ryoko@0.1.52:
+  version "0.1.52"
+  resolved "https://registry.npmjs.org/ryoko/-/ryoko-0.1.52.tgz#fd67f14ef12e6ce518b2b9abe443079b350fa310"
+  integrity sha512-0ltYW9E89T4OalFJdsnxRu1d8Ik94Usuab8MIOl6BU/BXwSWhn84Ak4TplL4ghlt/fhyox/CbL1Uq4m5+274fQ==
   dependencies:
     abort-controller "^3.0.0"
     form-data "^2.3.3"
