@@ -22,6 +22,8 @@ import { getPersonalFm } from "@/api/other";
 import { MusicLoveIcon, MusicSinger } from '@widgets/music-tiny-comp';
 import usePlayerStore from "@/stores/player";
 import { getModifiedNewestSongInfo, getModifiedSongInfo } from "@/utils/apiSpecial";
+import { TO_NEXT_MARK } from "@/use";
+import { PlayStatusSwitch } from '@widgets/music-tiny-comp';
 
 export const PersonalFm = defineComponent({
   name: 'PersonalFm',
@@ -52,19 +54,27 @@ export const PersonalFm = defineComponent({
       picMainColor.value = await getImageMainColorString(currentVisibleFM.value?.album?.picUrl);
     });
 
+    const toNextHandler = () => {
+      playerStore.publishAfterMark(TO_NEXT_MARK);
+    }
+
+    const playBtnClickHandler = () => {
+
+    }
+
     return () => {
       const currentVisibleFMValue = currentVisibleFM.value;
       if (is.undefined(currentVisibleFMValue)) {
         return;
       }
       const { detail } = userStore;
-      const { musicName, singers, album } = currentVisibleFMValue;
+      const { musicName, singers, album, id } = currentVisibleFMValue;
       const picUrl = padPicCrop(album.picUrl, { x: 120, y: 120 });
 
       return (
         <section class="personal-recommend-layer personal-fm">
 
-          <h5>哈喽！阿哪哒！今天为你推荐 {detail.profile.nickname} 的音乐电台</h5>
+          <h5 singallinedot>哈喽！阿哪哒！今天为你推荐 {detail.profile.nickname} 的音乐电台</h5>
 
           <NGrid>
             <NGridItem span={9}>
@@ -77,6 +87,9 @@ export const PersonalFm = defineComponent({
                 </em>
                 <div className="fm-main" aspectratio="3">
                   <img class="fm-pic" src={picUrl} alt="" />
+                  <div className="play-toggle" aspectratio="1">
+                    <PlayStatusSwitch id={id}></PlayStatusSwitch>
+                  </div>
                   <div className="fm-content">
                     <h6 class="fm-name" singallinedot>
                       {
@@ -85,7 +98,7 @@ export const PersonalFm = defineComponent({
                     </h6>
                     <MusicSinger class="fm-singers" singers={singers}></MusicSinger>
                     <div className="fm-tools">
-                      <div className="tool-item next-music" title="下一首 Ctrl+Right">
+                      <div className="tool-item next-music" title="下一首 Ctrl+Right" onClick={toNextHandler}>
                         <i class="iconfont icon-nextmusic"></i>
                       </div>
                       <div className="tool-item love-music" title="piupiupiu~~">

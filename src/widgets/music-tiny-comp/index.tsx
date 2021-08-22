@@ -355,3 +355,4 @@ export const MusicSinger = defineComponent({
     };
   },
 });
+

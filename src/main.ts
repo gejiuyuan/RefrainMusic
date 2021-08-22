@@ -4,13 +4,13 @@ import { globalProperties } from "./vueGlobalConfig";
 import routerObj from "@router/index";
 import "@scss/main.scss";
 import YuanPlayer from "./App";
-import './swiper';   
+import './swiper';
+import '@database/index';
 
- 
 
 //创建app根实例
 const vueApp = createApp(YuanPlayer);
- 
+
 vueApp.config.globalProperties = globalProperties;
 vueApp.use(createPinia());
 vueApp.use(routerObj);

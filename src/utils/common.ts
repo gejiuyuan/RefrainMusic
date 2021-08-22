@@ -208,7 +208,7 @@ export const getImageMainColor = (imgUrl: string) => {
   return new Promise<ReturnType<typeof colorthief.getColor>>(
     (resolve, reject) => {
       if (!imgUrl) {
-        resolve('');
+        resolve([]);
         return;
       }
       const img = new Image();

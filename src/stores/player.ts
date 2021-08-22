@@ -5,6 +5,7 @@ import { getMusicDetail, getLyric } from "@api/music";
 import { SongLyricItem } from "@/types/lyric";
 import { CurrentSongInfo, getModifiedSongInfo } from "@/utils/apiSpecial";
 import { PlayOrderType } from "@/widgets/music-tiny-comp";
+import { getOrPutPlayQueue } from "@/database";
 
 //实际使用的currentSongInfo的类型
 export type PlayerStoreStateType = {
@@ -24,6 +25,17 @@ export type PlayerStoreStateType = {
     translation: string;
   };
 };
+
+/**
+ * 从DB中获取playQueue
+ */
+export async function initPlayQueueFromDB() {
+  const playerStore = usePlayerStore();
+  const playQueue = await getOrPutPlayQueue();
+  if (playQueue) {
+    playerStore.playerQueue.songList = playQueue;
+  }
+}
 
 //初始的currentSongInfo
 const initialCurrentSongInfo: CurrentSongInfo = {
@@ -98,6 +110,7 @@ const usePlayerStore = defineStore({
             !queueSongList.some(({ id: queueSongId }) => id === queueSongId)
           ) {
             queueSongList.push(this.currentSongInfo);
+            getOrPutPlayQueue(this.currentSongInfo);
           }
         }
       );

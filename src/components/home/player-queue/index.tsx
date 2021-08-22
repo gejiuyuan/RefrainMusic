@@ -5,7 +5,7 @@ import { useRoute, useRouter } from "vue-router";
 import "./index.scss";
 import { MusicLoveIcon, PlayStatusSwitch, } from "@widgets/music-tiny-comp";
 import useAudioStore from "@/stores/audio";
-import { getElmOffsetToElm } from "@/utils";
+import { getElmOffsetToElm, is } from "@/utils";
 
 
 export default defineComponent({
@@ -32,10 +32,13 @@ export default defineComponent({
      * @returns 
      */
     const locatoToCurrentSong = () => {
+      const { songList } = playerQueue;
+      if (is.emptyArray(songList)) {
+        return;
+      }
       const {
         currentSongInfo: { id: curSongId },
       } = playerStore;
-      const { songList } = playerQueue;
       const targetIndex = songList.findIndex(({ id }) => id === curSongId);
 
       const targetScrollTop = (listContentUlRef.value!.children[targetIndex] as HTMLLIElement).offsetTop;

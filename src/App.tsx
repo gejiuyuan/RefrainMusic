@@ -4,10 +4,13 @@ import "./App.scss";
 import Player from '@views/player';
 import usePlayerStore from "./stores/player";
 import { GlobalThemeOverrides, NBackTop, NConfigProvider, NLoadingBarProvider, NMessageProvider, NThemeEditor } from "naive-ui";
+import { initStore } from '@stores/index';
 
 export default defineComponent({
   name: "YuanPlayer",
   setup(props, context) {
+
+    initStore();
 
     const playerStore = usePlayerStore();
     const themeLayerStyle = computed(() => {

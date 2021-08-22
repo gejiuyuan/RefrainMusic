@@ -41,8 +41,8 @@
   "include": [
     "scripts/**/*.ts", //必须指定，否则不能解析viteConfig下的ts文件
     "scripts/**/*.d.ts",
-    "src/**/*.ts",
     "src/**/*.d.ts",
+    "src/**/*.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
     "global.d.ts"
