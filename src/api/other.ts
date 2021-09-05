@@ -1,4 +1,4 @@
-import { anfrageWithLoading } from "@/request";
+import { anfrageWithLoading, anfrage } from "@/request";
 import { filterUselessKey } from "@utils/index";
 
 /**
@@ -82,7 +82,7 @@ export function allTopListDetail() {
  * @returns 
  */
 export function getCountryCode() {
-  return anfrageWithLoading({
+  return anfrage({
     url: '/countries/code/list',
   })
 }

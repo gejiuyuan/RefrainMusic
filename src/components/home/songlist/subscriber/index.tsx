@@ -17,9 +17,10 @@ import SubscriberListComp from "@widgets/subscriber-list";
 import RoutePagination, { PagiInfo } from "@widgets/route-pagination";
 import { PlaylistSubscribe } from "@api/playlist";
 import { Subscriber, SubscriberList } from "@/types/songlist";
-import { override } from "@/utils";
+import { is, override } from "@/utils";
 import "./index.scss";
 import { COMPONENT_NAME, PAGE_SIZE } from "@/utils/preference";
+import { NEmpty } from "naive-ui";
 
 const defaultLimit = PAGE_SIZE[COMPONENT_NAME.SONGLIST_SUBSCRIBER]
 
@@ -31,28 +32,21 @@ export default defineComponent({
     const subscribers = shallowReactive<Subscriber[]>([]);
 
     const isShowPagi = ref(false);
-    const subscriberPagiInfo = shallowReactive<PagiInfo>({
-      limit: defaultLimit,
-      sizeArr: Array(3)
-        .fill(0)
-        .map((v, i) => defaultLimit * (i + 1)),
-      offset: 0,
+    const subscriberPagiInfo = shallowReactive({
       total: 0,
-    });
-
+      hasMore: true
+    })
     const getPlaylistSubscribers = async (params: {
       id: number;
       limit: string;
       offset: string;
     }) => {
-      const res = await PlaylistSubscribe(params);
-      const data = res.data as SubscriberList;
-      if (data) {
-        subscribers.length = 0;
-        subscribers.push(...data.subscribers);
-        subscriberPagiInfo.total = data.total;
-        isShowPagi.value = data.more && data.reason !== "needLogin";
-      }
+      const { more, total, subscribers: subs, reason } = await PlaylistSubscribe(params);
+      subscribers.length = 0;
+      subscribers.push(...subs);
+      subscriberPagiInfo.total = total;
+      subscriberPagiInfo.hasMore = more;
+      isShowPagi.value = reason !== "needLogin";
     };
 
     watch(
@@ -60,35 +54,26 @@ export default defineComponent({
       ({ params: { id }, query: { limit, offset } }) => {
         limit = limit || defaultLimit;
         offset = offset || 0;
-        subscriberPagiInfo.limit = limit;
-        subscriberPagiInfo.offset = offset;
         getPlaylistSubscribers({ limit, id, offset });
       },
       {
         immediate: true,
+        deep: true,
       }
     );
 
     const renderNotLogin = () => {
-      if (!isShowPagi.value && !subscribers.length) {
-        return <div class="need-login">需要登录后才能查看喔~~</div>;
-      }
-    };
-
-    const renderRoutePagi = () => {
-      if (isShowPagi.value) {
-        return (
-          <RoutePagination pagiInfo={subscriberPagiInfo}></RoutePagination>
-        );
+      if (!isShowPagi.value) {
+        return <NEmpty description="亲~~还没有登录噢~~" showDescription={true}></NEmpty>
       }
     };
 
     return () => {
+      const { hasMore, total } = subscriberPagiInfo;
       return (
         <section class="songlist-comment">
           {renderNotLogin()}
-          <SubscriberListComp userLists={subscribers}></SubscriberListComp>
-          {renderRoutePagi()}
+          <SubscriberListComp defaultLimit={defaultLimit} userLists={subscribers} hasMore={hasMore} total={total}></SubscriberListComp>
         </section>
       );
     };
