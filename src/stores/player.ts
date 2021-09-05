@@ -125,11 +125,8 @@ const usePlayerStore = defineStore({
     ) {
       //如果已经是当前播放的歌曲了，就return
       if (!options.force && this.currentSongInfo.id === id) return;
-      //重置相关音频状态 
-      AudioMaster.resetAudioStatus();
       //设置全局音频src，以便howler加载mp3的url
       srcOrIdRefGlobal.value = id;
-      playingRefGlobal.value = true;
       //获取音乐详细信息，因为存在偶现型songItem中picUrl不存在
       getMusicDetail({ ids: String(id) }).then(
         ({ songs: [songDetailData] }) => {

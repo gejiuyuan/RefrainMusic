@@ -5,6 +5,7 @@ import {
 //类型声明需安装: npm i @types/howler
 import { Howl, Howler, HowlErrorCallback, HowlOptions } from "howler";
 import { MaybeRef } from "@vueuse/core";
+import { is } from "@/utils";
 
 export type HowlerStateType = "loaded" | "unloaded" | "loading";
 
@@ -32,6 +33,7 @@ export const defaultHowlOptions: HowlOptions = {
 const useHowler = (() => {
   let howl: Howl;
   const eventFuncQueue: CommonFunction[] = [];
+  const eventFuncOnceQueue: CommonFunction[] = [];
   return (baseOptions: HowlOptions = defaultHowlOptions) => {
     const playSound = (
       options: HowlOptions = defaultHowlOptions
@@ -43,6 +45,10 @@ const useHowler = (() => {
         ...options,
       }
       howl = new Howl(realHowlOptions);
+      if (!is.emptyArray(eventFuncOnceQueue)) {
+        eventFuncOnceQueue.forEach(func => func());
+        eventFuncOnceQueue.length = 0;
+      }
       eventFuncQueue.forEach((func) => func());
 
       //解决某些浏览器自动播放失效问题
@@ -58,8 +64,8 @@ const useHowler = (() => {
         track();
         return howl?.volume() === 0;
       },
-      set(val) {
-        howl?.mute(val);
+      set(value) {
+        howl?.mute(value);
         trigger();
       },
     }));
@@ -69,8 +75,8 @@ const useHowler = (() => {
         track();
         return howl?.loop();
       },
-      set(val) {
-        howl?.loop(val);
+      set(value) {
+        howl?.loop(value);
         trigger();
       },
     }));
@@ -80,8 +86,9 @@ const useHowler = (() => {
         track();
         return howl?.seek() as number;
       },
-      set(val) {
-        howl?.seek(val);
+      set(value) {
+        const fn = () => howl.seek(value);
+        !howl ? eventFuncOnceQueue.push(fn) : fn();
         trigger();
       },
     }));
@@ -91,10 +98,10 @@ const useHowler = (() => {
         track();
         return howl?.volume();
       },
-      set(val) {
-        if (val < 0) val = 0;
-        else if (val > 1) val = 1;
-        howl?.volume(val);
+      set(value) {
+        if (value < 0) value = 0;
+        else if (value > 1) value = 1;
+        howl?.volume(value);
         trigger();
       },
     }));
@@ -104,10 +111,10 @@ const useHowler = (() => {
         track();
         return howl.rate();
       },
-      set(val) {
-        if (val < 0.5) val = 0.5;
-        else if (val > 4) val = 4;
-        howl?.rate(val);
+      set(value) {
+        if (value < 0.5) value = 0.5;
+        else if (value > 4) value = 4;
+        howl?.rate(value);
         trigger();
       },
     }));
@@ -137,9 +144,9 @@ const useHowler = (() => {
         track();
         return howl?.playing();
       },
-      set(val) {
+      set(value) {
+        howl?.[value ? 'play' : 'pause']();
         trigger();
-        howl?.[val ? "play" : "pause"]();
       },
     }));
 

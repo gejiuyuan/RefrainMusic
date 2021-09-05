@@ -88,7 +88,7 @@ export const rateRefGlobal = (() => {
           console.error(`The 'rate' must be a number!`);
           return;
         }
-        rate = value;
+        rateHowlerRef.value = rate = value;
         localStorage.setItem(PreferenceNames.rate, String(rate));
         trigger();
       }
@@ -119,9 +119,9 @@ export const volumeRefGlobal = (() => {
 })();
 
 export type Order = 'order' | 'singleLoop' | 'random';
+const orderOptions: Order[] = ['order', 'singleLoop', 'random'];
 export const orderRefGlobal = (() => {
   let order = (localStorage.getItem(PreferenceNames.order) || defaultAudioPreferences[PreferenceNames.order]) as Order;
-  const orderOptions: Order[] = ['order', 'singleLoop', 'random'];
   return customRef<Order>((track, trigger) => {
     return {
       get() {
@@ -180,11 +180,11 @@ export const srcOrIdRefGlobal = (() => {
         messageBus.dispatch('destroyAllMessage');
         playSound({
           src: AudioMaster.getSoundUrl(srcOrId),
-          volume: volumeRefGlobal.value,
           autoplay: playingRefGlobal.value,
-          mute: muteRefGlobal.value,
           rate: rateRefGlobal.value,
           loop: AudioMaster.isSingleLoopOrder,
+          volume: volumeHowlerRef.value,
+          mute: muteRefGlobal.value,
         });
         messageBus.dispatch('startLoading');
       }
@@ -194,6 +194,7 @@ export const srcOrIdRefGlobal = (() => {
 
 export const nextSeekTimeRefGlobal = (() => {
   let nextSeekTime = currentTimeRefGlobal.value;
+  currentTimeHowlerRef.value = nextSeekTime;
   return customRef<number>((track, trigger) => {
     return {
       get() {
@@ -201,6 +202,7 @@ export const nextSeekTimeRefGlobal = (() => {
         return nextSeekTime;
       },
       set(value) {
+        console.info(value)
         currentTimeHowlerRef.value = nextSeekTime = value;
         trigger();
       }
@@ -224,7 +226,7 @@ on("load", () => {
   AudioMaster.setTimeUpdateInterval(() => {
     if (!playingHowlerRef.value) return;
     currentTimeRefGlobal.value = currentTimeHowlerRef.value;
-  }, 500)
+  }, 500);
 });
 
 on("loaderror", () => {
