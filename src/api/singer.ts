@@ -1,4 +1,4 @@
-import { anfrage } from "@/request";
+import { anfrageWithLoading } from "@/request";
 import { filterUselessKey } from "@utils/index";
 
 /**
@@ -26,7 +26,7 @@ export function artistList(
   params: Partial<Record<artistParams, number | string>>
 ) {
   const { limit = 30, offset = 0, type = -1, area = -1, initial } = params;
-  return anfrage({
+  return anfrageWithLoading({
     url: "/artist/list",
     method: "get",
     params: filterUselessKey({
@@ -46,7 +46,7 @@ export function artistList(
  */
 
 export function artistSub(params: { id: number | string; t: number | string }) {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/artist/sub",
     method: "post",
     params,
@@ -60,7 +60,7 @@ export function artistSub(params: { id: number | string; t: number | string }) {
  */
 
 export function artistTopSong(params: { id: number | string }) {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/artist/top/song",
     method: "get",
     params,
@@ -83,7 +83,7 @@ export function artistSongs(params: {
   offset?: number | string;
 }) {
   const { limit = 50, offset = 0, order, id } = params;
-  return anfrage({
+  return anfrageWithLoading({
     url: "/artist/songs",
     method: "get",
     params: filterUselessKey({
@@ -100,7 +100,7 @@ export function artistSongs(params: {
  */
 
 export function artistSingalSongs(params: { id: string | number }) {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/artists",
     method: "get",
     params,
@@ -117,7 +117,7 @@ export function artistAlbum(params: {
   offset?: number | string;
 }) {
   const { limit = 50, offset = 0, id } = params;
-  return anfrage({
+  return anfrageWithLoading({
     url: "/artist/album",
     method: "get",
     params: {
@@ -139,7 +139,7 @@ export function artistMv(params: {
   offset?: number | string;
 }) {
   const { limit = 30, offset = 0, id } = params;
-  return anfrage({
+  return anfrageWithLoading({
     url: "/artist/mv",
     method: "get",
     params: filterUselessKey({
@@ -155,7 +155,7 @@ export function artistMv(params: {
  */
 
 export function artistDesc(params: { id: string | number }) {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/artist/desc",
     method: "get",
     params,
@@ -167,7 +167,7 @@ export function artistDesc(params: { id: string | number }) {
  */
 
 export function artistDetail(params: { id: string | number }) {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/artist/detail",
     method: "get",
     params,
@@ -179,7 +179,7 @@ export function artistDetail(params: { id: string | number }) {
  */
 
 export function artistSimilar(params: { id: string | number }) {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/simi/artist",
     method: "get",
     params,
@@ -195,7 +195,7 @@ export function artistHot(params: {
   offset?: number | string;
 }) {
   const { limit = 50, offset = 0 } = params;
-  return anfrage({
+  return anfrageWithLoading({
     url: "/top/artists",
     method: "get",
     params: {
@@ -210,7 +210,7 @@ export function artistHot(params: {
  */
 
 export function artistTopList(params: { type?: number | string }) {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/toplist/artist",
     method: "get",
     params: filterUselessKey(params),

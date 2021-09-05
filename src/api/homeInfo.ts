@@ -1,5 +1,5 @@
 
-import { anfrage } from "@/request";
+import { anfrageWithLoading } from "@/request";
 import { EMPTY_OBJ, filterUselessKey } from "@utils/index";
 
 /**
@@ -9,7 +9,7 @@ import { EMPTY_OBJ, filterUselessKey } from "@utils/index";
  *     可获取APP首页圆形图标入口列表
  */
 export function getHomepageDragonBall() {
-  return anfrage({
+  return anfrageWithLoading({
     url: '/homepage/dragon/ball',
   })
 }
@@ -27,7 +27,7 @@ export function getHomepageFindings(params: {
   refresh?: boolean;
   cursor?: any;
 } = EMPTY_OBJ) {
-  return anfrage({
+  return anfrageWithLoading({
     url: '/homepage/block/page',
     params: filterUselessKey(params)
   })

@@ -1,4 +1,4 @@
-import { anfrage } from "@/request";
+import { anfrageWithLoading } from "@/request";
 import { filterUselessKey } from "@utils/index";
 
 /**
@@ -8,7 +8,7 @@ import { filterUselessKey } from "@utils/index";
  */
 
 export function djRecomment() {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/personalized/djprogram",
     method: "get",
     params: {
@@ -24,7 +24,7 @@ export function djRecomment() {
  */
 
 export function djBanner() {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/dj/banner",
     method: "get",
     params: {
@@ -40,7 +40,7 @@ export function djBanner() {
  */
 
 export function djPersonalRecommend(params: { limit?: number | string }) {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/dj/personalize/recommend",
     method: "get",
     params: {
@@ -61,7 +61,7 @@ export function djHot(params: {
   offset?: number | string;
 }) {
   const { limit = 30, offset = 0 } = params;
-  return anfrage({
+  return anfrageWithLoading({
     url: "/dj/hot",
     method: "get",
     params: {
@@ -82,7 +82,7 @@ export function djProgramTopList(params: {
   offset?: number | string;
 }) {
   const { limit = 100, offset = 0 } = params;
-  return anfrage({
+  return anfrageWithLoading({
     url: "/dj/program/toplist",
     method: "get",
     params: {
@@ -100,7 +100,7 @@ export function djProgramTopList(params: {
 
 export function djProgramTopListDay(params: { limit?: number | string }) {
   const { limit = 100 } = params;
-  return anfrage({
+  return anfrageWithLoading({
     url: "/dj/program/toplist/hours",
     method: "get",
     params: {
@@ -122,7 +122,7 @@ export function djHotOrNewTopList(params: {
 }) {
   const { limit = 100, offset = 0, type } = params;
 
-  return anfrage({
+  return anfrageWithLoading({
     url: "/dj/toplist",
     method: "get",
     params: filterUselessKey({
@@ -145,7 +145,7 @@ export function djCateHot(params: {
   cateId?: string | number;
 }) {
   const { limit = 30, offset = 0, cateId } = params;
-  return anfrage({
+  return anfrageWithLoading({
     url: "/dj/radio/hot",
     method: "get",
     params: filterUselessKey({
@@ -161,7 +161,7 @@ export function djCateHot(params: {
  */
 
 export function djRecommend() {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/dj/recommend",
     method: "get",
     params: {
@@ -175,7 +175,7 @@ export function djRecommend() {
  */
 
 export function djCateList() {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/dj/catelist",
     method: "get",
     params: {
@@ -190,7 +190,7 @@ export function djCateList() {
 
 export function djRecommenCate(params: { type: number | string }) {
   const { type } = params;
-  return anfrage({
+  return anfrageWithLoading({
     url: "/dj/recommend/type",
     method: "get",
     params: {
@@ -206,7 +206,7 @@ export function djRecommenCate(params: { type: number | string }) {
 
 export function djSubscribe(params: { rid: number | string }) {
   const { rid } = params;
-  return anfrage({
+  return anfrageWithLoading({
     url: "/dj/sub",
     method: "get",
     params: {
@@ -221,7 +221,7 @@ export function djSubscribe(params: { rid: number | string }) {
  */
 
 export function djSubList() {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/dj/sublist",
     method: "get",
   });
@@ -232,7 +232,7 @@ export function djSubList() {
  */
 
 export function djDetail(params: { rid: number | string }) {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/dj/detail",
     method: "get",
     params,
@@ -244,7 +244,7 @@ export function djDetail(params: { rid: number | string }) {
  */
 
 export function djCateExcludehot() {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/dj/category/excludehot",
     method: "get",
   });
@@ -255,7 +255,7 @@ export function djCateExcludehot() {
  */
 
 export function djCateRecommend() {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/dj/category/recommend",
     method: "get",
   });
@@ -266,7 +266,7 @@ export function djCateRecommend() {
  */
 
 export function djTodayPrefer() {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/dj/today/perfered",
     method: "get",
     params: {
@@ -286,7 +286,7 @@ export function djProgram(params: {
   asc?: boolean;
 }) {
   const { rid, limit = 30, offset = 0, asc } = params;
-  return anfrage({
+  return anfrageWithLoading({
     url: "/dj/program",
     method: "get",
     params: filterUselessKey({
@@ -303,7 +303,7 @@ export function djProgram(params: {
  */
 
 export function djProgramDetail(params: { id: number | string }) {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/dj/program/detail",
     method: "get",
     params,

@@ -1,4 +1,4 @@
-import { anfrage } from "@/request";
+import { anfrageWithLoading } from "@/request";
 import { filterUselessKey } from "@utils/index";
 
 /**
@@ -9,7 +9,7 @@ import { filterUselessKey } from "@utils/index";
  */
 
 export function userDetail(uid: string | number) {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/user/detail",
     method: "get",
     params: {
@@ -23,7 +23,7 @@ export function userDetail(uid: string | number) {
  * 说明 : 登录后调用此接口 ,可获取用户账号信息
  */
 export function userAccount() {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/user/account",
     method: "get",
     params: {
@@ -36,7 +36,7 @@ export function userAccount() {
  * 获取用户信息 , 歌单，收藏，mv, dj 数量
  */
 export function userSubcount() {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/user/subcount",
     method: "get",
     params: {
@@ -51,7 +51,7 @@ export function userSubcount() {
  * @param {number} uid
  */
 export function userBinding(uid: string | number) {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/user/binding",
     method: "get",
     params: {
@@ -76,7 +76,7 @@ export function userPlaylist(params: {
   offset?: string | number;
 }) {
   const { uid, limit = 30, offset = 0 } = params;
-  return anfrage({
+  return anfrageWithLoading({
     url: "/user/playlist",
     method: "get",
     params: filterUselessKey({
@@ -93,7 +93,7 @@ export function userPlaylist(params: {
  * @param {number} uid
  */
 export function userDj(uid: string | number) {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/user/dj",
     method: "get",
     params: {
@@ -117,7 +117,7 @@ export function userFollows(params: {
   offset?: string | number;
 }) {
   const { uid, limit = 30, offset = 0 } = params;
-  return anfrage({
+  return anfrageWithLoading({
     url: "/user/follows",
     method: "get",
     params: filterUselessKey({
@@ -143,7 +143,7 @@ export function userFans(params: {
   offset?: string | number;
 }) {
   const { uid, limit = 30, offset = 0 } = params;
-  return anfrage({
+  return anfrageWithLoading({
     url: "/user/followeds",
     method: "get",
     params: filterUselessKey({
@@ -162,7 +162,7 @@ export function userFans(params: {
  * @param {number} t
  */
 export function unOrFocusUser(params: { id: string | number; t: number }) {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/follow",
     method: "post",
     params,
@@ -178,7 +178,7 @@ export function unOrFocusUser(params: { id: string | number; t: number }) {
  */
 export function userRecord(params: { uid: string | number; type?: 0 | 1 }) {
   params.type ??= 1;
-  return anfrage({
+  return anfrageWithLoading({
     url: "/user/record",
     method: "post",
     params: {
@@ -194,7 +194,7 @@ export function userRecord(params: { uid: string | number; type?: 0 | 1 }) {
  */
 
 export function userLoveArtist() {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/artist/sublist",
     method: "get",
     params: {
@@ -211,7 +211,7 @@ export function userLoveArtist() {
  */
 
 export function userVideoCollect(params: Record<"id" | "t", number>) {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/video/sub",
     method: "post",
     params,
@@ -226,7 +226,7 @@ export function userVideoCollect(params: Record<"id" | "t", number>) {
  */
 
 export function userMvCollect(params: Record<"mvid" | "t", number>) {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/mv/sub",
     method: "post",
     params: filterUselessKey(params),
@@ -239,7 +239,7 @@ export function userMvCollect(params: Record<"mvid" | "t", number>) {
  */
 
 export function userCollectedMv(params: Record<"mvid" | "t", number>) {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/mv/sublist",
     method: "get",
     params: filterUselessKey(params),
@@ -252,7 +252,7 @@ export function userCollectedMv(params: Record<"mvid" | "t", number>) {
  */
 
 export function userLikeList(params: { uid: number | string }) {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/likelist",
     method: "get",
     params: {
@@ -270,7 +270,7 @@ export function userLikeMusic(params: {
   id: string | number,
   like: boolean,
 }) {
-  return anfrage({
+  return anfrageWithLoading({
     url: '/like',
     method: "post",
     params: filterUselessKey(params)
@@ -283,7 +283,7 @@ export function userLikeMusic(params: {
  */
 
 export function userLSetting() {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/setting",
     method: "get",
   })

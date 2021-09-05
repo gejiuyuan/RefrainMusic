@@ -1,4 +1,4 @@
-import { anfrage } from "@/request";
+import { anfrageWithLoading } from "@/request";
 import { filterUselessKey } from "@utils/index";
 
 /**
@@ -24,7 +24,7 @@ export const loginWithPhone = (params: {
   Object.entries(filterUselessKey(params)).forEach(([key, value]) => {
     formData.append(key, value)
   })
-  return anfrage({
+  return anfrageWithLoading({
     url: "/login/cellphone",
     method: "post",
     data: formData,
@@ -47,7 +47,7 @@ export function loginWithEmail(params: {
   password: string;
   md5_password?: string;
 }) {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/login",
     method: "post",
     params: filterUselessKey(params),
@@ -61,7 +61,7 @@ export function loginWithEmail(params: {
  */
 
 export function refreshCookie() {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/login/refresh",
     method: "post",
   });
@@ -73,7 +73,7 @@ export function refreshCookie() {
  */
 
 export function logout() {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/logout",
     method: "post",
   });
@@ -84,7 +84,7 @@ export function logout() {
  */
 
 export function loginStatus() {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/login/status",
     method: "get",
   });
@@ -99,7 +99,7 @@ export function loginStatus() {
  *        对应 https://music.163.com/#/user/level
  */
 export function getMyLevelInfo() {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/user/level",
   })
 }

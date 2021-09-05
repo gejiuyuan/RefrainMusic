@@ -1,4 +1,4 @@
-import { anfrage } from "@/request";
+import { anfrageWithLoading } from "@/request";
 
 export const MvOptions = {
     areas: [
@@ -39,7 +39,7 @@ export function getMVComments(param: {
     before?: string | number,
 }) {
     const { id, limit = 20, offset = 0, before } = param
-    return anfrage({
+    return anfrageWithLoading({
         url: "/comment/mv",
         params: {
             id,
@@ -78,7 +78,7 @@ export function getAllMv(param: {
         limit = 30,
         offset = 0
     } = param
-    return anfrage({
+    return anfrageWithLoading({
         url: "/mv/all",
         params: {
             id, area, type, limit, order,
@@ -99,7 +99,7 @@ export function getLatestMV(param: {
     limit?: string | number
 }) {
     const { id, limit = 30 } = param
-    return anfrage({
+    return anfrageWithLoading({
         url: "/mv/first",
         params: {
             id,
@@ -122,7 +122,7 @@ export function getNeteaseMV(param: {
     offset?: string | number
 }) {
     const { id, limit = 30, offset = 0 } = param
-    return anfrage({
+    return anfrageWithLoading({
         url: "/mv/exclusive/rcmd",
         params: {
             id,
@@ -140,7 +140,7 @@ export function getNeteaseMV(param: {
  * @returns 
  */
 export function getRecommendMV() {
-    return anfrage({
+    return anfrageWithLoading({
         url: "/personalized/mv",
     })
 }

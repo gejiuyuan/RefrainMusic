@@ -1,4 +1,4 @@
-import { anfrage } from "@/request";
+import { anfrageWithLoading } from "@/request";
 import { SubscriberList } from "@/types/songlist";
 import { filterUselessKey } from "@utils/index";
 
@@ -7,7 +7,7 @@ import { filterUselessKey } from "@utils/index";
  */
 
 export function playlistCate() {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/playlist/catlist",
     method: "get",
     params: {
@@ -21,7 +21,7 @@ export function playlistCate() {
  */
 
 export function hotPlaylistCate() {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/playlist/hot",
     method: "get",
     params: {
@@ -46,7 +46,7 @@ export function topPlaylist(params: {
   offset?: number;
 }) {
   const { limit = 50, offset = 0, order, cat } = params;
-  return anfrage({
+  return anfrageWithLoading({
     url: "/top/playlist",
     method: "get",
     params: filterUselessKey({
@@ -63,7 +63,7 @@ export function topPlaylist(params: {
  */
 
 export function highqualPlaylistTag() {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/playlist/highquality/tags",
     method: "get",
     params: {
@@ -85,7 +85,7 @@ export function highqualPlaylist(params: {
   limit?: number;
   before?: number;
 }) {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/top/playlist/highquality",
     method: "get",
     params: filterUselessKey(params),
@@ -98,7 +98,7 @@ export function highqualPlaylist(params: {
  */
 
 export function relatedPlaylist(params: { id: number | string }) {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/related/playlist",
     method: "get",
     params: filterUselessKey(params),
@@ -119,7 +119,7 @@ export function playlistDetail(params: {
   id: number | string;
   s?: string | number;
 }) {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/playlist/detail",
     method: "get",
     params: filterUselessKey(params),
@@ -133,7 +133,7 @@ export function playlistDetail(params: {
  */
 
 export function playlistDetailDynamic(params: { id: number | string }) {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/playlist/detail/dynamic",
     method: "get",
     params: filterUselessKey(params),
@@ -154,7 +154,7 @@ export function albumComment(params: {
   before?: number | string;
 }) {
   const { limit = 20, offset = 0, before, id } = params;
-  return anfrage({
+  return anfrageWithLoading({
     url: "/comment/album",
     method: "get",
     params: filterUselessKey({
@@ -180,7 +180,7 @@ export function playlistComment(params: {
   before?: number | string;
 }) {
   const { limit = 20, offset = 0, before, id } = params;
-  return anfrage({
+  return anfrageWithLoading({
     url: "/comment/playlist",
     method: "get",
     params: filterUselessKey({
@@ -197,7 +197,7 @@ export function playlistComment(params: {
  */
 
 export function albumDetail(params: { id: number | string }) {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/album",
     method: "get",
     params,
@@ -209,7 +209,7 @@ export function albumDetail(params: { id: number | string }) {
  */
 
 export function albumDynamicInfo(params: { id: number | string }) {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/album/detail/dynamic",
     method: "get",
     params,
@@ -224,7 +224,7 @@ export function albumSubscribe(params: {
   id: number | string;
   t: number | string;
 }) {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/album/sub",
     method: "post",
     params,
@@ -236,7 +236,7 @@ export function albumSubscribe(params: {
  */
 
 export function playlistSimilar(params: { id: number | string }) {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/simi/playlist",
     method: "get",
     params,
@@ -248,7 +248,7 @@ export function playlistSimilar(params: { id: number | string }) {
  */
 
 export function playlistRecommend() {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/recommend/resource",
     method: "get",
   })
@@ -267,7 +267,7 @@ export function newAlbumPutOn(params: {
   month?: number | string;
 }) {
   const { limit = 50, offset = 0, area = "ALL", type = 'new', year, month } = params;
-  return anfrage({
+  return anfrageWithLoading({
     url: "/top/album",
     method: "get",
     params: filterUselessKey({
@@ -291,7 +291,7 @@ export function newAlbum(params: {
   area?: number | string;
 }) {
   const { limit = 30, offset = 0, area } = params;
-  return anfrage({
+  return anfrageWithLoading({
     url: "/album/new",
     method: "get",
     params: filterUselessKey({
@@ -307,7 +307,7 @@ export function newAlbum(params: {
  */
 
 export function newestAlbum() {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/album/newest",
     method: "get",
     params: {
@@ -321,7 +321,7 @@ export function newestAlbum() {
  */
 
 export function recommendSonglist(params: { limit?: number | string }) {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/personalized",
     method: "get",
     params: filterUselessKey(params),
@@ -338,7 +338,7 @@ export function PlaylistSubscribe(params: {
   offset?: number | string;
 }) {
   const { limit = 20, id, offset = 0 } = params;
-  return anfrage({
+  return anfrageWithLoading({
     url: "/playlist/subscribers",
     method: "get",
     params: {

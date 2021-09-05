@@ -1,4 +1,4 @@
-import { anfrage } from "@/request";
+import { anfrageWithLoading } from "@/request";
 import { EMPTY_OBJ } from "@/utils";
 
 /**
@@ -6,7 +6,7 @@ import { EMPTY_OBJ } from "@/utils";
  * @returns 
  */
 export function getVideoTagList() {
-    return anfrage({
+    return anfrageWithLoading({
         url: '/video/group/list'
     })
 }
@@ -16,7 +16,7 @@ export function getVideoTagList() {
  * @returns 
  */
 export function getVideoCategoryList() {
-    return anfrage({
+    return anfrageWithLoading({
         url: '/video/category/list'
     })
 }
@@ -31,7 +31,7 @@ export function getVideos(param: {
     offset?: number | string //分页偏移量
 }) {
     const { offset = 0, id } = param
-    return anfrage({
+    return anfrageWithLoading({
         url: "/video/group",
         params: {
             id, offset
@@ -50,7 +50,7 @@ export function getAllVideoList(
     } = EMPTY_OBJ
 ) {
     const { offset = 0 } = param;
-    return anfrage({
+    return anfrageWithLoading({
         url: '/video/timeline/all',
         params: {
             offset
@@ -69,7 +69,7 @@ export function getRecommendVideos(
     } = EMPTY_OBJ
 ) {
     const { offset = 0 } = param
-    return anfrage({
+    return anfrageWithLoading({
         url: '/video/timeline/recommend',
         params: {
             offset
@@ -86,7 +86,7 @@ export function getRelativeVideos(param: {
     id: string | number; //当前视频id
 }) {
     const { id } = param
-    return anfrage({
+    return anfrageWithLoading({
         url: '/related/allvideo',
         params: {
             id
@@ -104,7 +104,7 @@ export function getVideoDetail(param: {
     id: string | number
 }) {
     const { id } = param;
-    return anfrage({
+    return anfrageWithLoading({
         url: "/video/detail",
         params: {
             id
@@ -121,7 +121,7 @@ export function getVideoRelativeInfo(param: {
     vid: string | number
 }) {
     const { vid } = param
-    return anfrage({
+    return anfrageWithLoading({
         url: '/video/detail/info',
         params: {
             vid
@@ -145,7 +145,7 @@ export function getVideoComments(param: {
     before?: string | number,
 }) {
     const { id, limit = 20, offset = 0, before } = param
-    return anfrage({
+    return anfrageWithLoading({
         url: '/comment/video',
         params: {
             id,
@@ -165,7 +165,7 @@ export function getVideoPlaybackSource(param: {
     id: string | number
 }) {
     const { id } = param;
-    return anfrage({
+    return anfrageWithLoading({
         url: "/video/url",
         params: {
             id

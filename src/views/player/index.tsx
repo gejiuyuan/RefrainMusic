@@ -33,7 +33,7 @@ export default defineComponent({
     const playbillRef = computed(() => {
       return {
         src: playerStore.currentSongInfo.album.picUrl,
-        size: [400, 400],
+        size: [600, 600],
       };
     });
 
@@ -62,14 +62,14 @@ export default defineComponent({
 
     return () => {
       const { musicName, singers } = playerStore.currentSongInfo;
-      let { size, src } = playbillRef.value;
-      src = padPicCrop(src, { x: 700, y: 700 });
+      const { size, src } = playbillRef.value;
+      const cropedSrc = padPicCrop(src, { x: 700, y: 700 });
       return (
         <div class="player-detail" ref={playerDetailRef} show={isShow.value}>
           <div
             class="player-bgcover-mask"
             style={{
-              backgroundImage: `url(${src})`,
+              backgroundImage: `url(${cropedSrc})`,
             }}
           ></div>
 
@@ -84,18 +84,20 @@ export default defineComponent({
           <div class="player-content">
             <div class="player-body">
               <div class="player-cover">
-                <img
-                  class="player-playbill"
-                  src={src}
-                  width={size[0]}
-                  height={size[1]}
-                  alt={src}
-                />
+                <div aspectratio="1.5">
+                  <img
+                    class="player-playbill"
+                    src={src}
+                    width={size[0]}
+                    height={size[1]}
+                    alt={src}
+                  />
+                </div>
               </div>
 
               <div class="player-info">
                 <div class="player-song">
-                  <h4 class="player-title">{musicName}</h4>
+                  <h4 class="player-title" singallinedot title={musicName}>{musicName}</h4>
 
                   <div class="player-author">
                     <span>歌手&nbsp;:&nbsp;</span>

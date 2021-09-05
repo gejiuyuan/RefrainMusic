@@ -1,4 +1,4 @@
-import { anfrage } from "@/request";
+import { anfrageWithLoading } from "@/request";
 import { filterUselessKey } from "@utils/index";
 
 /**
@@ -8,7 +8,7 @@ import { filterUselessKey } from "@utils/index";
  */
 
 export function homepageInfo(params: { refresh?: string }) {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/homepage/block/page",
     method: "get",
     params: {
@@ -26,7 +26,7 @@ export function homepageInfo(params: { refresh?: string }) {
 
 export function bannerInfo(params: { type?: number | string }) {
   params.type ??= 0;
-  return anfrage({
+  return anfrageWithLoading({
     url: "/banner",
     method: "get",
     params: filterUselessKey(params),
@@ -40,7 +40,7 @@ export function bannerInfo(params: { type?: number | string }) {
  */
 
 export function getPersonalFm() {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/personal_fm",
     method: "get",
     params: {
@@ -54,7 +54,7 @@ export function getPersonalFm() {
  */
 
 export function allTopList() {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/toplist",
     method: "get",
     params: {
@@ -68,7 +68,7 @@ export function allTopList() {
  */
 
 export function allTopListDetail() {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/toplist/detail",
     method: "get",
     params: {
@@ -82,7 +82,7 @@ export function allTopListDetail() {
  * @returns 
  */
 export function getCountryCode() {
-  return anfrage({
+  return anfrageWithLoading({
     url: '/countries/code/list',
   })
 }

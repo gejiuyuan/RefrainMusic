@@ -1,4 +1,4 @@
-import { anfrage } from "@/request";
+import { anfrageWithLoading } from "@/request";
 import { filterUselessKey } from "@utils/index";
 import { SongInfo, SongUrlInfo } from "@type/song";
 
@@ -16,7 +16,7 @@ export function getMusic(
   },
 ) {
   const queryParams = filterUselessKey({ ...params });
-  return anfrage({
+  return anfrageWithLoading({
     url: "/song/url",
     method: "get",
     params: queryParams,
@@ -39,7 +39,7 @@ export function checkMusic(params: {
   id: number | string;
   br?: number | string;
 }) {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/check/music",
     method: "get",
     params: filterUselessKey(params),
@@ -53,7 +53,7 @@ export function checkMusic(params: {
  */
 
 export function getLyric(params: { id: string | number }) {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/lyric",
     method: "get",
     params,
@@ -67,7 +67,7 @@ export function getLyric(params: { id: string | number }) {
  */
 
 export function getNewExpressMusic(params: { type: number | string }) {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/top/song",
     method: "get",
     params,
@@ -87,7 +87,7 @@ export function getMusicComment(params: {
   before?: number | string;
 }) {
   const { limit = 20, offset = 0, before, id } = params;
-  return anfrage({
+  return anfrageWithLoading({
     url: "/comment/music",
     method: "get",
     params: filterUselessKey({
@@ -108,7 +108,7 @@ export type GetMusicDetailReturnType = {
   songs: SongInfo[];
 };
 export function getMusicDetail(params: { ids: string }) {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/song/detail",
     method: "get",
     params,
@@ -122,7 +122,7 @@ export function getMusicDetail(params: { ids: string }) {
  */
 
 export function getMusicSimilar(params: { id: string | number }) {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/simi/song",
     method: "get",
     params,
@@ -134,7 +134,7 @@ export function getMusicSimilar(params: { id: string | number }) {
  */
 
 export function musicRecommend() {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/recommend/songs",
     method: "get",
   })
@@ -146,7 +146,7 @@ export function musicRecommend() {
 
 export function newMusicRecommend(params: { limit?: number | string }) {
   const { limit = 10 } = params;
-  return anfrage({
+  return anfrageWithLoading({
     url: "/personalized/newsong",
     method: "get",
     params: {

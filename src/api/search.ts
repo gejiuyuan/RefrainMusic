@@ -1,4 +1,4 @@
-import { anfrage } from "@/request";
+import { anfrageWithLoading } from "@/request";
 import { filterUselessKey } from "@utils/index";
 
 /**
@@ -15,16 +15,15 @@ export function searchCloud(params: {
   offset?: number | string;
   type?: number | string;
 }) {
-  let { keywords, limit, offset, type = 1 } = params;
-  limit && offset && (offset = +limit * +offset);
-  return anfrage({
+  const { keywords, limit = 30, offset = 0, type = 1 } = params;
+  return anfrageWithLoading({
     url: "/cloudsearch",
     method: "get",
     params: filterUselessKey({
       keywords,
       limit,
       type,
-      offset,
+      offset: +limit * +offset,
     }),
   });
 }
@@ -34,7 +33,7 @@ export function searchCloud(params: {
  */
 
 export function searchDefault() {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/search/default",
     method: "get",
     params: {
@@ -48,7 +47,7 @@ export function searchDefault() {
  */
 
 export function hotSearch() {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/search/hot",
     method: "get",
     params: {
@@ -62,7 +61,7 @@ export function hotSearch() {
  */
 
 export function hotSearchDetail() {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/search/hot/detail",
     method: "get",
     params: {
@@ -76,7 +75,7 @@ export function hotSearchDetail() {
  */
 
 export function searchSuggest(params: { keywords: string; type?: string }) {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/search/suggest",
     method: "get",
     params: {
@@ -91,7 +90,7 @@ export function searchSuggest(params: { keywords: string; type?: string }) {
  */
 
 export function searchMulMatch(params: { keywords: string }) {
-  return anfrage({
+  return anfrageWithLoading({
     url: "/search/multimatch",
     method: "get",
     params: {
