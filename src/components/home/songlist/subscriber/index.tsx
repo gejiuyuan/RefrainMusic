@@ -28,42 +28,41 @@ export default defineComponent({
   name: COMPONENT_NAME.SONGLIST_SUBSCRIBER,
   setup(props, context) {
     const route = useRoute();
+    const router = useRouter();
     const vm = getCurrentInstance()!;
     const subscribers = shallowReactive<Subscriber[]>([]);
 
-    const isShowPagi = ref(false);
+    const isShowPagi = ref<boolean>();
     const subscriberPagiInfo = shallowReactive({
       total: 0,
       hasMore: true
     })
-    const getPlaylistSubscribers = async (params: {
-      id: number;
-      limit: string;
-      offset: string;
-    }) => {
-      const { more, total, subscribers: subs, reason } = await PlaylistSubscribe(params);
+    const getPlaylistSubscribers = async () => {
+      const { params: { id }, query: { limit = defaultLimit, offset = 0 } } = router.currentRoute.value;
+      const { more, total, subscribers: subs, reason } = await PlaylistSubscribe({
+        id: String(id),
+        limit: Number(limit),
+        offset: Number(offset),
+      });
       subscribers.length = 0;
       subscribers.push(...subs);
       subscriberPagiInfo.total = total;
       subscriberPagiInfo.hasMore = more;
       isShowPagi.value = reason !== "needLogin";
     };
-
-    watch(
-      () => route as any,
-      ({ params: { id }, query: { limit, offset } }) => {
-        limit = limit || defaultLimit;
-        offset = offset || 0;
-        getPlaylistSubscribers({ limit, id, offset });
-      },
-      {
-        immediate: true,
-        deep: true,
+    getPlaylistSubscribers();
+  
+    onBeforeRouteUpdate((to, from, next) => {
+      const { params: { id }, query: { limit, offset } } = to;
+      const { params: { id:oldId }, query: { limit:oldLimit , offset:oldOffset } } = from;
+      if(id !== oldId || limit !== oldLimit || offset !== oldOffset) {
+        getPlaylistSubscribers();
       }
-    );
+      next();
+    });
 
     const renderNotLogin = () => {
-      if (!isShowPagi.value) {
+      if (isShowPagi.value === false) {
         return <NEmpty description="亲~~还没有登录噢~~" showDescription={true}></NEmpty>
       }
     };
