@@ -1,4 +1,4 @@
-import usePlayerStore from "@/stores/player";
+import usePlayerStore, { playerQueueShow } from "@/stores/player";
 import { onClickOutside } from "@vueuse/core";
 import { defineComponent, ref, watchEffect } from "vue";
 import { useRoute, useRouter } from "vue-router";
@@ -14,12 +14,11 @@ export default defineComponent({
     const router = useRouter();
     const route = useRoute();
     const playerStore = usePlayerStore();
-    const playerQueue = playerStore.playerQueue;
     const playerQueueRef = ref<HTMLElement>();
     const listBodyElm = ref<HTMLElement>();
     const listContentUlRef = ref<HTMLUListElement>();
 
-    const hidePlayerQueueHandler = () => (playerQueue.show = false);
+    const hidePlayerQueueHandler = () => (playerQueueShow.value = false);
     const songItemDblClickHandler = (id: number) =>
       playerStore.handlePlaySoundNeededData(id);
 
@@ -31,15 +30,15 @@ export default defineComponent({
      * 定位到当前歌曲
      * @returns 
      */
-    const locatoToCurrentSong = () => {
-      const { songList } = playerQueue;
-      if (is.emptyArray(songList)) {
+    const locatoToCurrentSong = () => { 
+      const { playerQueue } = playerStore;
+      if (is.emptyArray(playerQueue)) {
         return;
       }
       const {
         currentSongInfo: { id: curSongId },
       } = playerStore;
-      const targetIndex = songList.findIndex(({ id }) => id === curSongId);
+      const targetIndex = playerQueue.findIndex(({ id }) => id === curSongId);
 
       const targetScrollTop = (listContentUlRef.value!.children[targetIndex] as HTMLLIElement).offsetTop;
       const { scrollTop, offsetHeight } = listBodyElm.value!;
@@ -57,16 +56,15 @@ export default defineComponent({
 
     return () => {
       const {
-        currentSongInfo: { id: curSongId },
-      } = playerStore;
-      const { show, songList } = playerQueue;
+        currentSongInfo: { id: curSongId }, playerQueue,
+      } = playerStore; 
       return (
-        <aside class="player-queue" slideShow={show} ref={playerQueueRef}>
+        <aside class="player-queue" slideShow={playerQueueShow.value} ref={playerQueueRef}>
           <header class="queue-header">
             <h3>播放列表</h3>
             <div class="header-layer">
               <em className="total-songs">
-                {songList.length}
+                {playerQueue.length}
                 首音乐
               </em>
             </div>
@@ -74,7 +72,7 @@ export default defineComponent({
           <section class="queue-main">
             <div className="list-body" scrollbar="overlay" ref={listBodyElm}>
               <ul class="list-content" ref={listContentUlRef}>
-                {songList.map((songInfo) => {
+                {playerQueue.map((songInfo) => {
                   const { name, artists, id } = songInfo;
                   return (
                     <li

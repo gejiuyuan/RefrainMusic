@@ -1,8 +1,8 @@
 import { watch, toRefs, watchEffect, toRaw } from "vue";
 import useHowler, { UseHowlerOptions } from "@/use/useHowler";
-import useAudioStore from "@/stores/audio";
+import useAudioStore, { volume as volumeRef, mute as muteRef, currentTime as currentTimeRef, rate as rateRef, playing as playingRef } from "@/stores/audio";
 import { useMessage } from "naive-ui";
-import usePlayerStore from "@/stores/player";
+import usePlayerStore, { order } from "@/stores/player";
 import { messageApiInjectionKey } from "naive-ui/lib/message/src/MessageProvider";
 import { UNICODE_CHAR } from "@/utils";
 import { isSingleLoopOrder } from "@/widgets/music-tiny-comp";
@@ -46,26 +46,29 @@ export function useAudioHandler() {
       clearTimeout(playToNextTimeoutInError);
       //同时清除播放失败消息提示
       message.destroyAll();
-
-      playSound(val);
+      playSound(val, {
+        volume: volumeRef.value,
+        autoplay: playingRef.value,
+        mute: muteRef.value,
+        rate: rateRef.value,
+      });
       //设置是否循环播放
       setLoopStatus();
-      audioStore.playing = true;
       messageBus.dispatch('startLoading');
     }
   );
 
   const setLoopStatus = () => {
-    loop.value = isSingleLoopOrder(playerStore.order);
+    loop.value = isSingleLoopOrder(order.value);
   }
 
   watchEffect(() => {
     //是否单曲循环播放
-    loop.value = playerStore.order === 'singleLoop';
+    setLoopStatus();
   });
 
   on('end', () => {
-    if (playerStore.order === 'singleLoop') {
+    if (isSingleLoopOrder(order.value)) {
       return;
     }
     //通知playerStore执行toNext切换下一首方法
@@ -77,16 +80,17 @@ export function useAudioHandler() {
   });
 
   watchEffect(() => {
-    volume.value = audioStore.volume;
-    audioStore.mute = audioStore.volume === 0;
+    const volumeRefValue = volumeRef.value;
+    volume.value = volumeRefValue;
+    mute.value = volumeRefValue === 0;
   });
 
   watchEffect(() => {
-    mute.value = audioStore.mute;
+    mute.value = muteRef.value;
   });
 
   watch(
-    () => audioStore.playing,
+    playingRef,
     (val) => {
       playing.value = val;
     }
@@ -96,19 +100,19 @@ export function useAudioHandler() {
     messageBus.dispatch('finishLoading');
 
     audioStore.duration = duration.value;
-    loop.value = playerStore.order === 'singleLoop';
+    setLoopStatus();
 
     clearInterval(timeUpdateInterval);
     timeUpdateInterval = setInterval(() => {
       if (!playing.value) return;
-      audioStore.currentTime = currentTime.value;
+      currentTimeRef.value = currentTime.value;
     }, 500);
   });
 
   on("loaderror", () => {
     messageBus.dispatch('errorLoading');
     message.error(`歌曲加载失败啦~将在2秒后播放下一首喔~${UNICODE_CHAR.pensive}`, {
-      duration: 2000,
+      duration: 4000,
     })
     playToNextTimeoutInError = setTimeout(() => {
       //通知playerStore执行toNext切换下一首方法

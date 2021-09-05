@@ -155,8 +155,7 @@ export default defineComponent({
      * @param keywords
      */
     const getSearchMulMatch = async (keywords: string) => {
-      const { data = {} } = await searchMulMatch({ keywords });
-      const { result = {} } = data;
+      const { result = {} } = await searchMulMatch({ keywords }); 
       const { album = [], artist = [] } = result;
       searchMulMatchData.album = album;
       searchMulMatchData.artist = artist;
@@ -170,13 +169,12 @@ export default defineComponent({
     const getSearchCloundData = async (query: LocationQuery) => {
       const { keywords, type, limit, offset } = query as PlainObject<string>;
       const typeCat = SearchKeyTypeMap[+type];
-      const { data = {} } = await searchCloud({
+      const { result } = await searchCloud({
         type,
         keywords,
         limit,
         offset,
-      });
-      const { result } = data;
+      }); 
       result && (searchCloundData[typeCat] = result);
     };
 

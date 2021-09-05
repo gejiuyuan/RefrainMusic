@@ -16,7 +16,7 @@ import {
 import { computedStyle, NOOP, UNICODE_CHAR } from "@utils/index";
 import "./index.scss";
 import usePlayerStore from "@/stores/player";
-import useAudioStore from "@/stores/audio";
+import useAudioStore, { currentTime } from "@/stores/audio";
 import { useEventListener } from "@vueuse/core";
 
 //歌词移动时的悬浮条
@@ -133,8 +133,8 @@ export default defineComponent({
     useEventListener(lrcContainerRef, "wheel", wheelHandler);
 
     watch(
-      () => audioStore.currentTime,
-      (val) => {
+      currentTime,
+      (val) => { 
         const exist = playerStore.lyricParsed.exist;
         //如果当前显示着播放悬浮框或者没有歌词就return
         if (suspension.isShow || !exist) return;
@@ -344,7 +344,7 @@ export default defineComponent({
 
     const lrcContentsRef = ref<HTMLElement>();
     //更新歌词相关数据
-    const updatedLrcData = (curIdx: number = 0) => {
+    const updatedLrcData = (curIdx = 0) => {
       const el = lrcContentsRef.value!;
       const lrcWrapHeight = Number.parseFloat(computedStyle(el, "height"));
       const lrcItemsHeightArr = Array.from(el.children).map((childEl) =>
@@ -387,7 +387,7 @@ export default defineComponent({
       } = toRefs(lrcWrap);
       if (!canMouseMove.value) return;
       const { current } = lrcWrapTranslateY.value;
-      let tarTranslateY = current + ev.movementY * mouseMoveRateFactor.value;
+      const tarTranslateY = current + ev.movementY * mouseMoveRateFactor.value;
       setTranslateY(tarTranslateY);
       updateSuspensionPlayInfo();
     };

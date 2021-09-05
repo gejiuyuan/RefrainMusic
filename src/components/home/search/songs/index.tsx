@@ -32,11 +32,10 @@ export default defineComponent({
 
     const getSearchSongs = async (query: LocationQuery) => {
       const { type, keywords } = query as PlainObject<string>;
-      const { data = {} } = await searchCloud({
+      const { result } = await searchCloud({
         type,
         keywords,
-      });
-      const { result } = data;
+      }); 
       result &&
         ((songlistData.songCount = result.songCount),
           (songlistData.songs = result.songs));

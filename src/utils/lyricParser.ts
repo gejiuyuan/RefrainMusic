@@ -1,5 +1,4 @@
 import { spliceTime2Second } from "./time";
-import { deepCopy, is } from "./common";
 
 export type LrcCommonOrTranslateItem = {
   time: number;
@@ -30,9 +29,9 @@ export class LyricParser implements LyricParserType {
   public lrcArr: LrcItem[] = [];
   public translationLrcArr: LrcCommonOrTranslateItem[] = [];
   public commonLrcArr: LrcCommonOrTranslateItem[] = [];
-  public canTranslate: boolean = false;
+  public canTranslate = false;
 
-  constructor(lrc: string, transLrc: string = "") {
+  constructor(lrc: string, transLrc = "") {
     this.init(lrc, transLrc);
   }
 

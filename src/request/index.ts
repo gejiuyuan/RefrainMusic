@@ -1,6 +1,7 @@
 import ryoko, { abortPendingRequest, InterceptorCtor, RyokoResponseType } from "ryoko";
 import type { RyokoClass } from 'ryoko';
 import { messageBus } from "@/utils/event/register";
+import { nextTick } from "vue";
 
 export function createRequestInstance(responseType: RyokoResponseType = 'json') {
   const ins = ryoko.create({
@@ -35,19 +36,20 @@ function useLoadingMixin(interceptors: RyokoClass['interceptors']) {
     return config;
   });
 
-  const handleResLoadingClose = () => {
+  const handleResLoadingClose = async () => {
     if (--requestCount === 0) {
+      await nextTick();
       messageBus.dispatch(isLoadingFailure ? 'errorLoading' : 'finishLoading');
       isLoadingFailure = false;
     }
   }
 
-  interceptors.response.use(resData => {
-    handleResLoadingClose();
+  interceptors.response.use(async resData => {
+    await handleResLoadingClose();
     return resData;
-  }, err => {
+  }, async err => {
     isLoadingFailure = true;
-    handleResLoadingClose();
+    await handleResLoadingClose();
     throw err;
   })
 }

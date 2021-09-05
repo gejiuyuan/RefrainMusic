@@ -30,7 +30,7 @@ Howler.autoSuspend = true;
  */
 
 export const defaultHowlOptions: UseHowlerOptions = {
-  autoplay: true,
+  autoplay: false,
   html5: true,
   format: ["mp3", "mpeg", "flac", "wav", "webm", "m4a", "ogg", "opus", "aac"],
   xhr: {
@@ -52,7 +52,7 @@ export const getSoundUrl = (srcOrId: number | string) => {
 
 const useHowler = (() => {
   let howl: Howl;
-  const eventFuncQueue: Function[] = [];
+  const eventFuncQueue: CommonFunction[] = [];
   return (baseOptions: UseHowlerOptions = defaultHowlOptions) => {
     const playSound = (
       srcOrId: FuncParamsType<typeof getSoundUrl>[0],

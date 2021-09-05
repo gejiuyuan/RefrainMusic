@@ -10,7 +10,7 @@ export async function initPlayQueueFromDB() {
   const playerStore = usePlayerStore();
   const playQueue = await getOrPutPlayQueue();
   if (playQueue) {
-    playerStore.playerQueue.songList = playQueue;
+    playerStore.playerQueue = playQueue;
   }
 }
 
@@ -23,7 +23,7 @@ export async function initCurrentSongInfo() {
   if (currentSong) {
     //先初始化加载音乐播放相关资源或数据
     playerStore.handlePlaySoundNeededData(currentSong.id, {
-      needJudge: false,
+      force: true,
       needSave: false,
     });
   }

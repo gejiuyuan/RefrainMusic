@@ -24,6 +24,20 @@ export enum COMPONENT_NAME {
 }
 
 /**
+ * 个人偏好（设置）的属性
+ */
+export enum PreferenceNames {
+  theme = 'theme',
+  order = 'order',
+  playerQueueShow = 'playerQueueShow',
+  playing = 'playing',
+  currentTime = 'currentTime',
+  rate = 'rate',
+  volume = 'volume',
+  mute = 'mute',
+}
+
+/**
  * 各个组件列表的分页器基础数量配置
  */
 export const PAGE_SIZE = {

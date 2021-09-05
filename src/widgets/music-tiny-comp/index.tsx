@@ -18,10 +18,10 @@ import ProgressBar, {
 import "./index.scss";
 import { decimalToPercent, EMPTY_OBJ, is, rmDemicalInPercent, second2TimeStr, UNICODE_CHAR } from "@/utils";
 import { onClickOutside, onKeyStroke, useStorage } from "@vueuse/core";
-import useAudioStore from "@/stores/audio";
+import useAudioStore , { playing as playingRefGlobal, volume as volumeRefGlobal,mute as muteRefGlobal, currentTime } from "@/stores/audio";
 import { useRouter } from "vue-router";
 import { CurrentSongInfo, getSongExtraInfo } from "@/utils/apiSpecial";
-import usePlayerStore from "@/stores/player";
+import usePlayerStore, { order as orderRefGlobal } from "@/stores/player";
 import { userLikeMusic } from "@/api/user";
 import useUserStore from "@/stores/user";
 import { useMessage } from "naive-ui";
@@ -49,7 +49,7 @@ export const PlayOrder = defineComponent({
     })
 
     const switchOrderStatus = (orderStatus: PlayOrderType) => {
-      playerStore.order = orderStatus;
+      orderRefGlobal.value = orderStatus;
       suspensionShow.value = false;
     }
 
@@ -58,7 +58,7 @@ export const PlayOrder = defineComponent({
     }
 
     return () => {
-      const { order } = playerStore;
+      const order = orderRefGlobal.value;
       return (
         <div class="play-order controller-widget" ref={playOrderRef}>
           <div className="play-order-noumenon controller-widget-noumenon" onClick={noumenonClick} title={PlayOrderInfo[order]}>
@@ -99,8 +99,7 @@ export const PlayStatusSwitch = defineComponent({
     }
   },
   setup(props, { slots, emit }) {
-
-    const audioStore = useAudioStore();
+ 
     const playerStore = usePlayerStore();
     const playIconClass = computed(() => {
       return props.id === '' ? 'icon-bofan' : 'icon-play'
@@ -114,12 +113,12 @@ export const PlayStatusSwitch = defineComponent({
 
     //播放按钮状态
     const playing = computed(() => {
-      return isCurrentPlayingSong.value ? audioStore.playing : false;
+      return isCurrentPlayingSong.value ? playingRefGlobal.value : false;
     });
 
     const switchHandler = () => {
       if (isCurrentPlayingSong.value) {
-        audioStore.playing = !audioStore.playing;
+        playingRefGlobal.value = !playingRefGlobal.value;
       }
       else {
         playerStore.handlePlaySoundNeededData(+props.id);
@@ -159,43 +158,43 @@ export const Volume = defineComponent({
     const switchShow = () => (isShow.value = !isShow.value);
     const audioStore = useAudioStore();
     const volumeData = computed(() => {
-      const volume = audioStore.volume;
+      const volumeValue = volumeRefGlobal.value;
       return {
-        decimal: volume,
-        ratio: decimalToPercent(volume),
+        decimal: volumeValue,
+        ratio: decimalToPercent(volumeValue),
       };
     });
     const volumeChange = ({ decimal }: ProgressInfo) => {
-      audioStore.volume = decimal;
+      volumeRefGlobal.value = decimal;
     };
     const switchMuted = () => {
       //如果音量为0，就return
-      if (audioStore.volume === 0) return;
+      if (volumeRefGlobal.value === 0) return;
       //切换静音状态
-      audioStore.mute = !audioStore.mute;
+      muteRefGlobal.value = !muteRefGlobal.value;
     };
     onClickOutside(volumeRef, () => (isShow.value = false), {
       event: "pointerup",
     });
 
     onKeyStroke(isCtrlAndArrowUp, () => {
-      let tarVolume = audioStore.volume + .05;
+      let tarVolume = volumeRefGlobal.value + .05;
       tarVolume > 1 && (tarVolume = 1);
-      audioStore.volume = tarVolume;
+      volumeRefGlobal.value = tarVolume;
     }, {
       eventName: 'keyup',
     })
 
     onKeyStroke(isCtrlAndArrowDown, () => {
-      let tarVolume = audioStore.volume - .05;
+      let tarVolume = volumeRefGlobal.value - .05;
       tarVolume < 0 && (tarVolume = 0);
-      audioStore.volume = tarVolume;
+      volumeRefGlobal.value = tarVolume;
     }, {
       eventName: 'keyup',
     })
 
-    return () => {
-      const { mute } = audioStore;
+    return () => { 
+      const mute = muteRefGlobal.value;
       const { ratio, decimal } = volumeData.value;
       const title = `音量：${ratio}；增大音量：Ctrl+Up；减小音量：Ctrl+Down`
       return (
@@ -305,7 +304,7 @@ export const CurrentPlayTime = defineComponent({
     return () => {
       return (
         <div className="current-playtime">
-          <span class="current">{second2TimeStr(audioStore.currentTime)}</span>
+          <span class="current">{second2TimeStr(currentTime.value)}</span>
           <span> / </span>
           <span class="total">{second2TimeStr(audioStore.duration)}</span>
         </div>

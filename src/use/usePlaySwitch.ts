@@ -1,5 +1,5 @@
 import useAudioStore from "@/stores/audio";
-import usePlayerStore from "@/stores/player";
+import usePlayerStore, { order } from "@/stores/player";
 import { getRandomList } from "@/utils";
 import { PlayOrderType, isRandomOrder } from "@/widgets/music-tiny-comp";
 import { onKeyStroke } from "@vueuse/core";
@@ -18,16 +18,16 @@ export default function usePlaySwitch() {
 
   const playerStore = usePlayerStore();
 
-  const randomPlaylist = ref<typeof playerStore.playerQueue.songList>([]);
+  const randomPlaylist = ref<typeof playerStore.playerQueue>([]);
 
   watchEffect(() => {
-    if (isRandomOrder(playerStore.order)) {
-      randomPlaylist.value = getRandomList(playerStore.playerQueue.songList);
+    if (isRandomOrder(order.value)) {
+      randomPlaylist.value = getRandomList(playerStore.playerQueue);
     }
   });
 
   const realPlaylist = computed(() => {
-    return isRandomOrder(playerStore.order) ? randomPlaylist.value : playerStore.playerQueue.songList
+    return isRandomOrder(order.value) ? randomPlaylist.value : playerStore.playerQueue
   })
 
   const currentPlayIndex = customRef<number>((track, trigger) => ({
@@ -42,7 +42,6 @@ export default function usePlaySwitch() {
       trigger();
     }
   }));
-
 
   //监听action方法执行
   playerStore.$onAction(({ after, onError }) => {

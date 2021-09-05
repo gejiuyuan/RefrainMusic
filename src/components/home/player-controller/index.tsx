@@ -10,8 +10,8 @@ import {
   MusicSinger,
   PlayOrder,
 } from "@/widgets/music-tiny-comp";
-import usePlayerStore from "@/stores/player";
-import useAudioStore from "@/stores/audio";
+import usePlayerStore, { playerQueueShow } from "@/stores/player";
+import useAudioStore, { currentTime, playing } from "@/stores/audio";
 import { padPicCrop } from "@/utils";
 import usePlaySwitch from "@/use/usePlaySwitch";
 
@@ -38,26 +38,27 @@ export default defineComponent({
     };
 
     const showPlayerQueueHandler = () => {
-      playerStore.playerQueue.show = true;
+      playerQueueShow.value = true;
     };
 
     const progressUp = ({ decimal }: ProgressInfo) => {
       audioStore.nextSeekTime = audioStore.duration * decimal;
-      audioStore.playing = true;
+      playing.value = true;
     };
 
     return () => {
-      const { currentTime, duration } = audioStore;
+      const currentTimeValue = currentTime.value;
+      const { duration } = audioStore;
       const {
         currentSongInfo: { id, musicName, singers, album },
-        playerQueue: { songList },
+        playerQueue,
       } = playerStore;
 
       return (
         <section class="player-controller">
           <div className="controller-progressbar">
             <ProgressBar
-              currentRatio={(currentTime * 100) / duration}
+              currentRatio={(currentTimeValue * 100) / duration}
               onDown={() => { }}
               onMove={() => { }}
               onChange={() => { }}
@@ -104,7 +105,7 @@ export default defineComponent({
 
               <div className="play-queue-icon" onClick={showPlayerQueueHandler} title="播放队列">
                 <i className="iconfont icon-yinleliebiao"></i>
-                <span>{songList.length}</span>
+                <span>{playerQueue.length}</span>
               </div>
             </section>
           </section>
