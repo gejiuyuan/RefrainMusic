@@ -1,22 +1,12 @@
 import {
   customRef,
-  onBeforeMount,
-  ref,
-  watchEffect,
-  Ref,
-  watch,
-  nextTick,
 } from "vue";
 
 //类型声明需安装: npm i @types/howler
 import { Howl, Howler, HowlErrorCallback, HowlOptions } from "howler";
 import { MaybeRef } from "@vueuse/core";
-import { EMPTY_OBJ, isURL } from "@/utils";
 
 export type HowlerStateType = "loaded" | "unloaded" | "loading";
-
-export type UseHowlerOptions = Partial<Pick<HowlOptions, "src">> &
-  Omit<HowlOptions, "src">;
 
 //自动尝试在移动端和浏览器桌面端播放音频
 Howler.autoUnlock = true;
@@ -29,7 +19,7 @@ Howler.autoSuspend = true;
  * @returns
  */
 
-export const defaultHowlOptions: UseHowlerOptions = {
+export const defaultHowlOptions: HowlOptions = {
   autoplay: false,
   html5: true,
   format: ["mp3", "mpeg", "flac", "wav", "webm", "m4a", "ogg", "opus", "aac"],
@@ -38,32 +28,19 @@ export const defaultHowlOptions: UseHowlerOptions = {
   },
 };
 
-/**
- * 获取音乐的url地址
- * @param srcOrId
- * @returns
- */
-export const getSoundUrl = (srcOrId: number | string) => {
-  srcOrId = String(srcOrId);
-  return !isURL(String(srcOrId))
-    ? `${location.protocol}//music.163.com/song/media/outer/url?id=${srcOrId}.mp3`
-    : srcOrId;
-};
 
 const useHowler = (() => {
   let howl: Howl;
   const eventFuncQueue: CommonFunction[] = [];
-  return (baseOptions: UseHowlerOptions = defaultHowlOptions) => {
+  return (baseOptions: HowlOptions = defaultHowlOptions) => {
     const playSound = (
-      srcOrId: FuncParamsType<typeof getSoundUrl>[0],
-      options: UseHowlerOptions = defaultHowlOptions
+      options: HowlOptions = defaultHowlOptions
     ) => {
       //先销毁前面的实例
       Howler.unload();
       const realHowlOptions = {
         ...baseOptions,
         ...options,
-        src: getSoundUrl(srcOrId),
       }
       howl = new Howl(realHowlOptions);
       eventFuncQueue.forEach((func) => func());

@@ -1,35 +1,26 @@
 import {
   computed,
-  customRef,
-  defineAsyncComponent,
+  customRef, 
   defineComponent,
   getCurrentInstance,
   isProxy,
   PropType,
-  ref,
-  shallowReactive,
-  watch,
-  watchEffect,
+  ref, 
 } from "vue";
-import ProgressBar, {
-  ProgressBarComp,
+import ProgressBar, { 
   ProgressInfo,
 } from "@widgets/progress-bar";
 import "./index.scss";
-import { decimalToPercent, EMPTY_OBJ, is, rmDemicalInPercent, second2TimeStr, UNICODE_CHAR } from "@/utils";
+import { decimalToPercent, second2TimeStr, UNICODE_CHAR } from "@/utils";
 import { onClickOutside, onKeyStroke, useStorage } from "@vueuse/core";
-import { playingRefGlobal, volumeRefGlobal, muteRefGlobal, currentTimeRefGlobal, durationHowlerRef, durationRefGlobal } from "@/stores/audio";
+import { playingRefGlobal, volumeRefGlobal, muteRefGlobal, currentTimeRefGlobal, durationHowlerRef, durationRefGlobal, Order } from "@/stores/audio";
 import { useRouter } from "vue-router";
-import { CurrentSongInfo, getSongExtraInfo } from "@/utils/apiSpecial";
-import usePlayerStore, { orderRefGlobal } from "@/stores/player";
+import { CurrentSongInfo, } from "@/utils/apiSpecial";
+import usePlayerStore from "@stores/player";
+import { orderRefGlobal } from '@stores/audio'
+import useUserStore from "@stores/user";
 import { userLikeMusic } from "@/api/user";
-import useUserStore from "@/stores/user";
 import { useMessage } from "naive-ui"; 
-
-export type PlayOrderType = 'order' | 'random' | 'singleLoop';
-export const isByOrder = (id: PlayOrderType) => id === 'order';
-export const isSingleLoopOrder = (id: PlayOrderType) => id === 'singleLoop';
-export const isRandomOrder = (order: PlayOrderType) => order === 'random';
 
 export enum PlayOrderInfo {
   order = '顺序播放',
@@ -47,7 +38,7 @@ export const PlayOrder = defineComponent({
       suspensionShow.value = false;
     })
 
-    const switchOrderStatus = (orderStatus: PlayOrderType) => {
+    const switchOrderStatus = (orderStatus: Order) => {
       orderRefGlobal.value = orderStatus;
       suspensionShow.value = false;
     }

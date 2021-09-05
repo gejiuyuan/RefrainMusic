@@ -1,13 +1,9 @@
 import { PreferenceNames } from "@/utils/preference";
-import { defineStore } from "pinia";
-import { customRef, ref } from "vue";
-import { watch, toRefs, watchEffect, toRaw } from "vue";
-import useHowler, { UseHowlerOptions } from "@/use/useHowler";
-import usePlayerStore, { orderRefGlobal } from "@/stores/player";
-import { UNICODE_CHAR, is } from "@utils/index";
-import { isSingleLoopOrder } from "@/widgets/music-tiny-comp";
-import { getOrPutCurrentSong } from "@/database";
+import { customRef, ref, watchEffect } from "vue";
+import useHowler from "@/use/useHowler";
+import { UNICODE_CHAR, is, extend, isURL } from "@utils/index";
 import { messageBus } from "@utils/event/register";
+import EventDispatcher from "@/utils/event/event";
 
 export const {
   state: stateHowlerRef,
@@ -33,6 +29,8 @@ export const defaultAudioPreferences = {
   [PreferenceNames.rate]: 1,
   [PreferenceNames.volume]: 0.5,
   [PreferenceNames.mute]: false,
+  //播放顺序，options：random、singleLoop
+  [PreferenceNames.order]: "order",
 }
 
 export const playingRefGlobal = (() => {
@@ -120,6 +118,30 @@ export const volumeRefGlobal = (() => {
   })
 })();
 
+export type Order = 'order' | 'singleLoop' | 'random';
+export const orderRefGlobal = (() => {
+  let order = (localStorage.getItem(PreferenceNames.order) || defaultAudioPreferences[PreferenceNames.order]) as Order;
+  const orderOptions: Order[] = ['order', 'singleLoop', 'random'];
+  return customRef<Order>((track, trigger) => {
+    return {
+      get() {
+        track();
+        return order;
+      },
+      set(value) {
+        if (!orderOptions.includes(value)) {
+          console.error(`The 'order' must be one of the three options:${orderOptions.join('、')}`);
+          return;
+        }
+        order = value;
+        loopHowlerRef.value = AudioMaster.isSingleLoopOrder;
+        localStorage.setItem(PreferenceNames.order, order);
+        trigger();
+      }
+    }
+  })
+})();
+
 export const muteRefGlobal = (() => {
   let mute = localStorage.getItem(PreferenceNames.mute) === 'true' || defaultAudioPreferences[PreferenceNames.mute];
   return customRef<boolean>((track, trigger) => {
@@ -153,17 +175,17 @@ export const srcOrIdRefGlobal = (() => {
         srcOrId = value;
         trigger();
         //清除播放失败后要播放下一首的的定时器
-        clearTimeout(playToNextTimeoutInError);
+        AudioMaster.clearPlayToNextTimeoutWhenError();
         //同时清除播放失败消息提示
         messageBus.dispatch('destroyAllMessage');
-        playSound(srcOrId, {
+        playSound({
+          src: AudioMaster.getSoundUrl(srcOrId),
           volume: volumeRefGlobal.value,
           autoplay: playingRefGlobal.value,
           mute: muteRefGlobal.value,
           rate: rateRefGlobal.value,
+          loop: AudioMaster.isSingleLoopOrder,
         });
-        //设置是否循环播放
-        loopHowlerRef.value = isSingleLoopOrder(orderRefGlobal.value);
         messageBus.dispatch('startLoading');
       }
     }
@@ -188,11 +210,8 @@ export const nextSeekTimeRefGlobal = (() => {
 
 export const durationRefGlobal = ref(0);
 
-let timeUpdateInterval: ReturnType<typeof setInterval>;
-let playToNextTimeoutInError: ReturnType<typeof setTimeout>;
-
 on('end', () => {
-  if (isSingleLoopOrder(orderRefGlobal.value)) {
+  if (AudioMaster.isSingleLoopOrder) {
     return;
   }
   messageBus.dispatch('toNext');
@@ -201,62 +220,74 @@ on('end', () => {
 on("load", () => {
   messageBus.dispatch('finishLoading');
   durationRefGlobal.value = durationHowlerRef.value;
-  loopHowlerRef.value = isSingleLoopOrder(orderRefGlobal.value);
-
-  clearInterval(timeUpdateInterval);
-  timeUpdateInterval = setInterval(() => {
+  AudioMaster.clearTimeUpdateInterval();
+  AudioMaster.setTimeUpdateInterval(() => {
     if (!playingHowlerRef.value) return;
     currentTimeRefGlobal.value = currentTimeHowlerRef.value;
-  }, 500);
+  }, 500)
 });
 
 on("loaderror", () => {
   messageBus.dispatch('errorLoading');
   messageBus.dispatch(
     'errorMessage',
-    `歌曲加载失败啦~将在2秒后播放下一首喔~${UNICODE_CHAR.pensive}`,
+    `歌曲加载失败啦~将在4秒后播放下一首喔~${UNICODE_CHAR.pensive}`,
     {
       duration: 4000,
     }
   );
-  playToNextTimeoutInError = setTimeout(() => {
+  AudioMaster.setPlayToNextTimeoutWhenError(() => {
     messageBus.dispatch('toNext');
   }, 2000);
 });
 
-const defaultAudioOptions = {
-  src: "",
-  start: 0,
-  end: Infinity,
-  duration: 0,
-};
+export class AudioMaster extends EventDispatcher {
 
-export type AudioStateType = {
-  picUrl: string;
-  musicName: string;
-  singer: string;
-} & typeof defaultAudioOptions;
+  static playToNextTimeoutWhenError: ReturnType<typeof setTimeout>;
+  static timeUpdateInterval: ReturnType<typeof setInterval>;
 
-const useAudioStore = defineStore({
-  id: "audioStore",
-  state() {
-    const audioState: AudioStateType = {
-      ...defaultAudioOptions,
-      picUrl: "",
-      musicName: "",
-      singer: "",
-    };
-    return audioState;
-  },
-  getters: {},
-  actions: {
-    resetAudioStatus() {
-      this.start = 0;
-      this.end = Infinity;
-      currentTimeRefGlobal.value = nextSeekTimeRefGlobal.value = 0;
-      durationRefGlobal.value = 0;
-    },
-  },
-});
+  static clearPlayToNextTimeoutWhenError() {
+    clearTimeout(this.playToNextTimeoutWhenError);
+    this.playToNextTimeoutWhenError = null!;
+  }
 
-export default useAudioStore;
+  static setPlayToNextTimeoutWhenError(...args: FuncParamsType<typeof setTimeout>) {
+    return setTimeout(...args);
+  }
+
+  static clearTimeUpdateInterval() {
+    clearInterval(this.timeUpdateInterval);
+    this.timeUpdateInterval = null!;
+  }
+
+  static setTimeUpdateInterval(...args: FuncParamsType<typeof setInterval>) {
+    return setInterval(...args);
+  }
+
+  static resetAudioStatus() {
+    durationRefGlobal.value = currentTimeRefGlobal.value = nextSeekTimeRefGlobal.value = 0;
+  }
+
+  static get isByOrder() {
+    return orderRefGlobal.value === 'order';
+  }
+
+  static get isSingleLoopOrder() {
+    return orderRefGlobal.value === 'singleLoop';
+  }
+
+  static get isRandomOrder() {
+    return orderRefGlobal.value === 'random';
+  }
+
+  /**
+   * 获取音乐的url地址 
+   */
+  static getSoundUrl = (srcOrId: number | string) => {
+    srcOrId = String(srcOrId);
+    return !isURL(srcOrId)
+      ? `${location.protocol}//music.163.com/song/media/outer/url?id=${srcOrId}.mp3`
+      : srcOrId;
+  };
+
+}

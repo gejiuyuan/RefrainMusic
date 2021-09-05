@@ -1,10 +1,9 @@
 import { LyricParser } from "@/utils";
 import { defineStore } from "pinia";
-import useAudioStore, { loopHowlerRef, playingRefGlobal, srcOrIdRefGlobal } from "./audio";
+import { AudioMaster, playingRefGlobal, srcOrIdRefGlobal } from "./audio";
 import { getMusicDetail, getLyric } from "@api/music";
 import { SongLyricItem } from "@/types/lyric";
 import { CurrentSongInfo, getModifiedSongInfo } from "@/utils/apiSpecial";
-import { isSingleLoopOrder, PlayOrderType } from "@/widgets/music-tiny-comp";
 import { getOrPutCurrentSong, getOrPutPlayQueue, playerDB } from "@/database";
 import { customRef, toRefs } from "vue";
 import { PreferenceNames } from "@/utils/preference";
@@ -12,8 +11,6 @@ import { PreferenceNames } from "@/utils/preference";
 export const defaultPlayerPreferences = {
   //主题色
   [PreferenceNames.theme]: "#ff7875",
-  //播放顺序，options：random、singleLoop
-  [PreferenceNames.order]: "order",
   //播放队列是否显示
   [PreferenceNames.playerQueueShow]: false,
 }
@@ -29,30 +26,6 @@ export const theme = (() => {
       set(value) {
         theme = value;
         localStorage.setItem(PreferenceNames.theme, value);
-        trigger();
-      }
-    }
-  })
-})();
-
-export type Order = 'order' | 'singleLoop' | 'random';
-export const orderRefGlobal = (() => {
-  let order = (localStorage.getItem(PreferenceNames.order) || defaultPlayerPreferences[PreferenceNames.order]) as Order;
-  const orderOptions: Order[] = ['order', 'singleLoop', 'random'];
-  return customRef<Order>((track, trigger) => {
-    return {
-      get() {
-        track();
-        return order;
-      },
-      set(value) {
-        if (!orderOptions.includes(value)) {
-          console.error(`The 'order' must be one of the three options:${orderOptions.join('、')}`);
-          return;
-        }
-        order = value;
-        loopHowlerRef.value = isSingleLoopOrder(value);
-        localStorage.setItem(PreferenceNames.order, order);
         trigger();
       }
     }
@@ -152,9 +125,8 @@ const usePlayerStore = defineStore({
     ) {
       //如果已经是当前播放的歌曲了，就return
       if (!options.force && this.currentSongInfo.id === id) return;
-      //重置相关音频状态
-      const audioStore = useAudioStore();
-      audioStore.resetAudioStatus();
+      //重置相关音频状态 
+      AudioMaster.resetAudioStatus();
       //设置全局音频src，以便howler加载mp3的url
       srcOrIdRefGlobal.value = id;
       playingRefGlobal.value = true;

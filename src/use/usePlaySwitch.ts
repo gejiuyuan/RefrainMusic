@@ -1,6 +1,6 @@
-import usePlayerStore, { orderRefGlobal } from "@/stores/player";
+import usePlayerStore from "@/stores/player";
+import { AudioMaster } from "@/stores/audio";
 import { getRandomList } from "@/utils";
-import { PlayOrderType, isRandomOrder } from "@/widgets/music-tiny-comp";
 import { onKeyStroke } from "@vueuse/core";
 import { computed, customRef, reactive, ref, watch, watchEffect } from "vue";
 import { messageBus } from "@/utils/event/register";
@@ -20,13 +20,13 @@ export default function usePlaySwitch() {
   const randomPlaylist = ref<typeof playerStore.playerQueue>([]);
 
   watchEffect(() => {
-    if (isRandomOrder(orderRefGlobal.value)) {
+    if (AudioMaster.isRandomOrder) {
       randomPlaylist.value = getRandomList(playerStore.playerQueue);
     }
   });
 
   const realPlaylist = computed(() => {
-    return isRandomOrder(orderRefGlobal.value) ? randomPlaylist.value : playerStore.playerQueue
+    return AudioMaster.isRandomOrder ? randomPlaylist.value : playerStore.playerQueue
   })
 
   const currentPlayIndex = customRef<number>((track, trigger) => ({
