@@ -21,9 +21,9 @@ import MusicList from "@/widgets/music-list";
 import { getPersonalFm } from "@/api/other";
 import { MusicLoveIcon, MusicSinger } from '@widgets/music-tiny-comp';
 import usePlayerStore from "@/stores/player";
-import { getModifiedNewestSongInfo, getModifiedSongInfo } from "@/utils/apiSpecial";
-import { TO_NEXT_MARK } from "@/use";
+import { getModifiedNewestSongInfo, getModifiedSongInfo } from "@/utils/apiSpecial"; 
 import { PlayStatusSwitch } from '@widgets/music-tiny-comp';
+import { messageBus } from "@/utils/event/register";
 
 export const PersonalFm = defineComponent({
   name: 'PersonalFm',
@@ -55,7 +55,7 @@ export const PersonalFm = defineComponent({
     });
 
     const toNextHandler = () => {
-      playerStore.publishAfterMark(TO_NEXT_MARK);
+      messageBus.dispatch('toNext');
     }
 
     const playBtnClickHandler = () => {

@@ -16,7 +16,7 @@ import {
 import { computedStyle, NOOP, UNICODE_CHAR } from "@utils/index";
 import "./index.scss";
 import usePlayerStore from "@/stores/player";
-import useAudioStore, { currentTime } from "@/stores/audio";
+import { currentTimeRefGlobal, nextSeekTimeRefGlobal } from "@/stores/audio";
 import { useEventListener } from "@vueuse/core";
 
 //歌词移动时的悬浮条
@@ -57,8 +57,7 @@ export type LrcItemInfo = {
 export default defineComponent({
   name: "PlayerLyric",
   setup(props, { slots, emit }) {
-    const playerStore = usePlayerStore();
-    const audioStore = useAudioStore();
+    const playerStore = usePlayerStore(); 
 
     //悬浮控制播放区
     const suspension = shallowReactive<Suspension>({
@@ -133,7 +132,7 @@ export default defineComponent({
     useEventListener(lrcContainerRef, "wheel", wheelHandler);
 
     watch(
-      currentTime,
+      currentTimeRefGlobal,
       (val) => { 
         const exist = playerStore.lyricParsed.exist;
         //如果当前显示着播放悬浮框或者没有歌词就return
@@ -187,7 +186,7 @@ export default defineComponent({
 
     //更新将要播放的位置
     const setWillPlayTime = (time: number) => {
-      audioStore.nextSeekTime = time;
+      nextSeekTimeRefGlobal.value = time;
     };
 
     //设置歌词容器过渡时长

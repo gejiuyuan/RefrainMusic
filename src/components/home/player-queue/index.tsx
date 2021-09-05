@@ -3,10 +3,8 @@ import { onClickOutside } from "@vueuse/core";
 import { defineComponent, ref, watchEffect } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import "./index.scss";
-import { MusicLoveIcon, PlayStatusSwitch, } from "@widgets/music-tiny-comp";
-import useAudioStore from "@/stores/audio";
-import { getElmOffsetToElm, is } from "@/utils";
-
+import { MusicLoveIcon, PlayStatusSwitch, } from "@widgets/music-tiny-comp"; 
+import { is } from "@/utils"; 
 
 export default defineComponent({
   name: "PlayerQueue",

@@ -4,16 +4,12 @@ import "./index.scss";
 import { onKeyStroke } from "@vueuse/core";
 import usePlayerStore from "@/stores/player";
 import { padPicCrop } from "@/utils";
-import PlayerLyric from "@components/player/lyric";
-import { useAudioHandler } from "@use/index";
+import PlayerLyric from "@components/player/lyric"; 
 import { MusicSinger } from "@/widgets/music-tiny-comp";
 
 export default defineComponent({
   name: "Player",
-  setup(props, context) {
-    //处理音频等交互行为
-    useAudioHandler();
-
+  setup(props, context) { 
     const route = useRoute();
     const router = useRouter();
     const playerDetailRef = ref();

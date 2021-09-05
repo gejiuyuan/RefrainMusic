@@ -11,18 +11,16 @@ import {
   PlayOrder,
 } from "@/widgets/music-tiny-comp";
 import usePlayerStore, { playerQueueShow } from "@/stores/player";
-import useAudioStore, { currentTime, playing } from "@/stores/audio";
+import { currentTimeRefGlobal, durationRefGlobal, nextSeekTimeRefGlobal, playingRefGlobal } from "@/stores/audio";
 import { padPicCrop } from "@/utils";
 import usePlaySwitch from "@/use/usePlaySwitch";
-
 
 export default defineComponent({
   name: "PlayerController",
   setup(props, { slots, emit }) {
     const router = useRouter();
     const route = useRoute();
-    const playerStore = usePlayerStore();
-    const audioStore = useAudioStore();
+    const playerStore = usePlayerStore(); 
 
     const { toNext, toPrevious } = usePlaySwitch();
 
@@ -42,13 +40,13 @@ export default defineComponent({
     };
 
     const progressUp = ({ decimal }: ProgressInfo) => {
-      audioStore.nextSeekTime = audioStore.duration * decimal;
-      playing.value = true;
+      nextSeekTimeRefGlobal.value = durationRefGlobal.value * decimal;
+      playingRefGlobal.value = true;
     };
 
     return () => {
-      const currentTimeValue = currentTime.value;
-      const { duration } = audioStore;
+      const currentTimeValue = currentTimeRefGlobal.value;
+      const duration= durationRefGlobal.value;
       const {
         currentSongInfo: { id, musicName, singers, album },
         playerQueue,

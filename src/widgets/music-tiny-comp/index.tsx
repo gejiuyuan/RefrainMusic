@@ -18,14 +18,13 @@ import ProgressBar, {
 import "./index.scss";
 import { decimalToPercent, EMPTY_OBJ, is, rmDemicalInPercent, second2TimeStr, UNICODE_CHAR } from "@/utils";
 import { onClickOutside, onKeyStroke, useStorage } from "@vueuse/core";
-import useAudioStore , { playing as playingRefGlobal, volume as volumeRefGlobal,mute as muteRefGlobal, currentTime } from "@/stores/audio";
+import { playingRefGlobal, volumeRefGlobal, muteRefGlobal, currentTimeRefGlobal, durationHowlerRef, durationRefGlobal } from "@/stores/audio";
 import { useRouter } from "vue-router";
 import { CurrentSongInfo, getSongExtraInfo } from "@/utils/apiSpecial";
-import usePlayerStore, { order as orderRefGlobal } from "@/stores/player";
+import usePlayerStore, { orderRefGlobal } from "@/stores/player";
 import { userLikeMusic } from "@/api/user";
 import useUserStore from "@/stores/user";
-import { useMessage } from "naive-ui";
-import { XboxConsole20Filled } from "@vicons/fluent";
+import { useMessage } from "naive-ui"; 
 
 export type PlayOrderType = 'order' | 'random' | 'singleLoop';
 export const isByOrder = (id: PlayOrderType) => id === 'order';
@@ -155,8 +154,7 @@ export const Volume = defineComponent({
   setup(props, { slots, emit }) {
     const isShow = ref(false);
     const volumeRef = ref<HTMLDivElement>();
-    const switchShow = () => (isShow.value = !isShow.value);
-    const audioStore = useAudioStore();
+    const switchShow = () => (isShow.value = !isShow.value); 
     const volumeData = computed(() => {
       const volumeValue = volumeRefGlobal.value;
       return {
@@ -299,14 +297,13 @@ export const MusicLoveIcon = defineComponent({
 
 export const CurrentPlayTime = defineComponent({
   name: "CurrentPlayTime",
-  setup(props, { slots, emit }) {
-    const audioStore = useAudioStore();
+  setup(props, { slots, emit }) { 
     return () => {
       return (
         <div className="current-playtime">
-          <span class="current">{second2TimeStr(currentTime.value)}</span>
+          <span class="current">{second2TimeStr(currentTimeRefGlobal.value)}</span>
           <span> / </span>
-          <span class="total">{second2TimeStr(audioStore.duration)}</span>
+          <span class="total">{second2TimeStr(durationRefGlobal.value )}</span>
         </div>
       );
     };

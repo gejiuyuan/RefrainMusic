@@ -1,10 +1,10 @@
 import { LyricParser } from "@/utils";
 import { defineStore } from "pinia";
-import useAudioStore, { playing } from "./audio";
+import useAudioStore, { loopHowlerRef, playingRefGlobal, srcOrIdRefGlobal } from "./audio";
 import { getMusicDetail, getLyric } from "@api/music";
 import { SongLyricItem } from "@/types/lyric";
 import { CurrentSongInfo, getModifiedSongInfo } from "@/utils/apiSpecial";
-import { PlayOrderType } from "@/widgets/music-tiny-comp";
+import { isSingleLoopOrder, PlayOrderType } from "@/widgets/music-tiny-comp";
 import { getOrPutCurrentSong, getOrPutPlayQueue, playerDB } from "@/database";
 import { customRef, toRefs } from "vue";
 import { PreferenceNames } from "@/utils/preference";
@@ -36,7 +36,7 @@ export const theme = (() => {
 })();
 
 export type Order = 'order' | 'singleLoop' | 'random';
-export const order = (() => {
+export const orderRefGlobal = (() => {
   let order = (localStorage.getItem(PreferenceNames.order) || defaultPlayerPreferences[PreferenceNames.order]) as Order;
   const orderOptions: Order[] = ['order', 'singleLoop', 'random'];
   return customRef<Order>((track, trigger) => {
@@ -51,6 +51,7 @@ export const order = (() => {
           return;
         }
         order = value;
+        loopHowlerRef.value = isSingleLoopOrder(value);
         localStorage.setItem(PreferenceNames.order, order);
         trigger();
       }
@@ -155,8 +156,8 @@ const usePlayerStore = defineStore({
       const audioStore = useAudioStore();
       audioStore.resetAudioStatus();
       //设置全局音频src，以便howler加载mp3的url
-      audioStore.srcOrId = id;
-      playing.value = true;
+      srcOrIdRefGlobal.value = id;
+      playingRefGlobal.value = true;
       //获取音乐详细信息，因为存在偶现型songItem中picUrl不存在
       getMusicDetail({ ids: String(id) }).then(
         ({ songs: [songDetailData] }) => {

@@ -1,10 +1,9 @@
-import useAudioStore from "@/stores/audio";
-import usePlayerStore, { order } from "@/stores/player";
+import usePlayerStore, { orderRefGlobal } from "@/stores/player";
 import { getRandomList } from "@/utils";
 import { PlayOrderType, isRandomOrder } from "@/widgets/music-tiny-comp";
 import { onKeyStroke } from "@vueuse/core";
 import { computed, customRef, reactive, ref, watch, watchEffect } from "vue";
-import { TO_NEXT_MARK } from "./useAudioHandler";
+import { messageBus } from "@/utils/event/register";
 
 export const isCtrlAndArrowRight = ({ ctrlKey, key }: KeyboardEvent) => {
   return ctrlKey && key === 'ArrowRight'
@@ -21,13 +20,13 @@ export default function usePlaySwitch() {
   const randomPlaylist = ref<typeof playerStore.playerQueue>([]);
 
   watchEffect(() => {
-    if (isRandomOrder(order.value)) {
+    if (isRandomOrder(orderRefGlobal.value)) {
       randomPlaylist.value = getRandomList(playerStore.playerQueue);
     }
   });
 
   const realPlaylist = computed(() => {
-    return isRandomOrder(order.value) ? randomPlaylist.value : playerStore.playerQueue
+    return isRandomOrder(orderRefGlobal.value) ? randomPlaylist.value : playerStore.playerQueue
   })
 
   const currentPlayIndex = customRef<number>((track, trigger) => ({
@@ -42,17 +41,6 @@ export default function usePlaySwitch() {
       trigger();
     }
   }));
-
-  //监听action方法执行
-  playerStore.$onAction(({ after, onError }) => {
-    //action中方法执行后的返回值
-    after((resolvedValue) => {
-      //播放下一首
-      if (resolvedValue === TO_NEXT_MARK) {
-        toNext();
-      }
-    });
-  });
 
   /**
    * 切换至下一首
@@ -89,6 +77,9 @@ export default function usePlaySwitch() {
   onKeyStroke(isCtrlAndArrowRight, toNext, {
     eventName: 'keyup'
   });
+
+  //订阅播放下一首歌曲的消息
+  messageBus.on('toNext', toNext);
 
   return {
     toNext,

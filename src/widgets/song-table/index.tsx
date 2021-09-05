@@ -12,7 +12,7 @@ import usePlayerStore from "@/stores/player";
 import YuanTable, { YuanTableColumn } from "./yuan-table";
 import { NGrid, NGridItem } from "naive-ui";
 import { MusicLoveIcon, PlayStatusSwitch } from "../music-tiny-comp";
-import useAudioStore from "@/stores/audio";
+import { playingRefGlobal } from "@/stores/audio";
 import { useRoute } from "vue-router";
 
 export const getRealTabelSerial = (index: number) => {
@@ -42,8 +42,7 @@ export default defineComponent({
         return realSongInfo;
       });
     });
-    const playerStore = usePlayerStore();
-    const audioStore = useAudioStore();
+    const playerStore = usePlayerStore(); 
 
     const isRenderPublishTime = computed(() => {
       return props.dataList.some(({ publishTime }) => publishTime != null);
@@ -56,7 +55,7 @@ export default defineComponent({
     return () => {
       if (!songData.value.length) return;
       const { currentSongInfo } = playerStore;
-      const { playing } = audioStore;
+      const playing = playingRefGlobal.value;
 
       return (
         <section class="song-table">
