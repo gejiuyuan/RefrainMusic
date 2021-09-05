@@ -1,6 +1,6 @@
 @import "@scss/variable";
-
-.player-detail {
+ 
+.player-detail {  
   position: fixed;
   left: 0;
   top: 0;
@@ -11,14 +11,11 @@
   min-height: 600px;
   overflow: hidden;
   z-index: 150;
-  background-color: rgb(30, 40, 38);
+  background-color: rgb(30, 40, 38);  
   transform: translateY(100%);
-  transition: 0.3s;
-  // transition: .3s cubic-bezier(.22,.65,.48,.89);
-  // transition: .3s cubic-bezier(.72,.39,.42,.86);
+  transition: transform .3s;
 
   &[show="true"] {
-    // visibility: visible;
     transform: translateY(0);
   }
 

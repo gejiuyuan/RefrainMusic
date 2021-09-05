@@ -197,7 +197,7 @@ export const Volume = defineComponent({
               <ProgressBar
                 dir="vertical"
                 dotFixed={true}
-                onChange={volumeChange}
+                onChange={volumeChange} 
                 currentRatio={decimal * 100}
               ></ProgressBar>
             </div>

@@ -202,7 +202,6 @@ export const nextSeekTimeRefGlobal = (() => {
         return nextSeekTime;
       },
       set(value) {
-        console.info(value)
         currentTimeHowlerRef.value = nextSeekTime = value;
         trigger();
       }

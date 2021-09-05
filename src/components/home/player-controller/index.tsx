@@ -1,4 +1,4 @@
-import { computed, defineComponent, ref } from "vue";
+import { computed, defineComponent, PropType, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import "./index.scss";
 import ProgressBar, { ProgressInfo } from "@/widgets/progress-bar";
@@ -17,6 +17,13 @@ import usePlaySwitch from "@/use/usePlaySwitch";
 
 export default defineComponent({
   name: "PlayerController",
+  props: {
+    displayInLyricPage: {
+      type: Boolean as PropType<boolean>,
+      required: false,
+      default: false,
+    },
+  },
   setup(props, { slots, emit }) {
     const router = useRouter();
     const route = useRoute();
@@ -24,13 +31,13 @@ export default defineComponent({
 
     const { toNext, toPrevious } = usePlaySwitch();
 
-    const showPlayerDetailPage = () => {
+    const showOrHidePlayerDetailPage = () => {
       const { query, path } = route;
       router.push({
         path,
         query: {
           ...query!,
-          playerStatus: 1,
+          playerStatus: Number(!props.displayInLyricPage),
         },
       });
     };
@@ -39,7 +46,7 @@ export default defineComponent({
       playerQueueShow.value = true;
     };
 
-    const progressUp = ({ decimal }: ProgressInfo) => {
+    const progressUp = ({ decimal }: ProgressInfo) => { 
       nextSeekTimeRefGlobal.value = durationRefGlobal.value * decimal;
       playingRefGlobal.value = true;
     };
@@ -50,23 +57,23 @@ export default defineComponent({
       const {
         currentSongInfo: { id, musicName, singers, album },
         playerQueue,
-      } = playerStore;
+      } = playerStore; 
 
-      return (
-        <section class="player-controller">
+      return ( 
+        <section class="player-controller" lyricPageShow={props.displayInLyricPage}>
           <div className="controller-progressbar">
             <ProgressBar
               currentRatio={(currentTimeValue * 100) / duration}
-              onDown={() => { }}
-              onMove={() => { }}
-              onChange={() => { }}
+              onDown={() => {}}
+              onMove={ () => {}}
+              onChange={() => {}}
               onUp={progressUp}
             ></ProgressBar>
           </div>
 
           <section class="controller-main">
             <section class="main-block main-left">
-              <div class="music-playbill" onClick={showPlayerDetailPage}>
+              <div class="music-playbill" onClick={showOrHidePlayerDetailPage}>
                 <img
                   src={padPicCrop(album.picUrl, { x: 180, y: 180 })}
                   alt=""
@@ -107,7 +114,7 @@ export default defineComponent({
               </div>
             </section>
           </section>
-        </section>
+        </section> 
       );
     };
   },

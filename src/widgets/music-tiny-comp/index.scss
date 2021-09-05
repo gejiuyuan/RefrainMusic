@@ -9,10 +9,13 @@
  
 .controller-widget {
   position: relative;
-
-  &-noumenon,
+ 
   &-duplicate {
     color: #555;
+  }
+
+  &-duplicate,
+  &-noumenon {
     cursor: pointer;  
     i {  
       font-size: 22px;  
@@ -52,8 +55,12 @@
 
 .play-order {
   margin-left: 50px;
+  
+  &-noumenon{
+    color: currentColor;
+  }
 
-  &-duplicate {
+  &-duplicate { 
     &-item {
       @include flexHcVc();
       padding: 8px 18px;
@@ -102,6 +109,7 @@
       color: var(--theme);
     }  
   }
+  
 }
 
 .music-love-icon {
@@ -123,7 +131,7 @@
 
 .current-playtime {
   font-size: 15px;
-  color: #777;
+  color: currentColor;
   padding-right: 20px;
 }
 

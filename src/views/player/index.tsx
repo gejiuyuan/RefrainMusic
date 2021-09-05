@@ -6,6 +6,8 @@ import usePlayerStore from "@/stores/player";
 import { padPicCrop } from "@/utils";
 import PlayerLyric from "@components/player/lyric"; 
 import { MusicSinger } from "@/widgets/music-tiny-comp";
+import HomeController from "@/components/home/player-controller";
+import { Transition , withDirectives, vShow } from "vue"; 
 
 export default defineComponent({
   name: "Player",
@@ -59,8 +61,8 @@ export default defineComponent({
     return () => {
       const { musicName, singers } = playerStore.currentSongInfo;
       const { size, src } = playbillRef.value;
-      const cropedSrc = padPicCrop(src, { x: 700, y: 700 });
-      return (
+      const cropedSrc = padPicCrop(src, { x: 700, y: 700 }); 
+      return ( 
         <div class="player-detail" ref={playerDetailRef} show={isShow.value}>
           <div
             class="player-bgcover-mask"
@@ -107,10 +109,9 @@ export default defineComponent({
                 </div>
               </div>
             </div>
-
-            {/* <Controller></Controller> */}
+            <HomeController displayInLyricPage={true}></HomeController>
           </div>
-        </div>
+        </div> 
       );
     };
   },

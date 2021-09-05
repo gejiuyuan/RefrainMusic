@@ -14,13 +14,14 @@ import {
     DefineComponent,
 } from "vue";
 import {
+    computedStyle,
     decimalToPercent,
     getElmRectInfo,
     percentToDecimal,
 } from '@utils/index';
 import './index.scss';
 
-import { useEventListener } from '@vueuse/core';
+import { useEventListener, useIntersectionObserver, useMutationObserver, useResizeObserver } from '@vueuse/core';
 
 export interface StripPrjt {
     long: number;
@@ -151,6 +152,7 @@ const ProgressBar: ProgressBarComp = defineComponent({
 
         //更新进度条状态
         const updateCurrentProgress = (ev: PlainObject) => {
+            updateProgressbarInfo();
             const translate = getTranslate(ev);
             const tarDemical = translate / progressbarInfo.long;
             currentProgress.decimal = tarDemical;
@@ -201,25 +203,23 @@ const ProgressBar: ProgressBarComp = defineComponent({
             }
         );
 
+        const stripAttrs: PlainObject<string>[] = [
+            { dir: "vertical", offset: "top", long: "height", mouseOffset: "pageY", },
+            { dir: "horizontal", offset: "left", long: "width", mouseOffset: "pageX", },
+        ];
+
         /**
          * 更新progressbar信息
          */
         const updateProgressbarInfo = () => {
-            const { dir } = props;
+            const { dir } = props; 
             const stripElmRect = getElmRectInfo(stripElmRef.value!);
-            const stripAttrs: PlainObject<string>[] = [
-                { dir: "vertical", offset: "top", long: "height", mouseOffset: "pageY", },
-                { dir: "horizontal", offset: "left", long: "width", mouseOffset: "pageX", },
-            ];
             const tarAttrObj = stripAttrs.find(({ dir: tarDir }) => tarDir === dir)!;
             progressbarInfo.long = Math.round(stripElmRect[tarAttrObj.long]);
             progressbarInfo.offset = Math.round(stripElmRect[tarAttrObj.offset]);
-            progressbarInfo.attrs = tarAttrObj;
+            progressbarInfo.attrs = tarAttrObj;   
         };
-
-        useEventListener('resize', updateProgressbarInfo)
-        onMounted(updateProgressbarInfo);
-
+ 
         return () => {
             return (
                 <div

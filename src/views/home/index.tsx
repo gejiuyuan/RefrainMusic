@@ -1,4 +1,4 @@
-import { defineComponent, onMounted, ref } from "vue";
+import { defineComponent, onMounted, PropType, ref } from "vue";
 import HomeLeft from "@/components/home/home-left";
 import HomeHeader from "@components/home/home-header";
 import HomeController from "@/components/home/player-controller";
