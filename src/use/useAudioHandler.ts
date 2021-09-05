@@ -1,12 +1,13 @@
 import { watch, toRefs, watchEffect, toRaw } from "vue";
 import useHowler, { UseHowlerOptions } from "@/use/useHowler";
 import useAudioStore from "@/stores/audio";
-import { useLoadingBar, useMessage } from "naive-ui";
+import { useMessage } from "naive-ui";
 import usePlayerStore from "@/stores/player";
 import { messageApiInjectionKey } from "naive-ui/lib/message/src/MessageProvider";
 import { UNICODE_CHAR } from "@/utils";
 import { isSingleLoopOrder } from "@/widgets/music-tiny-comp";
 import { getOrPutCurrentSong } from "@/database";
+import { messageBus } from "@/utils/event/register";
 
 /**
  * 播放下一首歌的标识，用于在pinia.$action中的after中接受
@@ -14,7 +15,6 @@ import { getOrPutCurrentSong } from "@/database";
 export const TO_NEXT_MARK = 'toNextMark';
 
 export function useAudioHandler() {
-  const loadingBar = useLoadingBar()!;
   const message = useMessage();
   const audioStore = useAudioStore();
   const playerStore = usePlayerStore();
@@ -51,7 +51,7 @@ export function useAudioHandler() {
       //设置是否循环播放
       setLoopStatus();
       audioStore.playing = true;
-      loadingBar.start();
+      messageBus.dispatch('startLoading');
     }
   );
 
@@ -93,7 +93,7 @@ export function useAudioHandler() {
   );
 
   on("load", () => {
-    loadingBar.finish();
+    messageBus.dispatch('finishLoading');
 
     audioStore.duration = duration.value;
     loop.value = playerStore.order === 'singleLoop';
@@ -106,7 +106,7 @@ export function useAudioHandler() {
   });
 
   on("loaderror", () => {
-    loadingBar.error();
+    messageBus.dispatch('errorLoading');
     message.error(`歌曲加载失败啦~将在2秒后播放下一首喔~${UNICODE_CHAR.pensive}`, {
       duration: 2000,
     })

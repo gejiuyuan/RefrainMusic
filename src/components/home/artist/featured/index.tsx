@@ -17,10 +17,9 @@ export default defineComponent({
     });
 
     onActivated(async () => {
-      const { data = {} } = await artistTopSong({
+      const { songs = [] } = await artistTopSong({
         id: route.query.id as string,
       });
-      const { songs = [] } = data;
       featuredData.hotSongs = freeze(songs);
     });
 

@@ -13,7 +13,7 @@ export function playlistCate() {
     params: {
       // timeStamp: new Date().valueOf()
     },
-  }).then(({ data }) => data);
+  })
 }
 
 /**
@@ -27,7 +27,7 @@ export function hotPlaylistCate() {
     params: {
       // timeStamp: new Date().valueOf()
     },
-  }).then(({ data }) => data);
+  })
 }
 
 /**
@@ -102,7 +102,7 @@ export function relatedPlaylist(params: { id: number | string }) {
     url: "/related/playlist",
     method: "get",
     params: filterUselessKey(params),
-  }).then(({ data }) => data);
+  })
 }
 
 /**
@@ -123,7 +123,7 @@ export function playlistDetail(params: {
     url: "/playlist/detail",
     method: "get",
     params: filterUselessKey(params),
-  }).then(({ data }) => data);
+  })
 }
 
 /**
@@ -240,7 +240,7 @@ export function playlistSimilar(params: { id: number | string }) {
     url: "/simi/playlist",
     method: "get",
     params,
-  }).then(({ data }) => data);
+  })
 }
 
 /**
@@ -251,7 +251,7 @@ export function playlistRecommend() {
   return anfrage({
     url: "/recommend/resource",
     method: "get",
-  }).then(({ data }) => data);
+  })
 }
 
 /**
@@ -278,7 +278,7 @@ export function newAlbumPutOn(params: {
       year,
       month,
     }),
-  }).then(({ data }) => data);
+  })
 }
 
 /**
@@ -325,7 +325,7 @@ export function recommendSonglist(params: { limit?: number | string }) {
     url: "/personalized",
     method: "get",
     params: filterUselessKey(params),
-  }).then(({ data }) => data);
+  })
 }
 
 /**

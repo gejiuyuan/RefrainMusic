@@ -95,23 +95,20 @@ export default defineComponent({
       limit = dftLimit,
       area = dftArea,
     }) => {
-      const { data: willShowArtist, more } = await artistList({
+      const { artists, more } = await artistList({
         type,
         offset,
         area,
         initial: initial === dftInitial ? "" : initial,
         limit,
       });
-      if (willShowArtist) {
-        const { artists } = willShowArtist;
-        singers.singerList = freeze(artists);
-        singerListInfo.limit = +limit;
-        singerListInfo.offset = +offset;
-        singerListInfo.area = +area;
-        singerListInfo.type = +type;
-        singerListInfo.initial = initial;
-        hasMore.value = more;
-      }
+      singers.singerList = freeze(artists);
+      singerListInfo.limit = +limit;
+      singerListInfo.offset = +offset;
+      singerListInfo.area = +area;
+      singerListInfo.type = +type;
+      singerListInfo.initial = initial;
+      hasMore.value = more;
     };
     getArtistsInfo(route.query);
 

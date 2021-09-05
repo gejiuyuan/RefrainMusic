@@ -27,31 +27,6 @@ export type PlayerStoreStateType = {
   };
 };
 
-/**
- * 从DB中获取playQueue
- */
-export async function initPlayQueueFromDB() {
-  const playerStore = usePlayerStore();
-  const playQueue = await getOrPutPlayQueue();
-  if (playQueue) {
-    playerStore.playerQueue.songList = playQueue;
-  }
-}
-
-/**
- * 从DB中获取currentSongInfo
- */
-export async function initCurrentSongInfo() {
-  const playerStore = usePlayerStore();
-  const currentSong = await getOrPutCurrentSong();
-  if (currentSong) {
-    //先初始化加载音乐播放相关资源或数据
-    playerStore.handlePlaySoundNeededData(currentSong.id, {
-      needJudge: false,
-      needSave: false,
-    });
-  }
-}
 
 //初始的currentSongInfo
 const initialCurrentSongInfo: CurrentSongInfo = {
@@ -106,6 +81,7 @@ const usePlayerStore = defineStore({
     publishAfterMark(mark: any) {
       return mark;
     },
+
     //处理播放歌曲需要的数据
     handlePlaySoundNeededData(
       id: number,
@@ -136,8 +112,10 @@ const usePlayerStore = defineStore({
             queueSongList.push(currentSong);
           }
           //保存当前播放的歌曲到IndexedDB
-          options.needSave && getOrPutCurrentSong(currentSong);
-          getOrPutPlayQueue(currentSong);
+          if (options.needSave) {
+            getOrPutCurrentSong(currentSong);
+            getOrPutPlayQueue(currentSong);
+          }
         }
       );
       //获取歌词

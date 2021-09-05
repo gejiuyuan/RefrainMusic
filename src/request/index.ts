@@ -1,32 +1,54 @@
-import ryoko, { abortPendingRequest } from "ryoko";
+import ryoko, { abortPendingRequest, InterceptorCtor, RyokoResponseType } from "ryoko";
+import type { RyokoClass } from 'ryoko';
+import { messageBus } from "@/utils/event/register";
 
-export const anfrage = ryoko.create({
-  mode: "cors",
-  prefixUrl: "/api",
-  timeout: 15000,
-  cache: "force-cache",
-  onDefer(deferMsg) {
-    console.info(deferMsg);
-  },
-  verifyStatus(status) {
-    return status >= 200 && status < 400;
-  },
-  responseType: "json",
-});
+export function createRequestInstance(responseType: RyokoResponseType = 'json') {
+  const ins = ryoko.create({
+    mode: "cors",
+    prefixUrl: "/api",
+    timeout: 15000,
+    cache: "force-cache",
+    responseType,
+    onDefer(deferMsg) { },
+    verifyStatus: (status) => status >= 200 && status < 400,
+  });
+  ins.interceptors.response.use((res) => res.data, (err: any) => {
+    console.info(err.message, '请求出错啦~~')
+  });
+  return ins;
+}
 
-anfrage.interceptors.request.use((config) => {
-  return config
-}, err => {
-  return err
-})
+export const anfrage = createRequestInstance();
 
-anfrage.interceptors.response.use((res: any) => {
-  return res
-}, err => {
-  console.dir(err)
-  return err
-})
 
-export const getAll = ryoko.all;
-export const getSpread = ryoko.spread;
+export const anfrageWithLoading = createRequestInstance();
+useLoadingMixin(anfrageWithLoading.interceptors);
+
+let requestCount = 0;
+let isLoadingFailure = false;
+function useLoadingMixin(interceptors: RyokoClass['interceptors']) {
+  interceptors.request.use(config => {
+    if (requestCount === 0) {
+      messageBus.dispatch('startLoading');
+    }
+    requestCount++;
+    return config;
+  });
+
+  const handleResLoadingClose = () => {
+    if (--requestCount === 0) {
+      messageBus.dispatch(isLoadingFailure ? 'errorLoading' : 'finishLoading');
+      isLoadingFailure = false;
+    }
+  }
+
+  interceptors.response.use(resData => {
+    handleResLoadingClose();
+    return resData;
+  }, err => {
+    isLoadingFailure = true;
+    handleResLoadingClose();
+    throw err;
+  })
+}
 

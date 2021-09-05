@@ -14,17 +14,13 @@ export function getMusic(
     id: number | string;
     br?: number | string;
   },
-  proxy: boolean = true
 ) {
   const queryParams = filterUselessKey({ ...params });
-  // if (proxy) {
-  //   queryParams.proxy = location.origin;
-  // }
   return anfrage({
     url: "/song/url",
     method: "get",
     params: queryParams,
-  }).then(({ data }) => data);
+  });
 }
 
 /**
@@ -61,7 +57,7 @@ export function getLyric(params: { id: string | number }) {
     url: "/lyric",
     method: "get",
     params,
-  }).then(({ data }) => data);
+  });
 }
 
 /**
@@ -75,7 +71,7 @@ export function getNewExpressMusic(params: { type: number | string }) {
     url: "/top/song",
     method: "get",
     params,
-  }).then(({ data }) => data);
+  });
 }
 
 /**
@@ -116,7 +112,7 @@ export function getMusicDetail(params: { ids: string }) {
     url: "/song/detail",
     method: "get",
     params,
-  }).then<GetMusicDetailReturnType>(({ data }) => data);
+  })
 }
 
 /**
@@ -141,7 +137,7 @@ export function musicRecommend() {
   return anfrage({
     url: "/recommend/songs",
     method: "get",
-  }).then(({ data }) => data);
+  })
 }
 
 /**
@@ -156,5 +152,5 @@ export function newMusicRecommend(params: { limit?: number | string }) {
     params: {
       limit,
     },
-  }).then(({ data }) => data);
+  })
 }

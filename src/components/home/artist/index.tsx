@@ -100,8 +100,7 @@ export default defineComponent({
       menuList.forEach((item, i) => {
         item.to = `/artist/${item.key}${objToQuery(query, true)}`;
       });
-      const { data } = await artistSingalSongs({ id });
-      const { artist: artistInfo = [] } = data || EMPTY_OBJ;
+      const { artist: artistInfo = [] } = await artistSingalSongs({ id });
       information.artist = freeze(artistInfo);
     };
 

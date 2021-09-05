@@ -1,4 +1,4 @@
-import { is } from "./common";
+import { is } from "../common";
 
 export interface EventFun {
   (...args: any[]): any;
@@ -12,14 +12,16 @@ export type EventStore = PlainObject<(EventFun | EventFunOnce)[]>;
 
 interface EventDispatcherClass
   extends Record<
-    "on" | "off" | "once" | "dispatch",
-    (type: string, cb: EventFun) => void
-  > {}
+  "on" | "off" | "once" | "dispatch",
+  (type: string, cb: EventFun) => void
+  > { }
 
-export class EventDispatcher implements EventDispatcherClass {
+export default class EventDispatcher implements EventDispatcherClass {
   public store: EventStore = {};
 
-  constructor() {}
+  constructor(public name: string) {
+    this.name = name;
+  }
 
   on(type: string, cb: EventFun | EventFunOnce) {
     if (!is.function(cb)) {

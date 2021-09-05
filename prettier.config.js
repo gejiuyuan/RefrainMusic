@@ -39,7 +39,7 @@ module.exports = {
   //对.vue文件进行代码缩进
   vueIndentScriptAndStyle: true,
 
-  endOfLine: "lf",
+  // endOfLine: "lf",
 
   embeddedLanguageFormatting: "off",
 

@@ -30,7 +30,7 @@ export function bannerInfo(params: { type?: number | string }) {
     url: "/banner",
     method: "get",
     params: filterUselessKey(params),
-  }).then(({ data }) => data);
+  })
 }
 
 /**
@@ -46,7 +46,7 @@ export function getPersonalFm() {
     params: {
       timeStamp: new Date().valueOf(),
     },
-  }).then(({ data }) => data);
+  })
 }
 
 /**
@@ -60,7 +60,7 @@ export function allTopList() {
     params: {
       timeStamp: new Date().valueOf(),
     },
-  }).then(({ data }) => data);
+  });
 }
 
 /**
@@ -74,7 +74,7 @@ export function allTopListDetail() {
     params: {
       timeStamp: new Date().valueOf(),
     },
-  }).then(({ data }) => data);
+  })
 }
 
 /**
@@ -84,5 +84,5 @@ export function allTopListDetail() {
 export function getCountryCode() {
   return anfrage({
     url: '/countries/code/list',
-  }).then(({ data }) => data);
+  })
 }

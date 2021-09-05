@@ -8,10 +8,10 @@ import { EMPTY_OBJ, filterUselessKey } from "@utils/index";
  * @introduction
  *     可获取APP首页圆形图标入口列表
  */
- export function getHomepageDragonBall() {
+export function getHomepageDragonBall() {
   return anfrage({
     url: '/homepage/dragon/ball',
-  }).then(({data}) => data)
+  })
 }
 
 /**
@@ -25,10 +25,10 @@ import { EMPTY_OBJ, filterUselessKey } from "@utils/index";
  */
 export function getHomepageFindings(params: {
   refresh?: boolean;
-  cursor?:any;
+  cursor?: any;
 } = EMPTY_OBJ) {
   return anfrage({
     url: '/homepage/block/page',
-    params:filterUselessKey(params)
-  }).then(({data}) => data)
+    params: filterUselessKey(params)
+  })
 }

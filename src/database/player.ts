@@ -18,8 +18,8 @@ class PlayerDatabase extends Dexie {
   constructor() {
     super('PlayerDatabase');
     this.version(1).stores({
-      playQueue: `++index,${songInfos}`,
-      currentSong: `,${songInfos}`,
+      playQueue: `${songInfos}`,
+      currentSong: `${songInfos}`,
     })
     this.playQueue.mapToClass(PlayerQueueMaster);
   }
@@ -48,19 +48,17 @@ export async function getOrPutPlayQueue(song?: CurrentSongInfo | CurrentSongInfo
   else {
     method = 'put';
   }
-  return await playerDB.playQueue[method](toRaw(song));
+  return await playerDB.playQueue[method](song && toRaw(song));
 }
 
 export async function getOrPutCurrentSong(): Promise<CurrentSongInfo>;
 export async function getOrPutCurrentSong(song: CurrentSongInfo): Promise<number>;
 export async function getOrPutCurrentSong(song?: CurrentSongInfo) {
   const uniqueCurrentSong = (await playerDB.currentSong.toArray())[0];
-  if (is.undefined(song)) {
-    return uniqueCurrentSong;
-  }
-  if (uniqueCurrentSong) {
-    return await playerDB.currentSong.toCollection().modify(toRaw(song));
-  } else {
-    return await playerDB.currentSong.put(toRaw(song));
-  }
+  return is.undefined(song)
+    ? uniqueCurrentSong
+    : uniqueCurrentSong
+      ? await playerDB.currentSong.toCollection().modify(toRaw(song))
+      : await playerDB.currentSong.put(toRaw(song));
 }
+

@@ -3,9 +3,9 @@ import { createPinia } from 'pinia';
 import { globalProperties } from "./vueGlobalConfig";
 import routerObj from "@router/index";
 import "@scss/main.scss";
-import YuanPlayer from "./App";
+import YuanPlayer from "./index";
 import './swiper';
-import '@database/index';
+import '@stores/initStore';
 
 
 //创建app根实例

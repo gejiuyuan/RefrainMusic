@@ -1,4 +1,4 @@
-import { EventDispatcher } from "./event";
+import EventDispatcher from "./event/event";
 
 export type BatteryManagerEvents =
   "onlevel" |
@@ -60,7 +60,7 @@ export class BatteryMaster extends EventDispatcher {
   public level!: number;
 
   constructor() {
-    super();
+    super('battery');
   }
 
   public async asyncInitialize() {

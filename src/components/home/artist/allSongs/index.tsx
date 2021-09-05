@@ -61,13 +61,12 @@ export default defineComponent({
         offset = dftOffset,
         order = dftOrder,
       } = query as any;
-      const { data = {} } = await artistSongs({
+      const { songs = [], total } = await artistSongs({
         id,
         limit,
         offset,
         order,
       });
-      const { songs = [], total } = data;
       songPagiInfo.order = order;
       songPagiInfo.limit = limit;
       songPagiInfo.offset = offset;

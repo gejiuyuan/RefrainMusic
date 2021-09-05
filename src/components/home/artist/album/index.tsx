@@ -44,12 +44,11 @@ export default defineComponent({
     });
     const getAlbum = async (route: RouteLocationNormalized) => {
       const { id, limit = dftLimit, offset = dftOffset } = route.query as any;
-      const { data = {}, more } = await artistAlbum({
+      const { hotAlbums = [], more } = await artistAlbum({
         id,
         limit,
         offset,
       });
-      const { hotAlbums = [] } = data;
       hasMore.value = more;
       albumPagiInfo.limit = +limit;
       albumPagiInfo.offset = +offset;

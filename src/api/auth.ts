@@ -20,15 +20,15 @@ export const loginWithPhone = (params: {
   countrycode?: string;
   md5_password?: string;
 }) => {
-  const formData = new FormData();  
-  Object.entries(filterUselessKey(params)).forEach(([key,value]) => {
+  const formData = new FormData();
+  Object.entries(filterUselessKey(params)).forEach(([key, value]) => {
     formData.append(key, value)
   })
   return anfrage({
     url: "/login/cellphone",
     method: "post",
     data: formData,
-  }).then(({data}) => data);
+  })
 };
 
 /**
@@ -101,5 +101,5 @@ export function loginStatus() {
 export function getMyLevelInfo() {
   return anfrage({
     url: "/user/level",
-  }).then(({data}) => data)
+  })
 }

@@ -77,13 +77,12 @@ export default defineComponent({
       order = defaultOrder,
       limit = listExtraInfo.defaultLimit,
     }) => {
-      const { data: willShowList } = await topPlaylist({
+      const { playlists, total } = await topPlaylist({
         cat,
         offset,
         order,
         limit,
       });
-      const { playlists, total } = willShowList || EMPTY_OBJ;
       playlists && (showingList.playlists = playlists);
       showingList.total = total ?? 0;
       listExtraInfo.order =

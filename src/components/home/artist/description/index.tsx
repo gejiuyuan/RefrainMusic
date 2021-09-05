@@ -27,8 +27,7 @@ export default defineComponent({
 
     onActivated(async () => {
       const { id } = route.query;
-      const { data = {} } = await artistDesc({ id: id as string });
-      const { briefDesc = "", introduction = [] } = data;
+      const { briefDesc = "", introduction = [] } = await artistDesc({ id: id as string });
       artistDescInfo.briefDesc = briefDesc;
       artistDescInfo.introduction = introduction;
       vm.proxy!.$forceUpdate();

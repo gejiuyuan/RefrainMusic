@@ -22,8 +22,7 @@ export default defineComponent({
 
     const getSimilarArtists = async () => {
       const id = route.query.id as string;
-      const { data = {} } = await artistSimilar({ id });
-      const { artists = [] } = data;
+      const { artists = [] } = await artistSimilar({ id });
       information.similarSingers = freeze(artists);
     };
 
@@ -35,7 +34,7 @@ export default defineComponent({
       return (
         <section class="yplayer-similar-singer">
           <ArtistList
-            singerList={information.similarSingers} 
+            singerList={information.similarSingers}
             cols={9}
           ></ArtistList>
         </section>

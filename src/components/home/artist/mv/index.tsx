@@ -49,7 +49,7 @@ export default defineComponent({
     });
 
     return () => {
-      const { mvList } = mvInfo;
+      const { mvList } = mvInfo as any;
       return (
         <MvList cols={5} mvlists={mvList} showPagination={true} defaultLimit={defaultMvslimit} hasMore={hasMoreRef.value}></MvList>
       );

@@ -15,7 +15,7 @@ export function userDetail(uid: string | number) {
     params: {
       uid,
     },
-  }).then(({ data }) => data);
+  })
 }
 
 /**
@@ -29,7 +29,7 @@ export function userAccount() {
     params: {
       timestamp: new Date().valueOf(),
     },
-  }).then(({ data }) => data);
+  })
 }
 
 /**
@@ -42,7 +42,7 @@ export function userSubcount() {
     params: {
       timestamp: new Date().valueOf(),
     },
-  }).then(({ data }) => data);
+  })
 }
 
 /**
@@ -58,7 +58,7 @@ export function userBinding(uid: string | number) {
       uid,
       timestamp: new Date().valueOf(),
     },
-  }).then(({ data }) => data);
+  })
 }
 
 /**
@@ -84,7 +84,7 @@ export function userPlaylist(params: {
       limit,
       offset: +limit * +offset,
     }),
-  }).then(({ data }) => data);
+  })
 }
 
 /**
@@ -99,7 +99,7 @@ export function userDj(uid: string | number) {
     params: {
       uid,
     },
-  }).then(({ data }) => data);
+  })
 }
 
 /**
@@ -185,7 +185,7 @@ export function userRecord(params: { uid: string | number; type?: 0 | 1 }) {
       ...filterUselessKey(params),
       timestamp: new Date().valueOf(),
     },
-  }).then(({ data }) => data);
+  })
 }
 
 /**
@@ -259,7 +259,7 @@ export function userLikeList(params: { uid: number | string }) {
       ...params,
       timeStamp: new Date().valueOf(),
     },
-  }).then(({ data }) => data);
+  })
 }
 
 /**
@@ -274,7 +274,7 @@ export function userLikeMusic(params: {
     url: '/like',
     method: "post",
     params: filterUselessKey(params)
-  }).then(({ data }) => data)
+  })
 }
 
 /**
@@ -286,5 +286,5 @@ export function userLSetting() {
   return anfrage({
     url: "/setting",
     method: "get",
-  }).then(({ data }) => data);
+  })
 }
