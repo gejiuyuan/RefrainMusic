@@ -253,7 +253,7 @@ export class AudioMaster extends EventDispatcher {
   }
 
   static setPlayToNextTimeoutWhenError(...args: FuncParamsType<typeof setTimeout>) {
-    return setTimeout(...args);
+    this.playToNextTimeoutWhenError = setTimeout(...args);
   }
 
   static clearTimeUpdateInterval() {
@@ -262,7 +262,7 @@ export class AudioMaster extends EventDispatcher {
   }
 
   static setTimeUpdateInterval(...args: FuncParamsType<typeof setInterval>) {
-    return setInterval(...args);
+    this.timeUpdateInterval = setInterval(...args);
   }
 
   static resetAudioStatus() {

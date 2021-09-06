@@ -72,7 +72,7 @@ export default defineComponent({
           </div>
 
           <section class="controller-main">
-            <section class="main-block main-left">
+            <section class="main-block main-left" visibility={!props.displayInLyricPage}>
               <div class="music-playbill" onClick={showOrHidePlayerDetailPage}>
                 <img
                   src={padPicCrop(album.picUrl, { x: 180, y: 180 })}
