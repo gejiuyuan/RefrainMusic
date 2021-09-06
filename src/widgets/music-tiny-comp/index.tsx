@@ -118,7 +118,7 @@ export const PlayStatusSwitch = defineComponent({
         }
         playingRefGlobal.value = !playingRefGlobal.value;
       }
-      else { 
+      else {  
         playerStore.handlePlaySoundNeededData(+props.id);
       }
     }

@@ -1,4 +1,4 @@
-import { LyricParser } from "@/utils";
+import { EMPTY_OBJ, LyricParser } from "@/utils";
 import { defineStore } from "pinia";
 import { AudioMaster, playingRefGlobal, srcOrIdRefGlobal } from "./audio";
 import { getMusicDetail, getLyric } from "@api/music";
@@ -115,16 +115,16 @@ const usePlayerStore = defineStore({
     //处理播放歌曲需要的数据
     handlePlaySoundNeededData(
       id: number,
-      options: {
-        force: boolean;
-        needSave: boolean;
-      } = {
-          force: false,
-          needSave: true
-        }
+      options?: {
+        force?: boolean;
+        needSave?: boolean;
+        immediate?: boolean;
+      }
     ) {
+      const { force = false, needSave = true, immediate = true } = options || EMPTY_OBJ;
       //如果已经是当前播放的歌曲了，就return
-      if (!options.force && this.currentSongInfo.id === id) return;
+      if (!force && this.currentSongInfo.id === id) return;
+      immediate && (playingRefGlobal.value = true);
       //设置全局音频src，以便howler加载mp3的url
       srcOrIdRefGlobal.value = id;
       //获取音乐详细信息，因为存在偶现型songItem中picUrl不存在
@@ -143,7 +143,7 @@ const usePlayerStore = defineStore({
             queueSongList.splice(currentSongIndex + 1, 0, willSetCurrentSongInfo);
           }
           //保存当前播放的歌曲到IndexedDB
-          if (options.needSave) {
+          if (needSave) {
             getOrPutCurrentSong(willSetCurrentSongInfo);
             getOrPutPlayQueue(willSetCurrentSongInfo);
           }

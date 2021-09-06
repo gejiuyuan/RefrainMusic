@@ -25,6 +25,7 @@ export async function initCurrentSongInfo() {
     playerStore.handlePlaySoundNeededData(currentSong.id, {
       force: true,
       needSave: false,
+      immediate: false
     });
   }
 }
