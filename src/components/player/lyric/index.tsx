@@ -16,7 +16,7 @@ import {
 import { computedStyle, NOOP, UNICODE_CHAR } from "@utils/index";
 import "./index.scss";
 import usePlayerStore from "@/stores/player";
-import { currentTimeRefGlobal, nextSeekTimeRefGlobal } from "@/stores/audio";
+import { currentTimeRefGlobal, nextSeekTimeRefGlobal, playingRefGlobal } from "@/stores/audio";
 import { useEventListener } from "@vueuse/core";
 
 //歌词移动时的悬浮条
@@ -287,6 +287,7 @@ export default defineComponent({
       setCurItemIndex(tarIndex);
       setTranslateYByDynamicIndex(tarIndex);
       setWillPlayTime(playerStore.lyricParsed.lrcArr[tarIndex].time);
+      playingRefGlobal.value = true;
     };
 
     // 清除悬浮条的隐藏的timer计时器
