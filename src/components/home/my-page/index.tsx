@@ -1,7 +1,7 @@
-import { getMyLevelInfo } from "@/api/auth";
 import { userPlaylist, userRecord } from "@/api/user";
 import useUserStore from "@/stores/user";
 import { getDate, getLocaleDate, phoneVerifyPatt, UNICODE_CHAR } from "@/utils";
+import { messageBus } from "@/utils/event/register";
 import MusicList from "@/widgets/music-list";
 import SongList from "@/widgets/song-list";
 import { FormItemRule, NButton, NCol, NEmpty, useMessage } from "naive-ui";
@@ -18,8 +18,7 @@ import './index.scss';
 
 export default defineComponent({
   name: "MyPage",
-  setup(props, context) {
-    const message = useMessage();
+  setup(props, context) { 
     const userStore = useUserStore();
     const route = useRoute();
 
@@ -40,7 +39,7 @@ export default defineComponent({
 
       }
       else {
-        message.warning(`亲~~还没有登录噢~~${UNICODE_CHAR.smile}`, {
+        messageBus.dispatch('warnMessage',`阿娜达~还没有登录噢~~${UNICODE_CHAR.smile}`,{
           duration: 4000
         });
       }

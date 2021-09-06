@@ -37,7 +37,7 @@ export function searchDefault() {
     url: "/search/default",
     method: "get",
     params: {
-      timeStamp: new Date().valueOf(),
+      timestamp: new Date().valueOf(),
     },
   });
 }
@@ -51,7 +51,7 @@ export function hotSearch() {
     url: "/search/hot",
     method: "get",
     params: {
-      timeStamp: new Date().valueOf(),
+      timestamp: new Date().valueOf(),
     },
   });
 }
@@ -65,7 +65,7 @@ export function hotSearchDetail() {
     url: "/search/hot/detail",
     method: "get",
     params: {
-      timeStamp: new Date().valueOf(),
+      timestamp: new Date().valueOf(),
     },
   });
 }
@@ -80,7 +80,7 @@ export function searchSuggest(params: { keywords: string; type?: string }) {
     method: "get",
     params: {
       ...filterUselessKey(params),
-      timeStamp: new Date().valueOf(),
+      timestamp: new Date().valueOf(),
     },
   });
 }
@@ -95,7 +95,7 @@ export function searchMulMatch(params: { keywords: string }) {
     method: "get",
     params: {
       ...filterUselessKey(params),
-      timeStamp: new Date().valueOf(),
+      timestamp: new Date().valueOf(),
     },
   });
 }

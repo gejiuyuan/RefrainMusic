@@ -35,8 +35,7 @@
   position: fixed;
   left: 50%;
   top: 50%;
-  width: 540px;
-  height: 400px;
+  width: 540px; 
   background-color: $colorbase;
   transform: translate(-50%, -50%);
   border-radius: 8px;
@@ -64,6 +63,34 @@
      @include flexHcVc();
    }
 
+   .login-by-qrCode {
+      text-align: center;
+      .qrCode-scan-status {
+        color: #d03050;
+      }
+   }
+
+ }
+
+ &-foot {
+   @include flexHcVc();
+   padding: 40px 0; 
+   font-size: 0;
+   em {
+     display: inline-block;
+     padding: 0 20px;
+     font-size: 14px;
+     transition: .05s;
+     cursor: pointer;
+     color: #454545;
+     &:hover {
+       color: var(--theme);
+       text-decoration: underline;
+     }
+     &:not(:last-of-type) {
+       border-right: 1px solid #757575;
+     }
+   }
  }
 
 }

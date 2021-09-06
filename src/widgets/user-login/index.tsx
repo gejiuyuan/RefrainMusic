@@ -1,8 +1,8 @@
-import { loginStatus, loginWithPhone } from "@/api/auth";
+import { getQrCodeImgInfo, getQrCodeKey, getQrCodeScanStatus, loginStatus, loginWithPhone } from "@/api/auth";
 import { userAccount, userDetail, userLikeList, userPlaylist, userSubcount } from "@/api/user";
 import { NaiveFormValidateError } from "@/shim";
 import useUserStore from "@/stores/user";
-import { phoneVerifyPatt } from "@/utils";
+import { is, phoneVerifyPatt } from "@/utils";
 import { FormItemRule, NButton, NCol, NForm, NFormItem, NGrid, NGridItem, NInput, NRow, NxButton } from "naive-ui";
 import {
   getCurrentInstance,
@@ -16,9 +16,24 @@ import {
   ComponentInternalInstance,
   computed,
   watch,
+  watchEffect,
+  reactive,
 } from "vue";
 import { routerViewLocationKey, useRouter } from "vue-router";
 import './index.scss';
+ 
+const loginTypes = [
+  {key: 'phone', text: '手机号登录'},
+  {key: 'qrCode', text: '二维码登录'},
+  {key: 'email', text: '邮箱登录'},
+]
+
+export enum QrCodeStatus {
+  '二维码已失效，请重新扫码登录' = 800,
+  '请打开网易云音乐APP进行扫码~~' = 801,
+  '正在登录，等待确认中...' = 802,
+  '授权登录成功~~~' = 803,
+}
 
 export default defineComponent({
   name: "UserLogin",
@@ -28,6 +43,9 @@ export default defineComponent({
     const loginDialogShow = ref(false);
     const userStore = useUserStore();
     const router = useRouter();
+
+    //页面刷新后判断一次是否登录
+    userStore.judgeLoginStatus();
 
     watch(() => userStore.isLogin, async (isLogin) => {
       if (isLogin) {
@@ -63,7 +81,6 @@ export default defineComponent({
         });
 
       }
-
     }, {
       immediate: true
     })
@@ -113,8 +130,8 @@ export default defineComponent({
         const result = await loginWithPhone({
           phone: phoneInfo.number,
           password: phoneInfo.password
-        })
-        result && userStore.setUserInfo(result)
+        });
+        userStore.updateLoginStatus(!!result)
       })
     }
 
@@ -129,10 +146,95 @@ export default defineComponent({
       }
     })
 
+    const currentLoginType = ref(loginTypes[0].key);
+
+    const switchLoginType = (key: string) => {
+      currentLoginType.value = key;
+    } 
+
+    const qrCodeInfo = reactive({
+      img: '',
+      key: '',
+      scanStatusMsg: QrCodeStatus[801],
+    });
+     
+    let rotationQrCodeTimer:ReturnType<typeof setInterval>;
+    const rotationQrCodeScanStatus = (key: string) => {
+      rotationQrCodeTimer = setInterval(async () => {
+        const { code , message , cookie } = await getQrCodeScanStatus({ key });
+        qrCodeInfo.scanStatusMsg = QrCodeStatus[code];
+        //已过期
+        if(code === 800) {
+          clearInterval(rotationQrCodeTimer);
+        }else if(code === 803) {
+          clearInterval(rotationQrCodeTimer);
+          await userStore.judgeLoginStatus();
+        }
+      }, 3000);
+    } 
+
+    watchEffect(() => {
+      if(currentLoginType.value === 'qrCode') {
+        getQrCodeKey().then(async ({data: {unikey}}) => { 
+          qrCodeInfo.key = unikey; 
+          const { data: {qrimg,qrurl}} = await getQrCodeImgInfo({
+            key:unikey
+          })
+          qrCodeInfo.img = qrimg;
+          rotationQrCodeScanStatus(unikey);
+        });
+        return;
+      }
+      clearInterval(rotationQrCodeTimer);
+    })
+
+    const renderLoginBody = () => {
+      const currentLoginTypeValue = currentLoginType.value;
+      if(currentLoginTypeValue === 'phone') {
+        return (
+          <div className="login-by-phone">
+            <NForm
+              ref={loginWithPhoneFormRef}
+              model={phoneInfo}
+              rules={phoneRules}
+            >
+              <NFormItem path="number" label="电话">
+                <NInput value={phoneInfo.number} placeholder="赶紧输入⑧!" onUpdateValue={(value) => phoneInfo.number = value}></NInput>
+              </NFormItem>
+              <NFormItem path="password" label="密码">
+                <NInput value={phoneInfo.password} placeholder="赶紧输入⑧!" type={"password" as any} onUpdateValue={(value) => phoneInfo.password = value}></NInput>
+              </NFormItem>
+              <div class="login-button">
+                <NxButton type="error" attrType="submit" onClick={loginByPhoneClick}>登录</NxButton>
+              </div> 
+            </NForm>
+          </div>
+        )
+      } else if(currentLoginTypeValue === 'email') {
+        return (
+          <div>email</div>
+        )
+      } else if(currentLoginTypeValue === 'qrCode') {
+        return (
+          <div className="login-by-qrCode">
+            <div className="qrCode-img">
+              <img src={qrCodeInfo.img} alt="" />
+            </div>
+            <p class="qrCode-scan-status">
+              {
+                qrCodeInfo.scanStatusMsg
+              }
+            </p>
+          </div>
+        )
+      }
+    }
+
     return () => {
 
       const loginBaseInfo = userLoginInfo.value;
-
+      const currentLoginTypeValue = currentLoginType.value;
+      const otherLoginTypes = loginTypes.filter(({key}) => key !== currentLoginTypeValue);
       return (
         <>
           <div class="user-login" onClick={loginBtnClick}>
@@ -147,28 +249,15 @@ export default defineComponent({
               </header>
 
               <section class="login-dialog-body">
-
-                <div className="login-by-phone">
-                  <NForm
-                    ref={loginWithPhoneFormRef}
-                    model={phoneInfo}
-                    rules={phoneRules}
-                  >
-                    <NFormItem path="number" label="电话">
-                      <NInput value={phoneInfo.number} placeholder="赶紧输入⑧!" onUpdateValue={(value) => phoneInfo.number = value}></NInput>
-                    </NFormItem>
-                    <NFormItem path="password" label="密码">
-                      <NInput value={phoneInfo.password} placeholder="赶紧输入⑧!" type={"password" as any} onUpdateValue={(value) => phoneInfo.password = value}></NInput>
-                    </NFormItem>
-
-                    <div class="login-button">
-                      <NxButton type="error" attrType="submit" onClick={loginByPhoneClick}>登录</NxButton>
-                    </div>
-
-                  </NForm>
-                </div>
-
+                {renderLoginBody()}
               </section>
+              <footer class="login-dialog-foot">
+                {
+                  otherLoginTypes.map(({key, text}) => {
+                    return <em key={key} onClick={() => switchLoginType(key)}>{text}</em>
+                  })
+                } 
+              </footer>
 
             </aside>
 

@@ -12,7 +12,7 @@ export function djRecomment() {
     url: "/personalized/djprogram",
     method: "get",
     params: {
-      timeStamp: new Date().valueOf(),
+      timestamp: new Date().valueOf(),
     },
   });
 }
@@ -28,7 +28,7 @@ export function djBanner() {
     url: "/dj/banner",
     method: "get",
     params: {
-      timeStamp: new Date().valueOf(),
+      timestamp: new Date().valueOf(),
     },
   });
 }
@@ -45,7 +45,7 @@ export function djPersonalRecommend(params: { limit?: number | string }) {
     method: "get",
     params: {
       ...filterUselessKey(params),
-      timeStamp: new Date().valueOf(),
+      timestamp: new Date().valueOf(),
     },
   });
 }
@@ -165,7 +165,7 @@ export function djRecommend() {
     url: "/dj/recommend",
     method: "get",
     params: {
-      timeStamp: new Date().valueOf(),
+      timestamp: new Date().valueOf(),
     },
   });
 }
@@ -179,7 +179,7 @@ export function djCateList() {
     url: "/dj/catelist",
     method: "get",
     params: {
-      timeStamp: new Date().valueOf(),
+      timestamp: new Date().valueOf(),
     },
   });
 }
@@ -195,7 +195,7 @@ export function djRecommenCate(params: { type: number | string }) {
     method: "get",
     params: {
       type,
-      timeStamp: new Date().valueOf(),
+      timestamp: new Date().valueOf(),
     },
   });
 }
@@ -211,7 +211,7 @@ export function djSubscribe(params: { rid: number | string }) {
     method: "get",
     params: {
       rid,
-      timeStamp: new Date().valueOf(),
+      timestamp: new Date().valueOf(),
     },
   });
 }
@@ -270,7 +270,7 @@ export function djTodayPrefer() {
     url: "/dj/today/perfered",
     method: "get",
     params: {
-      timeStamp: new Date().valueOf(),
+      timestamp: new Date().valueOf(),
     },
   });
 }

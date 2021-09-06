@@ -11,7 +11,7 @@ export function playlistCate() {
     url: "/playlist/catlist",
     method: "get",
     params: {
-      // timeStamp: new Date().valueOf()
+      // timestamp: new Date().valueOf()
     },
   })
 }
@@ -25,7 +25,7 @@ export function hotPlaylistCate() {
     url: "/playlist/hot",
     method: "get",
     params: {
-      // timeStamp: new Date().valueOf()
+      // timestamp: new Date().valueOf()
     },
   })
 }
@@ -67,7 +67,7 @@ export function highqualPlaylistTag() {
     url: "/playlist/highquality/tags",
     method: "get",
     params: {
-      // timeStamp: new Date().valueOf()
+      // timestamp: new Date().valueOf()
     },
   });
 }
@@ -311,7 +311,7 @@ export function newestAlbum() {
     url: "/album/newest",
     method: "get",
     params: {
-      timeStamp: new Date().valueOf(),
+      timestamp: new Date().valueOf(),
     },
   });
 }

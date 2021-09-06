@@ -1,4 +1,4 @@
-import { anfrageWithLoading } from "@/request";
+import { anfrage, anfrageWithLoading } from "@/request";
 import { filterUselessKey } from "@utils/index";
 
 /**
@@ -50,7 +50,10 @@ export function loginWithEmail(params: {
   return anfrageWithLoading({
     url: "/login",
     method: "post",
-    params: filterUselessKey(params),
+    params: {
+      ...filterUselessKey(params),
+      timestamp: new Date().valueOf(),
+    },
   });
 }
 
@@ -86,7 +89,9 @@ export function logout() {
 export function loginStatus() {
   return anfrageWithLoading({
     url: "/login/status",
-    method: "get",
+    params: {
+      timestamp: new Date().valueOf(),
+    }
   });
 }
 
@@ -101,5 +106,57 @@ export function loginStatus() {
 export function getMyLevelInfo() {
   return anfrageWithLoading({
     url: "/user/level",
+  })
+}
+
+/**
+ * 二维码key生成接口
+ * @returns 
+ */
+export function getQrCodeKey() {
+  return anfrage({
+    url: '/login/qr/key',
+    params: {
+      timestamp: new Date().valueOf(),
+    }
+  })
+}
+
+/**
+ * 获取登录二维码图片
+ * @param params 
+ * @returns 
+ */
+export function getQrCodeImgInfo(params: {
+  key: string;
+  qrimg?: boolean;
+}) {
+  const { key, qrimg = true } = params;
+  return anfrageWithLoading({
+    url: '/login/qr/create',
+    params: {
+      key,
+      qrimg,
+      timestamp: new Date().valueOf(),
+    }
+  })
+}
+
+/**
+ * 检测二维码扫码状态
+ * @param params 
+ * @returns 
+ * @introduction
+ *  轮询此接口可获取二维码扫码状态,800为二维码过期,801为等待扫码,802为待确认,803为授权登录成功(803状态码下会返回cookies)
+ */
+export function getQrCodeScanStatus(params: {
+  key: string;
+}) {
+  return anfrage({
+    url: '/login/qr/check',
+    params: {
+      ...params,
+      timestamp: new Date().valueOf(),
+    }
   })
 }

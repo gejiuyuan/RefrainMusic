@@ -14,6 +14,7 @@ export default defineComponent({
     messageBus.on('finishLoading', () => loading.finish());
     messageBus.on('errorLoading', () => loading.error());
     messageBus.on('destroyAllMessage', () => message.destroyAll());
+    messageBus.on('successMessage', (...args:FuncParamsType<typeof message.success>) => message.success(...args));
     messageBus.on('warnMessage', (...args:FuncParamsType<typeof message.warning>) => message.warning(...args));
     messageBus.on('errorMessage', (...args:FuncParamsType<typeof message.error>) => message.error(...args));
     return () => {

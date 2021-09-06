@@ -62,8 +62,8 @@ export default defineComponent({
     });
 
     const renderNotLogin = () => {
-      if (isShowPagi.value === false) {
-        return <NEmpty description="亲~~还没有登录噢~~" showDescription={true}></NEmpty>
+      if (is.emptyArray(subscribers) && isShowPagi.value === false) {
+        return <NEmpty description="阿娜达~还没有登录噢~~" showDescription={true}></NEmpty>
       }
     };
 

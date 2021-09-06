@@ -13,7 +13,7 @@ export function homepageInfo(params: { refresh?: string }) {
     method: "get",
     params: {
       ...filterUselessKey(params),
-      timeStamp: new Date().valueOf(),
+      timestamp: new Date().valueOf(),
     },
   });
 }
@@ -44,7 +44,7 @@ export function getPersonalFm() {
     url: "/personal_fm",
     method: "get",
     params: {
-      timeStamp: new Date().valueOf(),
+      timestamp: new Date().valueOf(),
     },
   })
 }
@@ -58,7 +58,7 @@ export function allTopList() {
     url: "/toplist",
     method: "get",
     params: {
-      timeStamp: new Date().valueOf(),
+      timestamp: new Date().valueOf(),
     },
   });
 }
@@ -72,7 +72,7 @@ export function allTopListDetail() {
     url: "/toplist/detail",
     method: "get",
     params: {
-      timeStamp: new Date().valueOf(),
+      timestamp: new Date().valueOf(),
     },
   })
 }

@@ -1,6 +1,8 @@
 import { loginStatus } from "@/api/auth";
 import { LoginWithPhoneResult, UserSubCount } from "@/types/auth";
+import { is } from "@/utils";
 import { judgeIsLogin } from "@/utils/auth";
+import { messageBus } from "@/utils/event/register";
 import { defineStore } from "pinia";
 
 export type UserStateType = {
@@ -41,11 +43,18 @@ const useUserStore = defineStore({
 
   },
   actions: {
-    setUserInfo(info: LoginWithPhoneResult) {
-      const { profile, token, cookie, account } = info;
-      this.isLogin = true;
-      this.cookie = cookie;
-      localStorage.setItem('userToken', token);
+    async judgeLoginStatus() {
+      const { data: { profile, account } } = await loginStatus();
+      const isLoginSuccess = ![profile, account].every(is.null);
+      this.updateLoginStatus(isLoginSuccess);
+    },
+    updateLoginStatus(isLogin: boolean) {
+      this.isLogin = isLogin;
+      const topic = isLogin ? 'successMessage' : 'errorMessage';
+      const tip = isLogin ? '阿娜达~登录成功了哟~' : '阿娜达~登录失败了哟，请再试一次！'
+      messageBus.dispatch(topic, tip, {
+        duration: 4000,
+      });
     }
   },
 });

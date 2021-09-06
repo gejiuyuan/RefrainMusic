@@ -257,7 +257,7 @@ export function userLikeList(params: { uid: number | string }) {
     method: "get",
     params: {
       ...params,
-      timeStamp: new Date().valueOf(),
+      timestamp: new Date().valueOf(),
     },
   })
 }
