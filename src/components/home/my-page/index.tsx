@@ -34,19 +34,6 @@ export default defineComponent({
       return infos;
     });
 
-    watch(() => userStore.isLogin, (isLogin) => {
-      if (isLogin) {
-
-      }
-      else {
-        messageBus.dispatch('warnMessage',`阿娜达~还没有登录噢~~${UNICODE_CHAR.smile}`,{
-          duration: 4000
-        });
-      }
-    }, {
-      immediate: true
-    });
-
     const idWatcher = watch(() => route.query.id as string, (id) => {
       if (!id) return;
       userRecord({ uid: id }).then(({ weekData }) => {

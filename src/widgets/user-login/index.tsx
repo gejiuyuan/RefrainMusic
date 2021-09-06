@@ -18,6 +18,8 @@ import {
   watch,
   watchEffect,
   reactive,
+  onUnmounted,
+  onBeforeUnmount,
 } from "vue";
 import { routerViewLocationKey, useRouter } from "vue-router";
 import './index.scss';
@@ -172,6 +174,10 @@ export default defineComponent({
         }
       }, 3000);
     } 
+
+    onBeforeUnmount(() => {
+      clearInterval(rotationQrCodeTimer);
+    });
 
     watchEffect(() => {
       if(currentLoginType.value === 'qrCode') {
