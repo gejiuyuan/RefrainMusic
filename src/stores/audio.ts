@@ -228,18 +228,19 @@ on("load", () => {
   }, 500);
 });
 
+const failureDuration = 4000;
 on("loaderror", () => {
   messageBus.dispatch('errorLoading');
   messageBus.dispatch(
     'errorMessage',
-    `歌曲加载失败啦~将在4秒后播放下一首喔~${UNICODE_CHAR.pensive}`,
+    `歌曲加载失败啦~将在${failureDuration / 1000}秒后播放下一首喔~${UNICODE_CHAR.pensive}`,
     {
-      duration: 4000,
+      duration: failureDuration,
     }
   );
   AudioMaster.setPlayToNextTimeoutWhenError(() => {
     messageBus.dispatch('toNext');
-  }, 2000);
+  }, failureDuration);
 });
 
 export class AudioMaster extends EventDispatcher {

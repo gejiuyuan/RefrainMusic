@@ -11,7 +11,7 @@ import ProgressBar, {
   ProgressInfo,
 } from "@widgets/progress-bar";
 import "./index.scss";
-import { decimalToPercent, second2TimeStr, UNICODE_CHAR } from "@/utils";
+import { decimalToPercent, is, second2TimeStr, UNICODE_CHAR } from "@/utils";
 import { onClickOutside, onKeyStroke, useStorage } from "@vueuse/core";
 import { playingRefGlobal, volumeRefGlobal, muteRefGlobal, currentTimeRefGlobal, durationHowlerRef, durationRefGlobal, Order } from "@/stores/audio";
 import { useRouter } from "vue-router";
@@ -21,6 +21,7 @@ import { orderRefGlobal } from '@stores/audio'
 import useUserStore from "@stores/user";
 import { userLikeMusic } from "@/api/user";
 import { useMessage } from "naive-ui"; 
+import { messageBus } from "@/utils/event/register";
 
 export enum PlayOrderInfo {
   order = '顺序播放',
@@ -108,9 +109,16 @@ export const PlayStatusSwitch = defineComponent({
 
     const switchHandler = () => {
       if (isCurrentPlayingSong.value) {
+        if(is.emptyArray(playerStore.playerQueue)) {
+          messageBus.dispatch('warnMessage', `阿娜达~快去添加音乐⑧${UNICODE_CHAR.smile}`, {
+            duration: 4000,
+            closable: true,
+          });
+          return;
+        }
         playingRefGlobal.value = !playingRefGlobal.value;
       }
-      else {
+      else { 
         playerStore.handlePlaySoundNeededData(+props.id);
       }
     }
