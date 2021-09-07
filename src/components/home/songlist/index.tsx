@@ -86,9 +86,13 @@ export default defineComponent({
       playlist.playCountStr = getLocaleCount(playlist.playCount);
       playlist.subscribedCountStr = getLocaleCount(playlist.subscribedCount);
       //之所以再获取移除所有歌曲，是因为返回的playlsit.tracks不全
-      const { songs } = await getMusicDetail({ ids: playlist.trackIds.map((_: any) => _.id).join(',') });
-      playlist.tracks = songs;
-      songlistInfo.playlist = playlist;
+      const idsStr = playlist.trackIds.map((_: any) => _.id).join(',');
+      if(idsStr) {
+        const { songs } = await getMusicDetail({ ids: idsStr });
+        playlist.tracks = songs;
+        songlistInfo.playlist = playlist;
+      }
+
     };
 
     const getsonglistDetail = async (id: string) => {

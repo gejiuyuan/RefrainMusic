@@ -23,22 +23,22 @@ export const loginWithPhone = (params: {
   return anfrageWithLoading({
     url: "/login/cellphone",
     method: "post",
-    data: generateFormData(params),
     params: {
+      ...params,
       timestamp: new Date().valueOf(),
     },
   })
 };
 
 /**
- * 邮箱登录
+ * 网易云邮箱登录
  * - email: 163 网易邮箱
  * - password: 密码
  * - md5_password: md5加密后的密码,传入后 password 将失效
  * @param {Object} params
  * @param {string} params.email
  * @param {string} params.password
- * @param {string=} params.md5_password
+ * @param {string} params.md5_password
  */
 
 export function loginWithEmail(params: {
@@ -49,8 +49,8 @@ export function loginWithEmail(params: {
   return anfrageWithLoading({
     url: "/login",
     method: "post",
-    data: generateFormData(params),
     params: {
+      ...params,
       timestamp: new Date().valueOf(),
     },
   });

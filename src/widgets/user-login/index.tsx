@@ -4,6 +4,7 @@ import { NaiveFormValidateError } from "@/shim";
 import useUserStore from "@/stores/user";
 import { emailVerifyPatt, is, phoneVerifyPatt } from "@/utils";
 import { messageBus } from "@/utils/event/register";
+import md5 from 'crypto-js/md5'
 import { FormItemRule, NButton, NCol, NForm, NFormItem, NGrid, NGridItem, NInput, NRow, NxButton } from "naive-ui";
 import {
   getCurrentInstance,
@@ -60,7 +61,7 @@ const phoneRules: Record<'number' | 'password', FormItemRule | FormItemRule[]> =
 }
 
 /**
-* 邮箱和密码登录规则
+* 网易云邮箱和密码登录规则
 */
 const emailRules: Record<'email' | 'password', FormItemRule | FormItemRule[]> = {
   email: [
@@ -89,7 +90,7 @@ export default defineComponent({
      */
     const loginWithPhoneFormRef = ref();
     /**
-     * 邮箱登录表单的Ref
+     * 网易云邮箱表单的Ref
      */
     const loginWithEmailFormRef = ref();
     /**
@@ -227,14 +228,15 @@ export default defineComponent({
         }
         await loginWithPhone({
           phone: phoneInfo.number,
-          password: phoneInfo.password
+          password: 'invalidPassword',
+          md5_password: String(md5(phoneInfo.password)),
         });
         userStore.judgeAndUpdateLoginStatus();
       });
     }
 
     /**
-     * 邮箱表单登录处理
+     * 网易云邮箱登录处理
      */
     const loginByEmailClick = () => {
       loginWithEmailFormRef.value!.validate(async(error: NaiveFormValidateError) => {
@@ -243,7 +245,8 @@ export default defineComponent({
         }
         await loginWithEmail({
           email:emailInfo.email,
-          password: emailInfo.password,
+          password: 'invalidPassword',
+          md5_password: String(md5(emailInfo.password)),
         });
         userStore.judgeAndUpdateLoginStatus();
       });
@@ -338,7 +341,7 @@ export default defineComponent({
           </div>
         )
       } 
-      //邮箱登录
+      //网易云邮箱登录
       else if(currentLoginTypeValue === 'email') {
         return (
           <div className="login-by-email">
@@ -349,7 +352,7 @@ export default defineComponent({
               showRequireMark={true}
               rules={emailRules}
             >
-              <NFormItem path="email" label="邮箱">
+              <NFormItem path="email" label="网易云邮箱">
                 <NInput value={emailInfo.email} placeholder="赶紧输入⑧!" onUpdateValue={(value) => emailInfo.email = value}></NInput>
               </NFormItem>
               <NFormItem path="password" label="密码">

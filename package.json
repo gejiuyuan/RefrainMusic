@@ -16,7 +16,9 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
+    "@types/crypto-js": "^4.0.2",
     "@vueuse/core": "~5.2.0",
+    "crypto-js": "^4.1.1",
     "dexie": "~3.0.3",
     "howler": "^2.2.3",
     "js-cookie": "^3.0.0",
