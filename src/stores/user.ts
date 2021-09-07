@@ -1,6 +1,6 @@
 import { loginStatus } from "@/api/auth";
 import { LoginWithPhoneResult, UserSubCount } from "@/types/auth";
-import { is } from "@/utils";
+import { EMPTY_OBJ, is, UNICODE_CHAR } from "@/utils";
 import { judgeIsLogin } from "@/utils/auth";
 import { messageBus } from "@/utils/event/register";
 import { defineStore } from "pinia";
@@ -43,19 +43,30 @@ const useUserStore = defineStore({
 
   },
   actions: {
-    async judgeLoginStatus() {
+    async judgeAndUpdateLoginStatus(options: {
+      //是否是第一次刷新页面
+      isFirstRefresh: boolean
+    } = EMPTY_OBJ) {
+      const { isFirstRefresh = false } = options;
       const { data: { profile, account } } = await loginStatus();
       const isLoginSuccess = ![profile, account].every(is.null);
-      this.updateLoginStatus(isLoginSuccess);
-    },
-    updateLoginStatus(isLogin: boolean) {
-      this.isLogin = isLogin;
-      const topic = isLogin ? 'successMessage' : 'errorMessage';
-      const tip = isLogin ? '阿娜达~登录成功了哟~' : '阿娜达~登录失败了哟，请再试一次！'
+      this.isLogin = isLoginSuccess;
+      let topic: string;
+      let tip: string;
+      if (isLoginSuccess) {
+        topic = 'successMessage';
+        tip = `阿娜达~登录成功啦~${UNICODE_CHAR.smile}`
+      } else if (isFirstRefresh) {
+        topic = 'warnMessage';
+        tip = `阿娜达~快去登录噢~${UNICODE_CHAR.hugface}`;
+      } else {
+        topic = 'errorMessage';
+        tip = `阿娜达~登录失败啦，再试一次⑧~${UNICODE_CHAR.pensive}`
+      }
       messageBus.dispatch(topic, tip, {
         duration: 4000,
       });
-    }
+    },
   },
 });
 

@@ -61,7 +61,9 @@ export default defineComponent({
     });
 
     //页面刷新后判断一次是否登录
-    userStore.judgeLoginStatus();
+    userStore.judgeAndUpdateLoginStatus({
+      isFirstRefresh:true
+    });
 
     watch(() => userStore.isLogin, async (isLogin) => {
       if (isLogin) {
@@ -148,7 +150,7 @@ export default defineComponent({
           phone: phoneInfo.number,
           password: phoneInfo.password
         });
-        userStore.updateLoginStatus(!!result)
+        userStore.judgeAndUpdateLoginStatus()
       })
     }
 
@@ -192,7 +194,7 @@ export default defineComponent({
         })
         qrCodeInfo.img = qrimg;
         isRefresh && (
-          messageBus.dispatch('warnMessage', '二维码刷新成功啦!赶紧登录吧', {
+          messageBus.dispatch('warnMessage', '二维码刷新成功啦！赶紧登录吧', {
             duration: 3000,
           })
         )
@@ -210,7 +212,7 @@ export default defineComponent({
           }
           else if(code === 803) {
             clearInterval(rotationQrCodeTimer);
-            await userStore.judgeLoginStatus();
+            await userStore.judgeAndUpdateLoginStatus();
           }
         }, 3000);
       });
@@ -312,7 +314,7 @@ export default defineComponent({
 
             <aside class="login-dialog" visibility={!userStore.isLogin && loginDialogShow.value}>
               <header class="login-dialog-head">
-                <i class="iconfont icon-guanbi" onClick={closeLoginDialog}></i>
+                <i class="iconfont icon-guanbi" onClick={closeLoginDialog} title="关闭登录框"></i>
               </header>
 
               <section class="login-dialog-body">
