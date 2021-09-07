@@ -1,5 +1,5 @@
 import { anfrage, anfrageWithLoading } from "@/request";
-import { filterUselessKey } from "@utils/index";
+import { filterUselessKey, generateFormData } from "@utils/index";
 
 /**
  * 手机登录
@@ -20,14 +20,13 @@ export const loginWithPhone = (params: {
   countrycode?: string;
   md5_password?: string;
 }) => {
-  const formData = new FormData();
-  Object.entries(filterUselessKey(params)).forEach(([key, value]) => {
-    formData.append(key, value)
-  })
   return anfrageWithLoading({
     url: "/login/cellphone",
     method: "post",
-    data: formData,
+    data: generateFormData(params),
+    params: {
+      timestamp: new Date().valueOf(),
+    },
   })
 };
 
@@ -50,8 +49,8 @@ export function loginWithEmail(params: {
   return anfrageWithLoading({
     url: "/login",
     method: "post",
+    data: generateFormData(params),
     params: {
-      ...filterUselessKey(params),
       timestamp: new Date().valueOf(),
     },
   });

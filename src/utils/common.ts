@@ -203,6 +203,11 @@ export const isLooseEqual = (...args: [any, any]) => {
   }
 }
 
+/**
+ * 获取图片的主色（数组形式）
+ * @param imgUrl 
+ * @returns 
+ */
 const colorthief = new ColorThief();
 export const getImageMainColor = (imgUrl: string) => {
   return new Promise<ReturnType<typeof colorthief.getColor>>(
@@ -224,7 +229,25 @@ export const getImageMainColor = (imgUrl: string) => {
   );
 };
 
+/**
+ * 获取图片的主色（rgb形式）
+ * @param imgUrl 
+ * @returns 
+ */
 export const getImageMainColorString = async (imgUrl: string) => {
   const colorArr = await getImageMainColor(imgUrl);
   return `rgb(${colorArr.join(',')})`;
+}
+
+/**
+ * 生成formData表单数据
+ * @param params 
+ * @returns 
+ */
+export const generateFormData = (params: PlainObject) => {
+  const formData = new FormData();
+  Object.entries(filterUselessKey(params)).forEach(([key, value]) => {
+    formData.append(key, value);
+  });
+  return formData;
 }
