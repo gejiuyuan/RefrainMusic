@@ -3,6 +3,7 @@ import { userAccount, userDetail, userLikeList, userPlaylist, userSubcount } fro
 import { NaiveFormValidateError } from "@/shim";
 import useUserStore from "@/stores/user";
 import { is, phoneVerifyPatt } from "@/utils";
+import { messageBus } from "@/utils/event/register";
 import { FormItemRule, NButton, NCol, NForm, NFormItem, NGrid, NGridItem, NInput, NRow, NxButton } from "naive-ui";
 import {
   getCurrentInstance,
@@ -31,20 +32,33 @@ const loginTypes = [
 ]
 
 export enum QrCodeStatus {
-  '二维码已失效，请重新扫码登录' = 800,
-  '请打开网易云音乐APP进行扫码~~' = 801,
-  '正在登录，等待确认中...' = 802,
-  '授权登录成功~~~' = 803,
+  '二维码已失效，请重新扫码登录喔' = 800,
+  '请打开网易云音乐APP进行扫码唷~~' = 801,
+  '正在登录啦，赶快确认吧...' = 802,
+  '授权登录成功啦~~~' = 803,
 }
 
 export default defineComponent({
   name: "UserLogin",
   setup(props, context) {
-    // const vm = getCurrentInstance()!;
-    const loginWithPhoneFormRef = ref();
-    const loginDialogShow = ref(false);
     const userStore = useUserStore();
     const router = useRouter();
+    const loginWithPhoneFormRef = ref();
+    const loginDialogShow = ref(false);  
+    const currentLoginType = ref(loginTypes[0].key);
+    const phoneInfo = shallowReactive({
+      number: '',
+      password: '',
+    });
+    const qrCodeInfo = reactive({
+      img: '',
+      key: '',
+      scanStatusMsg: QrCodeStatus[801],
+      user: {
+        nickname: '',
+        avatarUrl: '',
+      }
+    });
 
     //页面刷新后判断一次是否登录
     userStore.judgeLoginStatus();
@@ -99,14 +113,12 @@ export default defineComponent({
     }
 
     const closeLoginDialog = () => {
-      loginDialogShow.value = false;
+      loginDialogShow.value = false; 
     }
 
-    const phoneInfo = shallowReactive({
-      number: '',
-      password: '',
-    })
-
+    /**
+    * 电话和密码登录规则
+    */
     const phoneRules: Record<'number' | 'password', FormItemRule | FormItemRule[]> = {
       number: [
         {
@@ -124,6 +136,9 @@ export default defineComponent({
       }
     }
 
+    /**
+     * 电话和密码登录
+     */
     const loginByPhoneClick = () => {
       loginWithPhoneFormRef.value!.validate(async (error: NaiveFormValidateError) => {
         if (error) {
@@ -137,6 +152,9 @@ export default defineComponent({
       })
     }
 
+    /**
+     * 登录区域内容信息
+     */
     const userLoginInfo = computed(() => {
       const isLogin = userStore.isLogin;
       const style = {
@@ -148,51 +166,78 @@ export default defineComponent({
       }
     })
 
-    const currentLoginType = ref(loginTypes[0].key);
-
+    /**
+     * 切换登录类型
+     * @param key 
+     */
     const switchLoginType = (key: string) => {
       currentLoginType.value = key;
-    } 
-
-    const qrCodeInfo = reactive({
-      img: '',
-      key: '',
-      scanStatusMsg: QrCodeStatus[801],
-    });
+    }  
      
-    let rotationQrCodeTimer:ReturnType<typeof setInterval>;
-    const rotationQrCodeScanStatus = (key: string) => {
-      rotationQrCodeTimer = setInterval(async () => {
-        const { code , message , cookie } = await getQrCodeScanStatus({ key });
-        qrCodeInfo.scanStatusMsg = QrCodeStatus[code];
-        //已过期
-        if(code === 800) {
-          clearInterval(rotationQrCodeTimer);
-        }else if(code === 803) {
-          clearInterval(rotationQrCodeTimer);
-          await userStore.judgeLoginStatus();
-        }
-      }, 3000);
-    } 
+    /**
+     * 刷新二维码、开始二维码登录的请求通道
+     */
+     let rotationQrCodeTimer:ReturnType<typeof setInterval>; 
+     const refrechOrBeginQrCode = (isRefresh=false) => {
+      clearInterval(rotationQrCodeTimer);
+      //重置让二维码登录提示
+      qrCodeInfo.scanStatusMsg = QrCodeStatus[801];
+      //重置用户待确认状态下的信息
+      qrCodeInfo.user.avatarUrl = '';
+      qrCodeInfo.user.nickname = '';
+      getQrCodeKey().then(async ({data: {unikey}}) => { 
+        qrCodeInfo.key = unikey; 
+        const { data: {qrimg,qrurl}} = await getQrCodeImgInfo({
+          key:unikey
+        })
+        qrCodeInfo.img = qrimg;
+        isRefresh && (
+          messageBus.dispatch('warnMessage', '二维码刷新成功啦!赶紧登录吧', {
+            duration: 3000,
+          })
+        )
+        rotationQrCodeTimer = setInterval(async () => {
+          const { code , message , cookie, avatarUrl, nickname } = await getQrCodeScanStatus({ key:unikey });
+          qrCodeInfo.scanStatusMsg = QrCodeStatus[code];
+          //已过期
+          if(code === 800) {
+            clearInterval(rotationQrCodeTimer);
+          }
+          //待确认中
+          else if(code === 802) {
+            qrCodeInfo.user.avatarUrl = avatarUrl;
+            qrCodeInfo.user.nickname = nickname;
+          }
+          else if(code === 803) {
+            clearInterval(rotationQrCodeTimer);
+            await userStore.judgeLoginStatus();
+          }
+        }, 3000);
+      });
+    }
 
+    /**
+     * 组件将要卸载时也要清除下轮训定时器，以防未知情况
+     */
     onBeforeUnmount(() => {
       clearInterval(rotationQrCodeTimer);
     });
 
     watchEffect(() => {
       if(currentLoginType.value === 'qrCode') {
-        getQrCodeKey().then(async ({data: {unikey}}) => { 
-          qrCodeInfo.key = unikey; 
-          const { data: {qrimg,qrurl}} = await getQrCodeImgInfo({
-            key:unikey
-          })
-          qrCodeInfo.img = qrimg;
-          rotationQrCodeScanStatus(unikey);
-        });
+        refrechOrBeginQrCode();
         return;
       }
+      //切换到其它登录方式下也要清除轮训定时器
       clearInterval(rotationQrCodeTimer);
-    })
+    });
+
+    watchEffect(() => {
+      //关闭登录框按钮后，重置登录模式为手机号登录
+      if(!loginDialogShow.value) {
+        switchLoginType(loginTypes[0].key);
+      }
+    });
 
     const renderLoginBody = () => {
       const currentLoginTypeValue = currentLoginType.value;
@@ -225,11 +270,27 @@ export default defineComponent({
           <div className="login-by-qrCode">
             <div className="qrCode-img">
               <img src={qrCodeInfo.img} alt="" />
+              {
+                qrCodeInfo.user.avatarUrl && (
+                  <div className="qrCode-user-mask">
+                    <div className="qrCode-user-avatar">
+                      <img src={qrCodeInfo.user.avatarUrl} alt="" title={qrCodeInfo.user.nickname}/> 
+                      <i className="iconfont icon-chenggong"></i>
+                    </div>
+                  </div>
+                )
+              }
             </div>
             <p class="qrCode-scan-status">
               {
                 qrCodeInfo.scanStatusMsg
               }
+            </p>
+            <p class="qrCode-refresh">
+              <em onClick={() => refrechOrBeginQrCode(true)} title="刷新二维码登录">
+                <i className="iconfont icon-refresh"></i>
+                <span>刷新二维码</span>
+              </em>
             </p>
           </div>
         )
