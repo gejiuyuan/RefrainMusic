@@ -5,19 +5,22 @@
   cursor: pointer;
 
   &.progressbar-horizontal {
+    @include flexVc();
     width: 100%;
-    padding: 6px 0;
+    height: $progressBarWidthOrHeight;
     .progressbar-buffer {
+      width: 100%;
       height: 2px;
     }
   }
 
   &.progressbar-vertical {
     height: 100%;
-    padding: 0 6px;
+    width: $progressBarWidthOrHeight;
     .progressbar-buffer {
       width: 4px;
       height: 100%;
+      margin: 0 auto;
       transform: scale(-1);
     }
   }

@@ -12,11 +12,11 @@
   overflow: hidden;
   z-index: 150;
   background-color: rgb(30, 40, 38);  
-  transform: translate3d(0, 100%, 0);
-  transition: transform .3s;
+  transform: translateY(100%);
+  transition: transform .3s; 
 
   &[show="true"] {
-    transform: translate3d(0, 0, 0);
+    transform: translateY(0);
   }
 
   .player-bgcover-mask {
@@ -54,25 +54,22 @@
     z-index: 153;
     width: 100%;
     height: 100%;
-    padding: 0 40px;
+    padding: 80px 60px 0 60px; 
     backdrop-filter: blur(18px);
   }
 }
 
 .player-content {
   .player-body {
-    height: 100%;
-    padding: 6% 5%;
-    flex: 1;
-    @include flexHbVe();
+    @include flexHc(); 
+    flex: 1; 
     .player-cover {
       flex: 3;
       align-self: center;
       @include flexHeVc();
     }
 
-    .player-info {
-      height: 100%;
+    .player-info { 
       flex: 5;
     }
 

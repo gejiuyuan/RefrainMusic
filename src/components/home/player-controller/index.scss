@@ -1,22 +1,16 @@
 @use "sass:math";
 @import "@scss/variable";
  
-.player-controller { 
+.player-controller {  
+  position: relative;
   height: $homeBottomControllerHeight;
   
-  &[lyricPageShow="false"] {
-    position: relative;
-    width: 100%;
+  &[lyricPageShow="false"] { 
     color: #666777; 
   }
   
-  &[lyricPageShow="true"] {
-    position: fixed;
-    bottom: 0; 
-    left: 0; 
-    right: 0;
+  &[lyricPageShow="true"] { 
     margin: 0 100px;
-    z-index: 200; 
     color: $colorbase; 
     .playbill-mask {
       transform: rotate(180deg);
@@ -24,16 +18,13 @@
   }
 
   .controller-progressbar {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 100%;
+    position: relative;
   }
 
-  .controller-main {
-    @include flexVc();
-    height: 100%;
-    padding: 8px 45px 12px 20px;
+  .controller-main { 
+    @include flexVc(); 
+    height: calc(100% - #{$progressBarWidthOrHeight});
+    padding: 8px 20px 16px 45px;
   }
 
   .main-block {
@@ -49,11 +40,9 @@
       justify-content: flex-end;
     }
   }
-
-  $playbillWidth: 60px;
+ 
   .music-playbill {
-    position: relative;
-    width: $playbillWidth;
+    position: relative; 
     height: 100%;
     overflow: hidden;
     border-radius: 4px;
@@ -85,8 +74,7 @@
     }
   }
 
-  .music-info {
-    width: calc(100% - #{$playbillWidth});
+  .music-info { 
     padding-left: 16px;
     overflow: hidden;
     

@@ -11,7 +11,8 @@ $lyricContainerMaxheight: 440px;
 $lyricItemheihgt: math.div($lyricContainerMaxheight , 11);
 
 $homeTopHeaderHeight: 80px;
-$homeBottomControllerHeight: 80px;
+$homeBottomControllerHeight: 90px;
+$progressBarWidthOrHeight: 14px;
 
 /* 控制不同类型的图标实时显示 */
 $iconTypes: order, singalLoop, random, loop, play, pause, volume, muted, full,

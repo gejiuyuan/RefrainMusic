@@ -90,8 +90,8 @@ export default defineComponent({
       if(idsStr) {
         const { songs } = await getMusicDetail({ ids: idsStr });
         playlist.tracks = songs;
-        songlistInfo.playlist = playlist;
       }
+      songlistInfo.playlist = playlist;
 
     };
 

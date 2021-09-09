@@ -295,7 +295,7 @@ export default defineComponent({
     }
 
     /**
-     * 组件将要卸载时也要清除下轮训定时器，以防未知情况
+     * 组件将要卸载时也要清除下轮询定时器，以防未知情况
      */
     onBeforeUnmount(() => {
       clearInterval(rotationQrCodeTimer);
@@ -306,7 +306,7 @@ export default defineComponent({
         refrechOrBeginQrCode();
         return;
       }
-      //切换到其它登录方式下也要清除轮训定时器
+      //切换到其它登录方式下也要清除轮询定时器
       clearInterval(rotationQrCodeTimer);
     });
 
