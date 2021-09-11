@@ -4,13 +4,13 @@ import "./index.scss";
 import { onKeyStroke } from "@vueuse/core";
 import usePlayerStore from "@/stores/player";
 import { padPicCrop } from "@/utils";
-import PlayerLyric from "@components/player/lyric"; 
+import PlayerLyric from "@/components/lyric"; 
 import { MusicSinger } from "@/widgets/music-tiny-comp";
-import HomeController from "@/components/home/player-controller";
+import HomeController from "@/components/player-controller";
 import { Transition , withDirectives, vShow } from "vue"; 
 
 export default defineComponent({
-  name: "Player",
+  name: "LyricPage",
   setup(props, context) { 
     const route = useRoute();
     const router = useRouter();
@@ -63,7 +63,7 @@ export default defineComponent({
       const { size, src } = playbillRef.value;
       const cropedSrc = padPicCrop(src, { x: 700, y: 700 }); 
       return ( 
-        <div class="player-detail" ref={playerDetailRef} show={isShow.value}>
+        <div class="lyric-page" ref={playerDetailRef} show={isShow.value}>
           <div
             class="player-bgcover-mask"
             style={{

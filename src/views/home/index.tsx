@@ -1,10 +1,10 @@
 import { defineComponent, onMounted, PropType, ref } from "vue";
-import HomeLeft from "@/components/home/home-left";
-import HomeHeader from "@components/home/home-header";
-import HomeController from "@/components/home/player-controller";
+import HomeLeft from "@/components/home-left";
+import HomeHeader from "@components/home-header";
+import HomeController from "@/components/player-controller";
 import "./index.scss";
 
-import PlayerQueue from "@/components/home/player-queue";
+import PlayerQueue from "@/components/player-queue";
 import { NBackTop, NGrid, NGridItem } from "naive-ui";
 import { RouterView } from "vue-router";
 

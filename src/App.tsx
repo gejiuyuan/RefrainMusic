@@ -1,7 +1,7 @@
 import { computed, defineComponent, reactive, toRef, watch } from "vue";
 import { RouterView, useRoute } from "vue-router";
 import "./App.scss";
-import Player from '@views/player';
+import LyricPage from '@views/lyric-page';
 import { NBackTop, useLoadingBar, useMessage } from "naive-ui";
 import { messageBus } from "./utils/event/register";
 
@@ -21,7 +21,7 @@ export default defineComponent({
       return (
         <>
           <RouterView></RouterView>
-          <Player></Player>
+          <LyricPage></LyricPage>
           <NBackTop
             listenTo=".player-container"
             visibilityHeight={100}
