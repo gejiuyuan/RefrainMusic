@@ -46,9 +46,7 @@ export default defineComponent({
         targetScrollTop < scrollTop + offsetHeight
       ) {
         return;
-      }
-      console.log(targetScrollTop);
-
+      } 
       listBodyElm.value!.scrollTop = targetScrollTop;
     }
 

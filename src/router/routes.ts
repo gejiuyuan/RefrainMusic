@@ -8,7 +8,11 @@ import MusicHallArtist from "@components/home/music-hall/artist";
 import MusicHallNewdisc from "@/components/home/music-hall/newestdisc";
 
 import MusicRadio from "@components/home/music-radio";
+
 import OnlineVideo from "@components/home/online-video";
+import VideoAll from "@components/home/online-video/all";
+import VideoCategory from "@components/home/online-video/category";
+
 import Setting from "@components/home/setting";
 
 import Artist from "@components/home/artist";
@@ -140,7 +144,18 @@ const routes: RouteRecordRaw[] = [
 
       {
         path: "onlinevideo",
+        redirect: "/onlinevideo/category",
         component: OnlineVideo,
+        children: [
+          {
+            path: 'all',
+            component: VideoAll,
+          },
+          {
+            path: 'category',
+            component: VideoCategory,
+          },
+        ]
       },
 
       {

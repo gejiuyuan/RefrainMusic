@@ -1,4 +1,4 @@
-//视频标签列表对象
+//视频标签和分类列表对象
 export type VideoTagItem = {
     abExtInfo: null | string;
     id: number;
@@ -6,6 +6,51 @@ export type VideoTagItem = {
     relatedVideoType: null | string;
     selectTab: boolean;
     url: null | string;
+}
+
+//全部视频列表
+export type allVideoItem = {
+    datas: allVideoDatasItem[];
+    hasMore: boolean;
+    msg: string;
+    rcmdLimit: number;
+}
+
+//全部视频列表-datas
+export type allVideoDatasItem = {
+    alg: string;
+    displayed: boolean;
+    extAlg: null | string;
+    type: number;
+    data: {
+        alg: string;
+        commentCount: number;
+        coverUrl: string;
+        creator: any;
+        description: null | string;
+        durationms: number;
+        hasRelatedGameAd: boolean;
+        width: number;
+        height: number;
+        markTypes: null | any[];
+        playTime: number;
+        praised: boolean;
+        praisedCount: number;
+        previewDurationms: number;
+        previewUrl: null | string;
+        relateSong: RelativeVideoItem[];
+        relatedInfo: null | any;
+        resolutions: { resolution: number, size: number }[]
+        scm: string;
+        shareCount: number;
+        subscribed: boolean;
+        threadId: string;
+        title: string;
+        urlInfo: null | any;
+        vid: string;
+        videoGroup: { id: 58101, name: "听BGM", alg: null }[]
+        videoUserLiveInfo: null;
+    }
 }
 
 //所有相关视频对象
