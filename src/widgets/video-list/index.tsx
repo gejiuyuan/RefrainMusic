@@ -10,6 +10,7 @@ import {
 import { getLocaleCount, is, padPicCrop } from "@utils/index";
 import { NEmpty, NGrid, NGridItem } from "naive-ui";
 import "./index.scss";
+import usePlayerStore from "@/stores/player";
 
 export const formatVideoList = (videoList:any) => {
     videoList.forEach((v: any) => {
@@ -44,6 +45,7 @@ export default defineComponent({
     },
     setup(props, context) {
         const router = useRouter();
+        const playerStore = usePlayerStore();
 
         const toVideoDetailPage = (vid: number) => {
             router.push({
@@ -51,7 +53,8 @@ export default defineComponent({
                 query: {
                     vid
                 }
-            })
+            });
+            playerStore.setVideoIsPlay(true);
         }
 
         const renderList = (videoList: any[]) => {
