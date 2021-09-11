@@ -52,15 +52,18 @@ export const playerQueueShow = (() => {
 //实际使用的currentSongInfo的类型
 export type PlayerStoreStateType = {
   currentSongInfo: CurrentSongInfo;
-  playerQueue: CurrentSongInfo[],
+  playerQueue: CurrentSongInfo[];
   personalFM: {
     songList: any[];
     isFM: boolean;
-  },
+  };
   lyric: {
     common: string;
     translation: string;
   };
+  video: {
+    isPlay: boolean;
+  }
 };
 
 //初始的currentSongInfo
@@ -96,6 +99,9 @@ const usePlayerStore = defineStore({
         isFM: false,
         songList: [],
       },
+      video: {
+        isPlay: !playingRefGlobal.value,
+      }
     };
     return playerState;
   },
@@ -107,9 +113,17 @@ const usePlayerStore = defineStore({
     },
   },
   actions: {
+
     //发布后置执行的标识
     publishAfterMark(mark: any) {
       return mark;
+    },
+
+    setVideoIsPlay(value: boolean) {
+      this.video.isPlay = value;
+      if (value === true) {
+        playingRefGlobal.value = false;
+      }
     },
 
     //处理播放歌曲需要的数据

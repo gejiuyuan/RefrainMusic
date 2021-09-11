@@ -1,0 +1,15 @@
+@import "@/scss/variable"; 
+.video-page {
+  @include flex();
+  .video-content {
+    width: 800px;
+    video {
+      object-fit: contain;
+    }
+  }
+
+  .video-aside {
+    flex: 1;
+  }
+
+}

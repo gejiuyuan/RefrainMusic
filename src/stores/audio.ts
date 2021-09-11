@@ -4,6 +4,7 @@ import useHowler from "@/use/useHowler";
 import { UNICODE_CHAR, is, extend, isURL } from "@utils/index";
 import { messageBus } from "@utils/event/register";
 import EventDispatcher from "@/utils/event/event";
+import usePlayerStore from "./player";
 
 export const {
   state: stateHowlerRef,
@@ -45,6 +46,9 @@ export const playingRefGlobal = (() => {
         if (!is.boolean(value)) {
           console.error(`The 'playing' must be a boolean!`);
           return;
+        }
+        if (value === true) {
+          usePlayerStore().setVideoIsPlay(false);
         }
         playingHowlerRef.value = playing = value;
         localStorage.setItem(PreferenceNames.playing, String(playing));
