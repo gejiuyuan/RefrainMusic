@@ -11,7 +11,7 @@ export type VideoTagItem = {
 //全部视频列表
 export type allVideoItem = {
     datas: allVideoDatasItem[];
-    hasMore: boolean;
+    hasmore: boolean;
     msg: string;
     rcmdLimit: number;
 }

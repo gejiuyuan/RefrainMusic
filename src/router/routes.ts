@@ -144,7 +144,7 @@ const routes: RouteRecordRaw[] = [
 
       {
         path: "onlinevideo",
-        redirect: "/onlinevideo/category",
+        redirect: "/onlinevideo/all",
         component: OnlineVideo,
         children: [
           {

@@ -5,15 +5,37 @@ import keepAliveRouterview from "@/widgets/keep-alive-routerview";
 import { NSpace, NxButton } from "naive-ui";
 import { computed, defineComponent, inject, markRaw, onMounted, reactive, readonly, ref, shallowReactive, shallowRef, watch, watchEffect } from "vue";
 import { onBeforeRouteUpdate, RouteLocationNormalized, RouteLocationNormalizedLoaded, useRoute, useRouter } from "vue-router";
-import { AllVideosInfoType, CategoryVideosInfoType } from "..";
 import VideoList from '@widgets/video-list';
 import "./index.scss";
 import { is } from "@/utils";
+export interface CategoryVideosInfoType {
+  tagList: VideoTagItem[];
+  categoryList: VideoTagItem[];
+} 
+
+/**
+ * 对tagList、categoryList内容排序
+ * @param list 
+ * @returns 
+ */
+ export const getSortedTagOrCategoryList = (list: VideoTagItem[]) => {
+  return list.sort((a,b) => a.name.localeCompare(b.name, void 0, {
+    //地域匹配算法
+    localeMatcher: 'lookup',
+    //排序敏感程度
+    sensitivity: 'base',
+    //是否忽略标点符号
+    ignorePunctuation: false,
+    //是否使用数字排序
+    numeric: true,
+    //大小写排序顺序：小写优先
+    caseFirst: 'lower',
+  })); 
+}
 
 export default defineComponent({
   name: "OnlineVideoCategory",
-  setup(props, context) {
-    const categoryVideosInfo = inject<CategoryVideosInfoType>('categoryVideosInfo')!;
+  setup(props, context) { 
     const route = useRoute();
     const router = useRouter();
     const activeInfo = reactive({
@@ -22,7 +44,20 @@ export default defineComponent({
       offset: 0,
       hasMore: true,
       msg: '',
-    });  
+    }); 
+
+    const categoryVideosInfo = reactive<CategoryVideosInfoType>({
+      tagList: [],
+      categoryList: [],
+    });
+  
+    getVideoTagList().then(({data}) => {
+      categoryVideosInfo.tagList = getSortedTagOrCategoryList(data);
+    });
+    
+    getVideoCategoryList().then(({data}) => {
+      categoryVideosInfo.categoryList = getSortedTagOrCategoryList(data);
+    });
 
     const getVideoList = async () => {
       const { offset = 0 } = route.query  
@@ -43,11 +78,11 @@ export default defineComponent({
     } 
 
     watch<[string, VideoTagItem[]]>(() => [route.query.tag as string, categoryVideosInfo.tagList], ([tagName, tagList]) => {
-      const targetTagIndex = tagList.findIndex(({name}) => name === tagName);  
-      activeInfo.index = ~targetTagIndex ? is.undefined(tagName) ? 0 : targetTagIndex : targetTagIndex;
+      const targetTagIndex = tagList.findIndex(({name}) => name === tagName);   
+      activeInfo.index = ~targetTagIndex ? targetTagIndex : 0;
     });
 
-    watch(() => activeInfo.index, (index) => {   
+    watch(() => activeInfo.index, (index) => {    
       getVideoList();
     });
 
@@ -95,7 +130,7 @@ export default defineComponent({
         {
           renderVideoTagList()
         }
-        <section className="video-layer">
+        <section className="video-category-layer">
           <VideoList videoList={activeInfo.videoList}></VideoList>
         </section>
       </section>;
