@@ -175,7 +175,7 @@ export default defineComponent({
             </h4>
             {
               weekData && (
-                <AlbumList albumList={weekData} gaps={{ x: 50, y: 40 }}></AlbumList>
+                <AlbumList albumList={weekData} gaps={{ x: 60, y: 50 }} isNew={true}></AlbumList>
               )
             }
           </section>
@@ -186,7 +186,7 @@ export default defineComponent({
             </h4>
             {
               monthData && (
-                <AlbumList albumList={monthData} gaps={{ x: 50, y: 40 }}></AlbumList>
+                <AlbumList albumList={monthData} gaps={{ x: 60, y: 50 }} isNew={true}></AlbumList>
               )
             }
           </section>
