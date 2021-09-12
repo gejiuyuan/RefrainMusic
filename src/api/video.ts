@@ -17,7 +17,7 @@ export function getVideoTagList() {
  */
 export function getVideoCategoryList() {
     return anfrageWithLoading({
-        url: '/video/category/list'
+        url: '/video/category/list',
     })
 }
 
@@ -34,7 +34,8 @@ export function getVideos(param: {
     return anfrageWithLoading({
         url: "/video/group",
         params: {
-            id, offset
+            id, offset,
+            timestamp: new Date().valueOf(),
         }
     })
 }
@@ -53,7 +54,8 @@ export function getAllVideoList(
     return anfrageWithLoading({
         url: '/video/timeline/all',
         params: {
-            offset
+            offset,
+            timestamp: new Date().valueOf(),
         }
     })
 }
@@ -72,7 +74,8 @@ export function getRecommendVideos(
     return anfrageWithLoading({
         url: '/video/timeline/recommend',
         params: {
-            offset
+            offset,
+            timestamp: new Date().valueOf(),
         }
     })
 }
@@ -89,7 +92,8 @@ export function getRelativeVideos(param: {
     return anfrageWithLoading({
         url: '/related/allvideo',
         params: {
-            id
+            id,
+            timestamp: new Date().valueOf(),
         }
     })
 }
@@ -107,7 +111,8 @@ export function getVideoDetail(param: {
     return anfrageWithLoading({
         url: "/video/detail",
         params: {
-            id
+            id,
+            timestamp: new Date().valueOf(),
         }
     })
 }
@@ -124,7 +129,8 @@ export function getVideoRelativeInfo(param: {
     return anfrageWithLoading({
         url: '/video/detail/info',
         params: {
-            vid
+            vid,
+            timestamp: new Date().valueOf(),
         }
     })
 }
@@ -151,7 +157,8 @@ export function getVideoComments(param: {
             id,
             limit,
             offset: +offset * +limit,
-            before
+            before,
+            timestamp: new Date().valueOf(),
         }
     })
 }
@@ -168,7 +175,19 @@ export function getVideoPlaybackSource(param: {
     return anfrageWithLoading({
         url: "/video/url",
         params: {
-            id
+            id,
         }
     })
+}
+
+/**
+ * 获取点赞过的视频
+ */
+export function getPraisedVideos() {
+    return anfrageWithLoading({
+        url: '/playlist/mylike',
+        params: {
+            timestamp: new Date().valueOf(),
+        }
+    });
 }

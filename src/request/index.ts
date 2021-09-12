@@ -11,7 +11,7 @@ export function createRequestInstance(responseType: RyokoResponseType = 'json') 
     cache: "force-cache",
     responseType,
     onDefer(deferMsg) { },
-    verifyStatus: (status) => status >= 200 && status < 400,
+    verifyStatus: (status) => status >= 200 && status < 500,
   });
   ins.interceptors.response.use((res) => res.data, (err: any) => {
     console.info(err.message, '请求出错啦~~')

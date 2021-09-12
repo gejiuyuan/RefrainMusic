@@ -1,6 +1,8 @@
 import { getQrCodeImgInfo, getQrCodeKey, getQrCodeScanStatus, loginStatus, loginWithEmail, loginWithPhone } from "@/api/auth";
-import { userAccount, userDetail, userLikeList, userPlaylist, userSubcount } from "@/api/user";
+import { userAccount, userCollectedMv, userDetail, userLikeList, userPlaylist, userSubcount } from "@/api/user";
+import { getPraisedVideos } from "@/api/video";
 import { NaiveFormValidateError } from "@/shim";
+import usePlayerStore from "@/stores/player";
 import useUserStore from "@/stores/user";
 import { emailVerifyPatt, is, phoneVerifyPatt } from "@/utils";
 import { messageBus } from "@/utils/event/register";
@@ -85,6 +87,7 @@ export default defineComponent({
   setup(props, context) {
     const userStore = useUserStore();
     const router = useRouter();
+    const playerStore = usePlayerStore();
     /**
      * 电话登录表单的Ref
      */
@@ -161,6 +164,14 @@ export default defineComponent({
 
           //我喜欢的音乐ids
           userLikeList({ uid: id }).then(({ ids }) => userStore.myLoveListIds = ids);
+
+          //点赞过的视频
+          getPraisedVideos().then(({data: {feeds}}) => playerStore.video.beLiked = feeds );
+
+          //收藏的mv
+          userCollectedMv().then(({data}) => {
+            playerStore.mv.beCollected = data;
+          });
 
           //我的歌单
           userPlaylist({ uid: id }).then(({ playlist }) => {

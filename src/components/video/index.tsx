@@ -1,4 +1,4 @@
-import { defineComponent, nextTick, ref, shallowReactive, shallowReadonly, watch, watchEffect } from "vue";
+import { computed, defineComponent, nextTick, reactive, ref, shallowReactive, shallowReadonly, watch, watchEffect } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import "./index.scss";
 
@@ -20,6 +20,9 @@ import VideoList from "@/widgets/video-list";
 import FollowButton from "@/widgets/follow-button";
 import { NSpace, NxButton } from "naive-ui";
 import YuanButton from "@/widgets/yuan-button";
+import { praiseResource } from "@/api/other";
+import { userVideoCollect } from "@/api/user";
+import { messageBus } from "@/utils/event/register";
 
 export default defineComponent({
   name: "Video",
@@ -28,7 +31,7 @@ export default defineComponent({
     const router = useRouter();
     const playerStore = usePlayerStore();
     const videoRef = ref<HTMLVideoElement>()
-    const videoData = shallowReactive({
+    const videoData = reactive({
       relativeInfo: {
         commentCount: 0,
         liked: false,
@@ -41,7 +44,9 @@ export default defineComponent({
         creator: {
           avatarUrl: '',
         },
-      } as VideoDetailInfoItem
+        vid: '',
+      } as VideoDetailInfoItem,
+      isCollected: false,
     });
 
     const videoUrlInfo = ref<VideoPlaybackSourceItem[]>([{  
@@ -53,6 +58,10 @@ export default defineComponent({
       url: '',
       validityTime: 0
     }]);
+ 
+    watch(() => [videoData.detail.description, videoData.detail.vid, playerStore.video.beLiked],() => {
+      videoData.isCollected = playerStore.isVideoBeLiked(videoData.detail.vid, videoData.detail.description);
+    });
 
     const recommendVideos = ref<any[]>([]);
  
@@ -110,19 +119,62 @@ export default defineComponent({
       })
     }
 
+    /**
+     * 收藏视频
+     * @param value 
+     */
+    const collectVideoHandler = async (value: boolean) => {
+      const { code , message } = await userVideoCollect({
+        id: String(route.query.vid),
+        sure: value,
+      });      
+      const isSuccess = code === 200;
+      let messageTopic = 'warnMessage';
+      if(isSuccess) {
+        videoData.isCollected = value;
+        videoData.detail.subscribeCount = videoData.detail.subscribeCount + (value ? 1 : -1);
+        messageTopic = 'successMessage';
+      }
+      messageBus.dispatch(messageTopic, message);
+    }
+
+    /**
+     * 点赞视频
+     * @param value 
+     */
+    const praiseVideoHandler = async (value: boolean) => {
+      const { code } = await praiseResource({
+        id: String(route.query.vid),
+        sure: value,
+        type: 5,
+      });  
+      const isSuccess = code === 200; 
+      let messageTopic = 'warnMessage';
+      let msg = '取消点赞成功~~';
+      if(isSuccess) {
+        videoData.relativeInfo.liked = value; 
+        videoData.relativeInfo.likedCount = videoData.relativeInfo.likedCount + (value ? 1 : -1); 
+        messageTopic = 'successMessage';
+        value && (msg = '点赞成功~~');
+      }
+      messageBus.dispatch(
+        messageTopic, 
+        msg
+      );
+    }
+
     return () => {
       const [{url}] = videoUrlInfo.value;
-      const { detail, relativeInfo: {commentCount, likedCount , shareCount, liked} } = videoData;
-      const { title, publishTime, praisedCount, videoGroup, creator: { avatarUrl, nickname } } = detail;
+      const { detail, isCollected, relativeInfo: { liked, likedCount, shareCount } } = videoData;
+      const { title, publishTime, videoGroup, subscribeCount, creator: { avatarUrl, nickname } } = detail;
       const videoAuthorAvatarUrl = padPicCrop(avatarUrl, {x: 80, y:80});
       const videoAvatarStyle = `background-image:url(${videoAuthorAvatarUrl})`;
-      const publishTimeStr = getLocaleDate(publishTime);
+      const publishTimeStr = getLocaleDate(publishTime);  
+      const subscribeCountStr = getLocaleCount(subscribeCount);
       const likedCountStr = getLocaleCount(likedCount);
       const shareCountStr = getLocaleCount(shareCount);
-      const praisedCountStr = getLocaleCount(praisedCount);
 
       return <section class="video-page">
-
         <div className="video-content">
           <div className="video-container">
             <video 
@@ -164,13 +216,13 @@ export default defineComponent({
             </div>
             <div className="video-buttons">
               <NSpace size={30}>
-                  <YuanButton>
-                    <i className="iconfont icon-shoucang"></i>
-                    <em>收藏{likedCountStr}</em>
+                  <YuanButton isActive={isCollected} onUpdateIsActive={(value) => collectVideoHandler(value)}>
+                    <i className="iconfont icon-collect" iconactive={isCollected}></i>
+                    <em>收藏{subscribeCountStr}</em>
                   </YuanButton>
-                  <YuanButton>
-                    <i className="iconfont icon-dianzan2"></i>
-                    <em>赞{praisedCountStr}</em> 
+                  <YuanButton isActive={liked} onUpdateIsActive={(value) => praiseVideoHandler(value)}>
+                    <i className="iconfont icon-praise" iconactive={liked}></i>
+                    <em>赞{likedCountStr}</em> 
                   </YuanButton>
                   <YuanButton>
                     <i className="iconfont icon-fenxiang"></i>

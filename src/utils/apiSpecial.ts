@@ -1,3 +1,4 @@
+import usePlayerStore from "@/stores/player";
 import { NewestSongInfo, SongInfo } from "@/types/song";
 import { is } from "@utils/index";
 import { getLocaleCount } from "./calc";

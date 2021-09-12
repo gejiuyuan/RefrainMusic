@@ -210,11 +210,18 @@ export function userLoveArtist() {
  *
  */
 
-export function userVideoCollect(params: Record<"id" | "t", number>) {
+export function userVideoCollect(params: {
+  id: string | number;
+  sure: boolean;
+}) {
+  const { id, sure } = params;
   return anfrageWithLoading({
     url: "/video/sub",
     method: "post",
-    params,
+    params: {
+      id,
+      t: sure ? 1 : -1
+    },
   });
 }
 
@@ -225,11 +232,18 @@ export function userVideoCollect(params: Record<"id" | "t", number>) {
  *
  */
 
-export function userMvCollect(params: Record<"mvid" | "t", number>) {
+export function userMvCollect(params: {
+  id: string | number;
+  sure: boolean;
+}) {
+  const { id, sure } = params;
   return anfrageWithLoading({
     url: "/mv/sub",
     method: "post",
-    params: filterUselessKey(params),
+    params: {
+      mvid: id,
+      t: sure ? 1 : -1,
+    },
   });
 }
 
@@ -238,11 +252,9 @@ export function userMvCollect(params: Record<"mvid" | "t", number>) {
  *
  */
 
-export function userCollectedMv(params: Record<"mvid" | "t", number>) {
+export function userCollectedMv() {
   return anfrageWithLoading({
     url: "/mv/sublist",
-    method: "get",
-    params: filterUselessKey(params),
   });
 }
 

@@ -86,3 +86,31 @@ export function getCountryCode() {
     url: '/countries/code/list',
   })
 }
+
+/**
+ * 点赞（MV、电台、视频）
+ * @param params 
+ *  type:资源类型,对应以下类型：1: mv、4: 电台、5: 视频、6: 动态
+ *  t: 操作,1 为点赞,其他未取消点赞 
+ *  id: 资源 id
+ * @returns 
+ * @introduction 
+ *  注意：如给动态点赞，不需要传入 id，需要传入 threadId,
+ *  可通过 event,/user/event 接口获取，如： /resource/like?t=1&type=6&threadId=A_EV_2_6559519868_32953014
+ */
+export function praiseResource(params: {
+  id: string | number;
+  sure: boolean;
+  type: 1 | 4 | 5 | 6
+}) {
+  const { id, sure, type } = params;
+  return anfrageWithLoading({
+    url: '/resource/like',
+    method: 'post',
+    params: {
+      id,
+      type,
+      t: sure ? 1 : -1
+    }
+  });
+}

@@ -99,6 +99,10 @@ i {
   visibility: hidden;
 }
 
+[iconactive="true"] {
+  color: var(--theme);
+}
+
 @supports (aspect-ratio: 1) {
   @for $ratio from 1 through 70 {
     $realRatio: math.div($ratio, 10);

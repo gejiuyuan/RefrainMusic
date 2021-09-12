@@ -7,6 +7,8 @@ import { CurrentSongInfo, getModifiedSongInfo } from "@/utils/apiSpecial";
 import { getOrPutCurrentSong, getOrPutPlayQueue, playerDB } from "@/database";
 import { customRef, toRefs } from "vue";
 import { PreferenceNames } from "@/utils/preference";
+import { VideoBeLiked } from "@/types/video";
+import { Mv } from "@/types/mv";
 
 export const defaultPlayerPreferences = {
   //主题色
@@ -63,6 +65,10 @@ export type PlayerStoreStateType = {
   };
   video: {
     isPlay: boolean;
+    beLiked: VideoBeLiked[];
+  },
+  mv: {
+    beCollected: Mv[];
   }
 };
 
@@ -101,6 +107,10 @@ const usePlayerStore = defineStore({
       },
       video: {
         isPlay: !playingRefGlobal.value,
+        beLiked: [],
+      },
+      mv: {
+        beCollected: [],
       }
     };
     return playerState;
@@ -169,6 +179,16 @@ const usePlayerStore = defineStore({
         this.lyric.translation = nolyric ? "" : tlyric!.lyric;
       });
     },
+
+    //视频是否已被收藏过
+    isVideoBeLiked(videoId: string | number, description?: string) {
+      return this.video.beLiked.some(({ mlogBaseData: { id, text, desc } }) => id == videoId || description?.includes(desc));
+    },
+
+    //视频（mv）是否已被收藏
+    isMvBeCollected(mvId: string | number) {
+      return this.mv.beCollected.some(({ id }) => id == mvId);
+    }
   },
 });
 

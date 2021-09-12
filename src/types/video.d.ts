@@ -1,3 +1,5 @@
+import { SingerInfo } from "./singer"
+
 //视频标签和分类列表对象
 export type VideoTagItem = {
     abExtInfo: null | string;
@@ -135,4 +137,43 @@ export type VideoDetailInfoItem = {
         name: string;
         alg: null
     }>;
+}
+
+export type VideoBeLiked = {
+    mlogBaseData: {
+        audioDTO: null;
+        coverColor: number;
+        coverDynamicUrl: null;
+        coverHeight: number;
+        coverPicKey: string;
+        coverUrl: string;
+        coverWidth: number;
+        desc: string;
+        duration: number;
+        greatCover: boolean;
+        id: string;
+        interveneText: null;
+        pubTime: number;
+        talk: null;
+        text: string;
+        threadId: string;
+        type: number;
+    },
+    mlogExtVO: {
+        algSong: null;
+        artistName: string;
+        artists: SingerInfo[];
+        canCollect: boolean;
+        channelTag: null;
+        commentCount: number;
+        likedCount: number;
+        playCount: number;
+        shareCount: number;
+        song: any;
+        specialTag: null | any;
+        videoStartPlayTime: null | number;
+    },
+    shareUrl: string;
+    status: number;
+    userProfile: null | any;
 }
