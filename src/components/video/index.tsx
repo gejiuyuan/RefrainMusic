@@ -17,11 +17,11 @@ import { extend, getLocaleCount, getLocaleDate, padPicCrop } from "@/utils";
 import { VideoDetailInfoItem, VideoPlaybackSourceItem } from "@/types/video";
 import usePlayerStore from "@/stores/player";
 import VideoList from "@/widgets/video-list";
-import FollowButton from "@/widgets/follow-button";
+import FollowButton, { FollowType } from "@/widgets/follow-button";
 import { NSpace, NxButton } from "naive-ui";
 import YuanButton from "@/widgets/yuan-button";
 import { praiseResource } from "@/api/other";
-import { userVideoCollect } from "@/api/user";
+import { unOrFocusUser, userVideoCollect } from "@/api/user";
 import { messageBus } from "@/utils/event/register";
 
 export default defineComponent({
@@ -163,16 +163,24 @@ export default defineComponent({
       );
     }
 
+    /**
+     * 关注用户状态改变
+     * @param isFollow 
+     */
+    const followedChangeHandler = async (isFollow: boolean) => {
+      videoData.detail.creator.followed = isFollow;
+    }
+
     return () => {
       const [{url}] = videoUrlInfo.value;
       const { detail, isCollected, relativeInfo: { liked, likedCount, shareCount } } = videoData;
-      const { title, publishTime, videoGroup, subscribeCount, creator: { avatarUrl, nickname } } = detail;
+      const { title, publishTime, videoGroup, subscribeCount, creator: { avatarUrl, userId, nickname, followed } } = detail;
       const videoAuthorAvatarUrl = padPicCrop(avatarUrl, {x: 80, y:80});
       const videoAvatarStyle = `background-image:url(${videoAuthorAvatarUrl})`;
       const publishTimeStr = getLocaleDate(publishTime);  
       const subscribeCountStr = getLocaleCount(subscribeCount);
       const likedCountStr = getLocaleCount(likedCount);
-      const shareCountStr = getLocaleCount(shareCount);
+      const shareCountStr = getLocaleCount(shareCount); 
 
       return <section class="video-page">
         <div className="video-content">
@@ -191,8 +199,13 @@ export default defineComponent({
             <header className="video-author">
               <i class="author-avatar" style={videoAvatarStyle} title={nickname}>
                 <em>{nickname}</em>
-              </i> 
-              <FollowButton></FollowButton>
+              </i>  
+              <FollowButton 
+                userId={userId} 
+                followed={followed} 
+                followType={FollowType.user}
+                onUpdateFollow={followedChangeHandler}
+              ></FollowButton>
             </header>
             <h3 class="video-title" title={title} singallinedot>
               {title}

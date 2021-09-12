@@ -1,4 +1,4 @@
-import { anfrageWithLoading } from "@/request";
+import { anfrage, anfrageWithLoading } from "@/request";
 import { filterUselessKey } from "@utils/index";
 
 /**
@@ -20,7 +20,6 @@ import { filterUselessKey } from "@utils/index";
  *              0:其他
  *
  */
-
 type artistParams = "limit" | "offset" | "initial" | "type" | "area";
 export function artistList(
   params: Partial<Record<artistParams, number | string>>
@@ -44,12 +43,16 @@ export function artistList(
  *  - id 歌手id
  *  - t 操作，1为收藏，其他为取消收藏
  */
-
-export function artistSub(params: { id: number | string; t: number | string }) {
-  return anfrageWithLoading({
+export function artistSub(params: { id: number | string; sure: boolean }) {
+  const { sure, id } = params;
+  return anfrage({
     url: "/artist/sub",
     method: "post",
-    params,
+    params: {
+      id,
+      t: sure ? 1 : -1,
+      timestamp: new Date().valueOf(),
+    },
   });
 }
 
@@ -75,7 +78,6 @@ export function artistTopSong(params: { id: number | string }) {
  *  - limit: 取出歌单数量 , 默认为 50
  *  - offset: 偏移数量 , 用于分页 , 如 :( 评论页数 -1)*50, 其中 50 为 limit 的值
  */
-
 export function artistSongs(params: {
   id: number | string;
   order?: string;
@@ -98,19 +100,20 @@ export function artistSongs(params: {
 /**
  * 获取歌手单曲
  */
-
 export function artistSingalSongs(params: { id: string | number }) {
   return anfrageWithLoading({
     url: "/artists",
     method: "get",
-    params,
+    params: {
+      ...params,
+      timestamp: new Date().valueOf(),
+    },
   });
 }
 
 /**
  * 获取歌手专辑
  */
-
 export function artistAlbum(params: {
   id: string | number;
   limit?: number | string;
@@ -124,6 +127,7 @@ export function artistAlbum(params: {
       id,
       limit,
       offset: +limit * +offset,
+      timestamp: new Date().valueOf(),
     },
   });
 }
@@ -132,7 +136,6 @@ export function artistAlbum(params: {
  * 获取歌手mv
  * @param id 歌手id
  */
-
 export function artistMv(params: {
   id: string | number;
   limit?: number | string;
@@ -146,6 +149,7 @@ export function artistMv(params: {
       id,
       limit,
       offset: +limit * +offset,
+      timestamp: new Date().valueOf(),
     }),
   })
 }
@@ -208,7 +212,6 @@ export function artistHot(params: {
 /**
  * 歌手榜
  */
-
 export function artistTopList(params: { type?: number | string }) {
   return anfrageWithLoading({
     url: "/toplist/artist",

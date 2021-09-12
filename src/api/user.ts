@@ -1,4 +1,4 @@
-import { anfrageWithLoading } from "@/request";
+import { anfrage, anfrageWithLoading } from "@/request";
 import { filterUselessKey } from "@utils/index";
 
 /**
@@ -7,7 +7,6 @@ import { filterUselessKey } from "@utils/index";
  * - uid : 用户 id
  * @param {number} uid
  */
-
 export function userDetail(uid: string | number) {
   return anfrageWithLoading({
     url: "/user/detail",
@@ -161,11 +160,15 @@ export function userFans(params: {
  * @param {number} id
  * @param {number} t
  */
-export function unOrFocusUser(params: { id: string | number; t: number }) {
-  return anfrageWithLoading({
+export function unOrFocusUser(params: { id: string | number; sure: boolean }) {
+  const { id, sure } = params;
+  return anfrage({
     url: "/follow",
     method: "post",
-    params,
+    params: {
+      id,
+      t: sure ? 1 : -1
+    }
   });
 }
 
@@ -192,7 +195,6 @@ export function userRecord(params: { uid: string | number; type?: 0 | 1 }) {
  * 收藏的歌手列表
  *
  */
-
 export function userLoveArtist() {
   return anfrageWithLoading({
     url: "/artist/sublist",
@@ -209,13 +211,12 @@ export function userLoveArtist() {
  *  - t 1为收藏，其他为取消收藏
  *
  */
-
 export function userVideoCollect(params: {
   id: string | number;
   sure: boolean;
 }) {
   const { id, sure } = params;
-  return anfrageWithLoading({
+  return anfrage({
     url: "/video/sub",
     method: "post",
     params: {
@@ -231,13 +232,12 @@ export function userVideoCollect(params: {
  *  - t 1为收藏，其他为取消收藏
  *
  */
-
 export function userMvCollect(params: {
   id: string | number;
   sure: boolean;
 }) {
   const { id, sure } = params;
-  return anfrageWithLoading({
+  return anfrage({
     url: "/mv/sub",
     method: "post",
     params: {
@@ -251,7 +251,6 @@ export function userMvCollect(params: {
  * 收藏的 MV 列表
  *
  */
-
 export function userCollectedMv() {
   return anfrageWithLoading({
     url: "/mv/sublist",
@@ -262,7 +261,6 @@ export function userCollectedMv() {
  * 喜欢音乐列表
  *
  */
-
 export function userLikeList(params: { uid: number | string }) {
   return anfrageWithLoading({
     url: "/likelist",
@@ -282,7 +280,7 @@ export function userLikeMusic(params: {
   id: string | number,
   like: boolean,
 }) {
-  return anfrageWithLoading({
+  return anfrage({
     url: '/like',
     method: "post",
     params: filterUselessKey(params)

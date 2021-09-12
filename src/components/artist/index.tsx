@@ -23,7 +23,7 @@ import {
   NGridItem
 } from 'naive-ui'
 
-import FollowButton from "@widgets/follow-button";
+import FollowButton, { FollowType } from "@widgets/follow-button";
 import CommonRouterList from "@/widgets/common-router-list";
 import KeepAliveRouterview from "@/widgets/keep-alive-routerview";
 
@@ -39,6 +39,7 @@ export type Artist = {
   picUrl: string;
   publishTime: number;
   name: string;
+  id: string | number;
 };
 
 export type ArtistMenu = {
@@ -65,8 +66,8 @@ export default defineComponent({
     const router = useRouter();
     const route = useRoute();
 
-    const information = shallowReactive<{
-      artist: Artist;
+    const information = reactive<{
+      artist: Artist; 
     }>({
       artist: {
         alias: [],
@@ -74,6 +75,7 @@ export default defineComponent({
         followed: false,
         picUrl: "",
         publishTime: 0,
+        id: '',
         name: "",
       },
     });
@@ -88,20 +90,16 @@ export default defineComponent({
         total.push(item);
         return total;
       }, [] as MenuList[])
-    );
-    const activeMenuValue = computed(() => {
-      const { path } = route;
-      return menuList.find(({ key }) => path.includes(key))?.text || menuList[0].text;
-    });
-
+    ); 
+    
     const getArtistDetail = async (route: RouteLocationNormalized) => {
       const query = route.query as PlainObject<string>;
       const id = query.id + "";
       menuList.forEach((item, i) => {
         item.to = `/artist/${item.key}${objToQuery(query, true)}`;
       });
-      const { artist: artistInfo = [] } = await artistSingalSongs({ id });
-      information.artist = freeze(artistInfo);
+      const { artist: artistInfo = {} } = await artistSingalSongs({ id });
+      information.artist = artistInfo;
     };
 
     getArtistDetail(route);
@@ -112,6 +110,10 @@ export default defineComponent({
       }
       next();
     });
+
+    const followChangeHandler = (isFollow: boolean) => {
+      information.artist.followed = isFollow;
+    } 
 
     return () => {
       const { artist } = information;
@@ -139,7 +141,12 @@ export default defineComponent({
                   <span class="artist-alias">{artist.alias.join("、")}</span>
                 </h2>
                 <div class="artist-operate">
-                  <FollowButton></FollowButton>
+                  <FollowButton 
+                    userId={artist.id} 
+                    followed={artist.followed} 
+                    followType={FollowType.artist}
+                    onUpdateFollow={followChangeHandler} 
+                  ></FollowButton>
                 </div>
               </section>
             </NGridItem>

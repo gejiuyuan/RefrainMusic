@@ -104,7 +104,7 @@ export function praiseResource(params: {
   type: 1 | 4 | 5 | 6
 }) {
   const { id, sure, type } = params;
-  return anfrageWithLoading({
+  return anfrage({
     url: '/resource/like',
     method: 'post',
     params: {
