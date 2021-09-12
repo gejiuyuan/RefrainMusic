@@ -2,9 +2,10 @@ import ryoko, { abortPendingRequest, InterceptorCtor, RyokoResponseType } from "
 import type { RyokoClass } from 'ryoko';
 import { messageBus } from "@/utils/event/register";
 import { nextTick } from "vue";
+
 export function createRequestInstance(responseType: RyokoResponseType = 'json') {
   const ins = ryoko.create({
-    mode: "cors",
+    mode: 'cors',
     prefixUrl: import.meta.env.VITE_APP_PREFIX_URL as string,
     timeout: 15000,
     cache: "force-cache",
