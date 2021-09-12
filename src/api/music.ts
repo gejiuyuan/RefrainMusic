@@ -19,7 +19,10 @@ export function getMusic(
   return anfrageWithLoading({
     url: "/song/url",
     method: "get",
-    params: queryParams,
+    params: {
+      ...queryParams,
+      timestamp: new Date().valueOf(),
+    },
   });
 }
 
@@ -34,7 +37,6 @@ export function getMusic(
  *          其他类推
  *
  */
-
 export function checkMusic(params: {
   id: number | string;
   br?: number | string;
@@ -51,7 +53,6 @@ export function checkMusic(params: {
  * @param params
  * @returns
  */
-
 export function getLyric(params: { id: string | number }) {
   return anfrageWithLoading({
     url: "/lyric",
@@ -65,12 +66,14 @@ export function getLyric(params: { id: string | number }) {
  * @param params
  * @returns
  */
-
 export function getNewExpressMusic(params: { type: number | string }) {
   return anfrageWithLoading({
     url: "/top/song",
     method: "get",
-    params,
+    params: {
+      ...params,
+      timestamp: new Date().valueOf(),
+    },
   });
 }
 
@@ -79,7 +82,6 @@ export function getNewExpressMusic(params: { type: number | string }) {
  * @param params
  * @returns
  */
-
 export function getMusicComment(params: {
   id: number | string;
   limit?: number | string;
@@ -100,9 +102,7 @@ export function getMusicComment(params: {
 }
 
 /**
- * 歌曲详情
- *
- *
+ * 歌曲详情 
  */
 export type GetMusicDetailReturnType = {
   songs: SongInfo[];
@@ -116,11 +116,8 @@ export function getMusicDetail(params: { ids: string }) {
 }
 
 /**
- * 获取相似音乐
- *
- *
+ * 获取相似音乐 
  */
-
 export function getMusicSimilar(params: { id: string | number }) {
   return anfrageWithLoading({
     url: "/simi/song",
@@ -132,7 +129,6 @@ export function getMusicSimilar(params: { id: string | number }) {
 /**
  * 获取每日推荐歌曲
  */
-
 export function musicRecommend() {
   return anfrageWithLoading({
     url: "/recommend/songs",
@@ -143,7 +139,6 @@ export function musicRecommend() {
 /**
  * 推荐新音乐
  */
-
 export function newMusicRecommend(params: { limit?: number | string }) {
   const { limit = 10 } = params;
   return anfrageWithLoading({

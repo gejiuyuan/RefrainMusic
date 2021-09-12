@@ -45,7 +45,8 @@ export function getMVComments(param: {
             id,
             limit,
             offset: +offset * +limit,
-            before
+            before,
+            timestamp: new Date().valueOf(),
         }
     })
 }
@@ -82,7 +83,8 @@ export function getAllMv(param: {
         url: "/mv/all",
         params: {
             id, area, type, limit, order,
-            offset: +offset * +limit
+            offset: +offset * +limit,
+            timestamp: new Date().valueOf(),
         }
     })
 }
@@ -103,7 +105,8 @@ export function getLatestMV(param: {
         url: "/mv/first",
         params: {
             id,
-            limit
+            limit,
+            timestamp: new Date().valueOf(),
         }
     })
 }
@@ -128,6 +131,7 @@ export function getNeteaseMV(param: {
             id,
             limit,
             offset: +offset * +limit,
+            timestamp: new Date().valueOf(),
         }
     })
 }

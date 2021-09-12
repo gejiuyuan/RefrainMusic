@@ -6,7 +6,6 @@ import { filterUselessKey } from "@utils/index";
  * @param params
  * @returns
  */
-
 export function homepageInfo(params: { refresh?: string }) {
   return anfrageWithLoading({
     url: "/homepage/block/page",
@@ -23,7 +22,6 @@ export function homepageInfo(params: { refresh?: string }) {
  * @param params
  * @returns
  */
-
 export function bannerInfo(params: { type?: number | string }) {
   params.type ??= 0;
   return anfrageWithLoading({
@@ -38,7 +36,6 @@ export function bannerInfo(params: { type?: number | string }) {
  * @param params
  * @returns
  */
-
 export function getPersonalFm() {
   return anfrageWithLoading({
     url: "/personal_fm",
@@ -52,7 +49,6 @@ export function getPersonalFm() {
 /**
  * 所有榜单
  */
-
 export function allTopList() {
   return anfrageWithLoading({
     url: "/toplist",
@@ -66,7 +62,6 @@ export function allTopList() {
 /**
  * 所有榜单内容摘要
  */
-
 export function allTopListDetail() {
   return anfrageWithLoading({
     url: "/toplist/detail",
@@ -110,7 +105,8 @@ export function praiseResource(params: {
     params: {
       id,
       type,
-      t: sure ? 1 : -1
+      t: sure ? 1 : -1,
+      timestamp: new Date().valueOf(),
     }
   });
 }

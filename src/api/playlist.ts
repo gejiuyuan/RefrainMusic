@@ -5,7 +5,6 @@ import { filterUselessKey } from "@utils/index";
 /**
  * 歌单分类
  */
-
 export function playlistCate() {
   return anfrageWithLoading({
     url: "/playlist/catlist",
@@ -19,7 +18,6 @@ export function playlistCate() {
 /**
  * 热门歌单分类
  */
-
 export function hotPlaylistCate() {
   return anfrageWithLoading({
     url: "/playlist/hot",
@@ -38,7 +36,6 @@ export function hotPlaylistCate() {
  * - limit: 取出歌单数量 , 默认为 50
  * - offset: 偏移数量 , 用于分页 , 如 :( 评论页数 -1)*50, 其中 50 为 limit 的值
  */
-
 export function topPlaylist(params: {
   order?: string;
   cat?: string;
@@ -61,13 +58,12 @@ export function topPlaylist(params: {
 /**
  * 精品歌单标签列表
  */
-
 export function highqualPlaylistTag() {
   return anfrageWithLoading({
     url: "/playlist/highquality/tags",
     method: "get",
     params: {
-      // timestamp: new Date().valueOf()
+      timestamp: new Date().valueOf(),
     },
   });
 }
@@ -79,7 +75,6 @@ export function highqualPlaylistTag() {
  * - limit: 取出歌单数量 , 默认为 20
  * - before: 分页参数,取上一页最后一个歌单的 updateTime 获取下一页数据
  */
-
 export function highqualPlaylist(params: {
   cat?: string;
   limit?: number;
@@ -96,7 +91,6 @@ export function highqualPlaylist(params: {
  * 相关歌单推荐
  *  - id 歌单id
  */
-
 export function relatedPlaylist(params: { id: number | string }) {
   return anfrageWithLoading({
     url: "/related/playlist",
@@ -114,7 +108,6 @@ export function relatedPlaylist(params: { id: number | string }) {
  *      tracks 则是不完整的，可拿全部 trackIds 请求一次 song/detail 接口获取所有歌曲的详情
  *      (https://github.com/Binaryify/NeteaseCloudMusicApi/issues/452)
  */
-
 export function playlistDetail(params: {
   id: number | string;
   s?: string | number;
@@ -122,7 +115,10 @@ export function playlistDetail(params: {
   return anfrageWithLoading({
     url: "/playlist/detail",
     method: "get",
-    params: filterUselessKey(params),
+    params: {
+      ...filterUselessKey(params),
+      timestamp: new Date().valueOf(),
+    },
   })
 }
 
@@ -131,12 +127,14 @@ export function playlistDetail(params: {
  *  - id 歌单id
  *  说明 : 调用后可获取歌单详情动态部分,如评论数,是否收藏,播放数
  */
-
 export function playlistDetailDynamic(params: { id: number | string }) {
   return anfrageWithLoading({
     url: "/playlist/detail/dynamic",
     method: "get",
-    params: filterUselessKey(params),
+    params: {
+      ...filterUselessKey(params),
+      timestamp: new Date().valueOf(),
+    },
   });
 }
 
@@ -146,7 +144,6 @@ export function playlistDetailDynamic(params: { id: number | string }) {
  *  说明 : 调用此接口 , 传入音乐 id 和 limit 参数 , 可获得该专辑的所有评论 ( 不需要 登录 )
  *
  */
-
 export function albumComment(params: {
   id: number | string;
   limit?: number | string;
@@ -162,6 +159,7 @@ export function albumComment(params: {
       offset: +offset * +limit,
       before,
       id,
+      timestamp: new Date().valueOf(),
     }),
   });
 }
@@ -172,7 +170,6 @@ export function albumComment(params: {
  *  说明 : 调用此接口 , 传入音乐 id 和 limit 参数 , 可获得该歌单的所有评论 ( 不需要 登录 )
  *
  */
-
 export function playlistComment(params: {
   id: number | string;
   limit?: number | string;
@@ -188,6 +185,7 @@ export function playlistComment(params: {
       offset: +offset * +limit,
       before,
       id,
+      timestamp: new Date().valueOf(),
     }),
   });
 }
@@ -195,7 +193,6 @@ export function playlistComment(params: {
 /**
  * 专辑内容
  */
-
 export function albumDetail(params: { id: number | string }) {
   return anfrageWithLoading({
     url: "/album",
@@ -207,34 +204,39 @@ export function albumDetail(params: { id: number | string }) {
 /**
  * 专辑动态信息
  */
-
 export function albumDynamicInfo(params: { id: number | string }) {
   return anfrageWithLoading({
     url: "/album/detail/dynamic",
     method: "get",
-    params,
+    params: {
+      ...params,
+      timestamp: new Date().valueOf(),
+    },
   });
 }
 
 /**
  * 收藏/取消收藏专辑
  */
-
 export function albumSubscribe(params: {
   id: number | string;
-  t: number | string;
+  sure: boolean;
 }) {
+  const { id, sure } = params;
   return anfrageWithLoading({
     url: "/album/sub",
     method: "post",
-    params,
+    params: {
+      id,
+      t: sure ? 1 : -1,
+      timestamp: new Date().valueOf(),
+    },
   });
 }
 
 /**
  * 获取相似歌单
  */
-
 export function playlistSimilar(params: { id: number | string }) {
   return anfrageWithLoading({
     url: "/simi/playlist",
@@ -246,7 +248,6 @@ export function playlistSimilar(params: { id: number | string }) {
 /**
  * 获取每日推荐歌单
  */
-
 export function playlistRecommend() {
   return anfrageWithLoading({
     url: "/recommend/resource",
@@ -257,7 +258,6 @@ export function playlistRecommend() {
 /**
  * 新碟上架
  */
-
 export function newAlbumPutOn(params: {
   limit?: number | string;
   offset?: number | string;
@@ -277,6 +277,7 @@ export function newAlbumPutOn(params: {
       type,
       year,
       month,
+      timestamp: new Date().valueOf(),
     }),
   })
 }
@@ -284,7 +285,6 @@ export function newAlbumPutOn(params: {
 /**
  * 全部新碟
  */
-
 export function newAlbum(params: {
   limit?: number | string;
   offset?: number | string;
@@ -298,6 +298,7 @@ export function newAlbum(params: {
       limit,
       offset: +offset * +limit,
       area,
+      timestamp: new Date().valueOf(),
     }),
   });
 }
@@ -305,7 +306,6 @@ export function newAlbum(params: {
 /**
  * 最新专辑
  */
-
 export function newestAlbum() {
   return anfrageWithLoading({
     url: "/album/newest",
@@ -319,7 +319,6 @@ export function newestAlbum() {
 /**
  * 推荐歌单（没登录时）
  */
-
 export function recommendSonglist(params: { limit?: number | string }) {
   return anfrageWithLoading({
     url: "/personalized",
@@ -331,7 +330,6 @@ export function recommendSonglist(params: { limit?: number | string }) {
 /**
  * 歌单收藏者
  */
-
 export function PlaylistSubscribe(params: {
   id: number | string;
   limit?: number | string;
@@ -345,6 +343,7 @@ export function PlaylistSubscribe(params: {
       id,
       limit,
       offset: +limit * +offset,
+      timestamp: new Date().valueOf(),
     },
   });
 }

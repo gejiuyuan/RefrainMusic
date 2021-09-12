@@ -13,7 +13,6 @@ import { filterUselessKey, generateFormData } from "@utils/index";
  * @param {string=} params.countrycode
  * @param {string=} params.md5_password
  */
-
 export const loginWithPhone = (params: {
   phone: string;
   password: string;
@@ -40,7 +39,6 @@ export const loginWithPhone = (params: {
  * @param {string} params.password
  * @param {string} params.md5_password
  */
-
 export function loginWithEmail(params: {
   email: string;
   password: string;
@@ -61,7 +59,6 @@ export function loginWithEmail(params: {
  * 说明 : 调用此接口 , 可刷新登录状态
  * - 调用例子 : /login/refresh
  */
-
 export function refreshCookie() {
   return anfrageWithLoading({
     url: "/login/refresh",
@@ -73,7 +70,6 @@ export function refreshCookie() {
  * 退出登录
  * 说明 : 调用此接口 , 可退出登录
  */
-
 export function logout() {
   return anfrageWithLoading({
     url: "/logout",
@@ -84,7 +80,6 @@ export function logout() {
 /**
  * 登录状态
  */
-
 export function loginStatus() {
   return anfrageWithLoading({
     url: "/login/status",

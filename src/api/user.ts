@@ -13,6 +13,7 @@ export function userDetail(uid: string | number) {
     method: "get",
     params: {
       uid,
+      timestamp: new Date().valueOf(),
     },
   })
 }
@@ -82,6 +83,7 @@ export function userPlaylist(params: {
       uid,
       limit,
       offset: +limit * +offset,
+      timestamp: new Date().valueOf(),
     }),
   })
 }
@@ -91,12 +93,13 @@ export function userPlaylist(params: {
  *  - uid : 用户 id
  * @param {number} uid
  */
-export function userDj(uid: string | number) {
+export function userDj(params: { uid: string | number }) {
   return anfrageWithLoading({
     url: "/user/dj",
     method: "get",
     params: {
-      uid,
+      ...params,
+      timestamp: new Date().valueOf(),
     },
   })
 }
@@ -123,6 +126,7 @@ export function userFollows(params: {
       uid,
       limit,
       offset: +limit * +offset,
+      timestamp: new Date().valueOf(),
     }),
   });
 }
@@ -149,6 +153,7 @@ export function userFans(params: {
       uid,
       limit,
       offset: +limit * +offset,
+      timestamp: new Date().valueOf(),
     }),
   });
 }
@@ -167,7 +172,8 @@ export function unOrFocusUser(params: { id: string | number; sure: boolean }) {
     method: "post",
     params: {
       id,
-      t: sure ? 1 : -1
+      t: sure ? 1 : -1,
+      timestamp: new Date().valueOf(),
     }
   });
 }
@@ -192,8 +198,7 @@ export function userRecord(params: { uid: string | number; type?: 0 | 1 }) {
 }
 
 /**
- * 收藏的歌手列表
- *
+ * 收藏的歌手列表 
  */
 export function userLoveArtist() {
   return anfrageWithLoading({
@@ -221,7 +226,8 @@ export function userVideoCollect(params: {
     method: "post",
     params: {
       id,
-      t: sure ? 1 : -1
+      t: sure ? 1 : -1,
+      timestamp: new Date().valueOf(),
     },
   });
 }
@@ -229,8 +235,7 @@ export function userVideoCollect(params: {
 /**
  * 收藏/取消收藏 MV
  *  - mvid mv的id
- *  - t 1为收藏，其他为取消收藏
- *
+ *  - t 1为收藏，其他为取消收藏 
  */
 export function userMvCollect(params: {
   id: string | number;
@@ -248,18 +253,19 @@ export function userMvCollect(params: {
 }
 
 /**
- * 收藏的 MV 列表
- *
+ * 收藏的 MV 列表 
  */
 export function userCollectedMv() {
   return anfrageWithLoading({
     url: "/mv/sublist",
+    params: {
+      timestamp: new Date().valueOf(),
+    }
   });
 }
 
 /**
- * 喜欢音乐列表
- *
+ * 喜欢音乐列表 
  */
 export function userLikeList(params: { uid: number | string }) {
   return anfrageWithLoading({
@@ -291,7 +297,6 @@ export function userLikeMusic(params: {
  * 用户设置
  *
  */
-
 export function userLSetting() {
   return anfrageWithLoading({
     url: "/setting",

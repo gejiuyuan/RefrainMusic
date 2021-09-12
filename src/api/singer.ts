@@ -61,12 +61,14 @@ export function artistSub(params: { id: number | string; sure: boolean }) {
  * 说明 : 调用此接口,可获取歌手热门50首歌曲
  *  - id 歌手id
  */
-
 export function artistTopSong(params: { id: number | string }) {
   return anfrageWithLoading({
     url: "/artist/top/song",
     method: "get",
-    params,
+    params: {
+      ...params,
+      timestamp: new Date().valueOf(),
+    },
   });
 }
 
@@ -157,7 +159,6 @@ export function artistMv(params: {
 /**
  * 获取歌手描述
  */
-
 export function artistDesc(params: { id: string | number }) {
   return anfrageWithLoading({
     url: "/artist/desc",
@@ -169,7 +170,6 @@ export function artistDesc(params: { id: string | number }) {
 /**
  * 获取歌手详情
  */
-
 export function artistDetail(params: { id: string | number }) {
   return anfrageWithLoading({
     url: "/artist/detail",
@@ -181,7 +181,6 @@ export function artistDetail(params: { id: string | number }) {
 /**
  * 获取相似歌手
  */
-
 export function artistSimilar(params: { id: string | number }) {
   return anfrageWithLoading({
     url: "/simi/artist",
@@ -193,7 +192,6 @@ export function artistSimilar(params: { id: string | number }) {
 /**
  * 热门歌手
  */
-
 export function artistHot(params: {
   limit?: number | string;
   offset?: number | string;

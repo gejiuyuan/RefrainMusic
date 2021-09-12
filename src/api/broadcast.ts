@@ -6,7 +6,6 @@ import { filterUselessKey } from "@utils/index";
  * @param params
  * @returns
  */
-
 export function djRecomment() {
   return anfrageWithLoading({
     url: "/personalized/djprogram",
@@ -22,7 +21,6 @@ export function djRecomment() {
  * @param params
  * @returns
  */
-
 export function djBanner() {
   return anfrageWithLoading({
     url: "/dj/banner",
@@ -38,7 +36,6 @@ export function djBanner() {
  * @param params
  * @returns
  */
-
 export function djPersonalRecommend(params: { limit?: number | string }) {
   return anfrageWithLoading({
     url: "/dj/personalize/recommend",
@@ -55,7 +52,6 @@ export function djPersonalRecommend(params: { limit?: number | string }) {
  * @param params
  * @returns
  */
-
 export function djHot(params: {
   limit?: number | string;
   offset?: number | string;
@@ -76,7 +72,6 @@ export function djHot(params: {
  * @param params
  * @returns
  */
-
 export function djProgramTopList(params: {
   limit?: number | string;
   offset?: number | string;
@@ -97,7 +92,6 @@ export function djProgramTopList(params: {
  * @param params
  * @returns
  */
-
 export function djProgramTopListDay(params: { limit?: number | string }) {
   const { limit = 100 } = params;
   return anfrageWithLoading({
@@ -114,14 +108,12 @@ export function djProgramTopListDay(params: { limit?: number | string }) {
  * @param params
  * @returns
  */
-
 export function djHotOrNewTopList(params: {
   limit?: number | string;
   offset?: number | string;
   type?: number | string;
 }) {
   const { limit = 100, offset = 0, type } = params;
-
   return anfrageWithLoading({
     url: "/dj/toplist",
     method: "get",
@@ -138,7 +130,6 @@ export function djHotOrNewTopList(params: {
  * @param params
  * @returns
  */
-
 export function djCateHot(params: {
   limit?: number | string;
   offset?: number | string;
@@ -159,7 +150,6 @@ export function djCateHot(params: {
 /**
  * 电台推荐 （登录后）
  */
-
 export function djRecommend() {
   return anfrageWithLoading({
     url: "/dj/recommend",
@@ -173,7 +163,6 @@ export function djRecommend() {
 /**
  * 电台 - 分类
  */
-
 export function djCateList() {
   return anfrageWithLoading({
     url: "/dj/catelist",
@@ -187,7 +176,6 @@ export function djCateList() {
 /**
  * 电台 - 分类推荐
  */
-
 export function djRecommenCate(params: { type: number | string }) {
   const { type } = params;
   return anfrageWithLoading({
@@ -203,7 +191,6 @@ export function djRecommenCate(params: { type: number | string }) {
 /**
  * 电台 - 订阅
  */
-
 export function djSubscribe(params: { rid: number | string }) {
   const { rid } = params;
   return anfrageWithLoading({
@@ -219,18 +206,19 @@ export function djSubscribe(params: { rid: number | string }) {
 /**
  * 电台 - 订阅列表
  */
-
 export function djSubList() {
   return anfrageWithLoading({
     url: "/dj/sublist",
     method: "get",
+    params: {
+      timestamp: new Date().valueOf(),
+    }
   });
 }
 
 /**
  * 电台 - 详情
  */
-
 export function djDetail(params: { rid: number | string }) {
   return anfrageWithLoading({
     url: "/dj/detail",
@@ -242,7 +230,6 @@ export function djDetail(params: { rid: number | string }) {
 /**
  * 电台 - 非热门类型
  */
-
 export function djCateExcludehot() {
   return anfrageWithLoading({
     url: "/dj/category/excludehot",
@@ -253,7 +240,6 @@ export function djCateExcludehot() {
 /**
  * 电台 - 推荐类型
  */
-
 export function djCateRecommend() {
   return anfrageWithLoading({
     url: "/dj/category/recommend",
@@ -264,7 +250,6 @@ export function djCateRecommend() {
 /**
  * 电台 - 今日优选
  */
-
 export function djTodayPrefer() {
   return anfrageWithLoading({
     url: "/dj/today/perfered",
@@ -278,7 +263,6 @@ export function djTodayPrefer() {
 /**
  * 电台 - 节目
  */
-
 export function djProgram(params: {
   rid: number | string;
   limit?: number | string;
@@ -301,7 +285,6 @@ export function djProgram(params: {
 /**
  * 电台 - 节目详情
  */
-
 export function djProgramDetail(params: { id: number | string }) {
   return anfrageWithLoading({
     url: "/dj/program/detail",
