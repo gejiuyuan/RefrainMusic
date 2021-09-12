@@ -13,7 +13,7 @@ import {
   getVideoRelativeInfo,
   getVideoPlaybackSource,
 } from "@api/video";
-import { extend, getLocaleDate, padPicCrop } from "@/utils";
+import { extend, getLocaleCount, getLocaleDate, padPicCrop } from "@/utils";
 import { VideoDetailInfoItem, VideoPlaybackSourceItem } from "@/types/video";
 import usePlayerStore from "@/stores/player";
 import VideoList from "@/widgets/video-list";
@@ -102,22 +102,25 @@ export default defineComponent({
       playerStore.setVideoIsPlay(false);
     }
 
-    const toVideoTagListPage = (tagName: string) => {
+    const toVideoTagListPage = (id: string | number) => {
       router.push({
         path: '/onlinevideo/category',
         query: {
-          tag: tagName
+          id
         }
       })
     }
 
     return () => {
       const [{url}] = videoUrlInfo.value;
-      const { detail } = videoData;
-      const { title, publishTime, videoGroup, creator: { avatarUrl, nickname } } = detail;
+      const { detail, relativeInfo: {commentCount, likedCount , shareCount, liked} } = videoData;
+      const { title, publishTime, praisedCount, videoGroup, creator: { avatarUrl, nickname } } = detail;
       const videoAuthorAvatarUrl = padPicCrop(avatarUrl, {x: 80, y:80});
       const videoAvatarStyle = `background-image:url(${videoAuthorAvatarUrl})`;
       const publishTimeStr = getLocaleDate(publishTime);
+      const likedCountStr = getLocaleCount(likedCount);
+      const shareCountStr = getLocaleCount(shareCount);
+      const praisedCountStr = getLocaleCount(praisedCount);
 
       return <section class="video-page">
 
@@ -155,7 +158,7 @@ export default defineComponent({
               <NSpace>
                 {
                   videoGroup.map(({id,name}) => {
-                    return <NxButton size="small" onClick={() => toVideoTagListPage(name)}>{name}</NxButton>
+                    return <NxButton size="small" onClick={() => toVideoTagListPage(id)}>{name}</NxButton>
                   })
                 }
               </NSpace>
@@ -164,15 +167,15 @@ export default defineComponent({
               <NSpace size={30}>
                   <YuanButton>
                     <i className="iconfont icon-shoucang"></i>
-                    <em>收藏</em>
+                    <em>收藏{likedCountStr}</em>
                   </YuanButton>
                   <YuanButton>
                     <i className="iconfont icon-dianzan2"></i>
-                    <em>赞</em> 
+                    <em>赞{praisedCountStr}</em> 
                   </YuanButton>
                   <YuanButton>
                     <i className="iconfont icon-fenxiang"></i>
-                    <em>分享</em> 
+                    <em>分享{shareCountStr}</em> 
                   </YuanButton>
                   <YuanButton>
                     <i className="iconfont icon-download"></i>

@@ -53,6 +53,8 @@ export default defineComponent({
   
     getVideoTagList().then(({data}) => {
       categoryVideosInfo.tagList = getSortedTagOrCategoryList(data);
+    }).then(() => {
+      getVideoList();
     });
     
     getVideoCategoryList().then(({data}) => {
@@ -60,38 +62,38 @@ export default defineComponent({
     });
 
     const getVideoList = async () => {
-      const { offset = 0 } = route.query  
-      const targetTagItem = categoryVideosInfo.tagList[activeInfo.index];
-      if(!targetTagItem) {
-        messageBus.dispatch('errorMessage', '标签或分类名字有误', {
-          duration: 2000,
-        });
-        return;
-      }
+      const [{id: firstId}] = categoryVideosInfo.tagList;
+      const { offset = 0 , id = firstId } = route.query  
       const { msg, hasMore, datas } = await getVideos({
-        id: targetTagItem.id,
+        id: Number(id),
         offset: Number(offset),
       });
       activeInfo.videoList = (datas as allVideoDatasItem[]).map(({data}) => data);
       activeInfo.msg = msg;
       activeInfo.hasMore = hasMore;
     } 
-
-    watch<[string, VideoTagItem[]]>(() => [route.query.tag as string, categoryVideosInfo.tagList], ([tagName, tagList]) => {
-      const targetTagIndex = tagList.findIndex(({name}) => name === tagName);   
-      activeInfo.index = ~targetTagIndex ? targetTagIndex : 0;
+    
+    onBeforeRouteUpdate((to, from , next) => {
+      const { offset, id } = to.query;
+      const { offset:fromOffset, id: fromId } = from.query;
+      if( id !== fromId || offset !== fromOffset ) {
+        getVideoList();
+      }
+      next();
     });
 
-    watch(() => activeInfo.index, (index) => {    
-      getVideoList();
+    watch<[string, VideoTagItem[]]>(() => [route.query.id as string, categoryVideosInfo.tagList], ([routeId, tagList]) => {
+      const realRouteId = +routeId;
+      const targetTagIndex = is.undefined(routeId) ? 0 : tagList.findIndex(({id}) => id === realRouteId);   
+      activeInfo.index = targetTagIndex;
     });
 
-    const tagButtonClickHandler = (tagName: string) => { 
+    const tagButtonClickHandler = (tag: string, id: string | number) => { 
       router.push({
         ...route,
         query: {
-          ...route.query,
-          tag: tagName,
+          ...route.query, 
+          id,
         }
       }); 
     }
@@ -112,7 +114,7 @@ export default defineComponent({
                   round 
                   dashed={i !== activeTagIdxVal}
                   color="#595959"
-                  onClick={() => tagButtonClickHandler(name)}
+                  onClick={() => tagButtonClickHandler(name, id)}
                 >
                   {
                     name

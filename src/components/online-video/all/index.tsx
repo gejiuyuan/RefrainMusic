@@ -1,7 +1,7 @@
 import { getAllVideoList, getVideoCategoryList, getVideoTagList } from "@/api/video";
 import { allVideoDatasItem, VideoTagItem } from "@/types/video";
 import { NSpace, NxButton } from "naive-ui";
-import { defineComponent, inject, InjectionKey, markRaw, onMounted, reactive, readonly, ref, shallowReactive, shallowRef } from "vue";
+import { defineComponent, inject, InjectionKey, markRaw, onMounted, reactive, readonly, ref, shallowReactive, shallowRef, watchEffect } from "vue";
 import VideoList from '@widgets/video-list';
 import "./index.scss";
 import YuanButton from "@/widgets/yuan-button";
@@ -27,9 +27,7 @@ export default defineComponent({
     const updateAllVideoList = () => {
       getAllVideoList({
         offset: loadCount.value, 
-      }).then(({datas, hasmore, msg}) => {
-      console.info(allVideosInfo.list)
-
+      }).then(({datas, hasmore, msg}) => { 
         allVideosInfo.list.push(...datas.map(({data}: allVideoDatasItem)=>data));
         allVideosInfo.hasMore = hasmore;
         allVideosInfo.msg = msg;

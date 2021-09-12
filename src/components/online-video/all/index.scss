@@ -2,9 +2,10 @@
 
 .online-video-all {
   .video-all-foot {
+    @include flexHc();
     padding-top: 4rem;
     padding-bottom: 1rem;
-    text-align: center;
+    
   }
   
 }
