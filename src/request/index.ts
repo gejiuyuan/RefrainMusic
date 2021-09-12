@@ -13,6 +13,15 @@ export function createRequestInstance(responseType: RyokoResponseType = 'json') 
     onDefer(deferMsg) { },
     verifyStatus: (status) => status >= 200 && status < 500,
   });
+  ins.interceptors.request.use((config) => {
+    if (!import.meta.env.DEV) {
+      config.params ??= {};
+      Reflect.set(config.params as PlainObject, 'realIP', '116.25.146.177');
+    }
+    return config;
+  }, (err) => {
+    throw err;
+  });
   ins.interceptors.response.use((res) => res.data, (err: any) => {
     console.info(err.message, '请求出错啦~~')
   });
