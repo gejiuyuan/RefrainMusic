@@ -1,4 +1,4 @@
-import { defineConfig, UserConfig, UserConfigFn , ServerOptions } from 'vite';
+import { defineConfig, UserConfig, UserConfigFn, ServerOptions } from 'vite';
 
 //vue 3 jsx synxtax
 import VueJsx from '@vitejs/plugin-vue-jsx';
@@ -23,7 +23,7 @@ import viteConstant from './constant';
 const { extend } = viteConstant
 
 import path from 'path'
-const pathResolve = path.resolve 
+const pathResolve = path.resolve
 
 const baseConfig: UserConfig = {
 
@@ -59,10 +59,10 @@ const baseConfig: UserConfig = {
             { find: '@request', replacement: pathResolve('src/request') },
             { find: '@utils', replacement: pathResolve('src/utils') },
             { find: '@assets', replacement: pathResolve('src/assets') },
-            { find: '@stores', replacement: pathResolve('src/stores') }, 
-            { find: '@use', replacement: pathResolve('src/use') }, 
-            { find: '@database', replacement: pathResolve('src/database') }, 
-            { find: '@widgets', replacement: pathResolve('src/widgets') },  
+            { find: '@stores', replacement: pathResolve('src/stores') },
+            { find: '@use', replacement: pathResolve('src/use') },
+            { find: '@database', replacement: pathResolve('src/database') },
+            { find: '@widgets', replacement: pathResolve('src/widgets') },
         ],
 
         extensions: ['.vue', '.ts', '.js', '.js', '.json', '.tsx', 'jsx']
@@ -90,11 +90,11 @@ const baseConfig: UserConfig = {
 
     //优化依赖
     optimizeDeps: {
-      
+
         esbuildOptions: {
             keepNames: true,
         },
-    
+
         //需要强制预打包的依赖
         // include: [
         // ],
@@ -136,8 +136,8 @@ const devConfig: UserConfig = extend(baseConfig, {
         //热更新：借助websocket实现
         hmr: {
             overlay: true, //是否覆盖报错，若为false，则不会显示错误提示界面
-        }, 
-    }  
+        },
+    }
 
 });
 
@@ -154,7 +154,7 @@ const prodConfig: UserConfig = extend(baseConfig, {
         assetsDir: 'assets',
         //静态资源导入大小限制，默认为4096（4kb）
         assetsInlineLimit: '3072',
-        sourcemap: true,
+        sourcemap: false,
         //rollup配置选项，将会与vite内部的默认配置选项合并
         rollupOptions: {},
         //代码压缩。
