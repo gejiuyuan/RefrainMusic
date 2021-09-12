@@ -1,5 +1,5 @@
 import { computed, defineComponent, nextTick, reactive, ref, shallowReactive, shallowReadonly, watch, watchEffect } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { onBeforeRouteLeave, useRoute, useRouter } from "vue-router";
 import "./index.scss";
 
 import {
@@ -13,7 +13,7 @@ import {
   getVideoRelativeInfo,
   getVideoPlaybackSource,
 } from "@api/video";
-import { extend, getLocaleCount, getLocaleDate, padPicCrop } from "@/utils";
+import { extend, getLocaleCount, getLocaleDate, is, padPicCrop } from "@/utils";
 import { VideoDetailInfoItem, VideoPlaybackSourceItem } from "@/types/video";
 import usePlayerStore from "@/stores/player";
 import VideoList from "@/widgets/video-list";
@@ -23,6 +23,7 @@ import YuanButton from "@/widgets/yuan-button";
 import { praiseResource } from "@/api/other";
 import { unOrFocusUser, userVideoCollect } from "@/api/user";
 import { messageBus } from "@/utils/event/register";
+import { render } from "naive-ui/lib/_utils";
 
 export default defineComponent({
   name: "Video",
@@ -30,7 +31,8 @@ export default defineComponent({
     const route = useRoute();
     const router = useRouter();
     const playerStore = usePlayerStore();
-    const videoRef = ref<HTMLVideoElement>()
+    const videoRef = ref<HTMLVideoElement>();
+    const hasVideoSource = ref(false);
     const videoData = reactive({
       relativeInfo: {
         commentCount: 0,
@@ -43,7 +45,10 @@ export default defineComponent({
         coverUrl: '',
         creator: {
           avatarUrl: '',
+          nickname: '',
         },
+        subscribeCount: 0,
+        description: '',
         vid: '',
       } as VideoDetailInfoItem,
       isCollected: false,
@@ -58,12 +63,50 @@ export default defineComponent({
       url: '',
       validityTime: 0
     }]);
- 
-    watch(() => [videoData.detail.description, videoData.detail.vid, playerStore.video.beLiked],() => {
-      videoData.isCollected = playerStore.isVideoBeLiked(videoData.detail.vid, videoData.detail.description);
-    });
 
     const recommendVideos = ref<any[]>([]);
+ 
+    const vid = String(route.query.vid);
+    getRelativeVideos({
+      id: vid,
+    }).then(({data}) => {
+      recommendVideos.value = data; 
+    });
+    getVideoDetail({
+      id: vid,
+    }).then(({data, code}) => {
+      const isSuccess = code === 200;
+      hasVideoSource.value = isSuccess;
+      if(!isSuccess) {
+        messageBus.dispatch('errorMessage', '无法获取视频信息');
+        return;
+      }
+      videoData.detail = data;
+    });
+    getVideoRelativeInfo({
+      vid,
+    }).then((detailInfoFromServer) => {
+      videoData.relativeInfo = detailInfoFromServer;
+    });
+    getVideoPlaybackSource({
+      id: vid,
+    }).then(({urls}) => {
+      if(is.emptyArray(urls)) {
+        return;
+      }
+      videoUrlInfo.value = urls;
+    }); 
+
+    const videoDataWatcher = watch(
+      () => [videoData.detail.description, videoData.detail.vid, playerStore.video.beLiked],
+      () => {
+        videoData.isCollected = playerStore.isVideoBeLiked(videoData.detail.vid, videoData.detail.description);
+      }
+    );
+
+    onBeforeRouteLeave(() => {
+      videoDataWatcher();
+    });
  
     watch(() => playerStore.video.isPlay, async (isPlay) => { 
       await nextTick();
@@ -71,37 +114,7 @@ export default defineComponent({
       if(isPlay === videoRefValuePaused) { 
         videoRef.value![ videoRefValuePaused ? 'play' : 'pause']();
       }
-    });
-
-    watch(
-      () => route.query,
-      (query) => {
-        const vid = query.vid as string;   
-        getRelativeVideos({
-          id: vid,
-        }).then(({data}) => {
-          recommendVideos.value = data; 
-        });
-        getVideoDetail({
-          id: vid,
-        }).then(({data}) => {
-          videoData.detail = data;
-        });
-        getVideoRelativeInfo({
-          vid,
-        }).then((detailInfoFromServer) => {
-          videoData.relativeInfo = detailInfoFromServer;
-        });
-        getVideoPlaybackSource({
-          id: vid,
-        }).then(({urls}) => {
-          videoUrlInfo.value = urls;
-        });
-      },
-      {
-        immediate: true,
-      }
-    );
+    }); 
 
     const onVideoPlayHandler = () => { 
       playerStore.setVideoIsPlay(true);
@@ -171,8 +184,7 @@ export default defineComponent({
       videoData.detail.creator.followed = isFollow;
     }
 
-    return () => {
-      const [{url}] = videoUrlInfo.value;
+    const renderVideoOperator = () => {
       const { detail, isCollected, relativeInfo: { liked, likedCount, shareCount } } = videoData;
       const { title, publishTime, videoGroup, subscribeCount, creator: { avatarUrl, userId, nickname, followed } } = detail;
       const videoAuthorAvatarUrl = padPicCrop(avatarUrl, {x: 80, y:80});
@@ -181,21 +193,8 @@ export default defineComponent({
       const subscribeCountStr = getLocaleCount(subscribeCount);
       const likedCountStr = getLocaleCount(likedCount);
       const shareCountStr = getLocaleCount(shareCount); 
-
-      return <section class="video-page">
-        <div className="video-content">
-          <div className="video-container">
-            <video 
-              ref={videoRef} 
-              src={url} 
-              autoplay={playerStore.video.isPlay} 
-              controls 
-              onPlay={onVideoPlayHandler} 
-              onPause={onVideoPauseHandler}
-              poster={detail.coverUrl}
-            ></video>
-          </div>
-          <div className="video-operator">
+      return (
+        <div className="video-operator">
             <header className="video-author">
               <i class="author-avatar" style={videoAvatarStyle} title={nickname}>
                 <em>{nickname}</em>
@@ -248,6 +247,32 @@ export default defineComponent({
               </NSpace>
             </div>
           </div>
+      )
+    }
+
+    return () => {
+      const [{url}] = videoUrlInfo.value;
+      const { detail } = videoData; 
+      const hasVideoSourceValue = hasVideoSource.value;
+
+      return <section class="video-page">
+        <div className="video-content">
+          <div className="video-container">
+            <video 
+              ref={videoRef} 
+              src={url} 
+              autoplay={playerStore.video.isPlay} 
+              controls 
+              onPlay={onVideoPlayHandler} 
+              onPause={onVideoPauseHandler}
+              poster={detail.coverUrl}
+            ></video>
+          </div>
+
+          {
+            hasVideoSourceValue && renderVideoOperator()
+          }
+          
           <div className="video-recommend">
             <h4>相关推荐</h4>
             <VideoList videoList={recommendVideos.value} cols={4} gaps={{x:20, y: 20}}></VideoList>
