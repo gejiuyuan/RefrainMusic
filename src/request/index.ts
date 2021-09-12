@@ -14,10 +14,10 @@ export function createRequestInstance(responseType: RyokoResponseType = 'json') 
     verifyStatus: (status) => status >= 200 && status < 500,
   });
   ins.interceptors.request.use((config) => {
-    if (!import.meta.env.DEV) {
-      config.params ??= {};
-      Reflect.set(config.params as PlainObject, 'realIP', '116.25.146.177');
-    }
+    // if (!import.meta.env.DEV) {
+    //   config.params ??= {};
+    //   Reflect.set(config.params as PlainObject, 'realIP', '116.25.146.177');
+    // }
     return config;
   }, (err) => {
     throw err;

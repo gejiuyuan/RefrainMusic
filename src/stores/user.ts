@@ -43,13 +43,12 @@ const useUserStore = defineStore({
 
   },
   actions: {
-    async judgeAndUpdateLoginStatus(options: {
+    async judgeAndUpdateLoginStatus(code: number, options: {
       //是否是第一次刷新页面
       isFirstRefresh: boolean
     } = EMPTY_OBJ) {
       const { isFirstRefresh = false } = options;
-      const { data: { profile, account } } = await loginStatus();
-      const isLoginSuccess = ![profile, account].every(is.null);
+      const isLoginSuccess = [200, 803].includes(code);
       this.isLogin = isLoginSuccess;
       let topic: string;
       let tip: string;

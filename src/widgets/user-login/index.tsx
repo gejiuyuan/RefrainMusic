@@ -130,12 +130,14 @@ export default defineComponent({
         avatarUrl: '',
       }
     });
-
-    //页面刷新后判断一次是否登录
-    userStore.judgeAndUpdateLoginStatus({
-      isFirstRefresh:true
+    
+    loginStatus().then(({code}) => {
+      //页面刷新后判断一次是否登录
+      userStore.judgeAndUpdateLoginStatus(code, {
+        isFirstRefresh:true
+      });
     });
-
+ 
     /**
      * 登录区域内容信息
      */
@@ -237,12 +239,12 @@ export default defineComponent({
         if (error) {
           return;
         }
-        await loginWithPhone({
+        const { code } = await loginWithPhone({
           phone: phoneInfo.number,
           password: 'invalidPassword',
           md5_password: String(md5(phoneInfo.password)),
         });
-        userStore.judgeAndUpdateLoginStatus();
+        userStore.judgeAndUpdateLoginStatus(code);
       });
     }
 
@@ -254,12 +256,12 @@ export default defineComponent({
         if(error) {
           return;
         }
-        await loginWithEmail({
+        const { code } = await loginWithEmail({
           email:emailInfo.email,
           password: 'invalidPassword',
           md5_password: String(md5(emailInfo.password)),
         });
-        userStore.judgeAndUpdateLoginStatus();
+        userStore.judgeAndUpdateLoginStatus(code);
       });
     }
      
@@ -299,7 +301,7 @@ export default defineComponent({
           }
           else if(code === 803) {
             clearInterval(rotationQrCodeTimer);
-            await userStore.judgeAndUpdateLoginStatus();
+            await userStore.judgeAndUpdateLoginStatus(code);
           }
         }, 3000);
       });
