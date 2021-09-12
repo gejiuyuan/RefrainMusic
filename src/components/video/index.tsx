@@ -71,8 +71,7 @@ export default defineComponent({
         getRelativeVideos({
           id: vid,
         }).then(({data}) => {
-          recommendVideos.value = data;
-          console.info(data)
+          recommendVideos.value = data; 
         });
         getVideoDetail({
           id: vid,
@@ -82,7 +81,7 @@ export default defineComponent({
         getVideoRelativeInfo({
           vid,
         }).then((detailInfoFromServer) => {
-          extend(videoData.relativeInfo, detailInfoFromServer);
+          videoData.relativeInfo = detailInfoFromServer;
         });
         getVideoPlaybackSource({
           id: vid,
