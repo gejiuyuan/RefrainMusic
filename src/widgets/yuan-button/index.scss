@@ -1,6 +1,7 @@
 @import "@scss/variable";
 
 .yuan-button {
+  @include flexVc();
   padding: 8px 12px;
   border-radius: 8px;
   color: #838383;

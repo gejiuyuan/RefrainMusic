@@ -39,7 +39,7 @@ export default defineComponent({
           value,
           text
         })}>
-          {text}
+          {slots.default!() || text}
         </button>
       )
     }

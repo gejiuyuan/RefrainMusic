@@ -126,13 +126,13 @@ export type VideoDetailInfoItem = {
     title: string;
     vid: string;
     videoUserLiveInfo: null;
-    resolutions: {
+    resolutions: Array<{
         size: number;
         resolution: number
-    }[];
-    videoGroup: {
+    }>;
+    videoGroup: Array<{
         id: number | string;
         name: string;
         alg: null
-    }[];
+    }>;
 }

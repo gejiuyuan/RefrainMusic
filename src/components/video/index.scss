@@ -1,15 +1,84 @@
 @import "@/scss/variable"; 
 .video-page {
   @include flex();
-  .video-content {
-    width: 800px;
-    video {
-      object-fit: contain;
+  .video-content { 
+    .video-container{
+      width: 800px;
+      height: 450px;
+      video {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        border-radius: 2rem;
+      }
     }
+
+    .video-operator {
+      padding-top: 2rem;
+      .video-author {
+        @include flexHbVc();
+        padding-bottom: 2rem;
+        .author-avatar {
+          width: 50px;
+          height: 50px;
+          position: relative;
+          background-size: cover;
+          background-position: center center;
+          background-repeat: no-repeat;
+          border-radius: 100%;
+          cursor: pointer;
+          &:hover {
+            color: var(--theme);
+          }
+          em {
+            position: absolute;
+            left: calc(100% + 1rem);
+            top: 50%;
+            white-space: nowrap;
+            transform: translateY(-50%);
+          }
+        }
+      }
+      .video-title {
+        padding-bottom: 1rem;
+        color: #646464;
+        font-size: 22px;
+        font-weight: 500;
+      }
+      .video-info {
+        padding-bottom: 1rem;
+        color: #848484;
+      }
+      .video-tags {
+        padding-bottom: 1rem;
+      }
+      .video-buttons {
+        padding-top: 1rem;
+        i {
+          font-size: 1rem;
+        }
+        em {
+          text-indent: .5rem;
+        }
+      }
+    }
+
+    .video-recommend {
+      > h4 {
+        font-size: 20px;
+        font-weight: 500;
+        line-height: 3  ;
+      }
+      margin-top: 2rem;
+    }
+
   }
 
-  .video-aside {
+  .video-comment {
     flex: 1;
+    background-color: turquoise;
+    height: 100%;
   }
+  
 
 }
