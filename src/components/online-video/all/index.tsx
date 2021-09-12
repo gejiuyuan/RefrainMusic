@@ -5,6 +5,8 @@ import { defineComponent, inject, InjectionKey, markRaw, onMounted, reactive, re
 import VideoList from '@widgets/video-list';
 import "./index.scss";
 import YuanButton from "@/widgets/yuan-button";
+import { messageBus } from "@/utils/event/register";
+import { UNICODE_CHAR } from "@/utils";
 
 export interface AllVideosInfoType {  
   list: allVideoDatasItem[];
@@ -27,7 +29,11 @@ export default defineComponent({
     const updateAllVideoList = () => {
       getAllVideoList({
         offset: loadCount.value, 
-      }).then(({datas, hasmore, msg}) => { 
+      }).then(({code, datas, hasmore, msg}) => { 
+        if(code !== 200) {
+          messageBus.dispatch('errorMessage', msg);
+          return;
+        }
         allVideosInfo.list.push(...datas.map(({data}: allVideoDatasItem)=>data));
         allVideosInfo.hasMore = hasmore;
         allVideosInfo.msg = msg;

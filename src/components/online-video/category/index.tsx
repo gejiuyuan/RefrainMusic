@@ -64,10 +64,14 @@ export default defineComponent({
     const getVideoList = async () => {
       const [{id: firstId}] = categoryVideosInfo.tagList;
       const { offset = 0 , id = firstId } = route.query  
-      const { msg, hasMore, datas } = await getVideos({
+      const { code, msg, hasMore, datas } = await getVideos({
         id: Number(id),
         offset: Number(offset),
       });
+      if(code !== 200) {
+        messageBus.dispatch('errorMessage', msg);
+        return;
+      }
       activeInfo.videoList = (datas as allVideoDatasItem[]).map(({data}) => data);
       activeInfo.msg = msg;
       activeInfo.hasMore = hasMore;
