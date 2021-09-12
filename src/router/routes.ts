@@ -1,99 +1,63 @@
-import Home from "@views/home";
-import MusicHall from "@components/music-hall";
-import MusicHallFeatured from "@components/music-hall/featured";
-import MusicHallTop from "@components/music-hall/top";
-import MusicHallNewest from "@components/music-hall/newestmusic";
-import MusicHallSonglist from "@components/music-hall/songlist";
-import MusicHallArtist from "@components/music-hall/artist";
-import MusicHallNewdisc from "@/components/music-hall/newestdisc";
 
-import MusicRadio from "@components/music-radio";
+const Home = () => import("@views/home");
 
-import OnlineVideo from "@components/online-video";
-import VideoAll from "@components/online-video/all";
-import VideoCategory from "@components/online-video/category";
+const MusicHall = () => import("@components/music-hall");
+const MusicHallFeatured = () => import("@components/music-hall/featured");
+const MusicHallTop = () => import("@components/music-hall/top");
+const MusicHallNewest = () => import("@components/music-hall/newestmusic");
+const MusicHallSonglist = () => import("@components/music-hall/songlist");
+const MusicHallArtist = () => import("@components/music-hall/artist");
+const MusicHallNewdisc = () => import("@components/music-hall/newestdisc");
+const MusicRadio = () => import("@components/music-radio");
 
-import Setting from "@components/setting";
+const OnlineVideo = () => import('@components/online-video');
 
-import Artist from "@components/artist";
-import ArtistFeatured from "@components/artist/featured";
-import ArtistAllSongs from "@components/artist/allSongs";
-import ArtistAlbum from "@components/artist/album";
-import artistMv from "@components/artist/mv";
-import artistSimiSinger from "@components/artist/similarSinger";
-import artistDesc from "@components/artist/description";
+const VideoAll = () => import('@components/online-video/all');
 
-import Songlist from "@components/songlist";
-import SonglistMusic from "@components/songlist/music";
-import SonglistComment from "@components/songlist/comment";
-import SonglistSubscriber from "@components/songlist/subscriber";
+const VideoCategory = () => import('@components/online-video/category');
 
-import User from "@components/user";
-import UserPlayRecord from "@components/user/play-record";
-import UserCollection from "@components/user/collection";
-import UserSonglist from "@components/user/songlist";
+const Setting = () => import('@components/setting');
 
-import Search from "@components/search";
-import SearchSongs from "@components/search/songs";
-import SearchAlbum from "@components/search/album";
-import SearchLyric from "@components/search/lyric";
-import SearchRadio from "@components/search/radio";
-import SearchMv from "@components/search/mv";
-import SearchVideo from "@components/search/video";
-import SearchUser from "@components/search/user";
-import SearchSonglist from "@components/search/songlist";
-import SearchSinger from "@components/search/singer";
+const Artist = () => import('@components/artist');
+const ArtistFeatured = () => import('@components/artist/featured');
+const ArtistAllSongs = () => import('@components/artist/allSongs');
+const ArtistAlbum = () => import('@components/artist/album');
+const ArtistMv = () => import('@components/artist/mv');
+const ArtistSimiSinger = () => import('@components/artist/similarSinger');
+const ArtistDesc = () => import('@components/artist/description');
 
-import Video from "@components/video";
+const Songlist = () => import('@components/songlist');
+const SonglistMusic = () => import('@components/songlist/music');
+const SonglistComment = () => import('@components/songlist/comment');
+const SonglistSubscriber = () => import('@components/songlist/subscriber');
 
-import Mv from '@components/mv';
+const User = () => import('@components/user');
+const UserPlayRecord = () => import('@components/user/play-record');
+const UserCollection = () => import('@components/user/collection');
+const UserSonglist = () => import('@components/user/songlist');
 
-import Album from "@components/album";
+const Search = () => import('@components/search');
+const SearchSongs = () => import('@components/search/songs');
+const SearchAlbum = () => import('@components/search/album');
+const SearchLyric = () => import('@components/search/lyric');
+const SearchRadio = () => import('@components/search/radio');
+const SearchMv = () => import('@components/search/mv');
+const SearchVideo = () => import('@components/search/video');
+const SearchUser = () => import('@components/search/user');
+const SearchSonglist = () => import('@components/search/songlist');
+const SearchSinger = () => import('@components/search/singer');
 
-import PersonalRecommend from '@components/personal-recommend';
+const Video = () => import('@components/search/video');
 
-import MyPage from "@components/my-page";
+const Mv = () => import('@components/mv');
+
+const Album = () => import('@components/album');
+
+const PersonalRecommend = () => import('@components/personal-recommend');
+
+const MyPage = () => import('@components/my-page');
+
 import { RouteLocation, RouteRecordRaw } from "vue-router";
-
-// const MusicHall = () => import("@components/music-hall");
-// const MusicHallFeatured = () =>
-//   import("@components/music-hall/featured");
-// const MusicHallTop = () => import("@components/music-hall/top");
-// const MusicHallNewest = () => import("@components/music-hall/newestmusic");
-// const MusicHallSonglist = () => import("@components/music-hall/songlist");
-// const MusicHallArtist = () => import("@components/music-hall/artist");
-
-// const MusicRadio = () => import("@components/music-radio");
-// const OnlineVideo = () => import("@components/online-video");
-// const Setting = () => import("@components/setting");
-
-// const Artist = () => import("@components/artist");
-// const ArtistFeatured = () => import("@components/artist/featured");
-// const ArtistAllSongs = () => import("@components/artist/allSongs");
-// const ArtistAlbum = () => import("@components/artist/album");
-// const artistMv = () => import("@components/artist/mv");
-// const artistSimiSinger = () => import("@components/artist/similarSinger");
-// const artistDesc = () => import("@components/artist/description");
-
-// const Songlist = () => import("@components/songlist");
-// const SonglistMusic = () => import("@components/songlist/music");
-// const SonglistComment = () => import("@components/songlist/comment");
-// const SonglistSubscriber = () => import("@components/songlist/subscriber");
-
-// const User = () => import("@components/user");
-// const UserPlayRecord = () => import("@components/user/play-record");
-// const UserCollection = () => import("@components/user/collection");
-// const UserSonglist = () => import("@components/user/songlist");
-
-// const Search = () => import("@components/search");
-// const SearchSongs = () => import("@components/search/songs");
-// const SearchAlbum = () => import("@components/search/album");
-// const SearchLyric = () => import("@components/search/lyric");
-// const SearchRadio = () => import("@components/search/radio");
-// const SearchVideo = () => import("@components/search/video");
-// const SearchUser = () => import("@components/search/user");
-// const SearchSonglist = () => import("@components/search/songlist");
-// const SearchSinger = () => import("@components/search/singer");
 
 const routes: RouteRecordRaw[] = [
 
@@ -190,17 +154,17 @@ const routes: RouteRecordRaw[] = [
 
           {
             path: "mv",
-            component: artistMv,
+            component: ArtistMv,
           },
 
           {
             path: "similarSinger",
-            component: artistSimiSinger,
+            component: ArtistSimiSinger,
           },
 
           {
             path: "description",
-            component: artistDesc,
+            component: ArtistDesc,
           },
         ],
       },

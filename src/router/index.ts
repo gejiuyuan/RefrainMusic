@@ -6,8 +6,7 @@ import {
   RouteRecord,
   RouterScrollBehavior,
 } from "vue-router";
-
-import routes from "./routes";
+import routes from './routes';
 
 const routerObj = createRouter({
   // scrollBehavior(to, from, savedPosition) {
