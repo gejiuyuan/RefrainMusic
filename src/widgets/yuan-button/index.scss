@@ -11,18 +11,20 @@
   background-color: $colorbase;
   transition: .16s;
   cursor: pointer; 
-
+ 
   &.yuan-button-disabled {
     cursor: no-drop;
   }
 
   &:not(.yuan-button-disabled):hover {
     background-color: rgb(241,231,221,.6);
-    color: var(--theme);
+    // color: var(--theme);
     filter: drop-shadow(0 1rem 1rem rgba(160,170,190,.18)) brightness(104%);
   }
-  &:not(.yuan-button-disabled):active {
-    background-color: var(--theme);
-    color: $colorbase; 
-  }
+  // &:not(.yuan-button-disabled).yuan-button-isActive,
+  // &:not(.yuan-button-disabled):active {
+    // background-color: var(--theme);
+    // filter: drop-shadow(0 2rem 2rem rgba(160,170,190,.38)) brightness(104%);
+    // color: $colorbase; 
+  // }
 }

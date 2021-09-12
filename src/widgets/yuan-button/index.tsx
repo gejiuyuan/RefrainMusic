@@ -1,4 +1,5 @@
-import { defineComponent, PropType } from "vue";
+import { is } from "@/utils";
+import { computed, defineComponent, PropType, ref, watch } from "vue";
 import './index.scss';
 
 export type YuanButtonData = {
@@ -28,17 +29,45 @@ export default defineComponent({
       type: Boolean as PropType<boolean>,
       required: false,
       default: false
+    },
+    isActive: {
+      type: Boolean as PropType<boolean>,
+      required: false,
+      default: false
+    },
+    onUpdateIsActive: {
+      type: [Function] as PropType<(isActive:boolean) => void>,
+      requred: false,
+      default: () => (() => {}),
     }
   },
-  setup(props, { slots }) {
-    
+  emits: ['updateIsActive'],
+  setup(props, { slots, emit }) {
+    const isActive = ref(false);
+    watch(() => props.isActive, (value) => {
+      isActive.value = value;
+    }, {
+      immediate: true
+    });
+    const clickHandler = (data: {
+      value:string,
+      text: string
+    }) => {
+      isActive.value = !isActive.value;
+      emit('updateIsActive', isActive.value);
+      props.onClick(data);
+    }
+    const classNameRef = computed(() => {
+      return {
+        'yuan-button': true,
+        'yuan-button-disabled': props.disabled,
+        'yuan-button-isActive': isActive.value,
+      }
+    });
     return () => {
-      const { onClick , text, value, disabled } = props
+      const { text, value } = props; 
       return (
-        <button class={`yuan-button ${disabled ? 'yuan-botton-disabled' : ''}`} onClick={() => onClick({
-          value,
-          text
-        })}>
+        <button class={classNameRef.value} onClick={() => clickHandler({value, text})}>
           {slots.default?.() || text}
         </button>
       )
