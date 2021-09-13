@@ -5,6 +5,7 @@ import { NaiveFormValidateError } from "@/shim";
 import usePlayerStore from "@/stores/player";
 import useUserStore from "@/stores/user";
 import { emailVerifyPatt, is, phoneVerifyPatt } from "@/utils";
+import { loginCookie } from "@/utils/auth";
 import { messageBus } from "@/utils/event/register";
 import md5 from 'crypto-js/md5'
 import { FormItemRule, NButton, NCol, NForm, NFormItem, NGrid, NGridItem, NInput, NRow, NxButton } from "naive-ui";
@@ -130,13 +131,6 @@ export default defineComponent({
         avatarUrl: '',
       }
     });
-    
-    loginStatus().then(({code}) => {
-      //页面刷新后判断一次是否登录
-      userStore.judgeAndUpdateLoginStatus(code, {
-        isFirstRefresh:true
-      });
-    });
  
     /**
      * 登录区域内容信息
@@ -151,54 +145,46 @@ export default defineComponent({
         style, name
       }
     });
+  
+    userStore.judgeAndSetAccountInfo({
+      isFirstRefresh: true,
+    });
+   
+    watch(() => userStore.userId, (id) => {
+      //我的详细信息
+      userDetail(id).then(detail => {
+        userStore.detail = detail
+      });
 
-    /**
-     * 监听登录状态变化
-     */
-    watch(() => userStore.isLogin, async (isLogin) => {
-      if (isLogin) {
-        userAccount().then(({ account: { id } }) => {
+      //我喜欢的音乐ids
+      userLikeList({ uid: id }).then(({ ids }) => userStore.myLoveListIds = ids);
 
-          //我的详细信息
-          userDetail(id).then(detail => {
-            userStore.detail = detail
-          });
+      //点赞过的视频
+      getPraisedVideos().then(({data: {feeds}}) => playerStore.video.beLiked = feeds );
 
-          //我喜欢的音乐ids
-          userLikeList({ uid: id }).then(({ ids }) => userStore.myLoveListIds = ids);
+      //收藏的mv
+      userCollectedMv().then(({data}) => {
+        playerStore.mv.beCollected = data;
+      });
 
-          //点赞过的视频
-          getPraisedVideos().then(({data: {feeds}}) => playerStore.video.beLiked = feeds );
+      //我的歌单
+      userPlaylist({ uid: id }).then(({ playlist }) => {
+        userStore.playlist = playlist.reduce(
+          (categoryItem: any, list: any) => {
+            categoryItem[list.userId === +id ? 'myCreated' : 'myCollection'].push(list);
+            return categoryItem;
+          },
+          {
+            myCreated: [],
+            myCollection: []
+          }
+        );
+      });
 
-          //收藏的mv
-          userCollectedMv().then(({data}) => {
-            playerStore.mv.beCollected = data;
-          });
-
-          //我的歌单
-          userPlaylist({ uid: id }).then(({ playlist }) => {
-            userStore.playlist = playlist.reduce(
-              (categoryItem: any, list: any) => {
-                categoryItem[list.userId === +id ? 'myCreated' : 'myCollection'].push(list);
-                return categoryItem;
-              },
-              {
-                myCreated: [],
-                myCollection: []
-              }
-            );
-          });
-
-        });
-
-        //订阅数量等相关信息
-        userSubcount().then((subCount) => {
-          userStore.subCount = subCount;
-        });
-
-      }
-    }, {
-      immediate: true
+      //订阅数量等相关信息
+      userSubcount().then((subCount) => {
+        userStore.subCount = subCount;
+      });
     });
 
     /**
@@ -227,9 +213,18 @@ export default defineComponent({
      * 切换登录类型
      * @param key 
      */
-     const switchLoginType = (key: string) => {
+    const switchLoginType = (key: string) => {
       currentLoginType.value = key;
     }  
+
+    /**
+     * 处理登录后的响应数据
+     * @param cookie 
+     */
+    const handleLoginResponse = (cookie: string) => {
+      loginCookie.value = cookie;
+      userStore.judgeAndSetAccountInfo();
+    }
 
     /**
      * 电话表单登录处理
@@ -239,12 +234,12 @@ export default defineComponent({
         if (error) {
           return;
         }
-        const { code } = await loginWithPhone({
+        const { cookie } = await loginWithPhone({
           phone: phoneInfo.number,
           password: 'invalidPassword',
           md5_password: String(md5(phoneInfo.password)),
         });
-        userStore.judgeAndUpdateLoginStatus(code);
+        handleLoginResponse(cookie);
       });
     }
 
@@ -256,12 +251,12 @@ export default defineComponent({
         if(error) {
           return;
         }
-        const { code } = await loginWithEmail({
+        const { cookie } = await loginWithEmail({
           email:emailInfo.email,
           password: 'invalidPassword',
           md5_password: String(md5(emailInfo.password)),
-        });
-        userStore.judgeAndUpdateLoginStatus(code);
+        }); 
+        handleLoginResponse(cookie);
       });
     }
      
@@ -288,7 +283,7 @@ export default defineComponent({
           })
         )
         rotationQrCodeTimer = setInterval(async () => {
-          const { code , message , cookie, avatarUrl, nickname } = await getQrCodeScanStatus({ key:unikey });
+          const { code , message , cookie, avatarUrl, nickname, account } = await getQrCodeScanStatus({ key:unikey });
           qrCodeInfo.scanStatusMsg = QrCodeStatus[code];
           //已过期
           if(code === 800) {
@@ -301,11 +296,12 @@ export default defineComponent({
           }
           else if(code === 803) {
             clearInterval(rotationQrCodeTimer);
-            await userStore.judgeAndUpdateLoginStatus(code);
+            handleLoginResponse(cookie);
           }
         }, 3000);
       });
     }
+
 
     /**
      * 组件将要卸载时也要清除下轮询定时器，以防未知情况

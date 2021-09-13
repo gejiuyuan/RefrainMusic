@@ -1,7 +1,8 @@
 import ryoko, { abortPendingRequest, InterceptorCtor, RyokoResponseType } from "ryoko";
 import type { RyokoClass } from 'ryoko';
 import { messageBus } from "@/utils/event/register";
-import { nextTick } from "vue";
+import { loginCookie } from "@/utils/auth";
+
 
 export function createRequestInstance(responseType: RyokoResponseType = 'json') {
   const ins = ryoko.create({
@@ -10,14 +11,22 @@ export function createRequestInstance(responseType: RyokoResponseType = 'json') 
     timeout: 15000,
     cache: "force-cache",
     responseType,
+    credentials: import.meta.env.DEV ? 'omit' : 'include',
     onDefer(deferMsg) { },
     verifyStatus: (status) => status >= 200 && status < 500,
   });
   ins.interceptors.request.use((config) => {
-    // if (!import.meta.env.DEV) {
-    //   config.params ??= {};
-    //   Reflect.set(config.params as PlainObject, 'realIP', '116.25.146.177');
-    // }
+    const MUSIC_C_COOKIE = loginCookie.value;
+    if (MUSIC_C_COOKIE) {
+      const confMod = config.method;
+      if (confMod === 'get') {
+        config.params ??= Object.create(null);
+        Reflect.set(config.params as PlainObject, 'cookie', MUSIC_C_COOKIE)
+      } else if (confMod === 'post') {
+        config.data ??= Object.create(null);
+        Reflect.set(config.data as PlainObject, 'cookie', MUSIC_C_COOKIE);
+      }
+    }
     return config;
   }, (err) => {
     throw err;
@@ -29,7 +38,6 @@ export function createRequestInstance(responseType: RyokoResponseType = 'json') 
 }
 
 export const anfrage = createRequestInstance();
-
 
 export const anfrageWithLoading = createRequestInstance();
 useLoadingMixin(anfrageWithLoading.interceptors);
@@ -45,20 +53,19 @@ function useLoadingMixin(interceptors: RyokoClass['interceptors']) {
     return config;
   });
 
-  const handleResLoadingClose = async () => {
+  const handleResLoadingClose = () => {
     if (--requestCount === 0) {
-      await nextTick();
       messageBus.dispatch(isLoadingFailure ? 'errorLoading' : 'finishLoading');
       isLoadingFailure = false;
     }
   }
 
-  interceptors.response.use(async resData => {
-    await handleResLoadingClose();
+  interceptors.response.use(resData => {
+    handleResLoadingClose();
     return resData;
-  }, async err => {
+  }, err => {
     isLoadingFailure = true;
-    await handleResLoadingClose();
+    handleResLoadingClose();
     throw err;
   })
 }

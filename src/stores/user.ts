@@ -1,12 +1,13 @@
-import { loginStatus } from "@/api/auth";
+import { userAccount } from "@/api/user";
 import { LoginWithPhoneResult, UserSubCount } from "@/types/auth";
 import { EMPTY_OBJ, is, UNICODE_CHAR } from "@/utils";
-import { judgeIsLogin } from "@/utils/auth";
+import { loginCookie } from "@/utils/auth";
 import { messageBus } from "@/utils/event/register";
 import { defineStore } from "pinia";
 
 export type UserStateType = {
   cookie: string;
+  userId: string | number;
   subCount: UserSubCount;
   detail: any;
   isLogin: boolean;
@@ -23,6 +24,7 @@ const useUserStore = defineStore({
   state() {
     const userState: UserStateType = {
       cookie: '',
+      userId: '',
       detail: {
         profile: {
 
@@ -31,7 +33,7 @@ const useUserStore = defineStore({
       } as any,
       subCount: {} as any,
       myLoveListIds: [],
-      isLogin: judgeIsLogin(),
+      isLogin: false,
       playlist: {
         myCreated: [],
         myCollection: [],
@@ -43,27 +45,30 @@ const useUserStore = defineStore({
 
   },
   actions: {
-    async judgeAndUpdateLoginStatus(code: number, options: {
-      //是否是第一次刷新页面
-      isFirstRefresh: boolean
+    async judgeAndSetAccountInfo(options: {
+      isFirstRefresh?: boolean
     } = EMPTY_OBJ) {
       const { isFirstRefresh = false } = options;
-      const isLoginSuccess = [200, 803].includes(code);
-      this.isLogin = isLoginSuccess;
-      let topic: string;
-      let tip: string;
-      if (isLoginSuccess) {
-        topic = 'successMessage';
-        tip = `阿娜达~登录成功啦~${UNICODE_CHAR.smile}`
-      } else if (isFirstRefresh) {
-        topic = 'warnMessage';
-        tip = `阿娜达~快去登录噢~${UNICODE_CHAR.hugface}`;
-      } else {
-        topic = 'errorMessage';
-        tip = `阿娜达~登录失败啦，再试一次⑧~${UNICODE_CHAR.pensive}`
-      }
-      messageBus.dispatch(topic, tip, {
-        duration: 4000,
+      userAccount().then(({ account }) => {
+        let topic: string;
+        let tip: string;
+        if (!account) {
+          if (isFirstRefresh) {
+            topic = 'warnMessage';
+            tip = `阿娜达~快去登录噢~${UNICODE_CHAR.hugface}`;
+          } else {
+            topic = 'errorMessage';
+            tip = `阿娜达~登录失败啦，再试一次⑧~${UNICODE_CHAR.pensive}`;
+          }
+        } else {
+          this.userId = account.id;
+          this.isLogin = true;
+          topic = 'successMessage';
+          tip = `阿娜达~登录成功啦~${UNICODE_CHAR.smile}`
+        }
+        messageBus.dispatch(topic, tip, {
+          duration: 4000,
+        });
       });
     },
   },

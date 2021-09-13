@@ -148,7 +148,6 @@ export default defineComponent({
       recommendData.music = { orderSongs, recommendReasons, dailySongs }
     }
 
-
     watch(() => userStore.isLogin, (isLogin) => {
       if (!isLogin) {
         router.replace({

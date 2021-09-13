@@ -83,6 +83,7 @@ export function logout() {
 export function loginStatus() {
   return anfrageWithLoading({
     url: "/login/status",
+    method: 'post',
     params: {
       timestamp: new Date().valueOf(),
     }
