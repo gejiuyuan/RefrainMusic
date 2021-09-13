@@ -147,7 +147,7 @@ const prodConfig: UserConfig = extend(baseConfig, {
         //打包后的代码所支持的运行环境。
         //可选值：es2020（默认值）、es2015（最低值）之类的js版本号；chrome58、safari11之类的浏览器版本号；node12.19.0版本号
         //写法：1、'es2020,chrome58,firefox57,node12.19.0'；2、['es2020', 'chrome58']
-        target: 'es2015',
+        target: 'es2017',
         //打包后html输出的主目录，默认dist。相对于project root项目根目录确定
         outDir: 'dist',
         //打包后输出的静态资源目录(包含css、js），默认assets，相对于outDir目录确定
@@ -174,7 +174,7 @@ const prodConfig: UserConfig = extend(baseConfig, {
         },
         // 启用/禁用 brotli 压缩大小报告。压缩大型输出文件可能会很慢，因此禁用该功能可能会提高大型项目的构建性能
         brotliSize: false,
-        //相当于webpack中的externals，即使用外部引入的库
+        //开发插件库时所能用到
         // lib: {
 
         // }
