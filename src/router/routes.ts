@@ -47,7 +47,7 @@ const SearchUser = () => import('@components/search/user');
 const SearchSonglist = () => import('@components/search/songlist');
 const SearchSinger = () => import('@components/search/singer');
 
-const Video = () => import('@components/search/video');
+const Video = () => import('@components/video');
 
 const Mv = () => import('@components/mv');
 

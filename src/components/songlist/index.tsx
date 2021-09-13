@@ -86,11 +86,12 @@ export default defineComponent({
       playlist.playCountStr = getLocaleCount(playlist.playCount);
       playlist.subscribedCountStr = getLocaleCount(playlist.subscribedCount);
       //之所以再获取移除所有歌曲，是因为返回的playlsit.tracks不全
-      const idsStr = playlist.trackIds.map((_: any) => _.id).join(',');
-      if(idsStr) {
-        const { songs } = await getMusicDetail({ ids: idsStr });
-        playlist.tracks = songs;
-      }
+      //@update 2021.09.14 不再再次获取歌曲数据，因为很可能造成缓慢
+      // const idsStr = playlist.trackIds.map((_: any) => _.id).join(',');
+      // if(idsStr) {
+      //   const { songs } = await getMusicDetail({ ids: idsStr });
+      //   playlist.tracks = songs;
+      // }
       songlistInfo.playlist = playlist;
 
     };
