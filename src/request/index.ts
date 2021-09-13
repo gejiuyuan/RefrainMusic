@@ -11,7 +11,6 @@ export function createRequestInstance(responseType: RyokoResponseType = 'json') 
     timeout: 15000,
     cache: "force-cache",
     responseType,
-    credentials: import.meta.env.DEV ? 'omit' : 'include',
     onDefer(deferMsg) { },
     verifyStatus: (status) => status >= 200 && status < 500,
   });
