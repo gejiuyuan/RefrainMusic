@@ -3,7 +3,6 @@ import type { RyokoClass } from 'ryoko';
 import { messageBus } from "@/utils/event/register";
 import { loginCookie } from "@/utils/auth";
 
-
 export function createRequestInstance(responseType: RyokoResponseType = 'json') {
   const ins = ryoko.create({
     mode: 'cors',
@@ -17,14 +16,8 @@ export function createRequestInstance(responseType: RyokoResponseType = 'json') 
   ins.interceptors.request.use((config) => {
     const MUSIC_C_COOKIE = loginCookie.value;
     if (MUSIC_C_COOKIE) {
-      const confMod = config.method;
-      if (confMod === 'get') {
-        config.params ??= Object.create(null);
-        Reflect.set(config.params as PlainObject, 'cookie', MUSIC_C_COOKIE)
-      } else if (confMod === 'post') {
-        config.data ??= Object.create(null);
-        Reflect.set(config.data as PlainObject, 'cookie', MUSIC_C_COOKIE);
-      }
+      config.params ??= Object.create(null);
+      Reflect.set(config.params as PlainObject, 'cookie', MUSIC_C_COOKIE)
     }
     return config;
   }, (err) => {
