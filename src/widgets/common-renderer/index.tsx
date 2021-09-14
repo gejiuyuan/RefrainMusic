@@ -1,7 +1,8 @@
-import { currentTimeRefGlobal, durationRefGlobal } from "@/stores";
+import { currentTimeRefGlobal, durationRefGlobal } from "@/stores"; 
 import { second2TimeStr } from "@/utils";
 import { defineComponent, KeepAlive } from "vue";
 import { RouterView } from "vue-router";
+import './index.scss';
 
 /**
  * 渲染KeepAliveRouterView
@@ -33,3 +34,4 @@ export const renderCurrentPlayTime = () => (
         <span class="total">{second2TimeStr(durationRefGlobal.value )}</span>
     </div>
 ); 
+ 

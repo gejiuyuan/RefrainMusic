@@ -1,13 +1,11 @@
-import { computed, defineComponent, markRaw, onMounted, reactive, ref, shallowReactive, watch } from "vue";
+import { computed, defineComponent, ref, shallowReactive, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import HeaderSetting from "@/widgets/header-setting";
-import Battery from "@/widgets/battery";
-import FullScreen from "@/widgets/fullscreen";
+import Battery from "@/widgets/battery"; 
 import UserLogin from "@widgets/user-login";
+import { NMention, NInput, NGrid, NGridItem } from "naive-ui"; 
+import { useBetterFullscreen } from "@/use";
 import "./index.scss";
-
-import { NMention, NInput, NGrid, NGridItem } from "naive-ui";
-import { EMPTY_ARR } from "@/utils";
 
 export default defineComponent({
   name: "HomeHeader",
@@ -29,6 +27,17 @@ export default defineComponent({
         },
       });
     };
+
+    const { isSupported, toggle, isFullscreen } = useBetterFullscreen();
+    if (!isSupported) {
+      return
+    }
+    const renderFullScreen = () => (
+        <section class="header-fullscreen" onClick={toggle}>
+            <i class="iconfont icon-fullscreen" title="进入全屏" hidden={isFullscreen.value}></i>
+            <i class="iconfont icon-cancelfullscreen" title="取消全屏" hidden={!isFullscreen.value}></i>
+        </section>
+    )
 
     return () => {
       return (
@@ -65,7 +74,9 @@ export default defineComponent({
             <UserLogin></UserLogin>
             <Battery></Battery>
             <HeaderSetting></HeaderSetting>
-            <FullScreen></FullScreen>
+            {
+              renderFullScreen()
+            }
           </section>
         </>
       );

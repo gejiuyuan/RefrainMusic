@@ -85,35 +85,32 @@ export default defineComponent({
         return () => {
             const { albumList, gaps: { x, y }, cols, isNew } = props;
             const coverImg = isNew ? AlbumCoverGoldImg : AlbumCoverImg; 
-            const albumCoverStyle = `background-image:url(${coverImg})`;
-            console.info(albumCoverStyle)
+            const albumCoverStyle = `background-image:url(${coverImg})`; 
             return (
                 <section class="album-container">
                     <NGrid xGap={x} yGap={y} cols={cols}>
                         {
-                            albumList
-                                .map(
-                                    ({ blurPicUrl, name, artist, id, transNames, publishTime }) =>
-                                        <NGridItem>
-                                            <section
-                                                class="album-item"
-                                                title={`${name} - ${artist?.name}`}
-                                                onClick={() => toAlbumDetailPage(id)}
-                                            >
-                                                <AlbumImg albumCoverStyle={albumCoverStyle} imgUrl={blurPicUrl}></AlbumImg>
-                                                <h5 singallinedot>
-                                                    <span>{`${name} - ${artist?.name}`}</span>
-                                                </h5>
-                                                <p>
-                                                    {
-                                                        getLocaleDate(publishTime, {
-                                                            delimiter: "-",
-                                                        })
-                                                    }
-                                                </p>
-                                            </section>
-                                        </NGridItem>
-                                )
+                            albumList.map(({ blurPicUrl, name, artist, id, transNames, publishTime }) =>
+                                <NGridItem>
+                                    <section
+                                        class="album-item"
+                                        title={`${name} - ${artist?.name}`}
+                                        onClick={() => toAlbumDetailPage(id)}
+                                    >
+                                        <AlbumImg albumCoverStyle={albumCoverStyle} imgUrl={blurPicUrl}></AlbumImg>
+                                        <h5 singallinedot>
+                                            <span>{`${name} - ${artist?.name}`}</span>
+                                        </h5>
+                                        <p>
+                                            {
+                                                getLocaleDate(publishTime, {
+                                                    delimiter: "-",
+                                                })
+                                            }
+                                        </p>
+                                    </section>
+                                </NGridItem>
+                            )
                         }
                     </NGrid>
                 </section>
