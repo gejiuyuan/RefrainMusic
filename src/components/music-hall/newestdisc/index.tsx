@@ -21,9 +21,9 @@ import { onFilteredBeforeRouteUpdate, RouteHookNames } from "@/hooks/onRouteHook
 export const areaKeyList = [
   { key: 'ALL', area: '全部' },
   { key: 'ZH', area: '华语' },
-  { key: 'JP', area: '欧美' },
-  { key: 'EA', area: '韩国' },
-  { key: 'KR', area: '日本' },
+  { key: 'EA', area: '欧美' },
+  { key: 'KR', area: '韩国' },
+  { key: 'JP', area: '日本' },
 ]
 
 const typeKeyList = [
