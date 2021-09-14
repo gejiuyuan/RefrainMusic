@@ -16,6 +16,7 @@ import { artistSongs } from "@api/singer";
 import "./index.scss";
 import { NRadioGroup, NSpace, NRadio } from "naive-ui";
 import { COMPONENT_NAME, PAGE_SIZE } from "@/utils/preference";
+import { onFilteredBeforeRouteUpdate } from "@/hooks/onRouteHook";
 
 const orders = [
   { text: "最新", key: "time" },
@@ -74,20 +75,12 @@ export default defineComponent({
       songsData.songList = freeze(songs);
     };
 
-    let queryWatcher: WatchStopHandle;
     onActivated(() => {
-      queryWatcher = watch(
-        () => route.query, (query) => {
-          getAllSongs(query);
-        },
-        {
-          immediate: true
-        }
-      );
+      getAllSongs(route.query);
     });
-
-    onBeforeRouteLeave(() => {
-      queryWatcher();
+ 
+    onFilteredBeforeRouteUpdate((to) => {
+      getAllSongs(to.query);
     });
 
     const handleOrderChange = (order: string | number) => {

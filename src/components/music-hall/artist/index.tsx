@@ -17,6 +17,7 @@ import "./index.scss";
 import { NRadio, NRadioButton, NRadioGroup, NSpace } from "naive-ui";
 import singer from "../../search/singer";
 import { COMPONENT_NAME, PAGE_SIZE } from "@/utils/preference";
+import { onFilteredBeforeRouteUpdate } from "@/hooks/onRouteHook";
 
 type SingerListInfo = {
   limit: number;
@@ -112,11 +113,10 @@ export default defineComponent({
     };
     getArtistsInfo(route.query);
 
-    onBeforeRouteUpdate((to, from, next) => {
+    onFilteredBeforeRouteUpdate((to) => {
       getArtistsInfo(to.query);
-      next();
     });
-
+ 
     const areaChange = (areaKey: string | number) => {
       router.push({
         query: {

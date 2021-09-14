@@ -43,11 +43,11 @@ export const onFilteredBeforeRouteUpdate: (guard: OnRouteHookGuard) => void = (u
     RouteHookNames.beforeUpdate,
     updateGuard,
     ((to, from) => {
-      const newTo = { ...to };
-      const newFrom = { ...from };
-      Reflect.deleteProperty(newTo, 'playerStatus');
-      Reflect.deleteProperty(newFrom, 'playerStatus');
-      return JSON.stringify(newTo) !== JSON.stringify(newFrom);
+      const newToQuery = { ...to.query };
+      const newFromQuery = { ...from.query };
+      Reflect.deleteProperty(newToQuery, 'playerStatus');
+      Reflect.deleteProperty(newFromQuery, 'playerStatus');
+      return JSON.stringify(newToQuery) !== JSON.stringify(newFromQuery) || to.path !== from.path;
     })
   )
 }

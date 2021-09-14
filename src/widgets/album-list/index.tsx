@@ -17,6 +17,7 @@ import AlbumCoverGoldImg from '@assets/img/album-cover-gold.png';
 import "./index.scss";
 import { PAGE_SIZE } from "@/utils/preference";
 import RoutePagination from "../route-pagination";
+import { onFilteredBeforeRouteUpdate } from "@/hooks/onRouteHook";
 
 const AlbumImg = defineComponent({
     name: 'AlbumImg',
@@ -117,10 +118,8 @@ export default defineComponent({
         };
         updateTolListInfo(router.currentRoute.value.query as PlainObject);
     
-        onBeforeRouteUpdate((to, from, next) => {
-        
+        onFilteredBeforeRouteUpdate((to, from) => {
             updateTolListInfo(to.query as PlainObject);
-            next();
         });
 
         const toAlbumDetailPage = (id: number) => {

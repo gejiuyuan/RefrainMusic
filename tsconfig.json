@@ -33,7 +33,7 @@
       "@request/*": ["./src/request/*"],
       "@utils/*": ["./src/utils/*"],
       "@stores/*": ["./src/stores/*"],
-      "@use/*": ["./src/use/*"],
+      "@use/*": ["src/hooks/*"],
       "@database/*": ["./src/database/*"],
       "@widgets/*": ["./src/widgets/*"]
     }

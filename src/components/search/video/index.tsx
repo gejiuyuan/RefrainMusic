@@ -21,6 +21,8 @@ import {
   LocationQuery,
   onBeforeRouteUpdate,
   onBeforeRouteLeave,
+  routeLocationKey,
+  RouteLocationNormalized,
 } from "vue-router";
 import { searchCloud } from "@api/search";
 import { getLocaleCount, padPicCrop } from "@utils/index";
@@ -29,6 +31,7 @@ import RoutePagination, { PagiInfo } from "@widgets/route-pagination";
 import { SearchCloundData } from "../index";
 import VideoList from '@widgets/video-list';
 import { COMPONENT_NAME, PAGE_SIZE } from "@/utils/preference";
+import { onFilteredBeforeRouteUpdate } from "@/hooks/onRouteHook";
 
 const defaultLimie = PAGE_SIZE[COMPONENT_NAME.SEARCH_VIDEO];
 
@@ -60,24 +63,16 @@ export default defineComponent({
     watchEffect(() => {
       videoPagiConf.total = searchData.video.videoCount;
     });
+ 
+    const routeUpdateHandler = async ({ query }: RouteLocationNormalized) => {
+      const { limit, offset } = query as PlainObject<string>;
+      videoPagiConf.limit = limit;
+      videoPagiConf.offset = offset;
+    }
+    routeUpdateHandler(route);
 
-    let videoRouteWatcher: WatchStopHandle;
-    onActivated(() => {
-      videoRouteWatcher = watch(
-        () => route.query,
-        async (query, oldQuery) => {
-          const { limit, offset } = query as PlainObject<string>;
-          videoPagiConf.limit = limit;
-          videoPagiConf.offset = offset;
-        },
-        {
-          immediate: true,
-        }
-      );
-    });
-
-    onBeforeRouteLeave(() => {
-      videoRouteWatcher();
+    onFilteredBeforeRouteUpdate((to) => {
+      routeUpdateHandler(to);
     });
 
     return () => {

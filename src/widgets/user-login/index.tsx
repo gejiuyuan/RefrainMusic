@@ -290,11 +290,11 @@ export default defineComponent({
             clearInterval(rotationQrCodeTimer);
           }
           //待确认中
-          else if(code === 802) {
+          else if(code === 802 && !cookie) {
             qrCodeInfo.user.avatarUrl = avatarUrl;
-            qrCodeInfo.user.nickname = nickname;
+            qrCodeInfo.user.nickname = nickname; 
           }
-          else if(code === 803) {
+          else if(code === 803 || cookie) {
             clearInterval(rotationQrCodeTimer);
             handleLoginResponse(cookie);
           }

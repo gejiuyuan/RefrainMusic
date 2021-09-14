@@ -12,6 +12,7 @@ import { NewestSongInfo } from "@/types/song";
 import { onBeforeRouteLeave, useRoute, useRouter } from "vue-router";
 import { NRadioButton, NRadioGroup } from "naive-ui";
 import './index.scss';
+import { onFilteredBeforeRouteUpdate } from "@/hooks/onRouteHook";
 
 export const NewMusicAreaList = [
   { key: 0, area: '全部', },
@@ -46,23 +47,16 @@ export default defineComponent({
       currentAreaKey: defaultAreaKey as NewMusicAreaMap
     });
 
-    let areaWatcher: WatchStopHandle;
+    const routeUpdateHandler = async ({ query: { area = defaultAreaKey } }) => {
+      newestMusicInfo.currentAreaKey = +area;
+      newestMusicInfo.listMap[newestMusicInfo.currentAreaKey] ??=
+        (await getNewExpressMusic({ type: area })).data;
+    };
+    routeUpdateHandler(route);
 
-    onActivated(() => {
-      areaWatcher = watch(
-        () => route.query.area as any, async (areaKey = defaultAreaKey) => {
-          newestMusicInfo.currentAreaKey = +areaKey;
-          newestMusicInfo.listMap[newestMusicInfo.currentAreaKey] ??= (await getNewExpressMusic({ type: areaKey })).data;
-        },
-        {
-          immediate: true
-        }
-      );
-    })
-
-    onBeforeRouteLeave(() => {
-      areaWatcher()
-    })
+    onFilteredBeforeRouteUpdate((to) => { 
+      routeUpdateHandler(to);
+    });
 
     const areaChange = (areaKey: string | number) => {
       router.push({

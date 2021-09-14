@@ -11,6 +11,7 @@ import RoutePagination from "@widgets/route-pagination";
 import { PAGE_SIZE } from "@/utils/preference";
 import { NGrid, NGridItem } from "naive-ui";
 import "./index.scss";
+import { onFilteredBeforeRouteUpdate } from "@/hooks/onRouteHook";
 
 export type MvListType = Mv & SearchMv;
 
@@ -75,9 +76,8 @@ export default defineComponent({
     };
     updateTolListInfo(route.query);
 
-    onBeforeRouteUpdate((to, from, next) => {
+    onFilteredBeforeRouteUpdate((to) => {
       updateTolListInfo(to.query);
-      next();
     });
 
     const toMvDetailPage = (id: string | number) => {

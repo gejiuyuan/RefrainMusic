@@ -12,7 +12,7 @@ import { useRoute, useRouter } from "vue-router";
 import usePlayerStore, { playerQueueShow } from "@/stores/player";
 import ProgressBar, { ProgressInfo } from "@/widgets/progress-bar";
 import { renderCurrentPlayTime } from "@/widgets/common-renderer";
-import usePlaySwitch from "@/use/usePlaySwitch";import { computed, defineComponent, PropType, ref } from "vue";
+import usePlaySwitch from "@/hooks/usePlaySwitch";import { computed, defineComponent, PropType, ref } from "vue";
 import { currentTimeRefGlobal, durationRefGlobal, nextSeekTimeRefGlobal, playingRefGlobal } from "@/stores/audio";
 
 export default defineComponent({

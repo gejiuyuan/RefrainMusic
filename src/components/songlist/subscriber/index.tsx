@@ -21,6 +21,7 @@ import { is, override } from "@/utils";
 import "./index.scss";
 import { COMPONENT_NAME, PAGE_SIZE } from "@/utils/preference";
 import { NEmpty } from "naive-ui";
+import { onFilteredBeforeRouteUpdate } from "@/hooks/onRouteHook";
 
 const defaultLimit = PAGE_SIZE[COMPONENT_NAME.SONGLIST_SUBSCRIBER]
 
@@ -51,16 +52,15 @@ export default defineComponent({
       isShowPagi.value = reason !== "needLogin";
     };
     getPlaylistSubscribers();
-  
-    onBeforeRouteUpdate((to, from, next) => {
+
+    onFilteredBeforeRouteUpdate((to, from) => {
       const { params: { id }, query: { limit, offset } } = to;
       const { params: { id:oldId }, query: { limit:oldLimit , offset:oldOffset } } = from;
       if(id !== oldId || limit !== oldLimit || offset !== oldOffset) {
         getPlaylistSubscribers();
       }
-      next();
     });
-
+    
     const renderNotLogin = () => {
       if (is.emptyArray(subscribers) && isShowPagi.value === false) {
         return <NEmpty description="阿娜达~还没有登录噢~~" showDescription={true}></NEmpty>

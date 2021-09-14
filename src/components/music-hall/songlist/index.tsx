@@ -27,6 +27,7 @@ import {
 } from "naive-ui";
 import { ChevronDown20Regular } from "@vicons/fluent";
 import { COMPONENT_NAME, PAGE_SIZE } from "@/utils/preference";
+import { onFilteredBeforeRouteUpdate } from "@/hooks/onRouteHook";
 
 const obtainCategory = (data: any) => {
   const { categories, sub } = data;
@@ -91,9 +92,8 @@ export default defineComponent({
     };
     getSonglist(route.query);
 
-    onBeforeRouteUpdate((to, from, next) => {
+    onFilteredBeforeRouteUpdate((to) => {
       getSonglist(to.query);
-      next();
     });
 
     const categoryData = shallowReactive<ReturnType<typeof obtainCategory>>({

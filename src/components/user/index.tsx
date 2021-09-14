@@ -15,6 +15,8 @@ import {
   useRoute,
   onBeforeRouteLeave,
   RouterView,
+  routeLocationKey,
+  RouteLocationNormalized,
 } from "vue-router";
 import { userDetail, userSubcount, userRecord, userPlaylist } from "@api/user";
 import { EMPTY_ARR, EMPTY_OBJ, getLocaleDate, NOOP, objToQuery, padPicCrop } from "@utils/index";
@@ -25,8 +27,9 @@ import "./index.scss";
 import { baseUserMenuRouteLists, defaultPlayRecordType } from "./config";
 import { PlaylistCommon } from "@/types/songlist";
 import { NxButton, NSpace } from "naive-ui";
-import CommonRouterList from "@/widgets/common-router-list"; 
+import CommonRouterList from "@/widgets/common-router-list";
 import { renderKeepAliveRouterView } from "@/widgets/common-renderer";
+import { onFilteredBeforeRouteUpdate } from "@/hooks/onRouteHook";
 
 export default defineComponent({
   name: "UserDetail",
@@ -114,33 +117,32 @@ export default defineComponent({
       data && (userInfo.value = data);
     };
 
-    const queryWatcher: WatchStopHandle = watch(
-      () => route.query as any,
-      async ({ id, type, limit, offset }, oldQuery = {}) => {
-        const {
-          id: oldId,
-          type: oldType,
-          limit: oldLimit,
-          offset: oldOffset,
-        } = oldQuery;
-        if (id !== oldId || limit !== oldLimit || offset !== oldOffset) {
-          getUserPlaylist({ id, limit, offset });
-        }
-        if (id !== oldId) {
-          await getUserDetail(id);
-        }
-        if (id !== oldId || type !== oldType) {
-          //如果用户设置了播放记录是可见的
-          userInfo.value.peopleCanSeeMyPlayRecord && getUserRecord(id, type);
-        }
-      },
-      {
-        immediate: true,
+    const routeUpdateHandler = async (
+      { query }: RouteLocationNormalized,
+      { query: oldQuery = EMPTY_OBJ }: RouteLocationNormalized = EMPTY_OBJ,
+    ) => { 
+      const { id, type, limit, offset } = query as PlainObject; 
+      const {
+        id: oldId,
+        type: oldType,
+        limit: oldLimit,
+        offset: oldOffset,
+      } = oldQuery;
+      if (id !== oldId || limit !== oldLimit || offset !== oldOffset) {
+        getUserPlaylist({ id, limit, offset });
       }
-    );
-
-    onBeforeRouteLeave(() => {
-      queryWatcher();
+      if (id !== oldId) {
+        await getUserDetail(id);
+      }
+      if (id !== oldId || type !== oldType) {
+        //如果用户设置了播放记录是可见的
+        userInfo.value.peopleCanSeeMyPlayRecord && getUserRecord(id, type);
+      }
+    }
+    routeUpdateHandler(route);
+ 
+    onFilteredBeforeRouteUpdate((to, from) => {
+      routeUpdateHandler(to, from);
     });
 
     return () => {

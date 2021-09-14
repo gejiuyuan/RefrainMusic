@@ -30,6 +30,7 @@ import {
 import Songlist from '@widgets/song-list';
 import CommonRouterList from "@/widgets/common-router-list"; 
 import { renderKeepAliveRouterView } from "@/widgets/common-renderer";
+import { onFilteredBeforeRouteUpdate } from "@/hooks/onRouteHook";
 
 const baseSonglistRoutelists = [
   { text: "歌曲列表", to: "/songlist/:id/music", },
@@ -127,18 +128,16 @@ export default defineComponent({
     };
     updatePageData(router.currentRoute.value.params);
 
-    onBeforeRouteUpdate((to: RouteLocationNormalized, from, next) => {
-      const { id: toId } = to.params as any;
+    onFilteredBeforeRouteUpdate((to, from) => {
+      const { id: toId } = to.params;
       const { id: fromId } = from.params;
       if (toId != fromId) {
         updatePageData(to.params);
-      }
-      next();
+      } 
     });
 
     const toCreatorDetailPage = (id: string) =>
       router.push({ path: "/user", query: { id } });
-
 
     const renderRelativeRecommendSonglist = () => {
       return (

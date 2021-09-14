@@ -1,6 +1,6 @@
 import { PreferenceNames } from "@/utils/preference";
 import { customRef, ref, watchEffect } from "vue";
-import useHowler from "@/use/useHowler";
+import useHowler from "@/hooks/useHowler";
 import { UNICODE_CHAR, is, extend, isURL } from "@utils/index";
 import { messageBus } from "@utils/event/register";
 import EventDispatcher from "@/utils/event/event";

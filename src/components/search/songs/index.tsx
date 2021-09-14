@@ -1,24 +1,16 @@
-import {
-  markRaw,
-  onMounted,
-  ref,
-  toRef,
-  watch,
-  toRefs,
+import { 
   shallowReactive,
   defineComponent,
 } from "vue";
-import {
-  LocationQuery,
-  onBeforeRouteLeave,
-  onBeforeRouteUpdate,
-  RouteQueryAndHash,
+import { 
+  RouteLocationNormalized, 
   useRoute,
   useRouter,
 } from "vue-router";
 import { searchCloud } from "@api/search";
 import "./index.scss";
 import MusicList from "@/widgets/music-list";
+import { onFilteredBeforeRouteUpdate } from "@/hooks/onRouteHook";
 
 export default defineComponent({
   name: "SearchSongs",
@@ -30,22 +22,20 @@ export default defineComponent({
       songs: [],
     });
 
-    const getSearchSongs = async (query: LocationQuery) => {
+    const getSearchSongs = async ({ query }: RouteLocationNormalized) => {
       const { type, keywords } = query as PlainObject<string>;
       const { result } = await searchCloud({
         type,
         keywords,
-      }); 
+      });
       result &&
         ((songlistData.songCount = result.songCount),
           (songlistData.songs = result.songs));
     };
+    getSearchSongs(route);
 
-    getSearchSongs(route.query);
-
-    onBeforeRouteUpdate((to, from, next) => {
-      getSearchSongs(to.query);
-      next();
+    onFilteredBeforeRouteUpdate((to) => { 
+      getSearchSongs(to);
     });
 
     return () => {

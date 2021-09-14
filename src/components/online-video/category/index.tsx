@@ -7,6 +7,7 @@ import { onBeforeRouteUpdate, useRoute, useRouter } from "vue-router";
 import VideoList from '@widgets/video-list';
 import "./index.scss";
 import { is } from "@/utils";
+import { onFilteredBeforeRouteUpdate } from "@/hooks/onRouteHook";
 export interface CategoryVideosInfoType {
   tagList: VideoTagItem[];
   categoryList: VideoTagItem[];
@@ -76,13 +77,12 @@ export default defineComponent({
       activeInfo.hasMore = hasMore;
     } 
     
-    onBeforeRouteUpdate((to, from , next) => {
+    onFilteredBeforeRouteUpdate((to, from) => {
       const { offset, id } = to.query;
       const { offset:fromOffset, id: fromId } = from.query;
       if( id !== fromId || offset !== fromOffset ) {
         getVideoList();
-      }
-      next();
+      } 
     });
 
     watch<[string, VideoTagItem[]]>(() => [route.query.id as string, categoryVideosInfo.tagList], ([routeId, tagList]) => {

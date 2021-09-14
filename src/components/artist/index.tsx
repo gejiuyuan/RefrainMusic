@@ -31,6 +31,7 @@ import { deepCopy, extend, objToQuery, padPicCrop } from "@/utils";
 import "./index.scss";
 import { EMPTY_OBJ, freeze } from "@/utils";
 import { renderKeepAliveRouterView } from "@/widgets/common-renderer";
+import { onFilteredBeforeRouteUpdate } from "@/hooks/onRouteHook";
 
 export type Artist = {
   alias: string[];
@@ -104,13 +105,10 @@ export default defineComponent({
 
     getArtistDetail(route);
 
-    onBeforeRouteUpdate((to, { query: { id: fromId } }, next) => {
-      if (to.query.id != fromId) {
-        getArtistDetail(to);
-      }
-      next();
+    onFilteredBeforeRouteUpdate((to) => {
+      getArtistDetail(to);
     });
-
+ 
     const followChangeHandler = (isFollow: boolean) => {
       information.artist.followed = isFollow;
     } 

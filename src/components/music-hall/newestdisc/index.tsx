@@ -16,6 +16,7 @@ import { newAlbumPutOn } from "@/api/playlist";
 import { NRadioButton, NRadioGroup } from "naive-ui";
 import { EMPTY_OBJ } from "@/utils";
 import AlbumList from "@/widgets/album-list";
+import { onFilteredBeforeRouteUpdate, RouteHookNames } from "@/hooks/onRouteHook";
 
 export const areaKeyList = [
   { key: 'ALL', area: '全部' },
@@ -58,47 +59,34 @@ export default defineComponent({
       listMap,
       hasMore: false,
     });
-
-    let infoWatcher: WatchStopHandle;
-
-    onActivated(() => {
-      infoWatcher = watch(
-        () => route.query as any,
-        async (
-          {
-            area = defaultAreaKey,
-            type = defaultTypeKey,
-            limit,
-            year,
-            month,
-            offset,
-          },
-          {
-            type: oldType
-          } = EMPTY_OBJ
-        ) => {
-          const discRequestParams = {
-            area, limit, type, year, month, offset
-          }
-          if (type !== oldType || !newDiscInfos.listMap[area]) {
-            console.info(9)
-            const { hasMore, weekData, monthData } = await newAlbumPutOn(discRequestParams);
-            newDiscInfos.hasMore = hasMore;
-            newDiscInfos.listMap[area] = {
-              weekData, monthData
-            }
-          }
-
-        },
-        {
-          immediate: true
+ 
+    const routeUpdateHandler = async (
+      toQuery: PlainObject,
+      fromQuery?: PlainObject,
+    ) => {
+      const {
+        area = defaultAreaKey,
+        type = defaultTypeKey,
+        limit,
+        year,
+        month,
+        offset,
+      } = toQuery;
+      const { type: oldType } = fromQuery || EMPTY_OBJ;
+      if (type !== oldType || !newDiscInfos.listMap[area]) { 
+        const { hasMore, weekData, monthData } = await newAlbumPutOn({
+          area, limit, type, year, month, offset
+        });
+        newDiscInfos.hasMore = hasMore;
+        newDiscInfos.listMap[area] = {
+          weekData, monthData
         }
-      )
-    })
-
-    onBeforeRouteLeave(() => {
-      infoWatcher();
-    })
+      }
+    }
+    routeUpdateHandler(route.query);
+    onFilteredBeforeRouteUpdate((to, from) => {
+      routeUpdateHandler(to.query, from.query);
+    });
 
     const areaChange = (areaKey: string | number) => {
       router.push({

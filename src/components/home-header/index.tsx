@@ -4,7 +4,7 @@ import HeaderSetting from "@/widgets/header-setting";
 import Battery from "@/widgets/battery"; 
 import UserLogin from "@widgets/user-login";
 import { NMention, NInput, NGrid, NGridItem } from "naive-ui"; 
-import { useBetterFullscreen } from "@/use";
+import { useBetterFullscreen } from "@/hooks";
 import "./index.scss";
 
 export default defineComponent({

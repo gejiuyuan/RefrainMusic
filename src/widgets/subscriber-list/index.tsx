@@ -1,11 +1,12 @@
 import { watch, shallowReactive, toRefs, computed, PropType, defineComponent } from "vue";
-import { useRouter, useRoute } from "vue-router";
+import { useRouter, useRoute, RouteLocationNormalized } from "vue-router";
 import { Subscriber } from "@/types/songlist";
 import "./index.scss";
 import { is, padPicCrop } from "@/utils";
 import { NEmpty, NGrid, NGridItem } from "naive-ui";
 import RoutePagination, { PagiInfo } from "../route-pagination";
 import { PAGE_SIZE } from "@/utils/preference";
+import { onFilteredBeforeRouteUpdate } from "@/hooks/onRouteHook";
 
 export default defineComponent({
   name: "subscriberList",
@@ -54,21 +55,20 @@ export default defineComponent({
         .map((v, i) => defaultLimit * (i + 1)),
       offset: 0,
       total: 0,
-    });
-    watch(
-      () => route as any,
-      ({ params: { id }, query: { limit, offset } }) => {
-        limit = limit || defaultLimit;
-        offset = offset || 0;
-        subscriberPagiInfo.limit = limit;
-        subscriberPagiInfo.offset = offset;
-      },
-      {
-        immediate: true,
-        deep: true,
-      }
-    );
+    }); 
 
+    const routeUpdateHandler = async ({ params: { id }, query: { limit, offset } } :RouteLocationNormalized) => {
+      const realLimit = Number(limit) || defaultLimit;
+      const realOffset = Number(offset) || 0;
+      subscriberPagiInfo.limit = realLimit;
+      subscriberPagiInfo.offset = realOffset;
+    };
+    routeUpdateHandler(route);
+
+    onFilteredBeforeRouteUpdate((to) => {
+      routeUpdateHandler(to);
+    });
+    
     return () => {
       const { userLists, gaps: { x, y }, cols, hasMore } = props;
       return (

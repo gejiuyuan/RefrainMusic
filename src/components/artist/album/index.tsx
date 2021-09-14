@@ -12,47 +12,32 @@ import { AlbumInfo } from "@/types/album";
 import RoutePagination from "@/widgets/route-pagination";
 import AlbumList from "@/widgets/album-list";
 import { COMPONENT_NAME, PAGE_SIZE } from "@/utils/preference";
+import { onFilteredBeforeRouteUpdate } from "@/hooks/onRouteHook";
 
-const defaultSingerAlbumInfo = {
-  limit: PAGE_SIZE[COMPONENT_NAME.ARTIST_ALBUM],
-  offset: 0,
-};
+const defaultSingerALbumLimit = PAGE_SIZE[COMPONENT_NAME.ARTIST_ALBUM];
 
 export interface RealAlbumInfo {
   albumList: AlbumInfo[];
+  hasMore: boolean;
 }
 
 export default defineComponent({
   name: COMPONENT_NAME.ARTIST_ALBUM,
   setup(props, { slots, emit }) {
-    const router = useRouter();
-
-    const { limit: dftLimit, offset: dftOffset } = defaultSingerAlbumInfo;
-
+    const router = useRouter(); 
     const albumInfo = shallowReactive<RealAlbumInfo>({
       albumList: [],
-    });
-
-    const hasMore = ref(true);
-
-    const albumPagiInfo = reactive({
-      limit: dftLimit,
-      offset: dftOffset,
-      sizeArr: Array(3)
-        .fill(0)
-        .map((v, i) => dftLimit * (i + 1)),
-    });
+      hasMore: true,
+    }); 
+ 
     const getAlbum = async (route: RouteLocationNormalized) => {
-      const { id, limit = dftLimit, offset = dftOffset } = route.query as any;
+      const { id, limit = defaultSingerALbumLimit, offset } = route.query as PlainObject;
       const { hotAlbums = [], more } = await artistAlbum({
         id,
         limit,
         offset,
       });
-      hasMore.value = more;
-      albumPagiInfo.limit = +limit;
-      albumPagiInfo.offset = +offset;
-
+      albumInfo.hasMore = more; 
       hotAlbums.forEach((item: AlbumInfo) => {
         item.publishTimeStr = getLocaleDate(item.publishTime, {
           delimiter: "-",
@@ -66,18 +51,18 @@ export default defineComponent({
       getAlbum(router.currentRoute.value);
     });
 
-    onBeforeRouteUpdate((to, from, next) => {
+    onFilteredBeforeRouteUpdate((to) => {
       getAlbum(to);
-      next();
     });
-
+ 
     return () => (
       <>
         <section class="yplayer-artist-album">
-          <AlbumList albumList={albumInfo.albumList}></AlbumList>
-          <section class="album-pagination">
-            <RoutePagination pagiInfo={albumPagiInfo} hasMore={hasMore.value}></RoutePagination>
-          </section>
+          <AlbumList 
+            albumList={albumInfo.albumList} 
+            hasMore={albumInfo.hasMore}
+            defaultLimit={PAGE_SIZE[COMPONENT_NAME.ARTIST_ALBUM]}
+          ></AlbumList>
         </section>
       </>
     );

@@ -21,6 +21,7 @@ import { UNICODE_CHAR, padPicCrop } from "@utils/index";
 import { getFullName, getFullNames } from "@/utils/apiSpecial";
 import { PAGE_SIZE } from "@/utils/preference";
 import { PlaylistCommon } from "@/types/songlist";
+import { onFilteredBeforeRouteUpdate } from "@/hooks/onRouteHook";
  
 export default defineComponent({
   name: "Songlist",
@@ -84,9 +85,8 @@ export default defineComponent({
     };
     updateTolListInfo(route.query as PlainObject);
 
-    onBeforeRouteUpdate((to, from, next) => {
+    onFilteredBeforeRouteUpdate((to, from) => {
       updateTolListInfo(to.query as PlainObject);
-      next();
     });
 
     const toSonglistDetailPage = (id: string | number) =>

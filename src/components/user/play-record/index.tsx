@@ -7,7 +7,7 @@ import {
   inject,
   defineComponent,
 } from "vue";
-import { useRouter, useRoute, onBeforeRouteLeave } from "vue-router";
+import { useRouter, useRoute, onBeforeRouteLeave, RouteLocationRaw, RouteLocationNormalized } from "vue-router";
 import MusicList from "@/widgets/music-list";
 
 import { PlayRecord } from "@/types/song";
@@ -17,6 +17,7 @@ import {
   ChatWarning24Regular
 } from '@vicons/fluent';
 import { NRadio, NRadioButton, NRadioGroup, NSpace, NIcon, } from "naive-ui";
+import { onFilteredBeforeRouteUpdate } from "@/hooks/onRouteHook";
 
 export default defineComponent({
   name: "PlayRecord",
@@ -38,19 +39,18 @@ export default defineComponent({
       });
     };
 
-    watch(
-      () => route.query.type as string | number,
-      (curType) => {
-        curType = +curType;
-        const isExsit = playRecordTimeRange.some(
-          ({ type }) => curType === type
-        );
-        curPlayRecordRange.value = isExsit ? curType : defaultPlayRecordType;
-      },
-      {
-        immediate: true,
-      }
-    );
+    const routeUpdateHandler = async ({query: { type }} : RouteLocationNormalized) => {
+      const curType = Number(type);
+      const isExsit = playRecordTimeRange.some(
+        ({ type }) => curType === type
+      );
+      curPlayRecordRange.value = isExsit ? curType : defaultPlayRecordType;
+    }
+    routeUpdateHandler(route);
+
+    onFilteredBeforeRouteUpdate((to) => {
+      routeUpdateHandler(to);
+    });
 
     return () => {
       const { listenSongs, peopleCanSeeMyPlayRecord, profile } = userInfo.value;

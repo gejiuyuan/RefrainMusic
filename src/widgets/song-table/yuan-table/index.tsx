@@ -5,8 +5,8 @@ import {
 } from "@utils/index";
 import { NGrid, NGridItem } from "naive-ui";
 import "./index.scss";
-import { useParent } from "@/use/useParent";
-import { useChildren } from "@/use/useChildren";
+import { useParent } from "@/hooks/useParent";
+import { useChildren } from "@/hooks/useChildren";
 
 export const YUAN_TABLE_KEY = Symbol('YuanTable');
 
@@ -68,7 +68,9 @@ export default defineComponent({
               >
                 {
                   slotArr.map((slot, i) => {
-                    let { label, span } = slot!.props!;
+                    const props = slot!.props!;
+                    let { span } = props;
+                    const { label } = props;
                     !Number.isFinite(+span) && (span = 1);
                     return (
                       <NGridItem class="grid-item" span={span}>

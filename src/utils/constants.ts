@@ -1,6 +1,6 @@
 import { getCountryCode } from "@api/other";
 
-export const NOOP = function (a?: any, b?: any, c?: any) { };
+export const NOOP = function (a?: any, b?: any, c?: any): any { };
 
 export const EMPTY_OBJ = Object.create(null);
 

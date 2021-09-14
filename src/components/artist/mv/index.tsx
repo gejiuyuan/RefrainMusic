@@ -12,6 +12,7 @@ import { Mv } from "@/types/mv";
 import "./index.scss";
 import { COMPONENT_NAME, PAGE_SIZE } from "@/utils/preference";
 import MvList from '@widgets/mv-list';
+import { onFilteredBeforeRouteUpdate } from "@/hooks/onRouteHook";
 
 const defaultMvslimit = PAGE_SIZE[COMPONENT_NAME.ARTIST_MV];
 export interface RealMvInfo {
@@ -29,7 +30,7 @@ export default defineComponent({
     const hasMoreRef = ref(true);
 
     const getArtistMvs = async (route: RouteLocationNormalized) => {
-      const { id, limit = defaultMvslimit, offset = 0 } = route.query as any;
+      const { id, limit = defaultMvslimit, offset } = route.query as PlainObject;
       const { mvs = [], hasMore } = await artistMv({
         id,
         limit,
@@ -43,9 +44,8 @@ export default defineComponent({
       getArtistMvs(route);
     });
 
-    onBeforeRouteUpdate((to, from, next) => {
+    onFilteredBeforeRouteUpdate((to) => {
       getArtistMvs(to);
-      next();
     });
 
     return () => {

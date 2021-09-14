@@ -1,4 +1,5 @@
 import { userPlaylist, userRecord } from "@/api/user";
+import { onFilteredBeforeRouteUpdate } from "@/hooks/onRouteHook";
 import useUserStore from "@/stores/user";
 import { getDate, getLocaleDate, phoneVerifyPatt, UNICODE_CHAR } from "@/utils"; 
 import MusicList from "@/widgets/music-list";
@@ -33,19 +34,19 @@ export default defineComponent({
       return infos;
     });
 
-    const idWatcher = watch(() => route.query.id as string, (id) => {
+    const routeUpdateHandler = async({query: { id }} : PlainObject) => {
       if (!id) return;
-      userRecord({ uid: id }).then(({ weekData }) => {
-        myData.playRecord = weekData.map(({ song }: any) => song);
-      })
-    }, {
-      immediate: true
-    });
+      const { weekData } = await userRecord({ uid: id });
+      weekData && (
+        myData.playRecord = weekData.map(({ song }: PlainObject) => song)
+      );
+    };
+    routeUpdateHandler(route);
 
-    onBeforeRouteLeave(() => {
-      idWatcher();
+    onFilteredBeforeRouteUpdate((to) => {
+      routeUpdateHandler(to);
     });
-
+ 
     const renderRegisterSign = () => <i>{UNICODE_CHAR.registed}</i>
 
     return () => {

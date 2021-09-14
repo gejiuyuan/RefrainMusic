@@ -9,6 +9,8 @@ import {
   useRouter,
   LocationQuery, 
   onBeforeRouteLeave,
+  RouteLocationNormalized,
+  onBeforeRouteUpdate,
 } from "vue-router";
 import {
   objToQuery,
@@ -28,6 +30,7 @@ import { searchCloud, searchMulMatch } from "@api/search";
 import CommonRouterList from "@/widgets/common-router-list"; 
 import { COMPONENT_NAME, PAGE_SIZE } from "@/utils/preference";
 import { renderKeepAliveRouterView } from "@/widgets/common-renderer";
+import { onFilteredBeforeRouteUpdate } from "@/hooks/onRouteHook";
 
 export const baseSearchCate = [
   { text: "歌曲", to: "/search/songs", type: 1, limit: PAGE_SIZE.DEFAULT },
@@ -171,31 +174,29 @@ export default defineComponent({
       result && (searchCloundData[typeCat] = result);
     };
 
-    const searchQueryWatcher = watch(
-      () => route.query,
-      async (query: LocationQuery, oldQuery: LocationQuery | undefined) => {
-        const { keywords: oldKeywords, type: oldType } = oldQuery || EMPTY_OBJ;
-        const { keywords, type } = query as PlainObject<string>;
-        searchCate.forEach((item: typeof baseSearchCate[number], i) => {
-          const { to: baseTo, type, limit } = baseSearchCate[i];
-          const queryStr = objToQuery(
-            { keywords, type: `${type}`, limit, offset: "0" },
-            true
-          );
-          item.to = baseTo + queryStr;
-        });
-        if (oldKeywords !== keywords) {
-          getSearchMulMatch(keywords);
-        }
-        getSearchCloundData(query);
-      },
-      {
-        immediate: true,
+    const routeUpdateHandler = async (
+      { query } : RouteLocationNormalized, 
+      { query:oldQuery }:RouteLocationNormalized = EMPTY_OBJ
+    ) => {
+      const { keywords: oldKeywords } = oldQuery || EMPTY_OBJ;
+      const { keywords } = query as PlainObject<string>;
+      searchCate.forEach((item: typeof baseSearchCate[number], i) => {
+        const { to: baseTo, type, limit } = baseSearchCate[i];
+        const queryStr = objToQuery(
+          { keywords, type: `${type}`, limit, offset: "0" },
+          true
+        );
+        item.to = baseTo + queryStr;
+      });
+      if (oldKeywords !== keywords) {
+        getSearchMulMatch(keywords);
       }
-    );
+      getSearchCloundData(query);
+    }
+    routeUpdateHandler(route);
 
-    onBeforeRouteLeave(() => {
-      searchQueryWatcher();
+    onFilteredBeforeRouteUpdate((to, from) => {
+      routeUpdateHandler(to, from);
     });
 
     const renderArtists = () => {

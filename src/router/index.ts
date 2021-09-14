@@ -28,7 +28,7 @@ const routerObj = createRouter({
 });
 
 routerObj.beforeEach((to, from, next) => {
-  nextTick(() => {
+  requestAnimationFrame(() => {
     const homeMainElm = document.querySelector(".player-container");
     homeMainElm && (homeMainElm.scrollTop = 0);
   });
