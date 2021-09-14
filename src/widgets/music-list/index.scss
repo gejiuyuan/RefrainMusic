@@ -21,15 +21,17 @@
     }
 
     .playbill {
-      position: relative;
-      width: 20%;
+      position: relative; 
       overflow: hidden;
       border-radius: inherit;
       cursor: pointer;
+      width: 20%;
+      height: 100%;
 
       &:hover {
         img {
           filter: brightness(88%);
+          height: 100%;
         }
         i {
           opacity: 1;

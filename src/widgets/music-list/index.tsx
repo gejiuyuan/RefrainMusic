@@ -51,11 +51,13 @@ export const MusicItem = defineComponent({
       return (
         <div
           class="music-item"
-          ref={musicItemRef}
+          ref={musicItemRef} 
         >
-          <div className="playbill" aspectratio="1">
-            <img loading="lazy" src={padPicCrop(picUrl, { x: 200, y: 200 })} alt="" />
-            <i className="iconfont icon-bofan-radius" onClick={() => playBtnClickHandler()}></i>
+          <div className="playbill">
+            <div aspectratio="1">
+              <img loading="lazy" src={padPicCrop(picUrl, { x: 200, y: 200 })} alt="" />
+              <i className="iconfont icon-bofan-radius" onClick={() => playBtnClickHandler()}></i>
+            </div>
           </div>
           <div class="info">
             <h6 singallinedot title={musicName}>

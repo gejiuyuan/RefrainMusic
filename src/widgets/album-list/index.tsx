@@ -32,7 +32,7 @@ const AlbumImg = defineComponent({
             coverShow.value = true;
         }
         return () => (
-            <div className="album-pic" aspectratio="1">
+            <div className="album-pic">
                 <i class="album-cover" style={props.albumCoverStyle} visibility={coverShow.value}></i>
                 <div class="album-pic-body" aspectratio="1">
                     <img
