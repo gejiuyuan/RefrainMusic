@@ -1,23 +1,15 @@
 import {
-  defineComponent,
-  markRaw,
-  onMounted,
+  defineComponent, 
   reactive,
-  watch,
-  shallowReactive,
+  watch, 
   provide,
 } from "vue";
 import {
   useRoute,
   useRouter,
-  LocationQuery,
-  routerKey,
-  RouterView,
+  LocationQuery, 
   onBeforeRouteLeave,
 } from "vue-router";
-import CommonRouterList from "@/widgets/common-router-list";
-import KeepAliveRouterview from "@/widgets/keep-alive-routerview";
-import { searchCloud, searchMulMatch } from "@api/search";
 import {
   objToQuery,
   deepCopy,
@@ -32,9 +24,10 @@ import { SearchLyricItem } from "@/types/lyric";
 import { SearchPlaylist } from "@/types/songlist";
 import { SearchSingerItem } from "@/types/singer";
 import { SearchUserProfileItem } from "@/types/user";
-
-import { NTabs, NTabPane } from "naive-ui";
+import { searchCloud, searchMulMatch } from "@api/search";
+import CommonRouterList from "@/widgets/common-router-list"; 
 import { COMPONENT_NAME, PAGE_SIZE } from "@/utils/preference";
+import { renderKeepAliveRouterView } from "@/widgets/common-renderer";
 
 export const baseSearchCate = [
   { text: "歌曲", to: "/search/songs", type: 1, limit: PAGE_SIZE.DEFAULT },
@@ -291,7 +284,9 @@ export default defineComponent({
             </section>
           )}
           <CommonRouterList routelist={searchCate}></CommonRouterList>
-          <KeepAliveRouterview></KeepAliveRouterview>
+          {
+            renderKeepAliveRouterView()
+          }
         </section>
       );
     };

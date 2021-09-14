@@ -1,15 +1,9 @@
-import {
-  markRaw,
-  onMounted,
-  readonly,
-  ref,
+import { 
   defineComponent,
 } from "vue";
-import CommonRouterList from "@widgets/common-router-list";
-import KeepAliveRouterview from "@widgets/keep-alive-routerview";
-import { RouterView } from "vue-router";
-import "./index.scss";
-import { getHomepageDragonBall, getHomepageFindings } from "@/api/homeInfo";
+import CommonRouterList from "@widgets/common-router-list"; 
+import { renderKeepAliveRouterView } from "@/widgets/common-renderer";
+import "./index.scss"; 
 
 export default defineComponent({
   name: "MusicHall",
@@ -22,15 +16,15 @@ export default defineComponent({
       { text: "歌单", to: { path: "/musichall/songlist" } },
       { text: "歌手", to: { path: "/musichall/artist" } },
     ];
-
-    // getHomepageDragonBall().then(console.info) 
-
+ 
     return () => {
       return (
         <section class="music-hall">
           <h2>音乐馆</h2>
           <CommonRouterList routelist={musichallCate}></CommonRouterList>
-          <KeepAliveRouterview></KeepAliveRouterview>
+          {
+            renderKeepAliveRouterView()
+          }
         </section>
       );
     };

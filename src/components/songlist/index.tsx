@@ -28,9 +28,8 @@ import {
   NMenu
 } from 'naive-ui';
 import Songlist from '@widgets/song-list';
-import CommonRouterList from "@/widgets/common-router-list";
-import KeepAliveRouterview from "@/widgets/keep-alive-routerview";
-import { getMusicDetail } from "@/api/music";
+import CommonRouterList from "@/widgets/common-router-list"; 
+import { renderKeepAliveRouterView } from "@/widgets/common-renderer";
 
 const baseSonglistRoutelists = [
   { text: "歌曲列表", to: "/songlist/:id/music", },
@@ -284,7 +283,9 @@ export default defineComponent({
           </section>
 
           <section class="songlist-main">
-            <KeepAliveRouterview></KeepAliveRouterview>
+            {
+              renderKeepAliveRouterView()
+            }
           </section>
 
           {

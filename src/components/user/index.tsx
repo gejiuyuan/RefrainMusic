@@ -25,8 +25,8 @@ import "./index.scss";
 import { baseUserMenuRouteLists, defaultPlayRecordType } from "./config";
 import { PlaylistCommon } from "@/types/songlist";
 import { NxButton, NSpace } from "naive-ui";
-import CommonRouterList from "@/widgets/common-router-list";
-import KeepAliveRouterview from "@/widgets/keep-alive-routerview";
+import CommonRouterList from "@/widgets/common-router-list"; 
+import { renderKeepAliveRouterView } from "@/widgets/common-renderer";
 
 export default defineComponent({
   name: "UserDetail",
@@ -191,7 +191,9 @@ export default defineComponent({
           <section class="user-body">
             <CommonRouterList routelist={userInfoRouteLists.value}></CommonRouterList>
             <div class="user-routes">
-              <KeepAliveRouterview></KeepAliveRouterview>
+              {
+                renderKeepAliveRouterView()
+              }
             </div>
           </section>
         </section>

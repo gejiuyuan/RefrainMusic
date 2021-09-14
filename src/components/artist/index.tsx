@@ -24,13 +24,13 @@ import {
 } from 'naive-ui'
 
 import FollowButton, { FollowType } from "@widgets/follow-button";
-import CommonRouterList from "@/widgets/common-router-list";
-import KeepAliveRouterview from "@/widgets/keep-alive-routerview";
+import CommonRouterList from "@/widgets/common-router-list"; 
 
 import { artistSingalSongs } from "@api/singer";
 import { deepCopy, extend, objToQuery, padPicCrop } from "@/utils";
 import "./index.scss";
 import { EMPTY_OBJ, freeze } from "@/utils";
+import { renderKeepAliveRouterView } from "@/widgets/common-renderer";
 
 export type Artist = {
   alias: string[];
@@ -156,7 +156,9 @@ export default defineComponent({
             <section class="artist-menu">
               <CommonRouterList routelist={menuList}></CommonRouterList>
             </section>
-            <KeepAliveRouterview></KeepAliveRouterview>
+            {
+              renderKeepAliveRouterView()
+            }
           </section>
         </section>
       );

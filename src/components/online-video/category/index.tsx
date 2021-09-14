@@ -1,10 +1,9 @@
-import { getAllVideoList, getVideoCategoryList, getVideos, getVideoTagList } from "@/api/video";
+import { getVideoCategoryList, getVideos, getVideoTagList } from "@/api/video";
 import { allVideoDatasItem, VideoTagItem } from "@/types/video";
-import { messageBus } from "@/utils/event/register";
-import keepAliveRouterview from "@/widgets/keep-alive-routerview";
+import { messageBus } from "@/utils/event/register"; 
 import { NSpace, NxButton } from "naive-ui";
-import { computed, defineComponent, inject, markRaw, onMounted, reactive, readonly, ref, shallowReactive, shallowRef, watch, watchEffect } from "vue";
-import { onBeforeRouteUpdate, RouteLocationNormalized, RouteLocationNormalizedLoaded, useRoute, useRouter } from "vue-router";
+import { computed, defineComponent, reactive, watch, watchEffect } from "vue";
+import { onBeforeRouteUpdate, useRoute, useRouter } from "vue-router";
 import VideoList from '@widgets/video-list';
 import "./index.scss";
 import { is } from "@/utils";
