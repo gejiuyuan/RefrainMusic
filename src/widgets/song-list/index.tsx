@@ -21,9 +21,7 @@ import { UNICODE_CHAR, padPicCrop } from "@utils/index";
 import { getFullName, getFullNames } from "@/utils/apiSpecial";
 import { PAGE_SIZE } from "@/utils/preference";
 import { PlaylistCommon } from "@/types/songlist";
-
-const songlistDefaultLimit = PAGE_SIZE.DEFAULT;
-
+ 
 export default defineComponent({
   name: "Songlist",
   props: {
@@ -35,7 +33,7 @@ export default defineComponent({
     defaultLimit: {
       type: Number as PropType<number>,
       required: false,
-      default: songlistDefaultLimit,
+      default: PAGE_SIZE.DEFAULT,
     },
     total: {
       type: Number as PropType<number>,

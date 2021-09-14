@@ -2,10 +2,12 @@ import {
     computed,
     defineComponent,
     PropType,
+    reactive,
     ref,
     watchEffect,
 } from "vue";
 import {
+    onBeforeRouteUpdate,
     useRouter,
 } from "vue-router";
 import { getLocaleDate, padPicCrop } from "@utils/index";
@@ -13,6 +15,8 @@ import { NGrid, NGridItem } from "naive-ui";
 import AlbumCoverImg from '@assets/img/album-cover.png';
 import AlbumCoverGoldImg from '@assets/img/album-cover-gold.png';
 import "./index.scss";
+import { PAGE_SIZE } from "@/utils/preference";
+import RoutePagination from "../route-pagination";
 
 const AlbumImg = defineComponent({
     name: 'AlbumImg',
@@ -46,13 +50,18 @@ const AlbumImg = defineComponent({
         )
     }
 })
-
+ 
 export default defineComponent({
     name: "AlbumList",
     props: {
         albumList: {
             type: Array as PropType<any[]>,
             required: true
+        },
+        isNew: {
+            type: Boolean as PropType<boolean>,
+            required: false,
+            default: false,
         },
         gaps: {
             type: Object as PropType<Partial<Record<'x' | 'y', number>>>,
@@ -64,14 +73,55 @@ export default defineComponent({
             required: false,
             default: 6
         },
-        isNew: {
+        defaultLimit: {
+            type: Number as PropType<number>,
+            required: false,
+            default: PAGE_SIZE.DEFAULT,
+        },
+        total: {
+            type: Number as PropType<number>,
+            required: false,
+            default: 0,
+        }, 
+        hasMore: {
             type: Boolean as PropType<boolean>,
             required: false,
-            default: false,
+            default: true
+        },
+        showPagination: {
+            type: Boolean,
+            required: false,
+            default: true
         }
     },
     setup(props, context) {
         const router = useRouter();
+        const { defaultLimit, isNew } = props;
+        const coverImg = isNew ? AlbumCoverGoldImg : AlbumCoverImg; 
+        const albumCoverStyle = `background-image:url(${coverImg})`; 
+
+        const albumPagiInfo = reactive({
+            total: 0,
+            limit: defaultLimit,
+            offset: defaultLimit,
+            sizeArr: Array(3)
+                .fill(0)
+                .map((v, i) => defaultLimit * (i + 1)),
+        });
+        const updateTolListInfo = (query: PlainObject) => {
+            const { total } = props;
+            const { limit = defaultLimit, offset = 0 } = query;
+            albumPagiInfo.limit = limit;
+            albumPagiInfo.offset = offset;
+            albumPagiInfo.total = total; 
+        };
+        updateTolListInfo(router.currentRoute.value.query as PlainObject);
+    
+        onBeforeRouteUpdate((to, from, next) => {
+        
+            updateTolListInfo(to.query as PlainObject);
+            next();
+        });
 
         const toAlbumDetailPage = (id: number) => {
             router.push({
@@ -81,16 +131,14 @@ export default defineComponent({
                 }
             })
         }
- 
-        return () => {
-            const { albumList, gaps: { x, y }, cols, isNew } = props;
-            const coverImg = isNew ? AlbumCoverGoldImg : AlbumCoverImg; 
-            const albumCoverStyle = `background-image:url(${coverImg})`; 
+        
+        const renderAlbumList = () => {
+            const { albumList, gaps: { x, y }, cols } = props;
             return (
-                <section class="album-container">
-                    <NGrid xGap={x} yGap={y} cols={cols}>
-                        {
-                            albumList.map(({ blurPicUrl, name, artist, id, transNames, publishTime }) =>
+                <NGrid xGap={x} yGap={y} cols={cols}>
+                    {
+                        albumList.map(({ blurPicUrl, name, artist, id, transNames, publishTime }) => {
+                            return (
                                 <NGridItem>
                                     <section
                                         class="album-item"
@@ -102,17 +150,33 @@ export default defineComponent({
                                             <span>{`${name} - ${artist?.name}`}</span>
                                         </h5>
                                         <p>
-                                            {
-                                                getLocaleDate(publishTime, {
-                                                    delimiter: "-",
-                                                })
-                                            }
+                                            { getLocaleDate(publishTime, { delimiter: "-" }) }
                                         </p>
                                     </section>
                                 </NGridItem>
                             )
-                        }
-                    </NGrid>
+                        })
+                    }
+                </NGrid>
+            )
+        }
+
+        return () => {
+            return (
+                <section class="album-container">
+                    {
+                        renderAlbumList()
+                    }
+                    {
+                        props.showPagination && (
+                            <section class="album-pagination">
+                                <RoutePagination 
+                                    pagiInfo={albumPagiInfo} 
+                                    hasMore={props.hasMore}
+                                ></RoutePagination>
+                            </section>
+                        )
+                    }
                 </section>
             );
         };
