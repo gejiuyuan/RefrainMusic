@@ -57,11 +57,7 @@ export const PersonalFm = defineComponent({
     const toNextHandler = () => {
       messageBus.dispatch('toNext');
     }
-
-    const playBtnClickHandler = () => {
-
-    }
-
+ 
     return () => {
       const currentVisibleFMValue = currentVisibleFM.value;
       if (is.undefined(currentVisibleFMValue)) {

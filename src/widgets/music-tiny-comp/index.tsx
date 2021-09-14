@@ -1,27 +1,23 @@
 import {
   computed,
   customRef, 
-  defineComponent,
-  getCurrentInstance,
-  isProxy,
+  defineComponent,  
   PropType,
   ref, 
 } from "vue";
-import ProgressBar, { 
-  ProgressInfo,
-} from "@widgets/progress-bar";
 import "./index.scss";
-import { decimalToPercent, is, second2TimeStr, UNICODE_CHAR } from "@/utils";
-import { onClickOutside, onKeyStroke, useStorage } from "@vueuse/core";
-import { playingRefGlobal, volumeRefGlobal, muteRefGlobal, currentTimeRefGlobal, durationHowlerRef, durationRefGlobal, Order } from "@/stores/audio";
+import { useMessage } from "naive-ui"; 
 import { useRouter } from "vue-router";
-import { CurrentSongInfo, } from "@/utils/apiSpecial";
-import usePlayerStore from "@stores/player";
-import { orderRefGlobal } from '@stores/audio'
 import useUserStore from "@stores/user";
 import { userLikeMusic } from "@/api/user";
-import { useMessage } from "naive-ui"; 
+import usePlayerStore from "@stores/player";
+import { orderRefGlobal } from '@stores/audio'
 import { messageBus } from "@/utils/event/register";
+import { CurrentSongInfo, } from "@/utils/apiSpecial";
+import { onClickOutside, onKeyStroke, } from "@vueuse/core";
+import { decimalToPercent, is, UNICODE_CHAR } from "@/utils";
+import ProgressBar, { ProgressInfo, } from "@widgets/progress-bar";
+import { playingRefGlobal, volumeRefGlobal, muteRefGlobal, Order } from "@/stores/audio";
 
 export enum PlayOrderInfo {
   order = '顺序播放',
@@ -234,12 +230,9 @@ export const MusicLoveIcon = defineComponent({
       required: true,
     }
   },
-  setup(props, { slots, emit }) {
-    const loved = ref(false);
-    const playerStore = usePlayerStore();
+  setup(props, { slots, emit }) { 
     const userStore = useUserStore();
-    const message = useMessage();
-    const vm = getCurrentInstance()!;
+    const message = useMessage(); 
 
     const isLoved = customRef<boolean>((track, trigger) => ({
       get() {
@@ -293,22 +286,7 @@ export const MusicLoveIcon = defineComponent({
     };
   },
 });
-
-export const CurrentPlayTime = defineComponent({
-  name: "CurrentPlayTime",
-  setup(props, { slots, emit }) { 
-    return () => {
-      return (
-        <div className="current-playtime">
-          <span class="current">{second2TimeStr(currentTimeRefGlobal.value)}</span>
-          <span> / </span>
-          <span class="total">{second2TimeStr(durationRefGlobal.value )}</span>
-        </div>
-      );
-    };
-  },
-});
-
+ 
 export const MusicSinger = defineComponent({
   name: "MusicSinger",
   props: {
@@ -329,14 +307,15 @@ export const MusicSinger = defineComponent({
         path: "/artist",
         query: { id },
       });
-    };
-    const className = computed(() => {
-      return "music-singer " + props.class;
-    });
+    }; 
     return () => {
       const { singers } = props;
+      const classNameObj = {
+        'music-singer': true,
+        [props.class]: true
+      }
       return (
-        <p class={className.value} singallinedot>
+        <p class={classNameObj} singallinedot>
           {singers.map(({ id, name }, i) => {
             return (
               <>

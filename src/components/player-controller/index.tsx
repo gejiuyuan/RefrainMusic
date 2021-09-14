@@ -1,19 +1,19 @@
-import { computed, defineComponent, PropType, ref } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import "./index.scss";
-import ProgressBar, { ProgressInfo } from "@/widgets/progress-bar";
+
 import {
   PlayStatusSwitch,
   Volume,
-  MusicLoveIcon,
-  CurrentPlayTime,
+  MusicLoveIcon, 
   MusicSinger,
   PlayOrder,
 } from "@/widgets/music-tiny-comp";
-import usePlayerStore, { playerQueueShow } from "@/stores/player";
-import { currentTimeRefGlobal, durationRefGlobal, nextSeekTimeRefGlobal, playingRefGlobal } from "@/stores/audio";
+import "./index.scss";
 import { padPicCrop } from "@/utils";
-import usePlaySwitch from "@/use/usePlaySwitch";
+import { useRoute, useRouter } from "vue-router";
+import usePlayerStore, { playerQueueShow } from "@/stores/player";
+import ProgressBar, { ProgressInfo } from "@/widgets/progress-bar";
+import { renderCurrentPlayTime } from "@/widgets/common-renderer";
+import usePlaySwitch from "@/use/usePlaySwitch";import { computed, defineComponent, PropType, ref } from "vue";
+import { currentTimeRefGlobal, durationRefGlobal, nextSeekTimeRefGlobal, playingRefGlobal } from "@/stores/audio";
 
 export default defineComponent({
   name: "PlayerController",
@@ -104,10 +104,10 @@ export default defineComponent({
             </section>
 
             <section class="main-block main-right">
-              <CurrentPlayTime></CurrentPlayTime>
-
+              {
+                renderCurrentPlayTime()
+              }
               <MusicLoveIcon songInfo={playerStore.currentSongInfo}></MusicLoveIcon>
-
               <div className="play-queue-icon" onClick={showPlayerQueueHandler} title="播放队列">
                 <i className="iconfont icon-yinleliebiao"></i>
                 <span>{playerQueue.length}</span>
