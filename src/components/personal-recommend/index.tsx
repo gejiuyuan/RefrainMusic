@@ -14,7 +14,7 @@ import {
 import "./index.scss";
 import Songlist from '@widgets/song-list';
 import { getImageMainColorString, is, padPicCrop } from "@/utils";
-import { NGrid, NGridItem, useMessage } from "naive-ui";
+import { NGrid, NGridItem } from "naive-ui";
 import { useRoute, useRouter } from "vue-router";
 import { musicRecommend } from "@/api/music";
 import MusicList from "@/widgets/music-list";
@@ -119,8 +119,7 @@ export default defineComponent({
   name: "PersonalRecommend",
   setup(props, { slots, emit }) {
 
-    const userStore = useUserStore();
-    const message = useMessage();
+    const userStore = useUserStore(); 
     const router = useRouter();
 
     const recommendData = reactive({

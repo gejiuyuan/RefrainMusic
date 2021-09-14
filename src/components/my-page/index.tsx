@@ -1,10 +1,9 @@
 import { userPlaylist, userRecord } from "@/api/user";
 import useUserStore from "@/stores/user";
-import { getDate, getLocaleDate, phoneVerifyPatt, UNICODE_CHAR } from "@/utils";
-import { messageBus } from "@/utils/event/register";
+import { getDate, getLocaleDate, phoneVerifyPatt, UNICODE_CHAR } from "@/utils"; 
 import MusicList from "@/widgets/music-list";
 import SongList from "@/widgets/song-list";
-import { FormItemRule, NButton, NCol, NEmpty, useMessage } from "naive-ui";
+import { NEmpty } from "naive-ui";
 import {
   computed,
   defineComponent,

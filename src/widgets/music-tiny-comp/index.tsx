@@ -5,8 +5,7 @@ import {
   PropType,
   ref, 
 } from "vue";
-import "./index.scss";
-import { useMessage } from "naive-ui"; 
+import "./index.scss"; 
 import { useRouter } from "vue-router";
 import useUserStore from "@stores/user";
 import { userLikeMusic } from "@/api/user";
@@ -231,8 +230,7 @@ export const MusicLoveIcon = defineComponent({
     }
   },
   setup(props, { slots, emit }) { 
-    const userStore = useUserStore();
-    const message = useMessage(); 
+    const userStore = useUserStore(); 
 
     const isLoved = customRef<boolean>((track, trigger) => ({
       get() {
@@ -256,22 +254,25 @@ export const MusicLoveIcon = defineComponent({
     }))
 
     const loveSwitch = async () => {
-      const { id, } = props.songInfo;
+      const { id } = props.songInfo; 
       if (!id) {
-        message.error(`还没有播放的歌曲哦~${UNICODE_CHAR.hugface}`);
-        return;
-      }
-      const willIsLovedValue = !isLoved.value;
-      const { code } = await userLikeMusic({
-        id,
-        like: willIsLovedValue
-      })
-      if (code == 200) {
-        isLoved.value = willIsLovedValue;
-        message.success(`${willIsLovedValue ? `喜欢成功${UNICODE_CHAR.hugface}` : `已移除${UNICODE_CHAR.pensive}`}`);
-        return;
-      }
-
+        messageBus.dispatch('warnMessage', `还没有播放的歌曲哦~${UNICODE_CHAR.hugface}`);
+      } else if (!userStore.isLogin) {
+        messageBus.dispatch('warnMessage', `赶紧登录⑧~${UNICODE_CHAR.hugface}`);
+      } else {
+        const willIsLovedValue = !isLoved.value;
+        const { code } = await userLikeMusic({
+          id,
+          like: willIsLovedValue
+        });
+        if (code == 200) {
+          isLoved.value = willIsLovedValue;
+          messageBus.dispatch(
+            'successMessage', 
+            `${willIsLovedValue ? `喜欢成功${UNICODE_CHAR.hugface}` : `已移除${UNICODE_CHAR.pensive}`}`
+          );
+        }
+      } 
     }
 
     return () => {
