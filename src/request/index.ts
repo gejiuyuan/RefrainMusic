@@ -10,6 +10,7 @@ export function createRequestInstance(responseType: RyokoResponseType = 'json') 
     timeout: 15000,
     cache: "force-cache",
     responseType,
+    params: import.meta.env.DEV ? {} : { realIP: '116.25.146.177' },
     onDefer(deferMsg) { },
     verifyStatus: (status) => status >= 200 && status < 500,
   });
