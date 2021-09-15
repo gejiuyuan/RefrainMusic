@@ -1180,14 +1180,6 @@ callsites@^3.0.0:
   resolved "https://registry.nlark.com/callsites/download/callsites-3.1.0.tgz?cache=0&sync_timestamp=1628464722297&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fcallsites%2Fdownload%2Fcallsites-3.1.0.tgz"
   integrity sha1-s2MKvYlDQy9Us/BRkjjjPNffL3M=
 
-camel-case@^4.1.2:
-  version "4.1.2"
-  resolved "https://registry.npm.taobao.org/camel-case/download/camel-case-4.1.2.tgz"
-  integrity sha1-lygHKpVPgFIoIlpt7qazhGHhvVo=
-  dependencies:
-    pascal-case "^3.1.2"
-    tslib "^2.0.3"
-
 camelcase@^6.0.0:
   version "6.2.0"
   resolved "https://registry.npm.taobao.org/camelcase/download/camelcase-6.2.0.tgz"
@@ -1197,15 +1189,6 @@ caniuse-lite@^1.0.30000981, caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.300012
   version "1.0.30001249"
   resolved "https://registry.nlark.com/caniuse-lite/download/caniuse-lite-1.0.30001249.tgz"
   integrity sha1-kKMwBX+P91v+l6lNBH1eFPq7Lug=
-
-capital-case@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.npm.taobao.org/capital-case/download/capital-case-1.0.4.tgz"
-  integrity sha1-nRMCkjU8kkn2sA+lhSvuOKcX5mk=
-  dependencies:
-    no-case "^3.0.4"
-    tslib "^2.0.3"
-    upper-case-first "^2.0.2"
 
 chalk@^2.0.0, chalk@^2.4.2:
   version "2.4.2"
@@ -1223,24 +1206,6 @@ chalk@^4.0.0, chalk@^4.1.0, chalk@^4.1.1:
   dependencies:
     ansi-styles "^4.1.0"
     supports-color "^7.1.0"
-
-change-case@^4.1.2:
-  version "4.1.2"
-  resolved "https://registry.nlark.com/change-case/download/change-case-4.1.2.tgz"
-  integrity sha1-/t/F8TYEXiOYwEEO5EH5VwRkHhI=
-  dependencies:
-    camel-case "^4.1.2"
-    capital-case "^1.0.4"
-    constant-case "^3.0.4"
-    dot-case "^3.0.4"
-    header-case "^2.0.4"
-    no-case "^3.0.4"
-    param-case "^3.0.4"
-    pascal-case "^3.1.2"
-    path-case "^3.0.4"
-    sentence-case "^3.0.4"
-    snake-case "^3.0.4"
-    tslib "^2.0.3"
 
 "chokidar@>=3.0.0 <4.0.0":
   version "3.5.2"
@@ -1355,15 +1320,6 @@ consolidate@^0.16.0:
   integrity sha1-oRhkdokw8vGUMWYKZZBmaPX73BY=
   dependencies:
     bluebird "^3.7.2"
-
-constant-case@^3.0.4:
-  version "3.0.4"
-  resolved "https://registry.npm.taobao.org/constant-case/download/constant-case-3.0.4.tgz"
-  integrity sha1-O4Sprq9M8x7EXmv13pG9+wWJ+vE=
-  dependencies:
-    no-case "^3.0.4"
-    tslib "^2.0.3"
-    upper-case "^2.0.2"
 
 convert-source-map@^1.7.0:
   version "1.8.0"
@@ -1499,7 +1455,7 @@ de-indent@^1.0.2:
   resolved "https://registry.npm.taobao.org/de-indent/download/de-indent-1.0.2.tgz"
   integrity sha1-sgOOhG3DO6pXlhKNCAS0VbjB4h0=
 
-debug@4, debug@^4.0.1, debug@^4.1.0, debug@^4.1.1, debug@^4.3.1, debug@^4.3.2:
+debug@4, debug@^4.0.1, debug@^4.1.0, debug@^4.1.1, debug@^4.3.1:
   version "4.3.2"
   resolved "https://registry.nlark.com/debug/download/debug-4.3.2.tgz?cache=0&sync_timestamp=1625374675284&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fdebug%2Fdownload%2Fdebug-4.3.2.tgz"
   integrity sha1-8KScGKyHeeMdSgxgKd+3aHPHQos=
@@ -1577,14 +1533,6 @@ domutils@^2.6.0:
     domelementtype "^2.2.0"
     domhandler "^4.2.0"
 
-dot-case@^3.0.4:
-  version "3.0.4"
-  resolved "https://registry.npm.taobao.org/dot-case/download/dot-case-3.0.4.tgz?cache=0&sync_timestamp=1606867327042&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fdot-case%2Fdownload%2Fdot-case-3.0.4.tgz"
-  integrity sha1-mytnDQCkMWZ6inW6Kc0bmICc51E=
-  dependencies:
-    no-case "^3.0.4"
-    tslib "^2.0.3"
-
 electron-to-chromium@^1.3.793:
   version "1.3.798"
   resolved "https://registry.nlark.com/electron-to-chromium/download/electron-to-chromium-1.3.798.tgz"
@@ -1623,11 +1571,6 @@ error-ex@^1.3.1:
   integrity sha1-tKxAZIEH/c3PriQvQovqihTU8b8=
   dependencies:
     is-arrayish "^0.2.1"
-
-es-module-lexer@^0.7.1:
-  version "0.7.1"
-  resolved "https://registry.nlark.com/es-module-lexer/download/es-module-lexer-0.7.1.tgz?cache=0&sync_timestamp=1625523919137&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fes-module-lexer%2Fdownload%2Fes-module-lexer-0.7.1.tgz"
-  integrity sha1-wsjg9G8t8GJ0za8N0/OzPgoLJn0=
 
 esbuild@^0.12.8:
   version "0.12.18"
@@ -2032,14 +1975,6 @@ hash-sum@^2.0.0:
   resolved "https://registry.npm.taobao.org/hash-sum/download/hash-sum-2.0.0.tgz"
   integrity sha1-gdAbtd6OpKIUrV1urRtSNGCwtFo=
 
-header-case@^2.0.4:
-  version "2.0.4"
-  resolved "https://registry.npm.taobao.org/header-case/download/header-case-2.0.4.tgz"
-  integrity sha1-WkLmO1UXc0nPQFvrjXdayruSwGM=
-  dependencies:
-    capital-case "^1.0.4"
-    tslib "^2.0.3"
-
 highlight.js@^10.7.1:
   version "10.7.3"
   resolved "https://registry.nlark.com/highlight.js/download/highlight.js-10.7.3.tgz"
@@ -2392,13 +2327,6 @@ log-update@^4.0.0:
     slice-ansi "^4.0.0"
     wrap-ansi "^6.2.0"
 
-lower-case@^2.0.2:
-  version "2.0.2"
-  resolved "https://registry.npm.taobao.org/lower-case/download/lower-case-2.0.2.tgz"
-  integrity sha1-b6I3xj29xKgsoP2ILkci3F5jTig=
-  dependencies:
-    tslib "^2.0.3"
-
 lru-cache@^5.1.1:
   version "5.1.1"
   resolved "https://registry.npm.taobao.org/lru-cache/download/lru-cache-5.1.1.tgz?cache=0&sync_timestamp=1599054167787&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Flru-cache%2Fdownload%2Flru-cache-5.1.1.tgz"
@@ -2552,14 +2480,6 @@ natural-compare@^1.4.0:
   resolved "https://registry.npm.taobao.org/natural-compare/download/natural-compare-1.4.0.tgz"
   integrity sha1-Sr6/7tdUHywnrPspvbvRXI1bpPc=
 
-no-case@^3.0.4:
-  version "3.0.4"
-  resolved "https://registry.nlark.com/no-case/download/no-case-3.0.4.tgz"
-  integrity sha1-02H9XJgA9VhVGoNp/A3NRmK2Ek0=
-  dependencies:
-    lower-case "^2.0.2"
-    tslib "^2.0.3"
-
 node-fetch@^2.6.1:
   version "2.6.1"
   resolved "https://registry.nlark.com/node-fetch/download/node-fetch-2.6.1.tgz?cache=0&sync_timestamp=1626684741221&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fnode-fetch%2Fdownload%2Fnode-fetch-2.6.1.tgz"
@@ -2644,14 +2564,6 @@ p-map@^4.0.0:
   dependencies:
     aggregate-error "^3.0.0"
 
-param-case@^3.0.4:
-  version "3.0.4"
-  resolved "https://registry.npm.taobao.org/param-case/download/param-case-3.0.4.tgz"
-  integrity sha1-fRf+SqEr3jTUp32RrPtiGcqtAcU=
-  dependencies:
-    dot-case "^3.0.4"
-    tslib "^2.0.3"
-
 parent-module@^1.0.0:
   version "1.0.1"
   resolved "https://registry.npm.taobao.org/parent-module/download/parent-module-1.0.1.tgz"
@@ -2685,22 +2597,6 @@ parse5@^6.0.1:
   version "6.0.1"
   resolved "https://registry.npm.taobao.org/parse5/download/parse5-6.0.1.tgz?cache=0&sync_timestamp=1595849263958&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fparse5%2Fdownload%2Fparse5-6.0.1.tgz"
   integrity sha1-4aHAhcVps9wIMhGE8Zo5zCf3wws=
-
-pascal-case@^3.1.2:
-  version "3.1.2"
-  resolved "https://registry.npm.taobao.org/pascal-case/download/pascal-case-3.1.2.tgz?cache=0&sync_timestamp=1606867325163&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fpascal-case%2Fdownload%2Fpascal-case-3.1.2.tgz"
-  integrity sha1-tI4O8rmOIF58Ha50fQsVCCN2YOs=
-  dependencies:
-    no-case "^3.0.4"
-    tslib "^2.0.3"
-
-path-case@^3.0.4:
-  version "3.0.4"
-  resolved "https://registry.npm.taobao.org/path-case/download/path-case-3.0.4.tgz"
-  integrity sha1-kWhkUzTrlCZYN1xW+AtMDLX4LG8=
-  dependencies:
-    dot-case "^3.0.4"
-    tslib "^2.0.3"
 
 path-is-absolute@^1.0.0:
   version "1.0.1"
@@ -3287,15 +3183,6 @@ semver@^7.2.1, semver@^7.3.5:
   dependencies:
     lru-cache "^6.0.0"
 
-sentence-case@^3.0.4:
-  version "3.0.4"
-  resolved "https://registry.npm.taobao.org/sentence-case/download/sentence-case-3.0.4.tgz?cache=0&sync_timestamp=1606867325535&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fsentence-case%2Fdownload%2Fsentence-case-3.0.4.tgz"
-  integrity sha1-NkWnuMEXx4f96HAgViJbtipFEx8=
-  dependencies:
-    no-case "^3.0.4"
-    tslib "^2.0.3"
-    upper-case-first "^2.0.2"
-
 shebang-command@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npm.taobao.org/shebang-command/download/shebang-command-2.0.0.tgz"
@@ -3335,14 +3222,6 @@ slice-ansi@^4.0.0:
     ansi-styles "^4.0.0"
     astral-regex "^2.0.0"
     is-fullwidth-code-point "^3.0.0"
-
-snake-case@^3.0.4:
-  version "3.0.4"
-  resolved "https://registry.npm.taobao.org/snake-case/download/snake-case-3.0.4.tgz?cache=0&sync_timestamp=1606867326057&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fsnake-case%2Fdownload%2Fsnake-case-3.0.4.tgz"
-  integrity sha1-Tyu9Vo6ZNavf1ZPzTGkdrbScRSw=
-  dependencies:
-    dot-case "^3.0.4"
-    tslib "^2.0.3"
 
 source-map-js@^0.6.2:
   version "0.6.2"
@@ -3534,11 +3413,6 @@ tslib@^1.8.1, tslib@^1.9.0, tslib@^1.9.3:
   resolved "https://registry.nlark.com/tslib/download/tslib-1.14.1.tgz?cache=0&sync_timestamp=1628722556410&other_urls=https%3A%2F%2Fregistry.nlark.com%2Ftslib%2Fdownload%2Ftslib-1.14.1.tgz"
   integrity sha1-zy04vcNKE0vK8QkcQfZhni9nLQA=
 
-tslib@^2.0.3:
-  version "2.3.0"
-  resolved "https://registry.nlark.com/tslib/download/tslib-2.3.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.nlark.com%2Ftslib%2Fdownload%2Ftslib-2.3.0.tgz"
-  integrity sha1-gDuM2rPhK6WBpMpByIObuw2ssJ4=
-
 tsutils@^3.21.0:
   version "3.21.0"
   resolved "https://registry.npm.taobao.org/tsutils/download/tsutils-3.21.0.tgz?cache=0&sync_timestamp=1615138184534&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Ftsutils%2Fdownload%2Ftsutils-3.21.0.tgz"
@@ -3577,20 +3451,6 @@ uniq@^1.0.1:
   version "1.0.1"
   resolved "https://registry.npm.taobao.org/uniq/download/uniq-1.0.1.tgz"
   integrity sha1-sxxa6CVIRKOoKBVBzisEuGWnNP8=
-
-upper-case-first@^2.0.2:
-  version "2.0.2"
-  resolved "https://registry.npm.taobao.org/upper-case-first/download/upper-case-first-2.0.2.tgz"
-  integrity sha1-mSwyc/iCq9GdHgKJTMFHEX+EQyQ=
-  dependencies:
-    tslib "^2.0.3"
-
-upper-case@^2.0.2:
-  version "2.0.2"
-  resolved "https://registry.npm.taobao.org/upper-case/download/upper-case-2.0.2.tgz"
-  integrity sha1-2JgQgj+qsd8VSbfZenb4Ziuub3o=
-  dependencies:
-    tslib "^2.0.3"
 
 uri-js@^4.2.2:
   version "4.4.1"
@@ -3634,17 +3494,6 @@ vite-plugin-md@^0.10.0:
   dependencies:
     gray-matter "^4.0.3"
     markdown-it "^12.1.0"
-
-vite-plugin-style-import@^1.0.1:
-  version "1.1.1"
-  resolved "https://registry.nlark.com/vite-plugin-style-import/download/vite-plugin-style-import-1.1.1.tgz"
-  integrity sha1-fM67BCvOlO6y9pXHM5NUotrEjCU=
-  dependencies:
-    "@rollup/pluginutils" "^4.1.1"
-    change-case "^4.1.2"
-    debug "^4.3.2"
-    es-module-lexer "^0.7.1"
-    magic-string "^0.25.7"
 
 vite-svg-loader@^2.1.0:
   version "2.1.1"

@@ -15,6 +15,7 @@ export function createRequestInstance(responseType: RyokoResponseType = 'json') 
     verifyStatus: (status) => status >= 200 && status < 500,
   });
   ins.interceptors.request.use((config) => {
+    console.info(config)
     const MUSIC_C_COOKIE = loginCookie.value;
     if (MUSIC_C_COOKIE) {
       config.params ??= Object.create(null);
