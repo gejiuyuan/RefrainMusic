@@ -16,6 +16,11 @@
 
 .record-icon-info {
   @include flexInline();
+  width: 20px;
+  height: 20px;
+  margin-right: .3rem;
+  background: url("@assets/img/chat-warning.svg") center / cover no-repeat; 
+  vertical-align: middle; 
 }
 
 .canNotSee {

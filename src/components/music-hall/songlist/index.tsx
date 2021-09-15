@@ -1,15 +1,11 @@
 import {
-  shallowReactive,
-  computed,
-  toRefs,
-  getCurrentInstance,
-  ComponentInternalInstance,
+  shallowReactive, 
+  getCurrentInstance, 
   defineComponent,
 } from "vue";
 import {
   useRouter,
-  useRoute,
-  onBeforeRouteUpdate,
+  useRoute, 
   RouterLink,
 } from "vue-router";
 import { CatListSub } from "@/types/songlist";
@@ -24,8 +20,7 @@ import {
   NButton,
   NxButton,
   NIcon,
-} from "naive-ui"; 
-import { ChevronDown20Regular } from "@vicons/fluent";
+} from "naive-ui";  
 import { COMPONENT_NAME, PAGE_SIZE } from "@/utils/preference";
 import { onFilteredBeforeRouteUpdate } from "@/hooks/onRouteHook";
 
@@ -144,9 +139,7 @@ export default defineComponent({
                     {{
                       default: () => listExtraInfo.order,
                       icon: () => (
-                        <NIcon>
-                          <ChevronDown20Regular></ChevronDown20Regular>
-                        </NIcon>
+                        <i className="iconfont icon-xiajiantou"></i>
                       ),
                     }}
                   </NxButton>

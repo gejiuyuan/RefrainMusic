@@ -8,12 +8,7 @@ import {
 import { useRouter } from "vue-router";
 import { allTopList, allTopListDetail } from "@api/other";
 import { getLocaleCount, is, padPicCrop } from "@utils/index";
-import { NGrid, NGridItem, NIcon } from "naive-ui";
-import {
-  PlayCircle28Filled,
-  PlayCircle20Regular,
-  Play24Filled,
-} from '@vicons/fluent'
+import { NGrid, NGridItem, NIcon } from "naive-ui"; 
 import "./index.scss";
 
 const subDivideTopList = (topList: any[]) => {
@@ -112,9 +107,9 @@ export default defineComponent({
                         src={padPicCrop(item.coverImgUrl, { x: 440, y: 440 })}
                       />
                       <div class="play-count">{item.playCount}</div>
-                      <NIcon class="play-icon" size={40} color="hsla(0,0%,100%,.95)">
-                        <Play24Filled></Play24Filled>
-                      </NIcon>
+                      <div class="play-icon">
+                        <i className="iconfont icon-bofan"></i>
+                      </div> 
                     </div>
                     <h6>{item.name}</h6>
                     <p>{item.updateFrequency}</p>

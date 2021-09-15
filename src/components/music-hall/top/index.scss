@@ -92,6 +92,8 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+    color: hsla(0,0%,100%,.95);
+    font-size: 60px;
     transition: 0.16s;
     cursor: pointer;
   }
@@ -101,6 +103,7 @@
     color: #555;
     font-size: 17px;
     font-weight: 600;
+    line-height: 1.8;
   }
 
   p {

@@ -12,10 +12,7 @@ import MusicList from "@/widgets/music-list";
 
 import { PlayRecord } from "@/types/song";
 import { defaultPlayRecordType, playRecordTimeRange } from "../config";
-import "./index.scss";
-import {
-  ChatWarning24Regular
-} from '@vicons/fluent';
+import "./index.scss"; 
 import { NRadio, NRadioButton, NRadioGroup, NSpace, NIcon, } from "naive-ui";
 import { onFilteredBeforeRouteUpdate } from "@/hooks/onRouteHook";
 
@@ -23,7 +20,7 @@ export default defineComponent({
   name: "PlayRecord",
   setup(props, context) {
     const route = useRoute();
-    const router = useRouter();
+    const router = useRouter(); 
 
     const playlist = inject<PlayRecord>("playRecordData")!;
     const userInfo = inject<Ref<any>>("userInfo")!;
@@ -58,9 +55,7 @@ export default defineComponent({
         <section class="user-play-record">
           <section class="play-record-header">
             <div class="record-desc">
-              <NIcon class="record-icon-info" color={'#0e7a0d'}>
-                <ChatWarning24Regular></ChatWarning24Regular>
-              </NIcon>
+              <i className="record-icon-info"></i> 
               最近累计听歌
               <span>{listenSongs}</span>首
             </div>

@@ -1,7 +1,5 @@
-import { is } from "@/utils";
-import { ChevronDown20Regular } from "@vicons/fluent";
-import { NButton, NButtonGroup, NDropdown, NGradientText, NIcon, NInputNumber, NPagination, NSpace, NTag, NText, NxButton } from "naive-ui";
-import { computed, toRefs, defineComponent, Ref, PropType, shallowReactive, watch } from "vue";
+import { NDropdown, NGradientText, NIcon, NInputNumber, NPagination, NSpace, NxButton } from "naive-ui";
+import { defineComponent, Ref, PropType } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import "./index.scss";
 
@@ -50,7 +48,7 @@ export default defineComponent({
 
     return () => {
       const { hasMore, pagiInfo } = props
-      let { offset, total, limit, sizeArr } = pagiInfo;
+      const { offset, total, limit, sizeArr } = pagiInfo;
       return (
         <section class="naive-pagination">
           {
@@ -91,9 +89,7 @@ export default defineComponent({
                         {{
                           default: () => limit,
                           icon: () => (
-                            <NIcon>
-                              <ChevronDown20Regular></ChevronDown20Regular>
-                            </NIcon>
+                            <i className="iconfont icon-xiajiantou"></i>
                           ),
                         }}
                       </NxButton>
