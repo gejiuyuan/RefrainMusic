@@ -1,4 +1,4 @@
-import { defineConfig, UserConfig, UserConfigFn, ServerOptions } from 'vite';
+import { defineConfig, UserConfig, UserConfigFn, ServerOptions, RollupCommonJSOptions } from 'vite';
 
 //vue 3 jsx synxtax
 import VueJsx from '@vitejs/plugin-vue-jsx';
@@ -23,6 +23,7 @@ import viteConstant from './constant';
 const { extend } = viteConstant
 
 import path from 'path'
+import manualChunksHandler from './manualChunk';
 const pathResolve = path.resolve
 
 const baseConfig: UserConfig = {
@@ -110,7 +111,7 @@ const baseConfig: UserConfig = {
     }
 }
 
-const devConfig: UserConfig = extend(baseConfig, {
+const devConfig = extend(baseConfig, {
 
     //在开发或生产环境下，网页运行的虚拟基础路径
     base: './',
@@ -139,9 +140,9 @@ const devConfig: UserConfig = extend(baseConfig, {
         },
     }
 
-});
+} as UserConfig);
 
-const prodConfig: UserConfig = extend(baseConfig, {
+const prodConfig = extend(baseConfig, {
 
     build: {
         //打包后的代码所支持的运行环境。
@@ -153,10 +154,14 @@ const prodConfig: UserConfig = extend(baseConfig, {
         //打包后输出的静态资源目录(包含css、js），默认assets，相对于outDir目录确定
         assetsDir: 'assets',
         //静态资源导入大小限制，默认为4096（4kb）
-        assetsInlineLimit: '3072',
+        assetsInlineLimit: 3072,
         sourcemap: false,
         //rollup配置选项，将会与vite内部的默认配置选项合并
-        rollupOptions: {},
+        rollupOptions: {
+            output: {
+                manualChunks: manualChunksHandler
+            }
+        },
         //代码压缩。
         //可选值：true/false——是否允许压缩代码；terser——默认值，压缩体积更小但速度稍慢；esbuild，速度快但体积稍大
         minify: 'terser',
@@ -181,7 +186,7 @@ const prodConfig: UserConfig = extend(baseConfig, {
     }
 
 
-});
+} as UserConfig);
 
 
 type ViteConfEnvProp = {

@@ -38,6 +38,33 @@ declare type FuncParamsType<T extends (...args: any[]) => any> = T extends (
 declare type CtorParamsType<T extends abstract new (...args: any[]) => any> =
   T extends new (...args: infer P) => any ? P : never;
 
+/**
+ * UnionToIntersection<{ a: string } | { b: string }> = { a: string } & { b: string }
+ */
+declare type UnionToIntersection<T> = (T extends any ? (x: T) => any : never) extends (
+  x: infer U
+) => any
+  ? U
+  : never;
+
+/**
+ * LastUnion<'a' | 'b'> = 'b'
+ */
+declare type LastUnion<T> = UnionToIntersection<
+  T extends any
+  ? (x: T) => any
+  : never
+> extends (x: infer L) => any
+  ? L
+  : never;
+
+/**
+ * UnionToTuple<'a' | 'b'> = ['a', 'b']
+ */
+declare type UnionToTuple<T, Last = LastUnion<T>> = [T] extends [never]
+  ? []
+  : [...UnionToTuple<Exclude<T, Last>>, Last];
+
 declare module "*.css";
 declare module "*.scss";
 declare module "*.json";
