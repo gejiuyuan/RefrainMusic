@@ -21,8 +21,6 @@ export function createRequestInstance(responseType: RyokoResponseType = 'json') 
       Reflect.set(config.params as PlainObject, 'cookie', MUSIC_C_COOKIE)
     }
     return config;
-  }, (err) => {
-    throw err;
   });
   ins.interceptors.response.use((res) => res.data, (err: any) => {
     console.info(err.message, '请求出错啦~~')
