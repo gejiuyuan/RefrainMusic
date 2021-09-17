@@ -1,13 +1,8 @@
-import { computed, defineComponent, nextTick, reactive, ref, shallowReactive, shallowReadonly, watch, watchEffect } from "vue";
+import { computed, defineComponent, nextTick, reactive, ref, watch, watchEffect } from "vue";
 import { onBeforeRouteLeave, useRoute, useRouter } from "vue-router";
 import "./index.scss";
 
-import {
-  getVideoTagList,
-  getVideoCategoryList,
-  getVideos,
-  getAllVideoList,
-  getRecommendVideos,
+import { 
   getRelativeVideos,
   getVideoDetail,
   getVideoRelativeInfo,
@@ -50,7 +45,7 @@ export default defineComponent({
         subscribeCount: 0,
         description: '',
         vid: '',
-      } as VideoDetailInfoItem,
+      } as VideoDetailInfoItem, 
       isCollected: false,
     });
 
@@ -65,47 +60,47 @@ export default defineComponent({
     }]);
 
     const recommendVideos = ref<any[]>([]);
+  
+    const vidWatcher = watch(() => route.query.vid as string, (vid) => {
+      getRelativeVideos({
+        id: vid,
+      }).then(({data}) => {
+        recommendVideos.value = data; 
+      });
+      getVideoDetail({
+        id: vid,
+      }).then(({data, code}) => {
+        const isSuccess = code === 200;
+        hasVideoSource.value = isSuccess;
+        if(!isSuccess) {
+          messageBus.dispatch('errorMessage', '无法获取视频信息');
+          return;
+        }
+        videoData.detail = data;
+      });
+      getVideoRelativeInfo({
+        vid,
+      }).then((detailInfoFromServer) => {
+        videoData.relativeInfo = detailInfoFromServer;
+      });
+      getVideoPlaybackSource({
+        id: vid,
+      }).then(({urls}) => {
+        if(is.emptyArray(urls)) {
+          return;
+        }
+        videoUrlInfo.value = urls;
+      }); 
+    }, {
+      immediate: true,
+    });
+
+    watchEffect(() => {
+      videoData.isCollected = playerStore.isVideoBeLiked(videoData.detail.vid, videoData.detail.description);
+    });
  
-    const vid = String(route.query.vid);
-    getRelativeVideos({
-      id: vid,
-    }).then(({data}) => {
-      recommendVideos.value = data; 
-    });
-    getVideoDetail({
-      id: vid,
-    }).then(({data, code}) => {
-      const isSuccess = code === 200;
-      hasVideoSource.value = isSuccess;
-      if(!isSuccess) {
-        messageBus.dispatch('errorMessage', '无法获取视频信息');
-        return;
-      }
-      videoData.detail = data;
-    });
-    getVideoRelativeInfo({
-      vid,
-    }).then((detailInfoFromServer) => {
-      videoData.relativeInfo = detailInfoFromServer;
-    });
-    getVideoPlaybackSource({
-      id: vid,
-    }).then(({urls}) => {
-      if(is.emptyArray(urls)) {
-        return;
-      }
-      videoUrlInfo.value = urls;
-    }); 
-
-    const videoDataWatcher = watch(
-      () => [videoData.detail.description, videoData.detail.vid, playerStore.video.beLiked],
-      () => {
-        videoData.isCollected = playerStore.isVideoBeLiked(videoData.detail.vid, videoData.detail.description);
-      }
-    );
-
     onBeforeRouteLeave(() => {
-      videoDataWatcher();
+      vidWatcher();
     });
  
     watch(() => playerStore.video.isPlay, async (isPlay) => { 
@@ -129,7 +124,7 @@ export default defineComponent({
         query: {
           id
         }
-      })
+      });
     }
 
     /**

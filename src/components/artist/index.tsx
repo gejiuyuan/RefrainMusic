@@ -93,20 +93,22 @@ export default defineComponent({
       }, [] as MenuList[])
     ); 
     
-    const getArtistDetail = async (route: RouteLocationNormalized) => {
-      const query = route.query as PlainObject<string>;
-      const id = query.id + "";
-      menuList.forEach((item, i) => {
-        item.to = `/artist/${item.key}${objToQuery(query, true)}`;
-      });
-      const { artist: artistInfo = {} } = await artistSingalSongs({ id });
-      information.artist = artistInfo;
+    const getArtistDetail = async (to: RouteLocationNormalized, from: RouteLocationNormalized = EMPTY_OBJ) => {
+      const { query:toQuery } = to;
+      const { query:fromQuery = EMPTY_OBJ } = from;
+      if(toQuery.id !== fromQuery.id) {
+        menuList.forEach((item, i) => {
+          item.to = `/artist/${item.key}${objToQuery(toQuery, true)}`;
+        });
+        const { artist: artistInfo = {} } = await artistSingalSongs({ id:String(toQuery.id) });
+        information.artist = artistInfo;
+      }
     };
 
     getArtistDetail(route);
 
-    onFilteredBeforeRouteUpdate((to) => {
-      getArtistDetail(to);
+    onFilteredBeforeRouteUpdate((to, from) => {
+      getArtistDetail(to, from);
     });
  
     const followChangeHandler = (isFollow: boolean) => {
