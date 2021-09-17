@@ -9,7 +9,7 @@ import {
 import "./index.scss";
 import { padPicCrop } from "@/utils";
 import { useRoute, useRouter } from "vue-router";
-import usePlayerStore, { playerQueueShow } from "@/stores/player";
+import usePlayerStore, { currentSongRefGlobal, playerQueueShow } from "@/stores/player";
 import ProgressBar, { ProgressInfo } from "@/widgets/progress-bar";
 import { renderCurrentPlayTime } from "@/widgets/common-renderer";
 import usePlaySwitch from "@/hooks/usePlaySwitch";import { computed, defineComponent, PropType, ref } from "vue";
@@ -54,10 +54,8 @@ export default defineComponent({
     return () => {
       const currentTimeValue = currentTimeRefGlobal.value;
       const duration= durationRefGlobal.value;
-      const {
-        currentSongInfo: { id, musicName, singers, album },
-        playerQueue,
-      } = playerStore; 
+      const { id, musicName, singers, album } = currentSongRefGlobal.value;
+      const { playerQueue } = playerStore; 
 
       return ( 
         <section class="player-controller" lyricPageShow={props.displayInLyricPage}>
@@ -107,7 +105,7 @@ export default defineComponent({
               {
                 renderCurrentPlayTime()
               }
-              <MusicLoveIcon songInfo={playerStore.currentSongInfo}></MusicLoveIcon>
+              <MusicLoveIcon songInfo={currentSongRefGlobal.value}></MusicLoveIcon>
               <div className="play-queue-icon" onClick={showPlayerQueueHandler} title="播放队列">
                 <i className="iconfont icon-yinleliebiao"></i>
                 <span>{playerQueue.length}</span>

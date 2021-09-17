@@ -2,7 +2,7 @@ import { defineComponent, watch, ref, computed } from "@vue/runtime-core";
 import { routerViewLocationKey, useRoute, useRouter } from "vue-router";
 import "./index.scss";
 import { onKeyStroke } from "@vueuse/core";
-import usePlayerStore from "@/stores/player";
+import usePlayerStore, { currentSongRefGlobal } from "@/stores/player";
 import { padPicCrop } from "@/utils";
 import PlayerLyric from "@/components/lyric"; 
 import { MusicSinger } from "@/widgets/music-tiny-comp";
@@ -30,7 +30,7 @@ export default defineComponent({
 
     const playbillRef = computed(() => {
       return {
-        src: playerStore.currentSongInfo.album.picUrl,
+        src: currentSongRefGlobal.value.album.picUrl,
         size: [600, 600],
       };
     });
@@ -59,7 +59,7 @@ export default defineComponent({
     );
 
     return () => {
-      const { musicName, singers } = playerStore.currentSongInfo;
+      const { musicName, singers } = currentSongRefGlobal.value;
       const { size, src } = playbillRef.value;
       const cropedSrc = padPicCrop(src, { x: 700, y: 700 }); 
       return ( 

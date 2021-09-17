@@ -13,13 +13,10 @@ class PlayerDatabase extends Dexie {
 
   public playQueue!: DbTable<CurrentSongInfo, number>;
 
-  public currentSong!: DbTable<CurrentSongInfo, number>;
-
   constructor() {
     super('PlayerDatabase');
     this.version(1).stores({
       playQueue: `${songInfos}`,
-      currentSong: `${songInfos}`,
     })
     this.playQueue.mapToClass(PlayerQueueMaster);
   }
@@ -51,14 +48,19 @@ export async function getOrPutPlayQueue(song?: CurrentSongInfo | CurrentSongInfo
   return await playerDB.playQueue[method](song && toRaw(song));
 }
 
-export async function getOrPutCurrentSong(): Promise<CurrentSongInfo>;
-export async function getOrPutCurrentSong(song: CurrentSongInfo): Promise<number>;
-export async function getOrPutCurrentSong(song?: CurrentSongInfo) {
-  const uniqueCurrentSong = (await playerDB.currentSong.toArray())[0];
-  return is.undefined(song)
-    ? uniqueCurrentSong
-    : uniqueCurrentSong
-      ? await playerDB.currentSong.toCollection().modify(toRaw(song))
-      : await playerDB.currentSong.put(toRaw(song));
+export function getOrPutCurrentSong(): CurrentSongInfo | null;
+export function getOrPutCurrentSong(song: CurrentSongInfo): void;
+export function getOrPutCurrentSong(song?: CurrentSongInfo) {
+  if (song) {
+    return localStorage.setItem('currentSong', JSON.stringify(song));
+  } else {
+    return JSON.parse(localStorage.getItem('currentSong')!);
+  }
+  // const uniqueCurrentSong = (await playerDB.currentSong.toArray())[0];
+  // return is.undefined(song)
+  //   ? uniqueCurrentSong
+  //   : uniqueCurrentSong
+  //     ? await playerDB.currentSong.toCollection().modify(toRaw(song))
+  //     : await playerDB.currentSong.put(toRaw(song));
 }
 

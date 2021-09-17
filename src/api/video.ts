@@ -28,13 +28,14 @@ export function getVideoCategoryList() {
  */
 export function getVideos(param: {
     id: string | number; //标签/分类id
-    offset?: number | string //分页偏移量
+    offset?: number | string //分页偏移量; 
 }) {
     const { offset = 0, id } = param
     return anfrageWithLoading({
         url: "/video/group",
         params: {
-            id, offset,
+            id,
+            offset,
             timestamp: new Date().valueOf(),
         }
     })
@@ -47,7 +48,7 @@ export function getVideos(param: {
  */
 export function getAllVideoList(
     param: {
-        offset?: number | string
+        offset?: number | string;
     } = EMPTY_OBJ
 ) {
     const { offset = 0 } = param;

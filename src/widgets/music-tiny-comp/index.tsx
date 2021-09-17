@@ -9,7 +9,7 @@ import "./index.scss";
 import { useRouter } from "vue-router";
 import useUserStore from "@stores/user";
 import { userLikeMusic } from "@/api/user";
-import usePlayerStore from "@stores/player";
+import usePlayerStore, { currentSongRefGlobal } from "@stores/player";
 import { orderRefGlobal } from '@stores/audio'
 import { messageBus } from "@/utils/event/register";
 import { CurrentSongInfo, } from "@/utils/apiSpecial";
@@ -94,7 +94,7 @@ export const PlayStatusSwitch = defineComponent({
     //是否是当前正在播放的歌曲
     const isCurrentPlayingSong = computed(() => {
       const id = props.id;
-      return id === '' || playerStore.currentSongInfo.id === id
+      return id === '' || currentSongRefGlobal.value.id === id
     });
 
     //播放按钮状态

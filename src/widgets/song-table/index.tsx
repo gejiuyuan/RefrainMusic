@@ -8,7 +8,7 @@ import {
   CurrentSongInfo,
   getModifiedSongInfo,
 } from "@/utils/apiSpecial";
-import usePlayerStore from "@/stores/player";
+import usePlayerStore, { currentSongRefGlobal } from "@/stores/player";
 import YuanTable, { YuanTableColumn } from "./yuan-table";
 import { NGrid, NGridItem } from "naive-ui";
 import { MusicLoveIcon, PlayStatusSwitch } from "../music-tiny-comp";
@@ -53,8 +53,7 @@ export default defineComponent({
     };
 
     return () => {
-      if (!songData.value.length) return;
-      const { currentSongInfo } = playerStore;
+      if (!songData.value.length) return; 
       const playing = playingRefGlobal.value;
 
       return (
@@ -74,7 +73,7 @@ export default defineComponent({
               v-slots={{
                 default(curSongInfo: any) {
                   const { musicName, id } = curSongInfo;
-                  const isPlaying = playing && (id === currentSongInfo.id)
+                  const isPlaying = playing && (id === currentSongRefGlobal.value.id)
                   return (
                     <NGrid
                       class="song-item-body"

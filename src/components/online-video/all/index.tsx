@@ -7,6 +7,7 @@ import YuanButton from "@/widgets/yuan-button";
 import { messageBus } from "@/utils/event/register";
 import { UNICODE_CHAR } from "@/utils"; 
 import useUserStore from "@/stores/user";
+import { NEmpty } from "naive-ui";
 
 export interface AllVideosInfoType {  
   list: allVideoDatasItem[];
@@ -26,11 +27,11 @@ export default defineComponent({
 
     const userStore = useUserStore();
 
-    const loadCount = ref(0);
-
+    const loadCount = ref(0); 
+    
     const updateAllVideoList = () => {
       getAllVideoList({
-        offset: loadCount.value, 
+        offset: loadCount.value,  
       }).then(({code, datas, hasmore, msg}) => { 
         if(code !== 200) {
           messageBus.dispatch('errorMessage', msg);
@@ -45,7 +46,9 @@ export default defineComponent({
     watch(() => userStore.isLogin, (isLogin) => {
       if(isLogin) {
         updateAllVideoList();
-      }
+      } 
+    }, {
+      immediate: true,
     });
 
     const loadMoreHandler = () => { 
@@ -57,6 +60,11 @@ export default defineComponent({
     }
 
     return () => { 
+      if(!userStore.isLogin) {
+        return (
+          <NEmpty showDescription size="large" description="需要登录才能查看视频哦~~"></NEmpty>
+        )
+      }
       const { hasMore } = allVideosInfo;
       return <section class="online-video-all">
         <section className="video-layer">

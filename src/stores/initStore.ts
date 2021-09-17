@@ -1,7 +1,6 @@
 
 import usePlayerStore from './player';
-
-import { getOrPutCurrentSong, getOrPutPlayQueue, playerDB } from '@/database';
+import { getOrPutPlayQueue, playerDB } from '@/database';
 
 /**
  * 从DB中获取playQueue
@@ -14,23 +13,6 @@ export async function initPlayQueueFromDB() {
   }
 }
 
-/**
- * 从DB中获取currentSongInfo
- */
-export async function initCurrentSongInfo() {
-  const playerStore = usePlayerStore();
-  const currentSong = await getOrPutCurrentSong();
-  if (currentSong) {
-    //先初始化加载音乐播放相关资源或数据
-    playerStore.handlePlaySoundNeededData(currentSong.id, {
-      force: true,
-      needSave: false,
-      immediate: false
-    });
-  }
-}
-
-playerDB.transaction('rw', [playerDB.playQueue, playerDB.currentSong], () => {
+playerDB.transaction('rw', [playerDB.playQueue], () => {
   initPlayQueueFromDB();
-  initCurrentSongInfo();
 });

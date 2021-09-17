@@ -20,7 +20,7 @@ import { musicRecommend } from "@/api/music";
 import MusicList from "@/widgets/music-list";
 import { getPersonalFm } from "@/api/other";
 import { MusicLoveIcon, MusicSinger } from '@widgets/music-tiny-comp';
-import usePlayerStore from "@/stores/player";
+import usePlayerStore , { currentSongRefGlobal } from "@/stores/player";
 import { getModifiedNewestSongInfo, getModifiedSongInfo } from "@/utils/apiSpecial"; 
 import { PlayStatusSwitch } from '@widgets/music-tiny-comp';
 import { messageBus } from "@/utils/event/register";
@@ -46,7 +46,7 @@ export const PersonalFm = defineComponent({
 
     const currentVisibleFM = computed(() => {
       const personalFM = playerStore.personalFM;
-      return personalFM.isFM ? playerStore.currentSongInfo : personalFM.songList[0];
+      return personalFM.isFM ? currentSongRefGlobal : personalFM.songList[0];
     });
 
     const picMainColor = ref('');

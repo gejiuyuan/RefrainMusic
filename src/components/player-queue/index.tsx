@@ -1,4 +1,4 @@
-import usePlayerStore, { playerQueueShow } from "@/stores/player";
+import usePlayerStore, { currentSongRefGlobal, playerQueueShow } from "@/stores/player";
 import { onClickOutside } from "@vueuse/core";
 import { defineComponent, ref, watchEffect } from "vue";
 import { useRoute, useRouter } from "vue-router";
@@ -33,9 +33,7 @@ export default defineComponent({
       if (is.emptyArray(playerQueue)) {
         return;
       }
-      const {
-        currentSongInfo: { id: curSongId },
-      } = playerStore;
+      const { id: curSongId } = currentSongRefGlobal.value; 
       const targetIndex = playerQueue.findIndex(({ id }) => id === curSongId);
 
       const targetScrollTop = (listContentUlRef.value!.children[targetIndex] as HTMLLIElement).offsetTop;
@@ -51,9 +49,8 @@ export default defineComponent({
     }
 
     return () => {
-      const {
-        currentSongInfo: { id: curSongId }, playerQueue,
-      } = playerStore; 
+      const { id: curSongId } =currentSongRefGlobal.value;
+      const {  playerQueue } = playerStore; 
       return (
         <aside class="player-queue" slideShow={playerQueueShow.value} ref={playerQueueRef}>
           <header class="queue-header">

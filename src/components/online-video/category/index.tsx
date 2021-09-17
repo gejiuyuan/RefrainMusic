@@ -32,7 +32,7 @@ export interface CategoryVideosInfoType {
     caseFirst: 'lower',
   })); 
 }
-
+ 
 export default defineComponent({
   name: "OnlineVideoCategory",
   setup(props, context) { 
@@ -66,7 +66,7 @@ export default defineComponent({
       const { offset = 0 , id = firstId } = route.query  
       const { code, msg, hasMore, datas } = await getVideos({
         id: Number(id),
-        offset: Number(offset),
+        offset: Number(offset), 
       });
       if(code !== 200) {
         messageBus.dispatch('errorMessage', msg);

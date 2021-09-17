@@ -17,7 +17,6 @@ export function createRequestInstance(responseType: RyokoResponseType = 'json') 
   ins.interceptors.request.use((config) => {
     const MUSIC_C_COOKIE = loginCookie.value;
     if (MUSIC_C_COOKIE) {
-      config.params ??= Object.create(null);
       Reflect.set(config.params as PlainObject, 'cookie', MUSIC_C_COOKIE)
     }
     return config;

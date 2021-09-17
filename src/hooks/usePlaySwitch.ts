@@ -1,4 +1,4 @@
-import usePlayerStore from "@/stores/player";
+import usePlayerStore, { currentSongRefGlobal } from "@/stores/player";
 import { AudioMaster } from "@/stores/audio";
 import { getRandomList } from "@/utils";
 import { onKeyStroke } from "@vueuse/core";
@@ -32,7 +32,7 @@ export default function usePlaySwitch() {
   const currentPlayIndex = customRef<number>((track, trigger) => ({
     get() {
       track();
-      const { currentSongInfo: { id: currentSongId } } = playerStore;
+      const { id: currentSongId } = currentSongRefGlobal.value;
       return realPlaylist.value.findIndex(({ id }) => id == currentSongId) || 0
     },
     set(idx) {

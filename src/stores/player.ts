@@ -51,9 +51,53 @@ export const playerQueueShow = (() => {
   })
 })();
 
+export const currentSongRefGlobal = (() => {
+  //初始的currentSongInfo
+  const initialCurrentSongInfo: CurrentSongInfo = {
+    id: 0,
+    duration: 0,
+    artists: [],
+    alias: [],
+    name: "",
+    albumName: '',
+    musicName: "",
+    publishTime: 0,
+    mark: 0,
+    starred: false,
+    album: { id: 0, name: "", picUrl: "" },
+    singers: [{ id: 0, name: "" }],
+    localedDuration: "",
+    localedMark: "",
+    localedPublishTime: "",
+  };
+  let currentSong = getOrPutCurrentSong() || initialCurrentSongInfo;
+  if (currentSong.id) {
+    setTimeout(() => {
+      //先初始化加载音乐播放相关资源或数据
+      usePlayerStore().handlePlaySoundNeededData(currentSong.id, {
+        force: true,
+        needSave: false,
+        immediate: false
+      });
+    });
+  }
+  return customRef<CurrentSongInfo>((track, trigger) => {
+    return {
+      get() {
+        track();
+        return currentSong;
+      },
+      set(value) {
+        if (!value) return;
+        currentSong = value;
+        trigger();
+      }
+    }
+  });
+})();
+
 //实际使用的currentSongInfo的类型
 export type PlayerStoreStateType = {
-  currentSongInfo: CurrentSongInfo;
   playerQueue: CurrentSongInfo[];
   personalFM: {
     songList: any[];
@@ -72,30 +116,10 @@ export type PlayerStoreStateType = {
   }
 };
 
-//初始的currentSongInfo
-const initialCurrentSongInfo: CurrentSongInfo = {
-  id: 0,
-  duration: 0,
-  artists: [],
-  alias: [],
-  name: "",
-  albumName: '',
-  musicName: "",
-  publishTime: 0,
-  mark: 0,
-  starred: false,
-  album: { id: 0, name: "", picUrl: "" },
-  singers: [{ id: 0, name: "" }],
-  localedDuration: "",
-  localedMark: "",
-  localedPublishTime: "",
-};
-
 const usePlayerStore = defineStore({
   id: "playerStore",
   state() {
     const playerState: PlayerStoreStateType = {
-      currentSongInfo: initialCurrentSongInfo,
       lyric: {
         common: "",
         translation: "",
@@ -147,22 +171,21 @@ const usePlayerStore = defineStore({
     ) {
       const { force = false, needSave = true, immediate = true } = options || EMPTY_OBJ;
       //如果已经是当前播放的歌曲了，就return
-      if (!force && this.currentSongInfo.id === id) return;
+      if (!force && currentSongRefGlobal.value.id === id) return;
       immediate && (playingRefGlobal.value = true);
       //设置全局音频src，以便howler加载mp3的url
       srcOrIdRefGlobal.value = id;
       //获取音乐详细信息，因为存在偶现型songItem中picUrl不存在
       getMusicDetail({ ids: String(id) }).then(
         ({ songs: [songDetailData] }) => {
-          const currentSongInfo = this.currentSongInfo;
           const willSetCurrentSongInfo = getModifiedSongInfo(songDetailData);
           //设置当前要播放歌曲的信息
-          this.currentSongInfo = willSetCurrentSongInfo;
+          currentSongRefGlobal.value = willSetCurrentSongInfo;
           //同时添加该歌曲到播放队列中
           const queueSongList = this.playerQueue;
           //如果没有在播放队列中
           if (!queueSongList.some(({ id: queueSongId }) => id === queueSongId)) {
-            const currentSongId = currentSongInfo.id;
+            const currentSongId = currentSongRefGlobal.value.id;
             const currentSongIndex = queueSongList.findIndex(({ id: queueSongId }) => currentSongId === queueSongId);
             queueSongList.splice(currentSongIndex + 1, 0, willSetCurrentSongInfo);
           }
