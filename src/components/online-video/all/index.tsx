@@ -1,12 +1,12 @@
 import { getAllVideoList, getVideoCategoryList, getVideoTagList } from "@/api/video";
-import { allVideoDatasItem, VideoTagItem } from "@/types/video";
-import { NSpace, NxButton } from "naive-ui";
-import { defineComponent, inject, InjectionKey, markRaw, onMounted, reactive, readonly, ref, shallowReactive, shallowRef, watchEffect } from "vue";
+import { allVideoDatasItem, VideoTagItem } from "@/types/video"; 
+import { defineComponent, reactive, readonly, ref, watch, } from "vue";
 import VideoList from '@widgets/video-list';
 import "./index.scss";
 import YuanButton from "@/widgets/yuan-button";
 import { messageBus } from "@/utils/event/register";
-import { UNICODE_CHAR } from "@/utils";
+import { UNICODE_CHAR } from "@/utils"; 
+import useUserStore from "@/stores/user";
 
 export interface AllVideosInfoType {  
   list: allVideoDatasItem[];
@@ -24,6 +24,8 @@ export default defineComponent({
       msg: '',
     });
 
+    const userStore = useUserStore();
+
     const loadCount = ref(0);
 
     const updateAllVideoList = () => {
@@ -39,7 +41,12 @@ export default defineComponent({
         allVideosInfo.msg = msg;
       }); 
     }
-    updateAllVideoList();
+
+    watch(() => userStore.isLogin, (isLogin) => {
+      if(isLogin) {
+        updateAllVideoList();
+      }
+    });
 
     const loadMoreHandler = () => { 
       if(!allVideosInfo.hasMore) {
