@@ -3,10 +3,6 @@ import { Swiper, SwiperSlide } from "swiper/vue";
 import { padPicCrop, is } from "@/utils";
 import "./index.scss";
 
-import {
-  Swiper as SwiperInstance
-} from 'swiper'
-
 export default defineComponent({
   name: "RecommentBanner",
   props: {

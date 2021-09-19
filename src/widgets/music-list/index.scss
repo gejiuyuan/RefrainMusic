@@ -4,8 +4,8 @@
 .music-list {
 
   position: relative;
-  min-height: 340px;
-  
+  min-height: 340px; 
+
   .music-item {
     position: relative;
     @include flexVc();
