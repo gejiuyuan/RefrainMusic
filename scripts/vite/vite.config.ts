@@ -174,7 +174,7 @@ const prodConfig = extend(baseConfig, {
 
         //css优化选项，依赖于clean-css包
         cleanCssOptions: {
-            format: 'beautify', //选项：keep-breaks（保持换行）
+            format: 'keep-breaks', //选项：keep-breaks（保持换行）、beautify
             compatibility: 'ie11',
         },
         // 启用/禁用 brotli 压缩大小报告。压缩大型输出文件可能会很慢，因此禁用该功能可能会提高大型项目的构建性能
