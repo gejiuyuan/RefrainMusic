@@ -74,7 +74,9 @@
     }
 
     .player-song {
-      padding-bottom: 20px;
+      @include flexV();
+      height: 100%; 
+      padding-bottom: 40px;
       color: $colorbase;
       text-align: center;
 
@@ -108,6 +110,11 @@
           }
         }
       }
+
+      .player-lyric-wrap {
+        flex: 1; 
+      }
+
     }
   }
 }

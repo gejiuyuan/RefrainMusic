@@ -104,8 +104,9 @@ export default defineComponent({
                       singers={singers}
                     ></MusicSinger>
                   </div>
-
-                  <PlayerLyric></PlayerLyric>
+                  <div className="player-lyric-wrap">
+                    <PlayerLyric></PlayerLyric>
+                  </div>
                 </div>
               </div>
             </div>
