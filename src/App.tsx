@@ -5,13 +5,13 @@ import {
   NConfigProvider, NLoadingBarProvider, NMessageProvider, 
   NThemeEditor, useLoadingBar 
 } from "naive-ui";
-import { messageBus } from "./utils/event/register"; 
 import LyricPage from '@views/lyric-page'; 
 import { theme } from "./stores/player"; 
 import "./App.scss";
+import { messageBus } from "./utils/event/register"; 
 
-export const LoginLayer = defineComponent({
-  name: 'LoginLayer',
+export const LogicLayer = defineComponent({
+  name: 'LogicLayer',
   setup() {
     
     const message = useMessage();
@@ -76,7 +76,7 @@ export default defineComponent({
           <NConfigProvider themeOverrides={NaiveThemeConfig.value}>
             <NMessageProvider>
               <NLoadingBarProvider> 
-                <LoginLayer></LoginLayer>
+                <LogicLayer></LogicLayer>
               </NLoadingBarProvider>
             </NMessageProvider>
           </NConfigProvider>

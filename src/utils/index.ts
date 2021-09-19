@@ -5,5 +5,4 @@ export * from "./constants";
 export * from "./browser";
 export * from "./timeSlice";
 export * from "./event/event";
-export * from "./battery";
 export * from "./lyricParser";
