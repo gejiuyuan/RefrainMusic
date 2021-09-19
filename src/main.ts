@@ -1,17 +1,35 @@
 import { createApp } from "vue";
 import { createPinia } from 'pinia';
-import { globalProperties } from "./vueGlobalConfig";
 import routerObj from "@router/index";
-import "@scss/main.scss";
-import YuanPlayer from "./index";
-import './swiper';
+import YuanPlayer from "./App";
 import '@stores/initStore';
+import "@scss/main.scss";
 
+import "swiper/components/effect-coverflow/effect-coverflow.scss";
+import "swiper/components/pagination/pagination.scss";
+import "swiper/components/navigation/navigation.scss";
+import "swiper/swiper.scss";
+
+import SwiperCore, {
+  EffectCoverflow,
+  Pagination,
+  Navigation,
+  Autoplay,
+  Lazy,
+  Mousewheel,
+} from "swiper/core";
+
+SwiperCore.use([
+  Pagination,
+  EffectCoverflow,
+  Navigation,
+  Autoplay,
+  Lazy,
+  Mousewheel,
+]);
 
 //创建app根实例
 const vueApp = createApp(YuanPlayer);
-
-vueApp.config.globalProperties = globalProperties;
 vueApp.use(createPinia());
 vueApp.use(routerObj);
 

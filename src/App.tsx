@@ -1,13 +1,42 @@
-import { computed, defineComponent, reactive, toRef, watch } from "vue";
+import { computed, defineComponent } from "vue";
 import { RouterView, useRoute } from "vue-router";
+import { 
+  GlobalThemeOverrides, useMessage, NBackTop, 
+  NConfigProvider, NLoadingBarProvider, NMessageProvider, 
+  NThemeEditor, useLoadingBar 
+} from "naive-ui";
+import { messageBus } from "./utils/event/register"; 
+import LyricPage from '@views/lyric-page'; 
+import { theme } from "./stores/player"; 
 import "./App.scss";
-import LyricPage from '@views/lyric-page';
-import { NBackTop, useLoadingBar, useMessage } from "naive-ui";
-import { messageBus } from "./utils/event/register";
 
 export default defineComponent({
   name: "YuanPlayer",
   setup(props, context) {
+     
+    const themeLayerStyle = computed(() => {
+      return `--theme:${theme.value};`
+    });
+
+    const NaiveThemeConfig = computed<GlobalThemeOverrides>(() => {
+      const globalTheme = theme.value;
+      return {
+        Input: {
+          borderHoverWarning: globalTheme,
+          borderFocus: globalTheme,
+          borderHover: globalTheme
+        },
+        Radio: {
+          buttonBorderColorActive: globalTheme,
+          buttonBorderColorHover: globalTheme,
+          buttonTextColorActive: globalTheme,
+          buttonTextColorHover: globalTheme,
+          buttonBoxShadowFocus: 'none',
+          fontSizeSmall: '12px',
+        }
+      }
+    });
+
     const message = useMessage();
     const loading = useLoadingBar();
     messageBus.on('startLoading', () => loading.start());
@@ -19,20 +48,26 @@ export default defineComponent({
     messageBus.on('errorMessage', (...args:FuncParamsType<typeof message.error>) => message.error(...args));
     return () => {
       return (
-        <>
-          <RouterView></RouterView>
-          <LyricPage></LyricPage>
-          <NBackTop
-            listenTo=".player-container"
-            visibilityHeight={100}
-            bottom={90}
-            themeOverrides={{
-              width: "38px",
-              height: "38px",
-              iconSize: "20px",
-            }}
-          ></NBackTop>
-        </>
+        <section class="theme-layer" style={themeLayerStyle.value}>
+          <NConfigProvider themeOverrides={NaiveThemeConfig.value}>
+            <NMessageProvider>
+              <NLoadingBarProvider> 
+                <RouterView></RouterView>
+                <LyricPage></LyricPage>
+                <NBackTop
+                  listenTo=".player-container"
+                  visibilityHeight={100}
+                  bottom={90}
+                  themeOverrides={{
+                    width: "38px",
+                    height: "38px",
+                    iconSize: "20px",
+                  }}
+                ></NBackTop>
+              </NLoadingBarProvider>
+            </NMessageProvider>
+          </NConfigProvider>
+        </section>      
       );
     };
   },
