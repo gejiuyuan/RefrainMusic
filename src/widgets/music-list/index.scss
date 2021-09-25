@@ -10,7 +10,7 @@
     position: relative;
     @include flexVc();
     padding: 12px;
-    transition: background-color 0.12s;
+    transition: background-color 0.04s;
     border-radius: 6px;
 
     &:hover {
@@ -44,7 +44,7 @@
         left: 50%;
         top: 50%;
         transform: translate(-50%,-50%);
-        transition: .14s;
+        transition: .04s;
         color: #eee;
         font-size: 22px;
         &:hover {

@@ -1,7 +1,7 @@
 .album-container {
   padding: 0 2rem; 
   .album-item {
-    transition: 0.2s ease-in;
+    transition: 0.1s ease-in;
     cursor: pointer;
 
     // &:hover {
@@ -32,7 +32,7 @@
       }
 
       img { 
-        transition: 0.3s ease-out;
+        transition: 0.26s ease-out;
       }
     }
 

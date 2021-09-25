@@ -182,29 +182,29 @@ export default defineComponent({
       suspensionInfo.show = false;
     };
 
-    const renderCurrentHoverItemSuspension = () => {
-      const { musicName, localedDuration, localedMark, localedPublishTime, albumName } = currentHoverMusicInfo.value;
-      return (
-        <aside
-          className="suspension"
-          style={{
-            visibility: suspensionInfo.show ? "visible" : "hidden",
-            transform: `translate(${suspensionInfo.x}px, ${suspensionInfo.y}px)`,
-          }
-          }
-        >
-          <h6 singallinedot title={musicName}>
-            {musicName}
-          </h6>
-          <div className="desc">
-            <p><em>时长：</em>{localedDuration}</p>
-            {localedMark && <p><em>评论数：</em>{localedMark}</p>}
-            <p><em>发布时间：</em>{localedPublishTime}</p>
-            <p><em>专辑：</em>《{albumName}》</p>
-          </div>
-        </aside >
-      )
-    }
+    // const renderCurrentHoverItemSuspension = () => {
+    //   const { musicName, localedDuration, localedMark, localedPublishTime, albumName } = currentHoverMusicInfo.value;
+    //   return (
+    //     <aside
+    //       className="suspension"
+    //       style={{
+    //         visibility: suspensionInfo.show ? "visible" : "hidden",
+    //         transform: `translate(${suspensionInfo.x}px, ${suspensionInfo.y}px)`,
+    //       }
+    //       }
+    //     >
+    //       <h6 singallinedot title={musicName}>
+    //         {musicName}
+    //       </h6>
+    //       <div className="desc">
+    //         <p><em>时长：</em>{localedDuration}</p>
+    //         {localedMark && <p><em>评论数：</em>{localedMark}</p>}
+    //         <p><em>发布时间：</em>{localedPublishTime}</p>
+    //         <p><em>专辑：</em>《{albumName}》</p>
+    //       </div>
+    //     </aside >
+    //   )
+    // }
 
     return () => {
       const {
@@ -246,9 +246,9 @@ export default defineComponent({
               }
             }
           </YuanInfinityScroll>
-          {
+          {/* {
             renderCurrentHoverItemSuspension()
-          }
+          } */}
         </section>
       );
     };

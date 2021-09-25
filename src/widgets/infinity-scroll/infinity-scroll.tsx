@@ -1,6 +1,7 @@
 import { createVNode, ref, defineComponent, withDirectives, onDeactivated, onActivated, vShow } from "vue";
 import VInfiniteScroll from ".";
 import { messageBus } from '@utils/event/register';
+import { UNICODE_CHAR } from "@/utils";
 
 export default defineComponent({
   name: "YuanInfinityScroll",
@@ -28,12 +29,12 @@ export default defineComponent({
     const disabled = ref(false); 
     const deferLoader = () => {
       isloading.value = true;
-      messageBus.dispatch('startLoading');
+      // messageBus.dispatch('startLoading');
       setTimeout(() => {
         curCount.value += +props.sliceInterval;
         isloading.value = false;
         disabled.value = curCount.value >= props.total; 
-        messageBus.dispatch('finishLoading');
+        // messageBus.dispatch('finishLoading');
       }, 1000);
     };
 
@@ -63,7 +64,7 @@ export default defineComponent({
               style: "padding: 2em 0;text-align: center",
               visibility: isloading.value,
             },
-            "正在加载..."
+            `正在加载${UNICODE_CHAR.hugface}...`
           )
         ]
       )
