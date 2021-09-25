@@ -61,6 +61,11 @@ export default defineComponent({
       type: Boolean,
       required: false,
       default: true
+    },
+    needInfinityScroll: {
+      type: Boolean,
+      required: false,
+      default: false,
     }
   },
   setup(props, context) {
@@ -105,74 +110,85 @@ export default defineComponent({
         }
       })
 
+    const listRender = (currentCount: number = props.playlists.length) => {
+      const { playlists, gaps, cols } = props;
+      return (
+        <NGrid xGap={gaps.x} yGap={gaps.y} cols={cols}>
+          {
+            playlists
+            .slice(0, currentCount)
+            .map(({ name, id, coverImgUrl, picUrl, description, creator }) => {
+              const { userId, nickname, avatarUrl } = creator;
+              return (
+                <NGridItem key={id}>
+                  <section
+                    class="music-item"
+                  >
+                    <div class="music-cover" aspectratio="1" onClick={() => toSonglistDetailPage(id)}>
+                      <img
+                        loading="lazy"
+                        src={padPicCrop(coverImgUrl || picUrl, { x: 340, y: 340 })}
+                        alt={`${name}-${description}`}
+                        title={`${name}-${description}`}
+                      />
+                    </div>
+                    <div class="music-body">
+                      <h6 title={name}>{name}</h6>
+                      <div className="music-creator">
+                        <>
+                          {
+                            avatarUrl ? (
+                              <div class="creator-avatar-wrap">
+                                <div aspectratio="1" onClick={() => toUserDetailPage(userId)}>
+                                  <img src={padPicCrop(avatarUrl, { x: 60, y: 60 })} alt="" />
+                                </div>
+                              </div>
+                            ) : (
+                              <span class="creator-title">创建者：</span>
+                            )
+                          }
+                          <em class="creator-nickname">
+                            <span onClick={() => toUserDetailPage(userId)}>
+                              {nickname}
+                            </span>
+                          </em>
+                        </>
+                      </div>
+                    </div>
+                  </section>
+                </NGridItem>
+              )
+            })
+          }
+        </NGrid> 
+      )
+    }
+
+    const renderList = () => {
+      const { playlists } = props;
+      if(props.needInfinityScroll) {
+        return (
+          <YuanInfinityScroll 
+            total={playlists.length}
+          >
+            {
+              {
+                default: listRender
+              }
+            }
+          </YuanInfinityScroll>
+        )
+      }
+      return listRender()
+    }
+
     const renderMainList = () => {
-      const { playlists, gaps, cols, showPagination } = props;
+      const { playlists } = props;
       return (
         <section class="music-wrap">
           {
             playlists.length
-              ? (
-                <YuanInfinityScroll 
-                  total={playlists.length}
-                >
-                  {
-                    {
-                      default(currentCount: number) { 
-                        return (
-                          <NGrid xGap={gaps.x} yGap={gaps.y} cols={cols}>
-                            {
-                              playlists
-                              .slice(0, currentCount)
-                              .map(({ name, id, coverImgUrl, picUrl, description, creator }) => {
-                                const { userId, nickname, avatarUrl } = creator;
-                                return (
-                                  <NGridItem key={id}>
-                                    <section
-                                      class="music-item"
-                                    >
-                                      <div class="music-cover" aspectratio="1" onClick={() => toSonglistDetailPage(id)}>
-                                        <img
-                                          loading="lazy"
-                                          src={padPicCrop(coverImgUrl || picUrl, { x: 340, y: 340 })}
-                                          alt={`${name}-${description}`}
-                                          title={`${name}-${description}`}
-                                        />
-                                      </div>
-                                      <div class="music-body">
-                                        <h6 title={name}>{name}</h6>
-                                        <div className="music-creator">
-                                          <>
-                                            {
-                                              avatarUrl ? (
-                                                <div class="creator-avatar-wrap">
-                                                  <div aspectratio="1" onClick={() => toUserDetailPage(userId)}>
-                                                    <img src={padPicCrop(avatarUrl, { x: 60, y: 60 })} alt="" />
-                                                  </div>
-                                                </div>
-                                              ) : (
-                                                <span class="creator-title">创建者：</span>
-                                              )
-                                            }
-                                            <em class="creator-nickname">
-                                              <span onClick={() => toUserDetailPage(userId)}>
-                                                {nickname}
-                                              </span>
-                                            </em>
-                                          </>
-                                        </div>
-                                      </div>
-                                    </section>
-                                  </NGridItem>
-                                )
-                              })
-                            }
-                          </NGrid>
-                        )
-                      }
-                    }
-                  }
-                </YuanInfinityScroll>
-              )
+              ? renderList() 
               : (
                 <NEmpty
                   class="songlist-empty"

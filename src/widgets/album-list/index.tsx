@@ -94,6 +94,11 @@ export default defineComponent({
             type: Boolean,
             required: false,
             default: true
+        },
+        needInfinityScroll: {
+            type: Boolean,
+            required: false,
+            default: false,
         }
     },
     setup(props, context) {
@@ -131,48 +136,54 @@ export default defineComponent({
                 }
             })
         }
+
+        const albumList = (currentCount: number = props.albumList.length) => {
+            const { albumList, gaps: { x, y }, cols } = props; 
+            return (
+                <NGrid xGap={x} yGap={y} cols={cols}>
+                    {
+                        albumList
+                        .slice(0, currentCount)
+                        .map(({ blurPicUrl, name, artist, id, transNames, publishTime }) => {
+                            return (
+                                <NGridItem>
+                                    <section
+                                        class="album-item"
+                                        title={`${name} - ${artist?.name}`}
+                                        onClick={() => toAlbumDetailPage(id)}
+                                    >
+                                        <AlbumImg albumCoverStyle={albumCoverStyle} imgUrl={blurPicUrl}></AlbumImg>
+                                        <h5 singallinedot>
+                                            <span>{`${name} - ${artist?.name}`}</span>
+                                        </h5>
+                                        <p>
+                                            { getLocaleDate(publishTime, { delimiter: "-" }) }
+                                        </p>
+                                    </section>
+                                </NGridItem>
+                            )
+                        })
+                    }
+                </NGrid>
+            )
+
+        }
         
         const renderAlbumList = () => {
-            const { albumList, gaps: { x, y }, cols } = props;
-            return (
-                <YuanInfinityScroll 
-                    total={albumList.length}
-                >
-                    {
+            if(props.needInfinityScroll) {
+                return (
+                    <YuanInfinityScroll 
+                        total={albumList.length}
+                    >
                         {
-                            default(currentCount: number) { 
-                            return (
-                                <NGrid xGap={x} yGap={y} cols={cols}>
-                                    {
-                                        albumList
-                                        .slice(0, currentCount)
-                                        .map(({ blurPicUrl, name, artist, id, transNames, publishTime }) => {
-                                            return (
-                                                <NGridItem>
-                                                    <section
-                                                        class="album-item"
-                                                        title={`${name} - ${artist?.name}`}
-                                                        onClick={() => toAlbumDetailPage(id)}
-                                                    >
-                                                        <AlbumImg albumCoverStyle={albumCoverStyle} imgUrl={blurPicUrl}></AlbumImg>
-                                                        <h5 singallinedot>
-                                                            <span>{`${name} - ${artist?.name}`}</span>
-                                                        </h5>
-                                                        <p>
-                                                            { getLocaleDate(publishTime, { delimiter: "-" }) }
-                                                        </p>
-                                                    </section>
-                                                </NGridItem>
-                                            )
-                                        })
-                                    }
-                                </NGrid>
-                            )
+                            {
+                                default: albumList
                             }
                         }
-                    }
-                </YuanInfinityScroll>
-            )
+                    </YuanInfinityScroll>
+                )
+            }
+            return albumList();
         }
 
         return () => {

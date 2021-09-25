@@ -166,6 +166,7 @@ export default defineComponent({
                   albumList={weekData} 
                   gaps={{ x: 60, y: 50 }} 
                   isNew={true}
+                  needInfinityScroll={true}
                 ></AlbumList> 
               )
             }
@@ -181,6 +182,7 @@ export default defineComponent({
                   albumList={monthData} 
                   gaps={{ x: 60, y: 50 }} 
                   isNew={true}
+                  needInfinityScroll={true}
                 ></AlbumList>
               )
             }

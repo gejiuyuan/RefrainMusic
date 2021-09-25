@@ -179,6 +179,7 @@ export default defineComponent({
             total={showingList.total}
             gaps={{ x: 40, y: 40 }}
             cols={6}
+            needInfinityScroll={true}
           ></Songlist> 
 
         </section>
