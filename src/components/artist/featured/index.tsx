@@ -20,7 +20,7 @@ export default defineComponent({
       const { songs = [] } = await artistTopSong({
         id: route.query.id as string,
       });
-      featuredData.hotSongs = freeze(songs);
+      featuredData.hotSongs = songs;
     });
 
     return () => (

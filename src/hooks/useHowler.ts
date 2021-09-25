@@ -10,7 +10,7 @@ import { is } from "@/utils";
 export type HowlerStateType = "loaded" | "unloaded" | "loading";
 
 //自动尝试在移动端和浏览器桌面端播放音频
-Howler.autoUnlock = true;
+Howler.autoUnlock = false;
 //在30秒不活动后自动暂停Web Audio，以减少资源占用
 Howler.autoSuspend = true;
 

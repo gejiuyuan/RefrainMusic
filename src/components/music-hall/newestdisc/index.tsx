@@ -16,7 +16,7 @@ import { newAlbumPutOn } from "@/api/playlist";
 import { NRadioButton, NRadioGroup } from "naive-ui";
 import { EMPTY_OBJ } from "@/utils";
 import AlbumList from "@/widgets/album-list";
-import { onFilteredBeforeRouteUpdate, RouteHookNames } from "@/hooks/onRouteHook";
+import { onFilteredBeforeRouteUpdate, RouteHookNames } from "@/hooks/onRouteHook"; 
 
 export const areaKeyList = [
   { key: 'ALL', area: '全部' },
@@ -118,7 +118,6 @@ export default defineComponent({
       const { weekData, monthData } = listMap[area]! || EMPTY_OBJ;
       return (
         <section class="newestdisc">
-
           <section class="newestdisc-layer">
             <NRadioGroup
               value={type}
@@ -163,7 +162,11 @@ export default defineComponent({
             </h4>
             {
               weekData && (
-                <AlbumList albumList={weekData} gaps={{ x: 60, y: 50 }} isNew={true}></AlbumList>
+                <AlbumList 
+                  albumList={weekData} 
+                  gaps={{ x: 60, y: 50 }} 
+                  isNew={true}
+                ></AlbumList> 
               )
             }
           </section>
@@ -174,12 +177,14 @@ export default defineComponent({
             </h4>
             {
               monthData && (
-                <AlbumList albumList={monthData} gaps={{ x: 60, y: 50 }} isNew={true}></AlbumList>
+                <AlbumList 
+                  albumList={monthData} 
+                  gaps={{ x: 60, y: 50 }} 
+                  isNew={true}
+                ></AlbumList>
               )
             }
           </section>
-
-
         </section>
       );
     };

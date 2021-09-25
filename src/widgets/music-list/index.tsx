@@ -19,6 +19,7 @@ import {
 import { MusicLoveIcon, MusicSinger } from "../music-tiny-comp";
 import usePlayerStore from "@/stores/player";
 import { PAGE_SIZE } from "@/utils/preference";
+import YuanInfinityScroll from '@widgets/infinity-scroll/infinity-scroll';
 
 
 export const MusicItem = defineComponent({
@@ -211,6 +212,7 @@ export default defineComponent({
         cols,
       } = props;
       return (
+
         <section
           class="music-list"
           ref={musicListRef}
@@ -218,17 +220,32 @@ export default defineComponent({
           onMousemove={itemMouseMove}
           onMouseleave={itemMouseLeave}
         >
-          <NGrid xGap={x} yGap={y} cols={cols}>
-            {songData.value.map((item, index) => {
-              return (
-                <NGridItem>
-                  <div className="index-layer" index={index}>
-                    <MusicItem musicInfo={item}></MusicItem>
-                  </div>
-                </NGridItem>
-              );
-            })}
-          </NGrid>
+          <YuanInfinityScroll 
+            total={songData.value.length}
+            sliceInterval={36}
+          >
+            {
+              {
+                default(currentCount: number) { 
+                  return (
+                    <NGrid xGap={x} yGap={y} cols={cols}>
+                      {
+                        songData.value.slice(0, currentCount).map((item, index) => {
+                          return (
+                            <NGridItem>
+                              <div className="index-layer" index={index}>
+                                <MusicItem musicInfo={item}></MusicItem>
+                              </div>
+                            </NGridItem>
+                          );
+                        })
+                      }
+                    </NGrid>
+                  )
+                }
+              }
+            }
+          </YuanInfinityScroll>
           {
             renderCurrentHoverItemSuspension()
           }

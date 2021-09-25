@@ -16,6 +16,7 @@ export const loginCookie = (() => {
       if (!is.string(val)) {
         return;
       }
+      loginCookie = val;
       Cookies.set('RefrainMusic', val);
     }
   }

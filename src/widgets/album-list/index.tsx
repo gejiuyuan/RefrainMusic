@@ -18,6 +18,7 @@ import "./index.scss";
 import { PAGE_SIZE } from "@/utils/preference";
 import RoutePagination from "../route-pagination";
 import { onFilteredBeforeRouteUpdate } from "@/hooks/onRouteHook";
+import YuanInfinityScroll from '@widgets/infinity-scroll/infinity-scroll';
 
 const AlbumImg = defineComponent({
     name: 'AlbumImg',
@@ -134,29 +135,43 @@ export default defineComponent({
         const renderAlbumList = () => {
             const { albumList, gaps: { x, y }, cols } = props;
             return (
-                <NGrid xGap={x} yGap={y} cols={cols}>
+                <YuanInfinityScroll 
+                    total={albumList.length}
+                >
                     {
-                        albumList.map(({ blurPicUrl, name, artist, id, transNames, publishTime }) => {
+                        {
+                            default(currentCount: number) { 
                             return (
-                                <NGridItem>
-                                    <section
-                                        class="album-item"
-                                        title={`${name} - ${artist?.name}`}
-                                        onClick={() => toAlbumDetailPage(id)}
-                                    >
-                                        <AlbumImg albumCoverStyle={albumCoverStyle} imgUrl={blurPicUrl}></AlbumImg>
-                                        <h5 singallinedot>
-                                            <span>{`${name} - ${artist?.name}`}</span>
-                                        </h5>
-                                        <p>
-                                            { getLocaleDate(publishTime, { delimiter: "-" }) }
-                                        </p>
-                                    </section>
-                                </NGridItem>
+                                <NGrid xGap={x} yGap={y} cols={cols}>
+                                    {
+                                        albumList
+                                        .slice(0, currentCount)
+                                        .map(({ blurPicUrl, name, artist, id, transNames, publishTime }) => {
+                                            return (
+                                                <NGridItem>
+                                                    <section
+                                                        class="album-item"
+                                                        title={`${name} - ${artist?.name}`}
+                                                        onClick={() => toAlbumDetailPage(id)}
+                                                    >
+                                                        <AlbumImg albumCoverStyle={albumCoverStyle} imgUrl={blurPicUrl}></AlbumImg>
+                                                        <h5 singallinedot>
+                                                            <span>{`${name} - ${artist?.name}`}</span>
+                                                        </h5>
+                                                        <p>
+                                                            { getLocaleDate(publishTime, { delimiter: "-" }) }
+                                                        </p>
+                                                    </section>
+                                                </NGridItem>
+                                            )
+                                        })
+                                    }
+                                </NGrid>
                             )
-                        })
+                            }
+                        }
                     }
-                </NGrid>
+                </YuanInfinityScroll>
             )
         }
 

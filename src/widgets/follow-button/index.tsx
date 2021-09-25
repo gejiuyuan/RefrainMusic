@@ -55,7 +55,7 @@ export default defineComponent({
       let messageType = 'warnMessage';
       let msg = '关注失败！';
       if(isSuccess) {
-        props.onUpdateFollow(isFollow);
+        props.onUpdateFollow!(isFollow);
         messageType = 'successMessage';
         msg = isFollow ? `关注成功~~${UNICODE_CHAR.smile}` : `取消关注成功~~${UNICODE_CHAR.hugface}`;
       }

@@ -6,6 +6,7 @@ import {
   getCurrentInstance,
   ref,
   defineComponent,
+  onActivated,
 } from "vue";
 import {
   useRouter,
@@ -44,18 +45,20 @@ export default defineComponent({
         id: String(id),
         limit: Number(limit),
         offset: Number(offset),
-      });
+      }); 
       subscribers.length = 0;
       subscribers.push(...subs);
       subscriberPagiInfo.total = total;
       subscriberPagiInfo.hasMore = more;
       isShowPagi.value = reason !== "needLogin";
     };
-    getPlaylistSubscribers();
+    onActivated(() => { 
+      getPlaylistSubscribers();
+    });
 
     onFilteredBeforeRouteUpdate((to, from) => {
       const { params: { id }, query: { limit, offset } } = to;
-      const { params: { id:oldId }, query: { limit:oldLimit , offset:oldOffset } } = from;
+      const { params: { id:oldId }, query: { limit:oldLimit , offset:oldOffset } } = from; 
       if(id !== oldId || limit !== oldLimit || offset !== oldOffset) {
         getPlaylistSubscribers();
       }

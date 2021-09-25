@@ -22,6 +22,7 @@ import { getFullName, getFullNames } from "@/utils/apiSpecial";
 import { PAGE_SIZE } from "@/utils/preference";
 import { PlaylistCommon } from "@/types/songlist";
 import { onFilteredBeforeRouteUpdate } from "@/hooks/onRouteHook";
+import YuanInfinityScroll from '@widgets/infinity-scroll/infinity-scroll';
  
 export default defineComponent({
   name: "Songlist",
@@ -111,52 +112,66 @@ export default defineComponent({
           {
             playlists.length
               ? (
-                <NGrid xGap={gaps.x} yGap={gaps.y} cols={cols}>
+                <YuanInfinityScroll 
+                  total={playlists.length}
+                >
                   {
-                    playlists.map(({ name, id, coverImgUrl, picUrl, description, creator }) => {
-                      const { userId, nickname, avatarUrl } = creator;
-                      return (
-                        <NGridItem key={id}>
-                          <section
-                            class="music-item"
-                          >
-                            <div class="music-cover" aspectratio="1" onClick={() => toSonglistDetailPage(id)}>
-                              <img
-                                loading="lazy"
-                                src={padPicCrop(coverImgUrl || picUrl, { x: 340, y: 340 })}
-                                alt={`${name}-${description}`}
-                                title={`${name}-${description}`}
-                              />
-                            </div>
-                            <div class="music-body">
-                              <h6 title={name}>{name}</h6>
-                              <div className="music-creator">
-                                <>
-                                  {
-                                    avatarUrl ? (
-                                      <div class="creator-avatar-wrap">
-                                        <div aspectratio="1" onClick={() => toUserDetailPage(userId)}>
-                                          <img src={padPicCrop(avatarUrl, { x: 60, y: 60 })} alt="" />
+                    {
+                      default(currentCount: number) { 
+                        return (
+                          <NGrid xGap={gaps.x} yGap={gaps.y} cols={cols}>
+                            {
+                              playlists
+                              .slice(0, currentCount)
+                              .map(({ name, id, coverImgUrl, picUrl, description, creator }) => {
+                                const { userId, nickname, avatarUrl } = creator;
+                                return (
+                                  <NGridItem key={id}>
+                                    <section
+                                      class="music-item"
+                                    >
+                                      <div class="music-cover" aspectratio="1" onClick={() => toSonglistDetailPage(id)}>
+                                        <img
+                                          loading="lazy"
+                                          src={padPicCrop(coverImgUrl || picUrl, { x: 340, y: 340 })}
+                                          alt={`${name}-${description}`}
+                                          title={`${name}-${description}`}
+                                        />
+                                      </div>
+                                      <div class="music-body">
+                                        <h6 title={name}>{name}</h6>
+                                        <div className="music-creator">
+                                          <>
+                                            {
+                                              avatarUrl ? (
+                                                <div class="creator-avatar-wrap">
+                                                  <div aspectratio="1" onClick={() => toUserDetailPage(userId)}>
+                                                    <img src={padPicCrop(avatarUrl, { x: 60, y: 60 })} alt="" />
+                                                  </div>
+                                                </div>
+                                              ) : (
+                                                <span class="creator-title">创建者：</span>
+                                              )
+                                            }
+                                            <em class="creator-nickname">
+                                              <span onClick={() => toUserDetailPage(userId)}>
+                                                {nickname}
+                                              </span>
+                                            </em>
+                                          </>
                                         </div>
                                       </div>
-                                    ) : (
-                                      <span class="creator-title">创建者：</span>
-                                    )
-                                  }
-                                  <em class="creator-nickname">
-                                    <span onClick={() => toUserDetailPage(userId)}>
-                                      {nickname}
-                                    </span>
-                                  </em>
-                                </>
-                              </div>
-                            </div>
-                          </section>
-                        </NGridItem>
-                      )
-                    })
+                                    </section>
+                                  </NGridItem>
+                                )
+                              })
+                            }
+                          </NGrid>
+                        )
+                      }
+                    }
                   }
-                </NGrid>
+                </YuanInfinityScroll>
               )
               : (
                 <NEmpty

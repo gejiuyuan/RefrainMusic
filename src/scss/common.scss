@@ -71,6 +71,10 @@ i {
   scrollbar-width: auto;
   scrollbar-color: $colorscrollbar transparent;
   scroll-behavior: smooth;
+  -ms-scroll-snap-type: y mandatory;
+  -webkit-scroll-snap-type: y mandatory;
+  scroll-snap-type: y mandatory;
+  scroll-snap-align: end; 
 
   &::-webkit-scrollbar {
     width: $scrollbarWidth;

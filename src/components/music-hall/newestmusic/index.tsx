@@ -13,6 +13,7 @@ import { onBeforeRouteLeave, useRoute, useRouter } from "vue-router";
 import { NRadioButton, NRadioGroup } from "naive-ui";
 import './index.scss';
 import { onFilteredBeforeRouteUpdate } from "@/hooks/onRouteHook";
+import YuanInfinityScroll from '@widgets/infinity-scroll/infinity-scroll';
 
 export const NewMusicAreaList = [
   { key: 0, area: '全部', },

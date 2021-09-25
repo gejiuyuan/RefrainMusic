@@ -28,5 +28,5 @@
 
 
 
-![](./public/img/playerLyric.png)
+![](./public/img/lyricDetailPage.png)
 

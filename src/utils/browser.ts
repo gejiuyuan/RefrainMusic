@@ -1,5 +1,4 @@
 import { isPrototypeOf } from "./constants";
-
 import { typeOf } from "./index";
 
 export const closest = (
@@ -103,4 +102,65 @@ export const getElmOffsetToElm = (elm1: Element, elm2: Element) => {
 export const getHrefWithoutOrigin = () => {
   const { href, origin } = location;
   return decodeURIComponent(href).replace(origin, '');
+}
+
+/**
+ * 元素是否具有滚动条
+ * @param el 
+ * @param isVertical 
+ * @returns 
+ */
+export const isScroll = (
+  el: HTMLElement,
+  isVertical?: boolean
+): RegExpMatchArray | null => {
+  const determinedDirection = isVertical === null || isVertical === undefined
+  const overflow = determinedDirection
+    ? computedStyle(el, 'overflow')
+    : isVertical
+      ? computedStyle(el, 'overflow-y')
+      : computedStyle(el, 'overflow-x')
+  return overflow.match(/(scroll|auto|overlay)/);
+}
+
+/**
+ * 获取具有scroll滚动条的父元素
+ * @param el 
+ * @param isVertical 
+ * @returns 
+ */
+export const getScrollContainer = (
+  el: HTMLElement,
+  isVertical?: boolean
+): Window | HTMLElement => {
+  let parent: HTMLElement = el
+  while (parent) {
+    if ([window, document, document.documentElement].includes(parent)) {
+      return window
+    }
+    if (isScroll(parent, isVertical)) {
+      return parent
+    }
+    parent = parent.parentNode as HTMLElement
+  }
+  return parent
+}
+
+export const getOffsetTop = (el: HTMLElement) => {
+  let offset = 0
+  let parent = el
+
+  while (parent) {
+    offset += parent.offsetTop
+    parent = parent.offsetParent as HTMLElement
+  }
+
+  return offset
+}
+
+export const getOffsetTopDistance = (
+  el: HTMLElement,
+  containerEl: HTMLElement
+) => {
+  return Math.abs(getOffsetTop(el) - getOffsetTop(containerEl))
 }

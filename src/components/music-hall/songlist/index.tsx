@@ -23,6 +23,7 @@ import {
 } from "naive-ui";  
 import { COMPONENT_NAME, PAGE_SIZE } from "@/utils/preference";
 import { onFilteredBeforeRouteUpdate } from "@/hooks/onRouteHook";
+import YuanInfinityScroll from '@widgets/infinity-scroll/infinity-scroll';
 
 const obtainCategory = (data: any) => {
   const { categories, sub } = data;
@@ -171,14 +172,15 @@ export default defineComponent({
               )
             }
           </section>
-
+           
           <Songlist
             playlists={showingList.playlists}
             defaultLimit={listExtraInfo.defaultLimit}
             total={showingList.total}
             gaps={{ x: 40, y: 40 }}
             cols={6}
-          ></Songlist>
+          ></Songlist> 
+
         </section>
       );
     };
