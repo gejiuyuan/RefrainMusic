@@ -271,8 +271,8 @@ export function newAlbumPutOn(params: {
     url: "/top/album",
     method: "get",
     params: filterUselessKey({
-      limit,
-      offset: +offset * +limit,
+      // limit,
+      // offset: +offset * +limit,
       area,
       type,
       year,

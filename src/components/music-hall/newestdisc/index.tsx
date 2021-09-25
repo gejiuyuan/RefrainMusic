@@ -31,10 +31,15 @@ const typeKeyList = [
   { key: 'hot', type: '热门' }
 ]
 
+const timeRangeList = [
+  { key: 'week', type: "本周新碟", dataKey: 'weekData', },
+  { key: 'month', type: "本月新碟", dataKey: 'monthData', },
+]
+
 const defaultDiscInfos = {
   area: areaKeyList[0].key,
   type: typeKeyList[0].key,
-
+  timerange: timeRangeList[0].key,
 }
 
 export type ListMap = PlainObject<{
@@ -49,7 +54,12 @@ export default defineComponent({
     const route = useRoute();
     const router = useRouter();
 
-    const { area: defaultAreaKey, type: defaultTypeKey } = defaultDiscInfos;
+    const { 
+      area: defaultAreaKey, 
+      type: defaultTypeKey, 
+      timerange: defaultTimerangeKey 
+    } = defaultDiscInfos;
+
     const listMap = areaKeyList.reduce<ListMap>((map, { key }) => {
       map[key] = void 0;
       return map;
@@ -108,14 +118,30 @@ export default defineComponent({
       })
     }
 
+    const timerangeChange = (timerangeKey: string) => {
+      router.push({
+        path: route.path,
+        query: {
+          ...route.query,
+          timerange: timerangeKey
+        }
+      })
+    }
+
     return () => {
       const {
         area = defaultAreaKey,
         type = defaultTypeKey,
+        timerange = defaultTimerangeKey,
       } = route.query as any;
 
-      const { listMap, hasMore } = newDiscInfos;
-      const { weekData, monthData } = listMap[area]! || EMPTY_OBJ;
+      const { listMap, hasMore } = newDiscInfos; 
+      const targetList = timeRangeList.find(({key}) => timerange === key) || {} as typeof timeRangeList[number];
+      const { dataKey , type:targetType } = targetList;
+      const targetData = 
+        dataKey 
+        ? (listMap[area]! || EMPTY_OBJ)[dataKey as keyof typeof listMap[string]] || []
+        : [];
       return (
         <section class="newestdisc">
           <section class="newestdisc-layer">
@@ -157,35 +183,35 @@ export default defineComponent({
           </section>
 
           <section class="newestdisc-layer">
-            <h4 class="disc-title">
-              本周新碟
-            </h4>
-            {
-              weekData && (
-                <AlbumList 
-                  albumList={weekData} 
-                  gaps={{ x: 60, y: 50 }} 
-                  isNew={true}
-                  needInfinityScroll={true}
-                ></AlbumList> 
-              )
-            }
+            <NRadioGroup
+              value={timerange}
+              onUpdateValue={timerangeChange}
+              size="small"
+            >
+              {
+                timeRangeList.map(item =>
+                  <NRadioButton
+                    key={item.key}
+                    value={item.key}
+                  >
+                    {item.type}
+                  </NRadioButton>
+                )
+              }
+            </NRadioGroup>
           </section>
 
           <section class="newestdisc-layer">
             <h4 class="disc-title">
-              本月新碟
-            </h4>
-            {
-              monthData && (
-                <AlbumList 
-                  albumList={monthData} 
-                  gaps={{ x: 60, y: 50 }} 
-                  isNew={true}
-                  needInfinityScroll={true}
-                ></AlbumList>
-              )
-            }
+              {targetType}
+            </h4> 
+            <AlbumList 
+              isNew={true}
+              showPagination={false}
+              albumList={targetData} 
+              gaps={{ x: 60, y: 50 }} 
+              needInfinityScroll={true}
+            ></AlbumList> 
           </section>
         </section>
       );

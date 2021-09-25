@@ -10,15 +10,15 @@ import {
     onBeforeRouteUpdate,
     useRouter,
 } from "vue-router";
-import { getLocaleDate, padPicCrop } from "@utils/index";
-import { NGrid, NGridItem } from "naive-ui";
+import { getLocaleDate, padPicCrop, is } from "@utils/index";
+import { NEmpty, NGrid, NGridItem } from "naive-ui";
 import AlbumCoverImg from '@assets/img/album-cover.png';
 import AlbumCoverGoldImg from '@assets/img/album-cover-gold.png';
 import "./index.scss";
 import { PAGE_SIZE } from "@/utils/preference";
 import RoutePagination from "../route-pagination";
 import { onFilteredBeforeRouteUpdate } from "@/hooks/onRouteHook";
-import YuanInfinityScroll from '@widgets/infinity-scroll/infinity-scroll';
+import YuanInfinityScroll from '@widgets/infinity-scroll/infinity-scroll'; 
 
 const AlbumImg = defineComponent({
     name: 'AlbumImg',
@@ -187,6 +187,9 @@ export default defineComponent({
         }
 
         return () => {
+            if(is.emptyArray(props.albumList)) {
+                return <NEmpty showDescription size="large" description="还没有专辑哦~~"></NEmpty>
+            }
             return (
                 <section class="album-container">
                     {
