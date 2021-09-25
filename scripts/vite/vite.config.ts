@@ -167,9 +167,9 @@ const prodConfig = extend(baseConfig, {
         sourcemap: false,
         //rollup配置选项，将会与vite内部的默认配置选项合并
         rollupOptions: {
-            output: {
-                manualChunks: manualChunksHandler
-            }
+            // output: {
+            // manualChunks: manualChunksHandler
+            // }
         },
         //代码压缩。
         //可选值：true/false——是否允许压缩代码；terser——默认值，压缩体积更小但速度稍慢；esbuild，速度快但体积稍大

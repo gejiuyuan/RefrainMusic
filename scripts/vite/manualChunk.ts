@@ -8,7 +8,7 @@ export type ManualChunksFn = UnionToTuple<
 
 const chunkNameMapWithUrlKey: PlainObject<string> = {
   // 'naive-ui': 'navie',
-  'swiper': 'swiper',
+  // 'swiper': 'swiper',
 }
 
 const NODE_MODULES = 'node_modules';
