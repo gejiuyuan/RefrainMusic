@@ -82,7 +82,8 @@ export default defineComponent({
         month,
         offset,
       } = toQuery;
-      const { type: oldType } = fromQuery || EMPTY_OBJ;
+      const { type: oldType = defaultTypeKey } = fromQuery || EMPTY_OBJ; 
+      
       if (type !== oldType || !newDiscInfos.listMap[area]) { 
         const { hasMore, weekData, monthData } = await newAlbumPutOn({
           area, limit, type, year, month, offset
@@ -142,6 +143,7 @@ export default defineComponent({
         dataKey 
         ? (listMap[area]! || EMPTY_OBJ)[dataKey as keyof typeof listMap[string]] || []
         : [];
+        
       return (
         <section class="newestdisc">
           <section class="newestdisc-layer">

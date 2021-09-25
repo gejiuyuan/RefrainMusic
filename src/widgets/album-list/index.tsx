@@ -137,7 +137,7 @@ export default defineComponent({
             })
         }
 
-        const albumList = (currentCount: number = props.albumList.length) => {
+        const albumListRender = (currentCount: number = props.albumList.length) => {
             const { albumList, gaps: { x, y }, cols } = props; 
             return (
                 <NGrid xGap={x} yGap={y} cols={cols}>
@@ -173,17 +173,17 @@ export default defineComponent({
             if(props.needInfinityScroll) {
                 return (
                     <YuanInfinityScroll 
-                        total={albumList.length}
+                        total={props.albumList.length}
                     >
                         {
                             {
-                                default: albumList
+                                default: albumListRender
                             }
                         }
                     </YuanInfinityScroll>
                 )
             }
-            return albumList();
+            return albumListRender();
         }
 
         return () => {

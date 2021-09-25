@@ -164,12 +164,11 @@ export default defineComponent({
       )
     }
 
-    const renderList = () => {
-      const { playlists } = props;
+    const renderList = () => { 
       if(props.needInfinityScroll) {
         return (
           <YuanInfinityScroll 
-            total={playlists.length}
+            total={props.playlists.length}
           >
             {
               {
