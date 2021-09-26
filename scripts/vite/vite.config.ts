@@ -147,6 +147,9 @@ const devConfig = extend(baseConfig, {
         hmr: {
             overlay: true, //是否覆盖报错，若为false，则不会显示错误提示界面
         },
+        fs: {
+            strict: false
+        },
     }
 
 } as UserConfig);

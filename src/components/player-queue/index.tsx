@@ -1,4 +1,4 @@
-import usePlayerStore, { currentSongRefGlobal, playerQueueShow } from "@/stores/player";
+import usePlayerStore, { currentSongRefGlobal, playerQueue, playerQueueShow } from "@/stores/player";
 import { onClickOutside } from "@vueuse/core";
 import { defineComponent, ref, watchEffect } from "vue";
 import { useRoute, useRouter } from "vue-router";
@@ -29,12 +29,12 @@ export default defineComponent({
      * @returns 
      */
     const locatoToCurrentSong = () => { 
-      const { playerQueue } = playerStore;
-      if (is.emptyArray(playerQueue)) {
+      const queueSongList = playerQueue.value;
+      if (is.emptyArray(queueSongList)) {
         return;
       }
       const { id: curSongId } = currentSongRefGlobal.value; 
-      const targetIndex = playerQueue.findIndex(({ id }) => id === curSongId);
+      const targetIndex = queueSongList.findIndex(({ id }) => id === curSongId);
 
       const targetScrollTop = (listContentUlRef.value!.children[targetIndex] as HTMLLIElement).offsetTop;
       const { scrollTop, offsetHeight } = listBodyElm.value!;
@@ -50,14 +50,15 @@ export default defineComponent({
 
     return () => {
       const { id: curSongId } =currentSongRefGlobal.value;
-      const {  playerQueue } = playerStore; 
+      const queueSongList = playerQueue.value;
+
       return (
         <aside class="player-queue" slideShow={playerQueueShow.value} ref={playerQueueRef}>
           <header class="queue-header">
             <h3>播放列表</h3>
             <div class="header-layer">
               <em className="total-songs">
-                {playerQueue.length}
+                {queueSongList.length}
                 首音乐
               </em>
             </div>
@@ -65,7 +66,7 @@ export default defineComponent({
           <section class="queue-main">
             <div className="list-body" scrollbar="overlay" ref={listBodyElm}>
               <ul class="list-content" ref={listContentUlRef}>
-                {playerQueue.map((songInfo) => {
+                {queueSongList.map((songInfo) => {
                   const { name, artists, id } = songInfo;
                   return (
                     <li

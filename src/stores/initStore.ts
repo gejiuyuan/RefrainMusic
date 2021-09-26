@@ -1,15 +1,14 @@
 
-import usePlayerStore from './player';
+import usePlayerStore, { playerQueue } from './player';
 import { getOrPutPlayQueue, playerDB } from '@/database';
 
 /**
  * 从DB中获取playQueue
  */
 export async function initPlayQueueFromDB() {
-  const playerStore = usePlayerStore();
   const playQueue = await getOrPutPlayQueue();
   if (playQueue) {
-    playerStore.playerQueue = playQueue;
+    playerQueue.value = playQueue;
   }
 }
 

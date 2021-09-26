@@ -77,7 +77,7 @@ const handleScroll = (el: InfiniteScrollEl, cb: InfiniteScrollCallback) => {
   const { clientHeight, scrollHeight, scrollTop } = containerEl
   const delta = scrollTop - lastScrollTop
 
-  el[SCOPE].lastScrollTop = scrollTop
+  el[SCOPE].lastScrollTop = scrollTop;
 
   // trigger only if full check has done and not disabled and scroll down
   if (observer || disabled || delta < 0) return
@@ -159,7 +159,6 @@ const VInfiniteScroll: ObjectDirective<
   },
   unmounted(el) {
     const { container, onScroll } = el[SCOPE]
-
     container?.removeEventListener('scroll', onScroll)
     destroyObserver(el)
   },

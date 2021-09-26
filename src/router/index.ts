@@ -5,6 +5,7 @@ import {
   createWebHashHistory,
   RouteRecord,
   RouterScrollBehavior,
+  RouteLocationNormalized,
 } from "vue-router";
 import routes from './routes';
 
@@ -27,11 +28,20 @@ const routerObj = createRouter({
   routes,
 });
 
+const scrollToTopQueries = ['limit', 'offset'];
+function handlerScrollToTop(to: RouteLocationNormalized, from: RouteLocationNormalized) {
+  const { query: toQuery } = to;
+  const { query: fromQuery } = from;
+  if (scrollToTopQueries.some(q => toQuery[q] !== fromQuery[q])) {
+    requestAnimationFrame(() => {
+      const homeMainElm = document.querySelector(".player-container");
+      homeMainElm && (homeMainElm.scrollTop = 0);
+    });
+  }
+}
+
 routerObj.beforeEach((to, from, next) => {
-  requestAnimationFrame(() => {
-    const homeMainElm = document.querySelector(".player-container");
-    homeMainElm && (homeMainElm.scrollTop = 0);
-  });
+  handlerScrollToTop(to, from);
   next();
 });
 

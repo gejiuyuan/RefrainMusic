@@ -20,10 +20,9 @@ import { musicRecommend } from "@/api/music";
 import MusicList from "@/widgets/music-list";
 import { getPersonalFm } from "@/api/other";
 import { MusicLoveIcon, MusicSinger } from '@widgets/music-tiny-comp';
-import usePlayerStore , { currentSongRefGlobal } from "@/stores/player";
-import { getModifiedNewestSongInfo, getModifiedSongInfo } from "@/utils/apiSpecial"; 
-import { PlayStatusSwitch } from '@widgets/music-tiny-comp';
-import { messageBus } from "@/utils/event/register";
+import usePlayerStore , { currentSongRefGlobal, toNext } from "@stores/player";
+import { getModifiedNewestSongInfo } from "@/utils/apiSpecial"; 
+import { PlayStatusSwitch } from '@widgets/music-tiny-comp'; 
 
 export const PersonalFm = defineComponent({
   name: 'PersonalFm',
@@ -55,7 +54,7 @@ export const PersonalFm = defineComponent({
     });
 
     const toNextHandler = () => {
-      messageBus.dispatch('toNext');
+     toNext();
     }
  
     return () => {

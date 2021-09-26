@@ -5,6 +5,7 @@ import { UNICODE_CHAR, is, extend, isURL } from "@utils/index";
 import { messageBus } from "@utils/event/register";
 import EventDispatcher from "@/utils/event/event";
 import usePlayerStore from "./player";
+import { toNext } from ".";
 
 export const {
   state: stateHowlerRef,
@@ -177,7 +178,6 @@ export const srcOrIdRefGlobal = (() => {
       },
       set(value) {
         srcOrId = value;
-        trigger();
         //清除播放失败后要播放下一首的的定时器
         AudioMaster.clearPlayToNextTimeoutWhenError();
         //同时清除播放失败消息提示
@@ -189,8 +189,10 @@ export const srcOrIdRefGlobal = (() => {
           loop: AudioMaster.isSingleLoopOrder,
           volume: volumeHowlerRef.value,
           mute: muteRefGlobal.value,
+
         });
         messageBus.dispatch('startLoading');
+        trigger();
       }
     }
   });
@@ -215,13 +217,6 @@ export const nextSeekTimeRefGlobal = (() => {
 
 export const durationRefGlobal = ref(0);
 
-on('end', () => {
-  if (AudioMaster.isSingleLoopOrder) {
-    return;
-  }
-  messageBus.dispatch('toNext');
-});
-
 on("load", () => {
   messageBus.dispatch('finishLoading');
   durationRefGlobal.value = durationHowlerRef.value;
@@ -243,10 +238,25 @@ on("loaderror", () => {
     }
   );
   AudioMaster.setPlayToNextTimeoutWhenError(() => {
-    messageBus.dispatch('toNext');
+    toNext();
   }, failureDuration);
 });
 
+/**
+ * 歌曲播放完成时触发
+ * @introduction
+ *  此处似乎存在一个bug：无论是歌曲自动播放完成（state为loaded），还是手动切换播放歌曲都会触发end事件（state为loading）。
+ *  个人理解：此处所谓的end事件，是指上一首歌被终止，而砸门惯常理解是歌曲自动播放完成
+ */
+on('end', () => {
+  //歌曲自动播放完成时
+  if (stateHowlerRef.value === 'loaded') {
+    if (AudioMaster.isSingleLoopOrder) {
+      return;
+    }
+    toNext();
+  }
+});
 export class AudioMaster extends EventDispatcher {
 
   static playToNextTimeoutWhenError: ReturnType<typeof setTimeout>;

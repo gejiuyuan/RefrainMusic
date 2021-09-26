@@ -9,7 +9,7 @@ import "./index.scss";
 import { useRouter } from "vue-router";
 import useUserStore from "@stores/user";
 import { userLikeMusic } from "@/api/user";
-import usePlayerStore, { currentSongRefGlobal } from "@stores/player";
+import usePlayerStore, { playerQueue, currentSongRefGlobal } from "@stores/player";
 import { orderRefGlobal } from '@stores/audio'
 import { messageBus } from "@/utils/event/register";
 import { CurrentSongInfo, } from "@/utils/apiSpecial";
@@ -104,7 +104,7 @@ export const PlayStatusSwitch = defineComponent({
 
     const switchHandler = () => {
       if (isCurrentPlayingSong.value) {
-        if(is.emptyArray(playerStore.playerQueue)) {
+        if(is.emptyArray(playerQueue.value)) {
           messageBus.dispatch('warnMessage', `阿娜达~快去添加音乐⑧${UNICODE_CHAR.smile}`, {
             duration: 4000,
             closable: true,

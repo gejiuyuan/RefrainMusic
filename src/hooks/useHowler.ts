@@ -125,7 +125,7 @@ const useHowler = (() => {
         return howl?.duration();
       },
       set(value) {
-        trigger();
+        // trigger();
       },
     }));
 
@@ -135,7 +135,7 @@ const useHowler = (() => {
         return howl?.state();
       },
       set(value) {
-        trigger();
+        // trigger();
       },
     }));
 

@@ -1,11 +1,11 @@
-import { EMPTY_OBJ, LyricParser } from "@/utils";
+import { EMPTY_OBJ, getRandomList, LyricParser } from "@/utils";
 import { defineStore } from "pinia";
 import { AudioMaster, playingRefGlobal, srcOrIdRefGlobal } from "./audio";
 import { getMusicDetail, getLyric } from "@api/music";
 import { SongLyricItem } from "@/types/lyric";
 import { CurrentSongInfo, getModifiedSongInfo } from "@/utils/apiSpecial";
 import { getOrPutCurrentSong, getOrPutPlayQueue, playerDB } from "@/database";
-import { customRef, toRefs } from "vue";
+import { customRef, toRefs, ref, watchEffect } from "vue";
 import { PreferenceNames } from "@/utils/preference";
 import { VideoBeLiked } from "@/types/video";
 import { Mv } from "@/types/mv";
@@ -98,7 +98,6 @@ export const currentSongRefGlobal = (() => {
 
 //实际使用的currentSongInfo的类型
 export type PlayerStoreStateType = {
-  playerQueue: CurrentSongInfo[];
   personalFM: {
     songList: any[];
     isFM: boolean;
@@ -116,6 +115,54 @@ export type PlayerStoreStateType = {
   }
 };
 
+export const playerQueue = ref<CurrentSongInfo[]>([]);
+export const randomPlayerQueue = ref<CurrentSongInfo[]>([]);
+watchEffect(() => {
+  if (AudioMaster.isRandomOrder) {
+    randomPlayerQueue.value = getRandomList(playerQueue.value);
+  }
+});
+const realPlaylist = {
+  get value() {
+    return AudioMaster.isRandomOrder ? randomPlayerQueue.value : playerQueue.value;
+  }
+}
+const currentPlayIndex = customRef<number>((track, trigger) => ({
+  get() {
+    track();
+    const { id: currentSongId } = currentSongRefGlobal.value;
+    return realPlaylist.value.findIndex(({ id }) => id == currentSongId) || 0
+  },
+  set(idx) {
+    const targetId = realPlaylist.value[idx].id
+    usePlayerStore().handlePlaySoundNeededData(targetId);
+    trigger();
+  }
+}));
+
+/**
+ * 切换至下一首
+ */
+export function toNext() {
+  let value = currentPlayIndex.value;
+  if (++value >= realPlaylist.value.length) {
+    value = 0;
+  }
+  currentPlayIndex.value = value;
+}
+
+/**
+ * 切换至上一首
+ */
+export function toPrevious() {
+  let value = currentPlayIndex.value;
+  if (--value < 0) {
+    value = realPlaylist.value.length - 1;
+  }
+  currentPlayIndex.value = value;
+}
+
+
 const usePlayerStore = defineStore({
   id: "playerStore",
   state() {
@@ -124,7 +171,6 @@ const usePlayerStore = defineStore({
         common: "",
         translation: "",
       },
-      playerQueue: [],
       personalFM: {
         isFM: false,
         songList: [],
@@ -180,15 +226,14 @@ const usePlayerStore = defineStore({
       getMusicDetail({ ids: String(id) }).then(
         ({ songs: [songDetailData] }) => {
           const willSetCurrentSongInfo = getModifiedSongInfo(songDetailData);
-          //设置当前要播放歌曲的信息
-          currentSongRefGlobal.value = willSetCurrentSongInfo;
-          //同时添加该歌曲到播放队列中
-          const queueSongList = this.playerQueue;
-          //如果没有在播放队列中
+          //如果没有在播放队列中, 就添加该歌曲到播放队列中
+          const queueSongList = playerQueue.value;
           if (!queueSongList.some(({ id: queueSongId }) => id === queueSongId)) {
             const currentSongIndex = queueSongList.findIndex(({ id: queueSongId }) => currengSongId === queueSongId);
             queueSongList.splice(currentSongIndex + 1, 0, willSetCurrentSongInfo);
           }
+          //设置当前要播放歌曲的信息
+          currentSongRefGlobal.value = willSetCurrentSongInfo;
           //保存当前播放的歌曲到IndexedDB
           if (needSave) {
             getOrPutCurrentSong(willSetCurrentSongInfo);
@@ -198,8 +243,8 @@ const usePlayerStore = defineStore({
       );
       //获取歌词
       getLyric({ id }).then(({ lrc, tlyric, nolyric }: SongLyricItem) => {
-        this.lyric.common = nolyric ? "" : lrc!.lyric;
-        this.lyric.translation = nolyric ? "" : tlyric!.lyric;
+        this.lyric.common = lrc?.lyric || '';
+        this.lyric.translation = tlyric?.lyric || '';
       });
     },
 

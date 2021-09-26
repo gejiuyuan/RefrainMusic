@@ -52,7 +52,7 @@ export function getOrPutCurrentSong(): CurrentSongInfo | null;
 export function getOrPutCurrentSong(song: CurrentSongInfo): void;
 export function getOrPutCurrentSong(song?: CurrentSongInfo) {
   if (song) {
-    return localStorage.setItem('currentSong', JSON.stringify(song));
+    return localStorage.setItem('currentSong', JSON.stringify(toRaw(song)));
   } else {
     return JSON.parse(localStorage.getItem('currentSong')!);
   }

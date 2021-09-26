@@ -9,11 +9,20 @@ import {
 import "./index.scss";
 import { padPicCrop } from "@/utils";
 import { useRoute, useRouter } from "vue-router";
-import usePlayerStore, { currentSongRefGlobal, playerQueueShow } from "@/stores/player";
+import usePlayerStore, { currentSongRefGlobal, playerQueueShow , playerQueue, toPrevious , toNext } from "@/stores/player";
 import ProgressBar, { ProgressInfo } from "@/widgets/progress-bar";
 import { renderCurrentPlayTime } from "@/widgets/common-renderer";
-import usePlaySwitch from "@/hooks/usePlaySwitch";import { computed, defineComponent, PropType, ref } from "vue";
+import { computed, defineComponent, PropType, ref } from "vue";
 import { currentTimeRefGlobal, durationRefGlobal, nextSeekTimeRefGlobal, playingRefGlobal } from "@/stores/audio";
+import { onKeyUp } from "@vueuse/core"; 
+
+export const isCtrlAndArrowRight = ({ ctrlKey, key }: KeyboardEvent) => {
+  return ctrlKey && key === 'ArrowRight'
+}
+
+export const isCtrlAndArrowLeft = ({ ctrlKey, key }: KeyboardEvent) => {
+  return ctrlKey && key === 'ArrowLeft'
+}
 
 export default defineComponent({
   name: "PlayerController",
@@ -28,8 +37,16 @@ export default defineComponent({
     const router = useRouter();
     const route = useRoute();
     const playerStore = usePlayerStore(); 
+ 
+    /**
+     * Ctrl+Left切换上一首
+     */
+    onKeyUp(isCtrlAndArrowLeft, toPrevious);
 
-    const { toNext, toPrevious } = usePlaySwitch();
+    /**
+      * Ctrl+Right切换下一首
+      */
+    onKeyUp(isCtrlAndArrowRight, toNext);
 
     const showOrHidePlayerDetailPage = () => {
       const { query, path } = route;
@@ -55,8 +72,7 @@ export default defineComponent({
       const currentTimeValue = currentTimeRefGlobal.value;
       const duration= durationRefGlobal.value;
       const { id, musicName, singers, album } = currentSongRefGlobal.value;
-      const { playerQueue } = playerStore; 
-
+      const queueSongList = playerQueue.value;
       return ( 
         <section class="player-controller" lyricPageShow={props.displayInLyricPage}>
           <div className="controller-progressbar">
@@ -108,7 +124,7 @@ export default defineComponent({
               <MusicLoveIcon songInfo={currentSongRefGlobal.value}></MusicLoveIcon>
               <div className="play-queue-icon" onClick={showPlayerQueueHandler} title="播放队列">
                 <i className="iconfont icon-yinleliebiao"></i>
-                <span>{playerQueue.length}</span>
+                <span>{queueSongList.length}</span>
               </div>
             </section>
           </section>

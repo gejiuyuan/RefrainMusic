@@ -56,7 +56,7 @@ export const MusicItem = defineComponent({
         >
           <div className="playbill">
             <div aspectratio="1">
-              <img loading="lazy" src={padPicCrop(picUrl, { x: 200, y: 200 })} alt="" />
+              <img loading="lazy" src={padPicCrop(picUrl, { x: 120, y: 120 })} alt="" />
               <i className="iconfont icon-bofan-radius" onClick={() => playBtnClickHandler()}></i>
             </div>
           </div>
