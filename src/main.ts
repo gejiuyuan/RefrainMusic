@@ -6,8 +6,6 @@ import '@stores/initStore';
 import "@scss/main.scss";
 
 import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
 import "swiper/css/effect-coverflow";
 
 import SwiperCore, {
