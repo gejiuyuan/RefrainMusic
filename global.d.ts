@@ -2,6 +2,21 @@ interface document {
   documentMode: number;
 }
 
+interface BeforeInstallPromptEvent extends Event {
+  platforms: string[];
+  timeStamp: number;
+  type: "beforeinstallprompt";
+  prompt: () => void;
+  userChoice: Promise<{
+    outcome: 'dismissed' | 'accepted' | string;
+    platform: string;
+  }>
+}
+
+interface WindowEventMap {
+  beforeinstallprompt: BeforeInstallPromptEvent
+}
+
 interface Event {
   detail: any;
 }

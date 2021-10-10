@@ -1,14 +1,17 @@
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, onMounted, h } from "vue";
 import { RouterView, useRoute } from "vue-router";
 import { 
-  GlobalThemeOverrides, useMessage, NBackTop, 
-  NConfigProvider, NLoadingBarProvider, NMessageProvider, 
-  NThemeEditor, useLoadingBar 
+  GlobalThemeOverrides, useMessage, NBackTop, NxButton,
+  NConfigProvider, NLoadingBarProvider, NMessageProvider, NAvatar,
+  NThemeEditor, useLoadingBar, NNotificationProvider, useNotification,
 } from "naive-ui";
 import LyricPage from '@views/lyric-page'; 
 import { theme } from "./stores/player"; 
 import "./App.scss";
 import { messageBus } from "./utils/event/register"; 
+import refrainPic from '../public/refrain.png';    
+import onBeforeInstallPrompt from "./hooks/onBeforeInstallPrompt";
+import { UNICODE_CHAR } from "./utils";
 
 export const LogicLayer = defineComponent({
   name: 'LogicLayer',
@@ -23,6 +26,41 @@ export const LogicLayer = defineComponent({
     messageBus.on('successMessage', (...args:FuncParamsType<typeof message.success>) => message.success(...args));
     messageBus.on('warnMessage', (...args:FuncParamsType<typeof message.warning>) => message.warning(...args));
     messageBus.on('errorMessage', (...args:FuncParamsType<typeof message.error>) => message.error(...args));
+
+    const notification = useNotification(); 
+
+    onBeforeInstallPrompt((addToHomeScreen) => {
+      setTimeout(() => { 
+        const n = notification.create({
+          title: '添加RefrainMusic到主屏幕',
+          content: '添加后，便可从桌面图标、开始菜单等处打开应用',
+          meta: `${UNICODE_CHAR.smile.repeat(3)}`,
+          duration: 30000,
+          avatar: () =>
+            h(NAvatar, {
+              size: 'small',
+              round: true,
+              src: refrainPic
+            }),
+          action: () =>
+            h(
+              NxButton,
+              {
+                text: true,
+                type: 'success',
+                onClick: () => {
+                  addToHomeScreen();
+                  n.destroy();
+                }
+              },
+              {
+                default: () => '好滴~~'
+              }
+            ),
+        })
+      }, 5000);
+    })
+ 
 
     return () => (
       <>
@@ -75,9 +113,11 @@ export default defineComponent({
         <section class="theme-layer" style={themeLayerStyle.value}>
           <NConfigProvider themeOverrides={NaiveThemeConfig.value}>
             <NMessageProvider>
-              <NLoadingBarProvider> 
-                <LogicLayer></LogicLayer>
-              </NLoadingBarProvider>
+              <NNotificationProvider>
+                <NLoadingBarProvider> 
+                  <LogicLayer></LogicLayer>
+                </NLoadingBarProvider>
+              </NNotificationProvider>
             </NMessageProvider>
           </NConfigProvider>
         </section>      
