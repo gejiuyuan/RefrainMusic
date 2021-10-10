@@ -16,7 +16,7 @@ import vue from '@vitejs/plugin-vue'
 import image from '@rollup/plugin-image'
 
 //插件：解析.md文件
-import Markdown from 'vite-plugin-md';
+// import Markdown from 'vite-plugin-md';
 
 //导入配置文件
 import viteConstant from './constant';
@@ -24,6 +24,7 @@ const { extend } = viteConstant
 
 import path from 'path'
 import manualChunksHandler from './manualChunk';
+import VitePWAPluginConfig from './pwa';
 const pathResolve = path.resolve
 
 const baseConfig: UserConfig = {
@@ -91,11 +92,12 @@ const baseConfig: UserConfig = {
     plugins: [
         vue(), //.vue文件解析插件
         image(), //图片导入解析插件
-        Markdown(), //.md文件解析插件
+        // Markdown(), //.md文件解析插件
         svgLoader(), //svg图片解析成内联代码   
         VueJsx({
             transformOn: true,
-        })
+        }),
+        VitePWAPluginConfig,//pwa
     ],
 
     //优化依赖
@@ -170,9 +172,9 @@ const prodConfig = extend(baseConfig, {
         sourcemap: false,
         //rollup配置选项，将会与vite内部的默认配置选项合并
         rollupOptions: {
-            // output: {
-            // manualChunks: manualChunksHandler
-            // }
+            output: {
+                manualChunks: manualChunksHandler
+            }
         },
         //代码压缩。
         //可选值：true/false——是否允许压缩代码；terser——默认值，压缩体积更小但速度稍慢；esbuild，速度快但体积稍大

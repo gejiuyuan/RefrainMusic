@@ -4,10 +4,8 @@ import routerObj from "@router/index";
 import YuanPlayer from "./App";
 import '@stores/initStore';
 import "@scss/main.scss";
-
 import "swiper/css";
 import "swiper/css/effect-coverflow";
-
 import SwiperCore, {
   EffectCoverflow,
   Pagination,
@@ -16,6 +14,20 @@ import SwiperCore, {
   Lazy,
   Mousewheel,
 } from "swiper";
+import { registerSW } from 'virtual:pwa-register'
+
+//自动更新间隔：3小时
+const intervalMS = 3 * 60 * 60 * 1000;
+const updateSW = registerSW({
+  onRegistered(r) {
+    r && setInterval(() => {
+      r.update()
+    }, intervalMS)
+  },
+  onNeedRefresh() { },
+  onOfflineReady() { },
+  onRegisterError(error) { },
+})
 
 SwiperCore.use([
   Pagination,

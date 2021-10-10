@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
-    "lib": ["dom", "esnext"],
+    "target": "ESNext",
+    "module": "ESNext",
+    "lib": ["DOM", "ESNext", "WebWorker"],
     "jsx": "preserve",
     "allowJs": true,
     "strict": true,
@@ -19,7 +19,12 @@
     "rootDir": "./",
     "outDir": "dist",
     "baseUrl": "./",
-    "types": ["vite/client", "node", "vite-svg-loader"],
+    "types": [
+      "vite/client",
+      "node",
+      "vite-svg-loader",
+      "vite-plugin-pwa/client"
+    ],
     "plugins": [{ "name": "@vuedx/typescript-plugin-vue" }],
     "paths": {
       "@/*": ["src/*"],
