@@ -2,7 +2,7 @@
 
 .home-left { 
   height: 100vh;
-  background-color: rgb(246, 246, 246);
+  background-color: $listBgc;
 
   .home-logo {
     @include flexVc();

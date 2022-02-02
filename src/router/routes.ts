@@ -17,6 +17,7 @@ const VideoAll = () => import('@components/online-video/all');
 const VideoCategory = () => import('@components/online-video/category');
 
 const Setting = () => import('@components/setting');
+const SettingGeneral = () => import('@/components/setting/general');
 
 const Artist = () => import('@components/artist');
 const ArtistFeatured = () => import('@components/artist/featured');
@@ -124,7 +125,14 @@ const routes: RouteRecordRaw[] = [
 
       {
         path: "setting",
+        redirect: '/setting/general',
         component: Setting,
+        children: [
+          {
+            path: 'general',
+            component: SettingGeneral,
+          }
+        ]
       },
 
       {

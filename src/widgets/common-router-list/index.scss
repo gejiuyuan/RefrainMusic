@@ -1,13 +1,8 @@
 @import "@scss/variable";
 
 .common-router-list { 
-  position: sticky;
-  left: 0;
-  top: 0;
-  z-index: 97;
   @include flexVc();
   margin: 10px 0 30px 0;
-  background-color: #fff; 
  
   li {
     padding-right: 60px;

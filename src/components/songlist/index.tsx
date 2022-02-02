@@ -28,7 +28,7 @@ import {
   NMenu
 } from 'naive-ui';
 import Songlist from '@widgets/song-list';
-import CommonRouterList from "@/widgets/common-router-list"; 
+import CommonRouterList from "@/widgets/common-router-list";
 import { renderKeepAliveRouterView } from "@/widgets/common-renderer";
 import { onFilteredBeforeRouteUpdate } from "@/hooks/onRouteHook";
 
@@ -133,7 +133,7 @@ export default defineComponent({
       const { id: fromId } = from.params;
       if (toId != fromId) {
         updatePageData(to.params);
-      } 
+      }
     });
 
     const toCreatorDetailPage = (id: string) =>

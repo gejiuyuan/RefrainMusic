@@ -24,7 +24,7 @@ import {
 } from 'naive-ui'
 
 import FollowButton, { FollowType } from "@widgets/follow-button";
-import CommonRouterList from "@/widgets/common-router-list"; 
+import CommonRouterList from "@/widgets/common-router-list";
 
 import { artistSingalSongs } from "@api/singer";
 import { deepCopy, extend, objToQuery, padPicCrop } from "@/utils";
@@ -68,7 +68,7 @@ export default defineComponent({
     const route = useRoute();
 
     const information = reactive<{
-      artist: Artist; 
+      artist: Artist;
     }>({
       artist: {
         alias: [],
@@ -91,16 +91,16 @@ export default defineComponent({
         total.push(item);
         return total;
       }, [] as MenuList[])
-    ); 
-    
+    );
+
     const getArtistDetail = async (to: RouteLocationNormalized, from: RouteLocationNormalized = EMPTY_OBJ) => {
-      const { query:toQuery } = to;
-      const { query:fromQuery = EMPTY_OBJ } = from;
-      if(toQuery.id !== fromQuery.id) {
+      const { query: toQuery } = to;
+      const { query: fromQuery = EMPTY_OBJ } = from;
+      if (toQuery.id !== fromQuery.id) {
         menuList.forEach((item, i) => {
           item.to = `/artist/${item.key}${objToQuery(toQuery, true)}`;
         });
-        const { artist: artistInfo = {} } = await artistSingalSongs({ id:String(toQuery.id) });
+        const { artist: artistInfo = {} } = await artistSingalSongs({ id: String(toQuery.id) });
         information.artist = artistInfo;
       }
     };
@@ -110,10 +110,10 @@ export default defineComponent({
     onFilteredBeforeRouteUpdate((to, from) => {
       getArtistDetail(to, from);
     });
- 
+
     const followChangeHandler = (isFollow: boolean) => {
       information.artist.followed = isFollow;
-    } 
+    }
 
     return () => {
       const { artist } = information;
@@ -141,11 +141,11 @@ export default defineComponent({
                   <span class="artist-alias">{artist.alias.join("、")}</span>
                 </h2>
                 <div class="artist-operate">
-                  <FollowButton 
-                    userId={artist.id} 
-                    followed={artist.followed} 
+                  <FollowButton
+                    userId={artist.id}
+                    followed={artist.followed}
                     followType={FollowType.artist}
-                    onUpdateFollow={followChangeHandler} 
+                    onUpdateFollow={followChangeHandler}
                   ></FollowButton>
                 </div>
               </section>
@@ -153,7 +153,7 @@ export default defineComponent({
           </NGrid>
 
           <section class="artist-main">
-            <section class="artist-menu">
+            <section class="artist-menu" sticky-list>
               <CommonRouterList routelist={menuList}></CommonRouterList>
             </section>
             {

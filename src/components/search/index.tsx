@@ -1,13 +1,13 @@
 import {
-  defineComponent, 
+  defineComponent,
   reactive,
-  watch, 
+  watch,
   provide,
 } from "vue";
 import {
   useRoute,
   useRouter,
-  LocationQuery, 
+  LocationQuery,
   onBeforeRouteLeave,
   RouteLocationNormalized,
   onBeforeRouteUpdate,
@@ -27,7 +27,7 @@ import { SearchPlaylist } from "@/types/songlist";
 import { SearchSingerItem } from "@/types/singer";
 import { SearchUserProfileItem } from "@/types/user";
 import { searchCloud, searchMulMatch } from "@api/search";
-import CommonRouterList from "@/widgets/common-router-list"; 
+import CommonRouterList from "@/widgets/common-router-list";
 import { COMPONENT_NAME, PAGE_SIZE } from "@/utils/preference";
 import { renderKeepAliveRouterView } from "@/widgets/common-renderer";
 import { onFilteredBeforeRouteUpdate } from "@/hooks/onRouteHook";
@@ -151,7 +151,7 @@ export default defineComponent({
      * @param keywords
      */
     const getSearchMulMatch = async (keywords: string) => {
-      const { result = {} } = await searchMulMatch({ keywords }); 
+      const { result = {} } = await searchMulMatch({ keywords });
       const { album = [], artist = [] } = result;
       searchMulMatchData.album = album;
       searchMulMatchData.artist = artist;
@@ -170,13 +170,13 @@ export default defineComponent({
         keywords,
         limit,
         offset,
-      }); 
+      });
       result && (searchCloundData[typeCat] = result);
     };
 
     const routeUpdateHandler = async (
-      { query } : RouteLocationNormalized, 
-      { query:oldQuery }:RouteLocationNormalized = EMPTY_OBJ
+      { query }: RouteLocationNormalized,
+      { query: oldQuery }: RouteLocationNormalized = EMPTY_OBJ
     ) => {
       const { keywords: oldKeywords } = oldQuery || EMPTY_OBJ;
       const { keywords } = query as PlainObject<string>;
@@ -284,7 +284,9 @@ export default defineComponent({
               {renderAlbums()}
             </section>
           )}
-          <CommonRouterList routelist={searchCate}></CommonRouterList>
+          <div sticky-list>
+            <CommonRouterList routelist={searchCate}></CommonRouterList>
+          </div>
           {
             renderKeepAliveRouterView()
           }
