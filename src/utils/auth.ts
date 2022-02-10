@@ -17,7 +17,10 @@ export const loginCookie = (() => {
         return;
       }
       loginCookie = val;
-      Cookies.set('RefrainMusic', val);
+      // 给手动保存的登陆cookie设置180天过期
+      Cookies.set('RefrainMusic', val, {
+        expires: 180,
+      });
     }
   }
 })();
