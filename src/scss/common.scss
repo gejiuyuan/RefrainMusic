@@ -90,6 +90,18 @@ i {
   }
 }
 
+// 当hover时，才显示scrollbar的颜色
+[scrollbarWhenHover] {
+  &::-webkit-scrollbar-thumb {
+    background-color: $colornoop; 
+  }
+  &:hover {
+    &::-webkit-scrollbar-thumb {
+      background-color: $colorscrollbar;
+    }
+  }
+}
+
 [singallinedot] {
   overflow: hidden;
   text-overflow: ellipsis;

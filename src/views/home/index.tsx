@@ -14,14 +14,13 @@ export default defineComponent({
     return () => {
       return (
         <>
-
-          <NGrid class="yplayer-homepage" cols={15}>
+          <NGrid class="yplayer-homepage" cols={16}>
 
             <NGridItem span={2}>
               <HomeLeft></HomeLeft>
             </NGridItem>
 
-            <NGridItem span={13}>
+            <NGridItem span={14}>
               <section class="home-main">
                 <header class="main-header">
                   <HomeHeader></HomeHeader>
@@ -31,6 +30,17 @@ export default defineComponent({
                   <div class="player-container" scrollbar="overlay">
                     <RouterView></RouterView>
                   </div>
+                  <NBackTop
+                    listenTo=".player-container"
+                    visibilityHeight={100}
+                    right={80}
+                    bottom={120}
+                    themeOverrides={{
+                      width: "38px",
+                      height: "38px",
+                      iconSize: "20px",
+                    }}
+                  ></NBackTop>
                 </section>
 
                 <footer class="main-footer">

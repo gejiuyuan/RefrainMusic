@@ -1,36 +1,36 @@
-import { computed, defineComponent, onMounted, h } from "vue";
+import { computed, defineComponent, h } from "vue";
 import { RouterView, useRoute } from "vue-router";
-import { 
-  GlobalThemeOverrides, useMessage, NBackTop, NxButton,
+import {
+  GlobalThemeOverrides, useMessage, NxButton,
   NConfigProvider, NLoadingBarProvider, NMessageProvider, NAvatar,
   NThemeEditor, useLoadingBar, NNotificationProvider, useNotification,
 } from "naive-ui";
-import LyricPage from '@views/lyric-page'; 
-import { theme } from "./stores/player"; 
+import LyricPage from '@views/lyric-page';
+import { theme } from "./stores/player";
 import "./App.scss";
-import { messageBus } from "./utils/event/register"; 
-import refrainPic from '../public/refrain.png';    
+import { messageBus } from "./utils/event/register";
+import refrainPic from '../public/refrain.png';
 import onBeforeInstallPrompt from "./hooks/onBeforeInstallPrompt";
-import { UNICODE_CHAR } from "./utils";
+import { UNICODE_CHAR } from "./utils"; 
 
 export const LogicLayer = defineComponent({
   name: 'LogicLayer',
   setup() {
-    
+ 
     const message = useMessage();
     const loading = useLoadingBar();
     messageBus.on('startLoading', () => loading.start());
     messageBus.on('finishLoading', () => loading.finish());
     messageBus.on('errorLoading', () => loading.error());
     messageBus.on('destroyAllMessage', () => message.destroyAll());
-    messageBus.on('successMessage', (...args:FuncParamsType<typeof message.success>) => message.success(...args));
-    messageBus.on('warnMessage', (...args:FuncParamsType<typeof message.warning>) => message.warning(...args));
-    messageBus.on('errorMessage', (...args:FuncParamsType<typeof message.error>) => message.error(...args));
+    messageBus.on('successMessage', (...args: FuncParamsType<typeof message.success>) => message.success(...args));
+    messageBus.on('warnMessage', (...args: FuncParamsType<typeof message.warning>) => message.warning(...args));
+    messageBus.on('errorMessage', (...args: FuncParamsType<typeof message.error>) => message.error(...args));
 
-    const notification = useNotification(); 
+    const notification = useNotification();
 
     onBeforeInstallPrompt((addToHomeScreen) => {
-      setTimeout(() => { 
+      setTimeout(() => {
         const n = notification.create({
           title: '添加RefrainMusic到主屏幕',
           content: '添加后，便可从桌面图标、开始菜单等处打开应用',
@@ -59,23 +59,12 @@ export const LogicLayer = defineComponent({
             ),
         })
       }, 5000);
-    })
+    });
  
-
     return () => (
       <>
         <RouterView></RouterView>
-        <LyricPage></LyricPage>
-        <NBackTop
-          listenTo=".player-container"
-          visibilityHeight={100}
-          bottom={90}
-          themeOverrides={{
-            width: "38px",
-            height: "38px",
-            iconSize: "20px",
-          }}
-        ></NBackTop>
+        <LyricPage></LyricPage> 
       </>
     )
   }
@@ -84,7 +73,7 @@ export const LogicLayer = defineComponent({
 export default defineComponent({
   name: "YuanPlayer",
   setup(props, context) {
-     
+
     const themeLayerStyle = computed(() => {
       return `--theme:${theme.value};`
     });
@@ -114,13 +103,13 @@ export default defineComponent({
           <NConfigProvider themeOverrides={NaiveThemeConfig.value}>
             <NMessageProvider>
               <NNotificationProvider>
-                <NLoadingBarProvider> 
+                <NLoadingBarProvider>
                   <LogicLayer></LogicLayer>
                 </NLoadingBarProvider>
               </NNotificationProvider>
             </NMessageProvider>
           </NConfigProvider>
-        </section>      
+        </section>
       );
     };
   },

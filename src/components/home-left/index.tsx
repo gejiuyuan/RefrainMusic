@@ -79,7 +79,7 @@ export default defineComponent({
           <h1 class="home-logo">
             <img loading="lazy" src={logo.value} />
           </h1>
-          <section class="home-category" scrollbar="overlay">
+          <section class="home-category" scrollbar="overlay" scrollbarWhenHover>
             <AsideRouterList
               list={onlineMusicList}
               title={onlineMusicTitle}
