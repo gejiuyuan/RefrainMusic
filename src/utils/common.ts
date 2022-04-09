@@ -141,7 +141,7 @@ export const fileDownloader = (url: any, filename: string) => {
       (err) => false
     )
     .then((blob) => {
-      if (!blob) return false;
+      if (is.boolean(blob)) return false;
       const a = document.createElement("a");
       a.download = filename;
       a.hidden = true;
