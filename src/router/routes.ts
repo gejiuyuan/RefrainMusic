@@ -58,6 +58,9 @@ const PersonalRecommend = () => import('@components/personal-recommend');
 
 const MyPage = () => import('@components/my-page');
 
+const SongPage = () => import("@components/song-page");
+const SongComment = () => import("@components/song-page/comment");
+
 import { RouteLocation, RouteRecordRaw } from "vue-router";
 
 const routes: RouteRecordRaw[] = [
@@ -294,6 +297,27 @@ const routes: RouteRecordRaw[] = [
         path: "/myPage",
         component: MyPage,
       },
+      
+      {
+        path: "song/:id",
+        component: SongPage,
+        redirect: (to: RouteLocation) => {
+          return {
+            path: 'song/:id/comment',
+            name: 'SongComment',
+            params: {
+              id: to.params.id
+            }
+          }
+        },
+        children: [
+          {
+            path: "comment",
+            name: 'SongComment',
+            component: SongComment,
+          }
+        ]
+      }
 
     ],
   }

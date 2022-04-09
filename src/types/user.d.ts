@@ -90,3 +90,23 @@ export declare type SearchUserProfileItem = {
   userType: number;
   vipType: number;
 };
+
+export declare type SongCommentUser = {
+  anonym: number;
+  authStatus: number;
+  avatarDetail: null | any;
+  avatarUrl: string;
+  commonIdentity: null | any;
+  expertTags: null | any[];
+  experts: null | any;
+  followed: boolean;
+  liveInfo: null | any;
+  locationInfo: null | any;
+  mutual: boolean;
+  nickname: string;
+  remarkName: null | any;
+  userId: number;
+  userType: number;
+  vipRights: null | any;
+  vipType: number;
+}

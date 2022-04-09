@@ -1,6 +1,7 @@
-import { anfrageWithLoading } from "@/request";
+import { anfrage, anfrageWithLoading } from "@/request";
 import { filterUselessKey } from "@utils/index";
 import { SongInfo, SongUrlInfo } from "@type/song";
+import { CommentType } from "@/dependency/enum";
 
 /**
  * 获取音乐 url
@@ -97,6 +98,7 @@ export function getMusicComment(params: {
       id,
       before,
       offset: +limit * +offset,
+      timestamp: new Date().valueOf()
     }),
   });
 }
@@ -146,6 +148,43 @@ export function newMusicRecommend(params: { limit?: number | string }) {
     method: "get",
     params: {
       limit,
+      timestamp: new Date().valueOf
     },
   })
+}
+
+/**
+ *
+ * 评论(取消）点赞
+ * @export
+ * @param {({
+ *   id: string | number;
+ *   cid: string | number;
+ *   t: 1 | 0;
+ *   type: CommentType;
+ * })} {id, cid, t, type}
+ * @return {*} 
+ */
+export function musicCommentLike({id, cid, t, type}: {
+  // 资源id，如歌曲、mv等
+  id: string | number;
+  // 评论id
+  cid: string | number;
+  // 1为点赞、0为取消点赞
+  t: 1 | 0;
+  // 资源类型
+  type: CommentType;
+}) {
+  const actualParams:PlainObject = { cid, t, type}
+  // 如果是动态的评论
+  if(type === CommentType.dynamic) {
+    actualParams.threadId = id;
+  } else {
+    actualParams.id = id;
+  }
+  return anfrage({
+    url: "/comment/like",
+    method: "post",
+    params: actualParams
+  }).then(res => res.code === 200);
 }

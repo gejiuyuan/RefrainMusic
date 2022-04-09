@@ -68,6 +68,12 @@ export default defineComponent({
       playingRefGlobal.value = true;
     };
 
+    const toCurrentSongPage = () => {
+      router.push({
+        path: `/song/${currentSongRefGlobal.value.id}` 
+      })
+    }
+
     return () => {
       const currentTimeValue = currentTimeRefGlobal.value;
       const duration= durationRefGlobal.value;
@@ -98,7 +104,7 @@ export default defineComponent({
               </div>
 
               <div className="music-info">
-                <div class="name" title={musicName} singallinedot>{musicName}</div>
+                <div class="name" title={musicName} singallinedot onClick={toCurrentSongPage}>{musicName}</div>
                 <MusicSinger singers={singers}></MusicSinger>
               </div>
             </section>

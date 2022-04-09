@@ -1,3 +1,5 @@
+import { SongCommentUser } from "./user";
+
 export declare type SongChargeInfo = {
   rate: 128000 | 192000 | 32000 | 999000 | number;
   chargeUrl: string | null;
@@ -132,3 +134,31 @@ export declare type SongUrlInfo = {
     end: number;
   } | null;
 };
+
+export declare type SongCommentItem = {
+  commentId: string;
+  content: string;
+  time: number;
+  timeStr: string;
+  needDisplayTime: boolean;
+  likedCount: number;
+  liked: boolean;
+  user: SongCommentUser;
+  beReplied: Array<{
+    content: string;
+    beRepliedCommentId: number;
+    user: SongCommentUser;
+  }>;
+}
+
+export declare type SongComment = {
+  total: number;
+  moreHot: boolean;
+  more: boolean;  
+  userId: number;
+  isMusician: boolean;
+  commentBanner: null | any;
+  comments: Array<SongCommentItem>;
+  hotComments: Array<SongCommentItem>;
+  topComments: Array<SongCommentItem>;
+}

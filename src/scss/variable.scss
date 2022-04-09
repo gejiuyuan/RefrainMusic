@@ -105,6 +105,11 @@ $iconTypes: order, singalLoop, random, loop, play, pause, volume, muted, full,
   @include flexVe();
 }
 
+@mixin flexHevV {
+  @include flexHev();
+  @include flexV();
+}
+
 @mixin flexHevVc {
   @include flexHev();
   @include flexVc();

@@ -1,0 +1,105 @@
+@import "@scss/variable";
+
+.comment-category-layer {
+
+  padding-bottom: 30px;
+
+  $commonColor: rgba(0, 0, 0, 0.48);
+
+  .category-headline {
+    padding-bottom: 12px;
+    color: $colorSettingName;
+    font-size: 1.2rem;
+    font-weight: 500;
+  }
+
+  .song-comment-item {
+    @include flex();
+    padding: 20px 0;
+
+    .user-icon { 
+      height: 40px;
+      overflow: hidden;
+      border-radius: 100%;
+      margin-right: 20px;
+    }
+
+    .comment-main {
+      flex: 1;
+
+      .comment-header {
+        @include flexHevV();
+        height: 40px;
+        margin-bottom: 20px;
+        color: $commonColor;
+        font-size: 12px;
+      }
+  
+      .comment-content {
+        margin-bottom: 20px;
+        color: $colorSettingTitle;
+        font-size: 12px;
+        line-height: 1.8;
+      }
+  
+      &:not(:last-of-type) {
+        border-bottom: 1px solid rgba(70, 70, 70, 0.1);
+      }
+
+      &:hover {
+        .comment-operation .span-item.report-span {
+          opacity: 1;
+        }
+      }
+  
+      .comment-operation {
+        @include flexVc();
+
+        .span-item {
+          margin-right: 20px;        
+          cursor: pointer;
+          
+          em {
+            font-size: 12px;
+          }
+
+          &.report-span {
+            opacity: 0;
+          }
+
+          &.report-span,
+          &.reply-span {
+            em {
+              color: $commonColor;
+            }
+          }
+
+          &:hover,
+          &.liked {
+              i.iconfont{
+                color: var(--theme);
+              }
+              em {
+                color: var(--theme);
+              }
+            }
+          }
+        }
+
+        .comment-like-span {
+          .comment-like {
+            margin-right: 2px;
+            color: $colorSettingName;
+            font-size: 22px;
+          }
+          em {
+            color: $colorSettingName;
+          }
+        }
+
+
+      }
+
+    }
+
+}
