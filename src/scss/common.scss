@@ -58,9 +58,17 @@ i {
   font-style: normal;
 }
 
-mark {
+mark { 
   background-color: inherit;
   color: currentColor;
+}
+
+:focus-visible {
+  outline: none;
+}
+
+[contenteditable="true"] {
+  caret-color: var(--theme);
 }
 
 [scrollbar="auto"] {
@@ -166,5 +174,5 @@ mark {
   left: 0;
   top: 0;
   z-index: 97;  
-  background-color: #fff;  
+  background-color: $baseBackgroud; 
 }

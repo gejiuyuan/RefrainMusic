@@ -41,7 +41,8 @@
       "@use/*": ["src/hooks/*"],
       "@database/*": ["./src/database/*"],
       "@widgets/*": ["./src/widgets/*"]
-    }
+    },
+    "sourceMap": true
   },
   "include": [
     "scripts/**/*.ts", //必须指定，否则不能解析viteConfig下的ts文件

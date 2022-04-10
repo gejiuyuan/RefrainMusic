@@ -138,7 +138,7 @@ export const YuanTableColumn = defineComponent({
 
     return () => {
       const data = parent.props.data;
-      const dataIndex = Math.floor(index.value % (data.length - 1));
+      const dataIndex = data.length && Math.floor(index.value % ((data.length - 1) || 1));
 
       return (
         <div class="yuan-table-column">

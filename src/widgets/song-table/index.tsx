@@ -42,7 +42,7 @@ export default defineComponent({
         return realSongInfo;
       });
     });
-    const playerStore = usePlayerStore(); 
+    const playerStore = usePlayerStore();
 
     const isRenderPublishTime = computed(() => {
       return props.dataList.some(({ publishTime }) => publishTime != null);
@@ -53,9 +53,9 @@ export default defineComponent({
     };
 
     return () => {
-      if (!songData.value.length) return; 
-      const playing = playingRefGlobal.value;
-
+      if (!songData.value.length) return;
+      const playing = playingRefGlobal.value; 
+      
       return (
         <section class="song-table">
 

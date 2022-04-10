@@ -122,7 +122,7 @@ const baseConfig: UserConfig = {
     }
 }
 
-const devConfig = extend(baseConfig, {
+const devConfig = extend({}, baseConfig, {
 
     //在开发或生产环境下，网页运行的虚拟基础路径
     base: './',
@@ -156,7 +156,7 @@ const devConfig = extend(baseConfig, {
 
 } as UserConfig);
 
-const prodConfig = extend(baseConfig, {
+const prodConfig = extend({}, baseConfig, {
 
     build: {
         //打包后的代码所支持的运行环境。

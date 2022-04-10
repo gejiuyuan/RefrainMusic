@@ -15,7 +15,8 @@
     "check": "npm run check:tsc && npm run check:eslint",
     "prettier:check": "npx prettier --check .",
     "prettier:write": "npx prettier --ignore-unknown --write .",
-    "prettier": "npm run prettier:write"
+    "prettier": "npm run prettier:write",
+    "prepare": "npm run rebuild:githooks"
   },
   "license": "MIT",
   "private": true,

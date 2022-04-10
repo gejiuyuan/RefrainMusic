@@ -19,8 +19,7 @@
     .main-content {
       position: relative;
       height: calc(100% - #{$homeBottomControllerHeight + $homeTopHeaderHeight});
-      padding-left: 30px;
-      background-color: #fff;
+      padding-left: 30px; 
       overflow: hidden;
 
       .player-container {

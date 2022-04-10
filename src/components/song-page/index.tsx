@@ -10,6 +10,8 @@ import { RouteParams, useRouter } from "vue-router";
 import './index.scss';
 import { getSongDetailList } from "./util";
 
+import ReplyTextarea from "@widgets/reply-textarea";
+
 const songPageTemplateRouteList = [
   {
     to: '/song/:id/comment',
@@ -143,7 +145,9 @@ export default defineComponent({
               </ul>
             </div>
           </header>
-
+          <section class="song-reply-textarea">
+            <ReplyTextarea></ReplyTextarea>
+          </section>
           <CommonRouterList routelist={songPageRouteList}></CommonRouterList>
           {
             renderKeepAliveRouterView()
