@@ -60,6 +60,7 @@ const MyPage = () => import('@components/my-page');
 
 const SongPage = () => import("@components/song-page");
 const SongComment = () => import("@components/song-page/comment");
+const SongDetail = () => import("@components/song-page/detail");
 
 import { RouteLocation, RouteRecordRaw } from "vue-router";
 
@@ -315,6 +316,11 @@ const routes: RouteRecordRaw[] = [
             path: "comment",
             name: 'SongComment',
             component: SongComment,
+          },
+          {
+            path: "detail",
+            name: 'SongDetail',
+            component: SongDetail,
           }
         ]
       }

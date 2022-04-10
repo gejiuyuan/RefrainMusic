@@ -1,17 +1,23 @@
-import { getMusicComment } from "@/api/music";
+import { getMusicComment, getMusicDetail } from "@/api/music";
+import { OriginCoverType, SongFee } from "@/dependency/enum";
 import { onFilteredBeforeRouteUpdate } from "@/hooks/onRouteHook";
-import { SongComment } from "@/types/song";
-import { objToPathname } from "@/utils";
+import { SongComment, SongInfo } from "@/types/song";
+import { objToPathname, padPicCrop } from "@/utils";
 import { renderKeepAliveRouterView } from "@/widgets/common-renderer";
 import CommonRouterList from "@/widgets/common-router-list";
 import { defineComponent, provide, reactive, ref, shallowReactive } from "vue";
 import { RouteParams, useRouter } from "vue-router";
 import './index.scss';
+import { getSongDetailList } from "./util";
 
 const songPageTemplateRouteList = [
   {
     to: '/song/:id/comment',
     text: '评论'
+  },
+  {
+    to: '/song/:id/detail',
+    text: '详情'
   }
 ]
 
@@ -34,10 +40,47 @@ export default defineComponent({
       topComments: []
     });
     provide('commentData', songCommentDataRef);
-    
+
+    const songDetailDataRef = ref<SongInfo>({
+      id: 0,
+      name: '',
+      alia: [],
+      dt: 0,
+      pop: 0,
+      ar: [],
+      al: {
+        id: 0,
+        name: '',
+        picUrl: ''
+      },
+      publishTime: 0,
+      fee: SongFee.freeOrNoCopyright,
+      h: Object.create(null),
+      m: Object.create(null),
+      l: Object.create(null),
+      mark: 0,
+      originCoverType: OriginCoverType.unkown,
+      privilege: {
+        id: 0,
+        chargeInfoList: []
+      },
+    });
+    provide('songDetail', songDetailDataRef);
+
     const syncRelativeData = () => {
       updatePageRouteList();
       getCommentDate();
+      getSongDetail();
+    }
+
+    const getSongDetail = async () => {
+      const detailData = await getMusicDetail({
+        ids: router.currentRoute.value.params.id
+      });
+      songDetailDataRef.value = {
+        ...detailData.songs[0],
+        privilege: detailData.privileges[0],
+      }
     }
 
     const getCommentDate = async () => {
@@ -71,8 +114,36 @@ export default defineComponent({
     });
 
     return () => {
+
+      const { al: { picUrl }, name } = songDetailDataRef.value;
+      const songInfoList = getSongDetailList(songDetailDataRef.value).slice(0, 2);
+
       return (
         <section id="song-detail-page">
+
+          <header class="song-detail-header">
+            <div class="song-pic">
+              <div aspectratio={1}>
+                <img src={padPicCrop(picUrl, { x: 200, y: 200 })} />
+              </div>
+            </div>
+            <div class="song-info">
+              <h2>{name}</h2>
+              <ul>
+                {
+                  songInfoList.map(({ attr, value }) => {
+                    return (
+                      <li>
+                        <em>{attr}: </em>
+                        <em>{value}</em>
+                      </li>
+                    )
+                  })
+                }
+              </ul>
+            </div>
+          </header>
+
           <CommonRouterList routelist={songPageRouteList}></CommonRouterList>
           {
             renderKeepAliveRouterView()

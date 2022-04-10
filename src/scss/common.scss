@@ -58,6 +58,11 @@ i {
   font-style: normal;
 }
 
+mark {
+  background-color: inherit;
+  color: currentColor;
+}
+
 [scrollbar="auto"] {
   overflow-y: auto;
 }

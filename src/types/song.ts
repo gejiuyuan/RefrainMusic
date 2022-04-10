@@ -1,3 +1,4 @@
+import { OriginCoverType, SongFee } from "@/dependency/enum";
 import { SongCommentUser } from "./user";
 
 export declare type SongChargeInfo = {
@@ -11,26 +12,24 @@ export declare type PlayRecord = {
   song: SongInfo;
 }[];
 
-/**
- * 音乐
- */
 export declare type SongInfo = {
+  //歌曲id
+  id: number;
   //歌曲名字
   name: string;
   //歌曲别名，如xxx游戏宣传曲
   alia: string[];
-  //歌曲id
-  id: number;
   //单曲时长，单位：毫秒
   dt: number;
-  fee: number;
+  // 小数，常取[0.0, 100.0]中离散的几个数值, 表示歌曲热度
+  pop: number;
   //歌手信息
   ar: {
     id: number;
     name: string;
     alias?: string[];
   }[];
-  //专辑
+  // album专辑
   al: {
     id: number;
     name: string;
@@ -38,14 +37,18 @@ export declare type SongInfo = {
   };
   //也许没有喜欢
   starred?: boolean;
-  //发行时间
-  publishTime?: number;
+  // 费用
+  fee: SongFee;
   //评论数量
   mark: number;
+  // 歌曲发布时间
+  publishTime: number;
+  originCoverType: OriginCoverType;
   privilege: {
+    id: number;
     chargeInfoList: SongChargeInfo[];
   };
-};
+} & MediaQualityCategory
 
 /**
  * 最新音乐
@@ -74,7 +77,7 @@ export declare type NewestSongInfo = {
   alias: string[];
   duration: number;
   id: number;
-  fee: number;
+  fee: SongFee;
   name: string;
   mvid: number;
   no: number;
@@ -120,7 +123,7 @@ export declare type SongUrlInfo = {
   type: "mp3" | "m4a";
   encodeType: "mp3";
   canExtend: boolean;
-  fee: 8 | 0 | 4 | 1 | number;
+  fee: SongFee;
   url: string;
   size: number;
   id: number;
@@ -154,7 +157,7 @@ export declare type SongCommentItem = {
 export declare type SongComment = {
   total: number;
   moreHot: boolean;
-  more: boolean;  
+  more: boolean;
   userId: number;
   isMusician: boolean;
   commentBanner: null | any;
@@ -162,3 +165,26 @@ export declare type SongComment = {
   hotComments: Array<SongCommentItem>;
   topComments: Array<SongCommentItem>;
 }
+
+/**
+ * getMusicDetail api 返回值
+ */
+export declare type SongsDetail = {
+  privileges: SongInfo['privilege'][];
+  songs: Exclude<SongInfo, 'privilege'>[];
+}
+
+/**
+ * 媒体资源文件质量信息
+ */
+export type MediaQuality = {
+  br: number;
+  fid: number;
+  size: number;
+  vd: number;
+}
+
+/**
+ * 媒体资源文件质量信息（高、中、低）
+ */
+export type MediaQualityCategory = Record<'h' | 'm' | 'l', MediaQuality>;

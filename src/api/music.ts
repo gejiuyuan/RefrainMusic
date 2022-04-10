@@ -1,6 +1,6 @@
 import { anfrage, anfrageWithLoading } from "@/request";
-import { filterUselessKey } from "@utils/index";
-import { SongInfo, SongUrlInfo } from "@type/song";
+import { filterUselessKey, is } from "@utils/index";
+import { SongInfo, SongsDetail, SongUrlInfo } from "@type/song";
 import { CommentType } from "@/dependency/enum";
 
 /**
@@ -109,12 +109,14 @@ export function getMusicComment(params: {
 export type GetMusicDetailReturnType = {
   songs: SongInfo[];
 };
-export function getMusicDetail(params: { ids: string }) {
+export function getMusicDetail({ids}: { ids: string | string[] }):Promise<SongsDetail> {
   return anfrageWithLoading({
     url: "/song/detail",
     method: "get",
-    params,
-  })
+    params: {
+      ids: is.array(ids) ? ids.join(',') : ids,
+    },
+  });
 }
 
 /**
