@@ -1,11 +1,23 @@
 import { is } from "@/utils";
-import { nextTick, watch, computed, defineCustomElement, onMounted, onUnmounted, PropType, ref, shallowReactive, watchEffect } from "vue";
-import * as customTextAreaScss from './index.scss';
+import { nextTick, watch, computed, defineCustomElement, PropType, ref, watchEffect } from "vue";
+
+const styleString = `
+  :focus-visible {
+    outline: none;
+  }
+  
+  [contenteditable="true"] {
+    caret-color: var(--theme);
+  }
+`;
+
+const styles = [styleString];
 
 /**  
  * 基于contenteditable特性实现的公共textarea组件
  */
-const customTextArea = defineCustomElement({
+const textareaCustomElm = defineCustomElement({ 
+  styles,
   props: {
     placeholder: {
       type: String as PropType<string>,
@@ -30,7 +42,6 @@ const customTextArea = defineCustomElement({
     }
   },
   emits: ['input', 'change'],
-  styles: [customTextAreaScss.default],
   setup(props, context) {
 
     const constants = {
@@ -60,7 +71,7 @@ const customTextArea = defineCustomElement({
     }
 
     const focusHandler = () => {
-      textareaRef.value!.focus(); 
+      textareaRef.value!.focus();
       placeHolderShow.value = false;
     }
 
@@ -85,7 +96,7 @@ const customTextArea = defineCustomElement({
     watch(() => props.value, async (value) => {
       await nextTick();
       const textareaElm = textareaRef.value!;
-      if (is.undefined(value)) { 
+      if (is.undefined(value)) {
         placeHolderShow.value = true;
       } else {
         textareaElm.innerText = value;
@@ -127,7 +138,10 @@ const customTextArea = defineCustomElement({
         </section>
       )
     }
-  }
+  },
 });
 
-customElements.define('custom-textarea', customTextArea);
+export default {
+  name: 'textarea',
+  element: textareaCustomElm
+}

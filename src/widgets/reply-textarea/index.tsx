@@ -14,8 +14,7 @@ export default defineComponent({
         <section class="reply-container">
           <div class="reply-textarea">
             <custom-textarea
-              placeholder={`赶快输入⑧${UNICODE_CHAR.pensive}`}
-              focus={true}
+              placeholder={`赶快输入⑧${UNICODE_CHAR.pensive}`} 
             ></custom-textarea>
           </div>
         </section>
