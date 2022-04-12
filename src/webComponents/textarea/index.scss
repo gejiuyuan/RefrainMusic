@@ -1,0 +1,11 @@
+@import "@scss/variable";
+
+:host {
+  :focus-visible {
+    outline: none;
+  }
+  
+  [contenteditable="true"] {
+    caret-color: var(--theme);
+  }
+}

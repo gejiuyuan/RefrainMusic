@@ -15,6 +15,7 @@ import SwiperCore, {
   Mousewheel,
 } from "swiper";
 import { registerSW } from 'virtual:pwa-register'
+import "@/webComponents/index";
 
 //自动更新间隔：3小时
 const intervalMS = 3 * 60 * 60 * 1000;
@@ -39,7 +40,7 @@ SwiperCore.use([
 ]);
 
 //创建app根实例
-const vueApp = createApp(YuanPlayer);
+const vueApp = createApp(YuanPlayer); 
 vueApp.use(createPinia());
 vueApp.use(routerObj);
 

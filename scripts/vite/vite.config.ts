@@ -90,7 +90,16 @@ const baseConfig: UserConfig = {
 
     //插件
     plugins: [
-        vue(), //.vue文件解析插件
+        vue({
+            template: {
+                compilerOptions: {
+                    // 将所有带native-的标签名都视为自定义元素
+                    isCustomElement: (tag) => {
+                        return tag.startsWith('custom-')
+                    },
+                }
+            }
+        }), //.vue文件解析插件
         image(), //图片导入解析插件
         // Markdown(), //.md文件解析插件
         svgLoader(), //svg图片解析成内联代码   

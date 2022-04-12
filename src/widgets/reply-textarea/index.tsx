@@ -1,4 +1,5 @@
-import { computed, defineComponent, ref, shallowReactive } from "vue"; 
+import { UNICODE_CHAR } from "@/utils";
+import { computed, defineComponent, ref, shallowReactive } from "vue";
 import './index.scss';
 
 /**  
@@ -7,29 +8,16 @@ import './index.scss';
 export default defineComponent({
   name: "ReplyTextarea",
   setup() {
-
-    const rowCount = ref<number>(1);
-    const fixedSize = {
-      font: 12,
-      lineHeight: 1.5,
-    }
-
-    const textareaStyle = computed(() => {
-      return {
-        'font-size': `${fixedSize.font}px`,
-        'line-height': fixedSize.lineHeight,
-        height: `${rowCount.value * fixedSize.font * fixedSize.lineHeight}px`,
-      }
-    });
-
-    const changeHandler = (ev: Event) => {
-      console.dir(ev)
-    }
- 
+    
     return () => {
       return (
         <section class="reply-container">
-          <div class="reply-textarea" contenteditable="true" style={textareaStyle.value} onChange={changeHandler}></div>
+          <div class="reply-textarea">
+            <custom-textarea
+              placeholder={`赶快输入⑧${UNICODE_CHAR.pensive}`}
+              focus={true}
+            ></custom-textarea>
+          </div>
         </section>
       )
     }
