@@ -1,5 +1,7 @@
 @import "@scss/variable";
 
+$hotItemHeight: 180px;
+
 .toplist-layer {
   h5 {
     padding-bottom: 30px;
@@ -7,14 +9,17 @@
     font-size: 22px;
     font-weight: 600;
   }
-}
 
-.toplist-layer:not(:first-of-type) {
-  padding-top: 40px;
+  &:not(:first-of-type) {
+    padding-top: 40px;
+  }
+ 
 }
+ 
+.toplist-wrap { 
 
-.toplist-wrap {
-  .toplist-item {
+  .toplist-item { 
+    position: relative;
     transition: transform 0.2s, filter 0.18s;
 
     &:hover {
@@ -22,12 +27,14 @@
       filter: drop-shadow(10px 18px 22px rgba(120, 110, 120, 0.2));
     }
 
-    .list-cover {
-      position: relative;
-      background-position: center center;
-      background-size: cover;
-      border-radius: 16px;
+    .list-wrapper {
+      display: flow-root;
+      height: 100%;
+      overflow: hidden;
+    }
 
+    .list-cover {   
+      border-radius: 1rem;
       img {
         border-radius: inherit;
         transition: filter 0.18s;
@@ -36,34 +43,44 @@
   }
 }
 
-.toplist-hot-item {
-  position: relative;
+.toplist-wrap-hot {
 
-  .list-body {
-    height: 100%;
-    padding: 8%;
-    background-color: rgba(163, 102, 92, 0.1);
-    border-radius: 16px;
+  min-height: $hotItemHeight * 2;
 
-    h6 {
-      font-size: 18px;
-      font-weight: 600;
-      padding-bottom: 20px;
-      color: #444;
+  .toplist-hot-item {
+    height: $hotItemHeight;
+
+    .hot-cover {
+      float: left;
+      height: 100%;
     }
 
-    p {
-      color: #566;
-      font-size: 14px;
-      line-height: 2;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      white-space: nowrap;
+    .list-body {
+      float: left;
+      width: calc(100% - #{$hotItemHeight});
+      height: 100%;
+      padding: 28px;
+      background-color: rgba(163, 102, 92, 0.1);
+      border-radius: 1rem;
+
+      h6 {
+        font-size: 18px;
+        font-weight: 600;
+        padding-bottom: 20px;
+        color: #444;
+      }
+
+      p {
+        color: #566;
+        font-size: 14px;
+        line-height: 2; 
+      }
     }
   }
 }
 
 .toplist-global-item {
+ 
   .play-count {
     position: absolute;
     right: 10px;

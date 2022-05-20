@@ -8,7 +8,7 @@ import {
 import { useRouter } from "vue-router";
 import { allTopList, allTopListDetail } from "@api/other";
 import { getLocaleCount, is, padPicCrop } from "@utils/index";
-import { NGrid, NGridItem, NIcon } from "naive-ui"; 
+import { NGrid, NGridItem, NIcon } from "naive-ui";
 import "./index.scss";
 
 const subDivideTopList = (topList: any[]) => {
@@ -52,75 +52,75 @@ export default defineComponent({
       });
     };
 
-    const renderSpecialList = () => (
-      <section class="toplist-layer toplist-hot">
-        <h5>云音乐特色榜</h5>
-        <ul class="toplist-wrap">
-          <NGrid xGap={36} yGap={36} cols={3}>
-            {
-              toplistData.hotList.map((item) =>
-                <NGridItem class="toplist-item toplist-hot-item" key={item.name}>
-                  <div onClick={() => toSongListDetailPage(item)}>
-                    <NGrid cols={8}>
-                      <NGridItem span={3}>
-                        <div class="list-cover hot-cover" aspectratio="1">
-                          <img
-                            loading="lazy"
-                            src={padPicCrop(item.coverImgUrl, { x: 340, y: 340 })}
-                            alt=""
-                          />
-                        </div>
-                      </NGridItem>
-                      <NGridItem span={5}>
-                        <div class="list-body">
-                          <h6>{item.name}</h6>
-                          {item.tracks.map((track: any, i: number) => (
-                            <p key={track.first}>
-                              {++i}&nbsp;{Object.values(track).join(" - ")}
-                            </p>
-                          ))}
-                        </div>
-                      </NGridItem>
-                    </NGrid>
-                  </div>
-                </NGridItem>
-              )
-            }
-          </NGrid>
-
-        </ul>
-      </section>
-    );
-
-    const renderGlobalList = () => (
-      <section class="toplist-layer toplist-global">
-        <h5>全球媒体榜</h5>
-        <section class="toplist-wrap">
-          <NGrid xGap={30} yGap={30} cols={6}>
-            {
-              toplistData.commonList.map((item) =>
-                <NGridItem class="toplist-item toplist-global-item" key={item.name}>
-                  <div onClick={() => toSongListDetailPage(item)} >
-                    <div class="list-cover global-cover" aspectratio="1">
-                      <img
-                        loading="lazy"
-                        src={padPicCrop(item.coverImgUrl, { x: 440, y: 440 })}
-                      />
-                      <div class="play-count">{item.playCount}</div>
-                      <div class="play-icon">
-                        <i className="iconfont icon-bofan"></i>
-                      </div> 
+    const renderSpecialList = () => {
+      const columnCount = 3;
+      const gap = 36;
+      return (
+        <section class="toplist-layer toplist-hot">
+          <h5>云音乐特色榜</h5>
+          <section class="toplist-wrap toplist-wrap-hot">
+            <NGrid xGap={gap} yGap={gap} cols={columnCount}>
+              {
+                toplistData.hotList.map((item) =>
+                  <NGridItem class="toplist-item toplist-hot-item" key={item.name}>
+                    <div class="list-wrapper" onClick={() => toSongListDetailPage(item)}>
+                      <div class="list-cover hot-cover" aspectratio="1">
+                        <img
+                          loading="lazy"
+                          src={padPicCrop(item.coverImgUrl, { x: 340, y: 340 })}
+                          alt=""
+                        />
+                      </div>
+                      <div class="list-body">
+                        <h6>{item.name}</h6>
+                        {item.tracks.map((track: any, i: number) => (
+                          <p key={track.first} singallinedot>
+                            {++i}&nbsp;{Object.values(track).join(" - ")}
+                          </p>
+                        ))}
+                      </div>
                     </div>
-                    <h6>{item.name}</h6>
-                    <p>{item.updateFrequency}</p>
-                  </div>
-                </NGridItem>
-              )
-            }
-          </NGrid>
+                  </NGridItem>
+                )
+              }
+            </NGrid>
+          </section>
         </section>
-      </section>
-    );
+      )
+    }
+    const renderGlobalList = () => {
+      const columnCount = 7;
+      const gap = 30;
+      return (
+        <section class="toplist-layer toplist-global">
+          <h5>全球媒体榜</h5>
+          <section class="toplist-wrap">
+            <NGrid xGap={gap} yGap={gap} cols={columnCount}>
+              {
+                toplistData.commonList.map((item) =>
+                  <NGridItem class="toplist-item toplist-global-item" key={item.name}>
+                    <div class="list-wrapper" onClick={() => toSongListDetailPage(item)} >
+                      <div class="list-cover global-cover" aspectratio="1">
+                        <img
+                          loading="lazy"
+                          src={padPicCrop(item.coverImgUrl, { x: 440, y: 440 })}
+                        />
+                        <div class="play-count">{item.playCount}</div>
+                        <div class="play-icon">
+                          <i className="iconfont icon-bofan"></i>
+                        </div>
+                      </div>
+                      <h6>{item.name}</h6>
+                      <p>{item.updateFrequency}</p>
+                    </div>
+                  </NGridItem>
+                )
+              }
+            </NGrid>
+          </section>
+        </section>
+      )
+    }
 
     return () => {
       return (

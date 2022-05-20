@@ -133,37 +133,36 @@ mark {
 }
 
 @supports (aspect-ratio: 1) {
-  @for $ratio from 1 through 70 {
+  @for $ratio from 1 through 90 {
     $realRatio: math.div($ratio, 10);
 
-    [aspectratio="#{$realRatio}"] {
-      width: 100%;
+    [aspectratio="#{$realRatio}"] { 
+      position: relative; 
       aspect-ratio: $realRatio;
+      > [aspectratio-full],
       > img {
         display: block;
-        height: 100%;
-        transition: .12s;
+        height: 100%; 
       }
     }
   }
 }
 
 @supports not (aspect-ratio: 1) {
-  @for $ratio from 1 through 70 {
+  @for $ratio from 1 through 90 {
     $realRatio: math.div($ratio, 10);
     $paddingBottomPercent: math.div(10, $ratio) * 100%;
 
     [aspectratio="#{$realRatio}"] {
-      position: relative;
-      width: 100%;
+      position: relative; 
       padding-bottom: $paddingBottomPercent;
+      > [aspectratio-full],
       > img {
         position: absolute;
         left: 0;
         top: 0;
         width: 100%;
-        height: 100%;
-        transition: .12s;
+        height: 100%; 
       }
     }
   }

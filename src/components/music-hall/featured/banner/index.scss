@@ -2,6 +2,7 @@
 
 .recommend-banner {
   position: relative;
+  @include flexVHe();
   & &-title {
     position: absolute;
     right: 20px;

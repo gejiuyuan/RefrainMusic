@@ -37,6 +37,7 @@ declare module "@vue/runtime-dom" {
     singallinedot?: any;
     scrollbar?: any;
     aspectratio?: string | number;
+    'aspectratio-full'?: boolean;
     loading?: string;
   }
 }

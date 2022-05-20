@@ -8,14 +8,33 @@ import './index.scss';
 export default defineComponent({
   name: "ReplyTextarea",
   setup() {
-    
+
+    const isFocus = ref(false);
+    const focusHandler = () => isFocus.value = true;
+    const blurHandler = () => isFocus.value = false;
+
+    const excludeClasses: string[] = [];
+
+    const pointerDownHandler = ({ target }: PointerEvent) => {
+      if (excludeClasses.some(className => (target as HTMLElement).closest(`.${className}`))) {
+        return;
+      }
+      focusHandler();
+    }
+
     return () => {
       return (
-        <section class="reply-container">
+        <section class="reply-container" onPointerdown={pointerDownHandler}>
           <div class="reply-textarea">
             <custom-textarea
-              placeholder={`赶快输入⑧${UNICODE_CHAR.pensive}`} 
+              focus={isFocus.value}
+              placeholder={`赶快输入⑧${UNICODE_CHAR.pensive}`}
+              onBlur={blurHandler}
+              onFocus={focusHandler}
             ></custom-textarea>
+          </div>
+          <div class="reply-operation">
+
           </div>
         </section>
       )

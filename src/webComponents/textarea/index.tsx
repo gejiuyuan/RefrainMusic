@@ -2,6 +2,17 @@ import { is } from "@/utils";
 import { nextTick, watch, computed, defineCustomElement, PropType, ref, watchEffect } from "vue";
 
 const styleString = `
+
+  .custom-textarea {
+    position: relative;
+  }
+
+  .placeholder {
+    position:absolute;
+    opacity: 0.5;
+    cursor: text;
+  }
+
   :focus-visible {
     outline: none;
   }
@@ -9,6 +20,8 @@ const styleString = `
   [contenteditable="true"] {
     caret-color: var(--theme);
   }
+
+  
 `;
 
 const styles = [styleString];
@@ -71,8 +84,8 @@ const textareaCustomElm = defineCustomElement({
     }
 
     const focusHandler = () => {
-      textareaRef.value!.focus();
-      placeHolderShow.value = false;
+      placeHolderShow.value = false; 
+        textareaRef.value!.focus(); 
     }
 
     const blurHandler = (ev: Event) => {
@@ -119,10 +132,9 @@ const textareaCustomElm = defineCustomElement({
 
     return () => {
       return (
-        <section style="position:relative;" onPointerdown={focusHandler}>
+        <section class="custom-textarea" onPointerdown={focusHandler}>
           <div
-            class="placeholder"
-            style="position:absolute;opacity: 0.5;"
+            class="placeholder" 
             hidden={!placeHolderShow.value}
           >
             {props.placeholder}
@@ -141,7 +153,6 @@ const textareaCustomElm = defineCustomElement({
   },
 });
 
-export default {
-  name: 'textarea',
-  element: textareaCustomElm
-}
+window.customElements.define(`custom-textarea`, textareaCustomElm);
+
+ 
