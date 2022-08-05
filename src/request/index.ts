@@ -10,15 +10,17 @@ export function createRequestInstance(responseType: RyokoResponseType = 'json') 
     timeout: 15000,
     cache: "force-cache",
     responseType,
+    // 允许跨域访问自动携带cookie
+    credentials: 'include',
     // params: import.meta.env.DEV ? {} : { realIP: '116.25.146.177' },
     onDefer(deferMsg) { },
     verifyStatus: (status) => status >= 200 && status < 500,
   });
   ins.interceptors.request.use((config) => {
-    const MUSIC_C_COOKIE = loginCookie.value;
-    if (MUSIC_C_COOKIE) {
-      Reflect.set(config.params as PlainObject, 'cookie', MUSIC_C_COOKIE)
-    }
+    // const MUSIC_C_COOKIE = loginCookie.value;
+    // if (MUSIC_C_COOKIE) {
+    //   Reflect.set(config.params as PlainObject, 'cookie', MUSIC_C_COOKIE)
+    // }
     return config;
   });
   ins.interceptors.response.use((res) => res.data, (err: any) => {
