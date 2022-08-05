@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:slug*",
+      "destination": "https://refrain-music-api.vercel.app/:slug*"
+    }
+  ]
+}
