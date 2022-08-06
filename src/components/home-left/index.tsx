@@ -74,24 +74,33 @@ export default defineComponent({
       const { list: createdList, title: createdTitle } = createdPlaylist.value;
       const { list: collectionList, title: collectionTitle } = collectedPlaylist.value;
 
+      const listRenderArr = [
+        <AsideRouterList
+          list={onlineMusicList}
+          title={onlineMusicTitle}
+        ></AsideRouterList>
+      ]
+
+      if (userStore.isLogin) {
+        listRenderArr.push(
+          <AsideRouterList
+            list={createdList}
+            title={createdTitle}
+          ></AsideRouterList>,
+          <AsideRouterList
+            list={collectionList}
+            title={collectionTitle}
+          ></AsideRouterList>
+        )
+      }
+
       return (
         <aside class="home-left">
           <h1 class="home-logo">
             <img loading="lazy" src={logo.value} />
           </h1>
           <section class="home-category" scrollbar="overlay" scrollbarWhenHover>
-            <AsideRouterList
-              list={onlineMusicList}
-              title={onlineMusicTitle}
-            ></AsideRouterList>
-            <AsideRouterList
-              list={createdList}
-              title={createdTitle}
-            ></AsideRouterList>
-            <AsideRouterList
-              list={collectionList}
-              title={collectionTitle}
-            ></AsideRouterList>
+            {listRenderArr.map(comp => comp)}
           </section>
         </aside>
       );

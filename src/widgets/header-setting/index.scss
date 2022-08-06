@@ -2,23 +2,51 @@
 
 .yplayer-header-setting {
   @include flexHcVc();
-  margin-right: 30px;
-  color: #555;
+  margin-right: 150px; 
   transition: color 0.14s;
   cursor: pointer;
-
-  .header-setting-text {
-    margin-right: 4px;
-  }
-
-  .icon-shezhi {
-    font-size: 22px;
+ 
+  .icon-menu {
+    color: #555;
+    font-size: 20px;
   }
 
   &:hover {
     color: var(--theme);
   }
 }
+
+.setting-dropdown {
+   
+  .menu-option {
+    @include flexVc();
+    height: 34px;  
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgba(230, 230, 230, .95);
+    }
+
+    .option-icon {
+      width: calc(18px * 2 + 20px);
+      padding: 0 18px;
+      font-size: 20px;
+
+      .icon-shezhi {
+        font-size: inherit
+      }
+
+    } 
+
+    p {
+      width: 150px;
+      font-size: 12px; 
+    }
+
+  }
+
+}
+
 
 .setting-box {
   @include flexHbC();

@@ -28,11 +28,11 @@ import {
 } from "vue";
 import { routerViewLocationKey, useRouter } from "vue-router";
 import './index.scss';
- 
+
 const loginTypes = [
-  {key: 'phone', text: '手机号登录'},
-  {key: 'qrCode', text: '二维码登录'},
-  {key: 'email', text: '邮箱登录'},
+  { key: 'phone', text: '手机号登录' },
+  { key: 'qrCode', text: '二维码登录' },
+  { key: 'email', text: '邮箱登录' },
 ]
 
 export enum QrCodeStatus {
@@ -97,10 +97,7 @@ export default defineComponent({
      * 网易云邮箱表单的Ref
      */
     const loginWithEmailFormRef = ref();
-    /**
-     * 登录框是否显示
-     */
-    const loginDialogShow = ref(false);  
+
     /**
      * 当前登录的方式：电话、二维码、邮箱，默认：电话
      */
@@ -131,7 +128,7 @@ export default defineComponent({
         avatarUrl: '',
       }
     });
- 
+
     /**
      * 登录区域内容信息
      */
@@ -145,11 +142,11 @@ export default defineComponent({
         style, name
       }
     });
-  
+
     userStore.judgeAndSetAccountInfo({
       isFirstRefresh: true,
     });
-   
+
     watch(() => userStore.userId, (id) => {
       //我的详细信息
       userDetail(id).then(detail => {
@@ -160,10 +157,10 @@ export default defineComponent({
       userLikeList({ uid: id }).then(({ ids }) => userStore.myLoveListIds = ids);
 
       //点赞过的视频
-      getPraisedVideos().then(({data: {feeds}}) => playerStore.video.beLiked = feeds );
+      getPraisedVideos().then(({ data: { feeds } }) => playerStore.video.beLiked = feeds);
 
       //收藏的mv
-      userCollectedMv().then(({data}) => {
+      userCollectedMv().then(({ data }) => {
         playerStore.mv.beCollected = data;
       });
 
@@ -199,23 +196,23 @@ export default defineComponent({
         })
         return
       }
-      loginDialogShow.value = true;
+      userStore.showLoginDialog = true;
     }
 
     /**
      * 关闭登录框
      */
     const closeLoginDialog = () => {
-      loginDialogShow.value = false; 
+      userStore.showLoginDialog = false;
     }
-    
+
     /**
      * 切换登录类型
      * @param key 
      */
     const switchLoginType = (key: string) => {
       currentLoginType.value = key;
-    }  
+    }
 
     /**
      * 处理登录后的响应数据
@@ -247,34 +244,34 @@ export default defineComponent({
      * 网易云邮箱登录处理
      */
     const loginByEmailClick = () => {
-      loginWithEmailFormRef.value!.validate(async(error: NaiveFormValidateError) => {
-        if(error) {
+      loginWithEmailFormRef.value!.validate(async (error: NaiveFormValidateError) => {
+        if (error) {
           return;
         }
         const { cookie } = await loginWithEmail({
-          email:emailInfo.email,
+          email: emailInfo.email,
           password: 'invalidPassword',
           md5_password: String(md5(emailInfo.password)),
-        }); 
+        });
         handleLoginResponse(cookie);
       });
     }
-     
+
     /**
      * 刷新二维码、开始二维码登录的请求通道
      */
-    let rotationQrCodeTimer:ReturnType<typeof setInterval>; 
-    const refrechOrBeginQrCode = (isRefresh=false) => {
+    let rotationQrCodeTimer: ReturnType<typeof setInterval>;
+    const refrechOrBeginQrCode = (isRefresh = false) => {
       clearInterval(rotationQrCodeTimer);
       //重置让二维码登录提示
       qrCodeInfo.scanStatusMsg = QrCodeStatus[801];
       //重置用户待确认状态下的信息
       qrCodeInfo.user.avatarUrl = '';
       qrCodeInfo.user.nickname = '';
-      getQrCodeKey().then(async ({data: {unikey}}) => { 
-        qrCodeInfo.key = unikey; 
-        const { data: {qrimg,qrurl}} = await getQrCodeImgInfo({
-          key:unikey
+      getQrCodeKey().then(async ({ data: { unikey } }) => {
+        qrCodeInfo.key = unikey;
+        const { data: { qrimg, qrurl } } = await getQrCodeImgInfo({
+          key: unikey
         })
         qrCodeInfo.img = qrimg;
         isRefresh && (
@@ -283,18 +280,18 @@ export default defineComponent({
           })
         )
         rotationQrCodeTimer = setInterval(async () => {
-          const { code , message , cookie, avatarUrl, nickname, account } = await getQrCodeScanStatus({ key:unikey });
+          const { code, message, cookie, avatarUrl, nickname, account } = await getQrCodeScanStatus({ key: unikey });
           qrCodeInfo.scanStatusMsg = QrCodeStatus[code];
           //已过期
-          if(code === 800) {
+          if (code === 800) {
             clearInterval(rotationQrCodeTimer);
           }
           //待确认中
-          else if(code === 802 && !cookie) {
+          else if (code === 802 && !cookie) {
             qrCodeInfo.user.avatarUrl = avatarUrl;
-            qrCodeInfo.user.nickname = nickname; 
+            qrCodeInfo.user.nickname = nickname;
           }
-          else if(code === 803 || cookie) {
+          else if (code === 803 || cookie) {
             clearInterval(rotationQrCodeTimer);
             handleLoginResponse(cookie);
           }
@@ -311,7 +308,7 @@ export default defineComponent({
     });
 
     watchEffect(() => {
-      if(currentLoginType.value === 'qrCode') {
+      if (currentLoginType.value === 'qrCode') {
         refrechOrBeginQrCode();
         return;
       }
@@ -321,7 +318,7 @@ export default defineComponent({
 
     watchEffect(() => {
       //关闭登录框按钮后，重置登录模式为手机号登录
-      if(!loginDialogShow.value) {
+      if (!userStore.showLoginDialog) {
         switchLoginType(loginTypes[0].key);
       }
     });
@@ -329,7 +326,7 @@ export default defineComponent({
     const renderLoginBody = () => {
       const currentLoginTypeValue = currentLoginType.value;
       //电话登录
-      if(currentLoginTypeValue === 'phone') {
+      if (currentLoginTypeValue === 'phone') {
         return (
           <div className="login-by-phone">
             <NForm
@@ -345,13 +342,13 @@ export default defineComponent({
               </NFormItem>
               <div class="login-button">
                 <NxButton type="error" attrType="submit" onClick={loginByPhoneClick}>登录</NxButton>
-              </div> 
+              </div>
             </NForm>
           </div>
         )
-      } 
+      }
       //网易云邮箱登录
-      else if(currentLoginTypeValue === 'email') {
+      else if (currentLoginTypeValue === 'email') {
         return (
           <div className="login-by-email">
             <NForm
@@ -369,13 +366,13 @@ export default defineComponent({
               </NFormItem>
               <div class="login-button">
                 <NxButton type="warning" attrType="submit" onClick={loginByEmailClick}>登录</NxButton>
-              </div> 
+              </div>
             </NForm>
           </div>
         )
-      } 
+      }
       //二维码登录
-      else if(currentLoginTypeValue === 'qrCode') {
+      else if (currentLoginTypeValue === 'qrCode') {
         return (
           <div className="login-by-qrCode">
             <div className="qrCode-img">
@@ -384,7 +381,7 @@ export default defineComponent({
                 qrCodeInfo.user.avatarUrl && (
                   <div className="qrCode-user-mask">
                     <div className="qrCode-user-avatar">
-                      <img src={qrCodeInfo.user.avatarUrl} alt="" title={qrCodeInfo.user.nickname}/> 
+                      <img src={qrCodeInfo.user.avatarUrl} alt="" title={qrCodeInfo.user.nickname} />
                       <i className="iconfont icon-chenggong"></i>
                     </div>
                   </div>
@@ -411,7 +408,9 @@ export default defineComponent({
 
       const loginBaseInfo = userLoginInfo.value;
       const currentLoginTypeValue = currentLoginType.value;
-      const otherLoginTypes = loginTypes.filter(({key}) => key !== currentLoginTypeValue);
+      const otherLoginTypes = loginTypes.filter(({ key }) => key !== currentLoginTypeValue);
+      console.log(userStore.showLoginDialog, userStore.isLogin);
+
       return (
         <>
           <div class="user-login" onClick={loginBtnClick}>
@@ -420,7 +419,7 @@ export default defineComponent({
           </div>
           <Teleport to=".theme-layer">
 
-            <aside class="login-dialog" visibility={!userStore.isLogin && loginDialogShow.value}>
+            <aside class="login-dialog" visibility={!userStore.isLogin && userStore.showLoginDialog}>
               <header class="login-dialog-head">
                 <i class="iconfont icon-guanbi" onClick={closeLoginDialog} title="关闭登录框"></i>
               </header>
@@ -430,10 +429,10 @@ export default defineComponent({
               </section>
               <footer class="login-dialog-foot">
                 {
-                  otherLoginTypes.map(({key, text}) => {
+                  otherLoginTypes.map(({ key, text }) => {
                     return <em key={key} onClick={() => switchLoginType(key)}>{text}</em>
                   })
-                } 
+                }
               </footer>
 
             </aside>

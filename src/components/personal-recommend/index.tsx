@@ -20,9 +20,9 @@ import { musicRecommend } from "@/api/music";
 import MusicList from "@/widgets/music-list";
 import { getPersonalFm } from "@/api/other";
 import { MusicLoveIcon, MusicSinger } from '@widgets/music-tiny-comp';
-import usePlayerStore , { currentSongRefGlobal, toNext } from "@stores/player";
-import { getModifiedNewestSongInfo } from "@/utils/apiSpecial"; 
-import { PlayStatusSwitch } from '@widgets/music-tiny-comp'; 
+import usePlayerStore, { currentSongRefGlobal, toNext } from "@stores/player";
+import { getModifiedNewestSongInfo } from "@/utils/apiSpecial";
+import { PlayStatusSwitch } from '@widgets/music-tiny-comp';
 
 export const PersonalFm = defineComponent({
   name: 'PersonalFm',
@@ -54,9 +54,9 @@ export const PersonalFm = defineComponent({
     });
 
     const toNextHandler = () => {
-     toNext();
+      toNext();
     }
- 
+
     return () => {
       const currentVisibleFMValue = currentVisibleFM.value;
       if (is.undefined(currentVisibleFMValue)) {
@@ -118,7 +118,7 @@ export default defineComponent({
   name: "PersonalRecommend",
   setup(props, { slots, emit }) {
 
-    const userStore = useUserStore(); 
+    const userStore = useUserStore();
     const router = useRouter();
 
     const recommendData = reactive({
@@ -143,13 +143,10 @@ export default defineComponent({
     }
 
     watch(() => userStore.isLogin, (isLogin) => {
-      if (!isLogin) {
-        router.replace({
-          path: '/musichall/featrued'
-        })
+      if (isLogin) {
+        getPersonalRecommendSonglist();
+        getPersonalRecommendMusics();
       }
-      getPersonalRecommendSonglist();
-      getPersonalRecommendMusics();
     }, {
       immediate: true
     });

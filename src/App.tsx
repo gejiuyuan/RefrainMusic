@@ -1,22 +1,23 @@
-import { computed, defineComponent, h } from "vue";
-import { RouterView, useRoute } from "vue-router";
+import { computed, defineComponent, h, watch } from "vue";
+import { RouterView, useRoute, useRouter } from "vue-router";
 import {
   GlobalThemeOverrides, useMessage, NxButton,
   NConfigProvider, NLoadingBarProvider, NMessageProvider, NAvatar,
-  NThemeEditor, useLoadingBar, NNotificationProvider, useNotification,
+  useLoadingBar, NNotificationProvider, useNotification, NDialogProvider,
 } from "naive-ui";
 import LyricPage from '@views/lyric-page';
 import { theme } from "./stores/player";
-import "./App.scss";
 import { messageBus } from "./utils/event/register";
 import refrainPic from '../public/refrain.png';
 import onBeforeInstallPrompt from "./hooks/onBeforeInstallPrompt";
-import { UNICODE_CHAR } from "./utils"; 
+import { UNICODE_CHAR } from "./utils";
+import useUserStore from "./stores/user";
+import "./App.scss";
 
 export const LogicLayer = defineComponent({
   name: 'LogicLayer',
   setup() {
- 
+
     const message = useMessage();
     const loading = useLoadingBar();
     messageBus.on('startLoading', () => loading.start());
@@ -60,11 +61,22 @@ export const LogicLayer = defineComponent({
         })
       }, 5000);
     });
- 
+
+    const userStore = useUserStore();
+    const router = useRouter();
+
+    watch(() => userStore.isLogin, (isLogin) => {
+      if (!isLogin) {
+        router.replace({
+          path: '/musichall/featrued'
+        })
+      }
+    });
+
     return () => (
       <>
         <RouterView></RouterView>
-        <LyricPage></LyricPage> 
+        <LyricPage></LyricPage>
       </>
     )
   }
@@ -103,9 +115,11 @@ export default defineComponent({
           <NConfigProvider themeOverrides={NaiveThemeConfig.value}>
             <NMessageProvider>
               <NNotificationProvider>
-                <NLoadingBarProvider>
-                  <LogicLayer></LogicLayer>
-                </NLoadingBarProvider>
+                <NDialogProvider>
+                  <NLoadingBarProvider>
+                    <LogicLayer></LogicLayer>
+                  </NLoadingBarProvider>
+                </NDialogProvider>
               </NNotificationProvider>
             </NMessageProvider>
           </NConfigProvider>
