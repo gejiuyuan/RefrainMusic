@@ -11,7 +11,7 @@ import AsideRouterList from "@/widgets/aside-route-list";
 import { playlistCate } from "@api/playlist";
 import "./index.scss";
 import useUserStore from "@/stores/user";
-import guoxiaoyouLogo from "@assets/img/guoxiaoyou.png";
+// import guoxiaoyouLogo from "@assets/img/guoxiaoyou.png";
 
 export default defineComponent({
   name: "HomeLeft",
@@ -19,7 +19,7 @@ export default defineComponent({
 
     const userStore = useUserStore();
 
-    const logo = ref(guoxiaoyouLogo);
+    // const logo = ref(guoxiaoyouLogo);
 
     const onlineMusic = computed(() => {
       const list = [
@@ -93,11 +93,12 @@ export default defineComponent({
           ></AsideRouterList>
         )
       }
+      // <img loading="lazy" src={logo.value} />
 
       return (
         <aside class="home-left">
           <h1 class="home-logo">
-            <img loading="lazy" src={logo.value} />
+            <a href={location.origin} class="site-logo"></a>
           </h1>
           <section class="home-category" scrollbar="overlay" scrollbarWhenHover>
             {listRenderArr.map(comp => comp)}

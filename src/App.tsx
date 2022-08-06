@@ -1,5 +1,5 @@
 import { computed, defineComponent, h, watch } from "vue";
-import { RouterView, useRoute, useRouter } from "vue-router";
+import { RouterView, useRouter } from "vue-router";
 import {
   GlobalThemeOverrides, useMessage, NxButton,
   NConfigProvider, NLoadingBarProvider, NMessageProvider, NAvatar,
@@ -105,6 +105,54 @@ export default defineComponent({
           buttonTextColorHover: globalTheme,
           buttonBoxShadowFocus: 'none',
           fontSizeSmall: '12px',
+        },
+        LoadingBar: {
+          colorLoading: globalTheme,
+        },
+        BackTop: {
+          iconColorHover: globalTheme,
+        },
+        Button: {
+
+          textColorFocusPrimary: globalTheme,
+          textColorDisabledPrimary: globalTheme,
+
+          textColorGhostPrimary: globalTheme,
+          textColorGhostHoverPrimary: globalTheme,
+          textColorGhostPressedPrimary: globalTheme,
+          textColorGhostFocusPrimary: globalTheme,
+          textColorGhostDisabledPrimary: globalTheme,
+          borderHoverPrimary: globalTheme,
+
+          borderPrimary: globalTheme,
+          borderDisabledPrimary: globalTheme,
+
+        },
+        Pagination: {
+
+          itemTextColorHover: globalTheme,
+          itemTextColorPressed: globalTheme,
+          itemTextColorActive: globalTheme,
+          itemBorder: globalTheme,
+          itemBorderHover: globalTheme,
+          itemBorderActive: globalTheme,
+          itemBorderDisabled: globalTheme,
+          itemBorderPressed: globalTheme,
+
+        },
+        InternalSelection: {
+          borderActive: globalTheme,
+          borderHover: globalTheme,
+          borderFocus: globalTheme,
+        },
+        InternalSelectMenu: {
+          optionTextColorActive: globalTheme,
+        },
+        Select: {
+
+        },
+        Dropdown: {
+
         }
       }
     });

@@ -9,15 +9,17 @@
     height: $homeTopHeaderHeight;
     padding-left: 30px;
     padding-right: 16px;
-    img {
+
+    .site-logo { 
       display: block;
       width: 100px;
-      object-fit: contain;
-      object-position: left center;
-      filter: invert(49%) sepia(8%) saturate(3293%) hue-rotate(313deg)
-        brightness(119%) contrast(100%);
-      // filter: invert(50%) sepia(87%) saturate(1967%) hue-rotate(116deg)
-      //   brightness(104%) contrast(93%);
+      height: 40px; 
+      background-color: var(--theme);
+      -webkit-mask: url("@assets/img/guoxiaoyou.png") no-repeat center / 100%;
+      cursor: pointer;
+      // background-repeat: no-repeat;
+      // filter: invert(49%) sepia(8%) saturate(3293%) hue-rotate(313deg)
+      //   brightness(119%) contrast(100%);
     }
   }
 
