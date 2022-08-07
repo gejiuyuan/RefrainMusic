@@ -80,7 +80,6 @@ const baseConfig: UserConfig = {
     },
 
     esbuild: {
-        minify: true,
         minifyWhitespace: true,
         minifyIdentifiers: true,
         minifySyntax: true,
@@ -141,7 +140,10 @@ const devConfig = extend({}, baseConfig, {
 
     //为false时可避免vite清屏而错过在终端中打印某些关键信息
     clearScreen: false,
-
+    optimizeDeps: {
+        //强制预构建打包依赖包
+        force: true
+    },
     server: {
         host: viteConstant.hostname,
         port: viteConstant.port,
@@ -150,8 +152,6 @@ const devConfig = extend({}, baseConfig, {
         //值为字符串时，会被作为URL的路径名
         open: false,
         watch: true,
-        //强制预构建打包依赖包
-        force: true,
         cors: true,
         proxy: viteConstant.proxy,
         //热更新：借助websocket实现
@@ -189,7 +189,12 @@ const prodConfig = extend({}, baseConfig, {
         //可选值：true/false——是否允许压缩代码；terser——默认值，压缩体积更小但速度稍慢；esbuild，速度快但体积稍大
         minify: 'terser',
         //build.minify为terser的附加配置选项
-        // terserOptions: {},
+        terserOptions: {
+            compress: {
+                drop_console: true,
+                drop_debugger: true
+            }
+        },
         //动态导入的polyfill，默认true，如果build.target为esnext则不会使用polyfill，已废弃
         // polyfillDynamicImport: true,
         //css代码分离，默认会在不同异步chunk块加载时插入（即css懒加载），否则所有css背会抽取到一个css文件中

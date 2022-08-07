@@ -8,7 +8,7 @@ import {
 import LyricPage from '@views/lyric-page';
 import { theme } from "./stores/player";
 import { messageBus } from "./utils/event/register";
-import refrainPic from '../public/refrain.png';
+import refrainPic from '@assets/refrain.png';
 import onBeforeInstallPrompt from "./hooks/onBeforeInstallPrompt";
 import { UNICODE_CHAR } from "./utils";
 import useUserStore from "./stores/user";
