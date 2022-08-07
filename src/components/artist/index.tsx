@@ -8,6 +8,9 @@ import {
   toRefs,
   defineComponent,
   h,
+  Suspense,
+  defineAsyncComponent,
+  DefineComponent,
 } from "vue";
 import {
   useRouter,
@@ -20,7 +23,9 @@ import {
 import {
   NMenu,
   NGrid,
-  NGridItem
+  NGridItem,
+  NSkeleton,
+  NSpace
 } from 'naive-ui'
 
 import FollowButton, { FollowType } from "@widgets/follow-button";
@@ -32,6 +37,7 @@ import "./index.scss";
 import { EMPTY_OBJ, freeze } from "@/utils";
 import { renderKeepAliveRouterView } from "@/widgets/common-renderer";
 import { onFilteredBeforeRouteUpdate } from "@/hooks/onRouteHook";
+
 
 export type Artist = {
   alias: string[];
@@ -61,10 +67,9 @@ const artistMenu: readonly ArtistMenu[] = freeze([
   { text: "详情", key: "description" },
 ]);
 
-export default defineComponent({
-  name: "Artist",
-  setup(props, { emit, slots }) {
-    const router = useRouter();
+
+const ArtistTop = defineComponent({
+  async setup() {
     const route = useRoute();
 
     const information = reactive<{
@@ -81,6 +86,88 @@ export default defineComponent({
       },
     });
 
+    const getArtistDetail = async (to: RouteLocationNormalized, from: RouteLocationNormalized = EMPTY_OBJ) => {
+      const { query: toQuery } = to;
+      const { query: fromQuery = EMPTY_OBJ } = from;
+      if (toQuery.id !== fromQuery.id) {
+        const { artist: artistInfo = {} } = await artistSingalSongs({ id: String(toQuery.id) });
+        information.artist = artistInfo;
+      }
+    };
+
+    onFilteredBeforeRouteUpdate((to, from) => {
+      getArtistDetail(to, from);
+    });
+
+    const followChangeHandler = (isFollow: boolean) => {
+      information.artist.followed = isFollow;
+    }
+
+    await getArtistDetail(route);
+
+    return () => {
+
+      const { artist } = information;
+      return <NGrid
+        class="artist-top"
+      >
+        <NGridItem span={4}>
+          <section class="artist-top-left">
+            <div class="artist-avatar">
+              <img
+                loading="lazy"
+                src={padPicCrop(artist.picUrl, { x: 200, y: 200 })}
+                alt=""
+              />
+            </div>
+          </section>
+        </NGridItem>
+
+        <NGridItem span={20}>
+          <section class="artist-top-right">
+            <h2 class="artist-name">
+              <span class="artist-real-name">{artist.name}</span>
+              <span class="artist-alias">{artist.alias.join("、")}</span>
+            </h2>
+            <div class="artist-operate">
+              <FollowButton
+                userId={artist.id}
+                followed={artist.followed}
+                followType={FollowType.artist}
+                onUpdateFollow={followChangeHandler}
+              ></FollowButton>
+            </div>
+          </section>
+        </NGridItem>
+      </NGrid>
+
+    }
+
+  }
+})
+
+const ArtistTopLoading = defineComponent({
+  setup() {
+    return () => {
+      return (
+        <NSpace vertical>
+          <NSkeleton height={40} />
+          <NSkeleton height={40} />
+          <NSkeleton height={40} style="width: 60%" />
+        </NSpace>
+      )
+    }
+  }
+})
+
+
+export default defineComponent({
+  name: "Artist",
+  setup(props, { emit, slots }) {
+
+    const router = useRouter();
+    const route = useRoute();
+
     //菜单列表
     const menuList = reactive<MenuList[]>(
       artistMenu.reduce((total, { text, key }, i) => {
@@ -93,65 +180,35 @@ export default defineComponent({
       }, [] as MenuList[])
     );
 
-    const getArtistDetail = async (to: RouteLocationNormalized, from: RouteLocationNormalized = EMPTY_OBJ) => {
+    const syncMenuList = async (to: RouteLocationNormalized, from: RouteLocationNormalized = EMPTY_OBJ) => {
       const { query: toQuery } = to;
       const { query: fromQuery = EMPTY_OBJ } = from;
       if (toQuery.id !== fromQuery.id) {
         menuList.forEach((item, i) => {
           item.to = `/artist/${item.key}${objToQuery(toQuery, true)}`;
         });
-        const { artist: artistInfo = {} } = await artistSingalSongs({ id: String(toQuery.id) });
-        information.artist = artistInfo;
       }
     };
 
-    getArtistDetail(route);
+    syncMenuList(route);
 
     onFilteredBeforeRouteUpdate((to, from) => {
-      getArtistDetail(to, from);
+      syncMenuList(to, from);
     });
 
-    const followChangeHandler = (isFollow: boolean) => {
-      information.artist.followed = isFollow;
-    }
 
     return () => {
-      const { artist } = information;
       return (
         <section class="yplayer-artist artist-container">
-          <NGrid
-            class="artist-top"
-          >
-            <NGridItem span={4}>
-              <section class="artist-top-left">
-                <div class="artist-avatar">
-                  <img
-                    loading="lazy"
-                    src={padPicCrop(artist.picUrl, { x: 200, y: 200 })}
-                    alt=""
-                  />
-                </div>
-              </section>
-            </NGridItem>
-
-            <NGridItem span={20}>
-              <section class="artist-top-right">
-                <h2 class="artist-name">
-                  <span class="artist-real-name">{artist.name}</span>
-                  <span class="artist-alias">{artist.alias.join("、")}</span>
-                </h2>
-                <div class="artist-operate">
-                  <FollowButton
-                    userId={artist.id}
-                    followed={artist.followed}
-                    followType={FollowType.artist}
-                    onUpdateFollow={followChangeHandler}
-                  ></FollowButton>
-                </div>
-              </section>
-            </NGridItem>
-          </NGrid>
-
+          <Suspense v-slots={{
+            default() {
+              return <ArtistTop></ArtistTop>
+            },
+            fallback() {
+              return <ArtistTopLoading></ArtistTopLoading>
+            }
+          }}>
+          </Suspense>
           <section class="artist-main">
             <section class="artist-menu" sticky-list>
               <CommonRouterList routelist={menuList}></CommonRouterList>

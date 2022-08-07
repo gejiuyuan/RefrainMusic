@@ -115,6 +115,28 @@ mark {
   }
 }
 
+.skeleton  {
+  .skeleton-item { 
+    animation: 2s SkeletonAnimation infinite cubic-bezier(0.36, 0, 0.64, 1)
+  }
+}
+
+@keyframes SkeletonAnimation {
+  0% {
+    background: #dedede;
+  }
+  45% {
+    background: #efefef;
+  }
+  75% {
+    background: #dedede;
+
+  }
+  100% {
+    background: #efefef;
+  }
+}
+
 [singallinedot] {
   overflow: hidden;
   text-overflow: ellipsis;

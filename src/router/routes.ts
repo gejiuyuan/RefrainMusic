@@ -298,7 +298,7 @@ const routes: RouteRecordRaw[] = [
         path: "/myPage",
         component: MyPage,
       },
-      
+
       {
         path: "song/:id",
         component: SongPage,
