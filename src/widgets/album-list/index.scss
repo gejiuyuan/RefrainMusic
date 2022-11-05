@@ -1,50 +1,50 @@
+/** @format */
+
 .album-container {
-  padding: 0 2rem; 
-  .album-item {
-    transition: 0.1s ease-in;
-    cursor: pointer;
+	padding: 0 2rem;
+	.album-item {
+		transition: 0.1s ease-in;
+		cursor: pointer;
 
-    // &:hover {
-    //   filter: drop-shadow(0 0 20px rgba(123, 131, 120, 0.2));
-    //   transform: translateY(-10px);
-    // }
+		// &:hover {
+		//   filter: drop-shadow(0 0 20px rgba(123, 131, 120, 0.2));
+		//   transform: translateY(-10px);
+		// }
 
-    .album-pic {
-      position: relative;
-      .album-cover {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background-position: center center;
-        background-size: cover;
-        transform: translateX(20px);
-      }
-      &-body {
-        position: relative;
-        overflow: hidden;
-        border-radius: 8px;
-      }
+		.album-pic {
+			position: relative;
+			.album-cover {
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				background-position: center center;
+				background-size: cover;
+				transform: translateX(20px);
+			}
+			&-body {
+				position: relative;
+				overflow: hidden;
+				border-radius: 8px;
+			}
 
-      &:hover {
-        img {
-          transform: scale(1.06);
-        }
-      }
+			&:hover {
+				img {
+					transform: scale(1.06);
+				}
+			}
 
-      img { 
-        transition: 0.26s ease-out;
-      }
-    }
+			img {
+				transition: 0.26s ease-out;
+			}
+		}
 
-    
+		h5 {
+			font-size: 14px;
+			line-height: 2.2;
+		}
 
-    h5 {
-      font-size: 14px;
-      line-height: 2.2;
-    }
-
-    p {
-      font-size: 13px;
-    }
-  }
+		p {
+			font-size: 13px;
+		}
+	}
 }

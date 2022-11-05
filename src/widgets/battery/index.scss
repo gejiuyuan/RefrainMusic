@@ -1,15 +1,17 @@
-@import "@/scss/variable";
+/** @format */
+
+@import '@/scss/variable';
 
 .icon-battery {
-  padding: 0 8px;
-  height: 30px
+	padding: 0 8px;
+	height: 30px;
 }
 
 .yplayer-head-battery {
-  @include flexHcVc;
-  margin-right: 40px; 
+	@include flexHcVc;
+	margin-right: 40px;
 }
 
 .head-battery-text {
-  color: #555;
+	color: #555;
 }

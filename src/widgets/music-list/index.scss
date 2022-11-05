@@ -1,130 +1,127 @@
-@import "@scss/variable";
+/** @format */
+
+@import '@scss/variable';
 
 .music-list {
+	position: relative;
+	min-height: 340px;
 
-  position: relative;
-  min-height: 340px; 
+	.music-item {
+		position: relative;
+		@include flexVc();
+		padding: 12px;
+		transition: background-color 0.04s;
+		border-radius: 6px;
 
-  .music-item {
-    position: relative;
-    @include flexVc();
-    padding: 12px;
-    transition: background-color 0.04s;
-    border-radius: 6px;
+		&:hover {
+			background-color: rgba(120, 102, 110, 0.1);
+			.tools {
+				opacity: 1;
+			}
+		}
 
-    &:hover {
-      background-color: rgba(120, 102, 110, 0.1);
-      .tools {
-        opacity: 1;
-      }
-    }
+		.playbill {
+			position: relative;
+			overflow: hidden;
+			border-radius: inherit;
+			cursor: pointer;
+			width: 20%;
+			height: 100%;
 
-    .playbill {
-      position: relative; 
-      overflow: hidden;
-      border-radius: inherit;
-      cursor: pointer;
-      width: 20%;
-      height: 100%;
+			&:hover {
+				img {
+					filter: brightness(88%);
+					height: 100%;
+				}
+				i {
+					opacity: 1;
+				}
+			}
 
-      &:hover {
-        img {
-          filter: brightness(88%);
-          height: 100%;
-        }
-        i {
-          opacity: 1;
-        }
-      }
+			i {
+				opacity: 0;
+				position: absolute;
+				left: 50%;
+				top: 50%;
+				transform: translate(-50%, -50%);
+				transition: 0.04s;
+				color: #eee;
+				font-size: 22px;
+				&:hover {
+					filter: brightness(120%);
+				}
+			}
+		}
 
-      i {
-        opacity: 0;
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%,-50%);
-        transition: .04s;
-        color: #eee;
-        font-size: 22px;
-        &:hover {
-          filter:brightness(120%)
-        } 
-      }
+		.info {
+			@include flexHe();
+			flex-direction: column;
+			width: 50%;
+			// max-width: 180px;
+			padding: 0 12px;
+			h6 {
+				color: #333;
+				padding-bottom: 12px;
+				font-size: 14px;
+				font-weight: 500;
+			}
+			> div {
+				color: #777;
+			}
+		}
 
-    }
+		.tools {
+			opacity: 0;
+			@include flexHeVc();
+			width: 30%;
+			color: rgba(80, 80, 80, 0.65);
+			.tool-item {
+				font-size: 24px;
+				cursor: pointer;
+				&:hover {
+					color: var(--theme);
+				}
+			}
+		}
+	}
 
-    .info {
-      @include flexHe();
-      flex-direction: column;
-      width: 50%;
-      // max-width: 180px;
-      padding: 0 12px;
-      h6 {
-        color: #333;
-        padding-bottom: 12px;
-        font-size: 14px;
-        font-weight: 500;
-      }
-      > div {
-        color: #777;
-      }
-    }
+	.suspension {
+		position: absolute;
+		left: 0;
+		top: 0;
+		max-width: 340px;
+		min-width: 240px;
+		filter: drop-shadow(0 0 20px rgba(80, 80, 80, 0.2));
+		z-index: 80;
+		border-radius: 6px;
+		overflow: hidden;
 
-    .tools {
-      opacity: 0;
-      @include flexHeVc();
-      width: 30%;
-      color: rgba(80, 80, 80, 0.65);
-      .tool-item {
-        font-size: 24px;
-        cursor: pointer;
-        &:hover {
-          color: var(--theme);
-        }
-      }
-    }
+		h6 {
+			padding: 8px 14px;
+			background-color: var(--theme);
+			color: $colorbase;
+			filter: brightness(115%);
+			// background-color: rgba(244, 243, 244, 0.95);
+			// color: #566;
+			font-size: 14px;
+		}
 
-  }
- 
-  .suspension {
-    position: absolute;
-    left: 0;
-    top: 0;
-    max-width: 340px;
-    min-width: 240px;
-    filter: drop-shadow(0 0 20px rgba(80, 80, 80, 0.2));
-    z-index: 80;
-    border-radius: 6px;
-    overflow:hidden;
-    
-    h6 {
-      padding: 8px 14px;
-      background-color: var(--theme);
-      color: $colorbase;
-      filter: brightness(115%);
-      // background-color: rgba(244, 243, 244, 0.95);
-      // color: #566;
-      font-size: 14px;
-    }
+		.desc {
+			padding: 6px 14px;
+			background-color: $colorbase;
+			color: #666;
+			font-size: 13px;
 
-    .desc {
-      padding: 6px 14px;
-      background-color: $colorbase;
-      color: #666;
-      font-size: 13px;
+			p {
+				@include flex();
+				padding: 4px 0;
+				line-height: 1.4;
 
-      p {
-        @include flex();
-        padding: 4px 0;
-        line-height: 1.4;
-
-        > em {
-          width: 5em;
-          white-space: nowrap;
-        }
-
-      }
-    }
-  }
-
+				> em {
+					width: 5em;
+					white-space: nowrap;
+				}
+			}
+		}
+	}
 }

@@ -1,105 +1,104 @@
+/** @format */
+
 @use 'sass:math';
 @import '@scss/variable';
 
 .personal-recommend {
+	&-layer {
+		padding-bottom: 40px;
+		h5 {
+			color: #333;
+			font-weight: 500;
+			font-size: 24px;
+			line-height: 3;
+		}
+	}
 
-  &-layer {
-    padding-bottom: 40px;
-    h5 {
-      color: #333;
-      font-weight: 500;
-      font-size: 24px;
-      line-height: 3;
-    }
-  }
+	.personal-fm {
+		.fm-box {
+			position: relative;
+			padding: math.div(1, 12) * 100%;
+			border-radius: 8px;
 
-  .personal-fm {
-    .fm-box {
-      position: relative;
-      padding: math.div(1 , 12) * 100%; 
-      border-radius: 8px; 
+			.bubble {
+				position: absolute;
+				left: 0;
+				top: 0;
+				width: 12%;
+				background-color: rgba(244, 244, 244, 0.6);
+				clip-path: circle(100% at 0 0);
+			}
 
-      .bubble {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 12%; 
-        background-color: rgba(244,244,244,.6);
-        clip-path: circle(100% at 0 0);
-      }
+			.tip {
+				position: absolute;
+				left: 3%;
+				top: 3%;
+				color: $colorbase;
+				font-size: 32px;
+				font-weight: 600;
+				z-index: 99;
+			}
 
-      .tip {
-        position: absolute;
-        left: 3%;
-        top: 3%;
-        color: $colorbase;
-        font-size: 32px;
-        font-weight: 600;
-        z-index: 99;
-      }
+			.fm-main {
+				@include flexVc();
+				position: relative;
 
-      .fm-main {
-        @include flexVc();
-        position: relative;
-         
-        .fm-pic {
-          border-radius: 8px;
-        }
-        
-        .play-toggle {
-          @include flexHcVc();
-          position: absolute;
-          left: 0;
-          top: 0;
-          width: math.div(1,3) * 100%; 
-          background-color: rgba(40,40,40,.35);
-          color: $colorbase;
-          opacity: 0;
-          transition: opacity .1s;
-          font-size: 40px;
+				.fm-pic {
+					border-radius: 8px;
+				}
 
-          &:hover {
-            opacity: 1;
-          }
-        } 
+				.play-toggle {
+					@include flexHcVc();
+					position: absolute;
+					left: 0;
+					top: 0;
+					width: math.div(1, 3) * 100%;
+					background-color: rgba(40, 40, 40, 0.35);
+					color: $colorbase;
+					opacity: 0;
+					transition: opacity 0.1s;
+					font-size: 40px;
 
-        .fm-content {
-          max-width: 100%;
-          padding-left: 8%;
-          overflow: hidden; 
-        }
+					&:hover {
+						opacity: 1;
+					}
+				}
 
-        .fm-name {
-          color: $colorbase;
-          font-size: 16px;
-          font-weight: 500;
-          line-height: 2;
-        }
+				.fm-content {
+					max-width: 100%;
+					padding-left: 8%;
+					overflow: hidden;
+				}
 
-        .fm-singers {
-          color: #ddd;
-          font-size: 14px;
-          line-height: 2.2;
-        }
+				.fm-name {
+					color: $colorbase;
+					font-size: 16px;
+					font-weight: 500;
+					line-height: 2;
+				}
 
-        .fm-tools {
-          @include flexVc(); 
-          color: $colorbase;
-          
-          .tool-item {
-            margin-right: 10px;
-            font-size: 38px;
-            cursor: pointer;
-            transition: color .1s;
+				.fm-singers {
+					color: #ddd;
+					font-size: 14px;
+					line-height: 2.2;
+				}
 
-            &:hover {
-              color: var(--theme);
-            }
-          }
-        }
-      }
+				.fm-tools {
+					@include flexVc();
+					color: $colorbase;
 
-    }
-  }
+					.tool-item {
+						margin-right: 10px;
+						font-size: 38px;
+						cursor: pointer;
+						transition: color 0.1s;
 
+						&:hover {
+							color: var(--theme);
+						}
+					}
+				}
+			}
+		}
+	}
 }

@@ -1,11 +1,11 @@
-@import "@scss/variable";
+/** @format */
+
+@import '@scss/variable';
 
 .online-video-all {
-  .video-all-foot {
-    @include flexHc();
-    padding-top: 4rem;
-    padding-bottom: 1rem;
-    
-  }
-  
+	.video-all-foot {
+		@include flexHc();
+		padding-top: 4rem;
+		padding-bottom: 1rem;
+	}
 }

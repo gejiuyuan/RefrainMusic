@@ -1,142 +1,140 @@
-@import "@scss/variable";
+/** @format */
 
+@import '@scss/variable';
 
 .player-queue {
-  @include flex();
-  flex-direction: column;
-  position: absolute;
-  left: 100%;
-  top: 0;
-  width: 300px;
-  height: 100%;
-  z-index: 200;
-  background-color: #fff;
-  filter: drop-shadow(-4px 0 10px rgba(107, 94, 83, 0.15));
-  transition: transform 0.3s ease-out;
+	@include flex();
+	flex-direction: column;
+	position: absolute;
+	left: 100%;
+	top: 0;
+	width: 300px;
+	height: 100%;
+	z-index: 200;
+	background-color: #fff;
+	filter: drop-shadow(-4px 0 10px rgba(107, 94, 83, 0.15));
+	transition: transform 0.3s ease-out;
 
-  &[slideShow="true"] {
-    transform: translateX(-100%);
-  }
+	&[slideShow='true'] {
+		transform: translateX(-100%);
+	}
 
-  .queue-header {
-    padding: 38px 28px 0 26px;
+	.queue-header {
+		padding: 38px 28px 0 26px;
 
-    h3 {
-      color: #333;
-      font-size: 22px;
-    }
+		h3 {
+			color: #333;
+			font-size: 22px;
+		}
 
-    .header-layer {
-      .total-songs {
-        color: #888;
-        font-size: 13px;
-      }
-      line-height: 3;
-    }
-  }
+		.header-layer {
+			.total-songs {
+				color: #888;
+				font-size: 13px;
+			}
+			line-height: 3;
+		}
+	}
 
-  .queue-main {
-    position: relative;
-    flex: 1;
-    overflow: hidden;
-    
-    .list-body {
-      position: relative;
-      height: 100%;
+	.queue-main {
+		position: relative;
+		flex: 1;
+		overflow: hidden;
 
-      .song-item {
-        position: relative;
-        padding: 16px 28px 16px 26px;
-        transition: background-color 0.12s;
-  
-        &[active="true"],
-        &:hover {
-          background-color: rgba(127, 134, 127, 0.1);
-          .tools {
-            opacity: 1;
-          }
-        }
-  
-        h6 {
-          color: #444;
-          font-size: 15px;
-        }
-        em {
-          color: #777;
-          font-size: 13px;
-        }
-        .item-layer {
-          padding-top: 10px;
-        }
-  
-        .tools {
-          opacity: 0;
-          @include flexVc();
-          position: absolute;
-          right: 0;
-          top: 0;
-          bottom: 0;
-          padding-right: 20px;
-          color: #888;
-  
-          .tool-item {
-            cursor: pointer;
-            margin: 0 6px;
-            font-size: 24px;
-            &:hover {
-              color: var(--theme)
-            }
-          }
-  
-        }
-      }
-    }
- 
-    .locate-to-current {
-      position: absolute;
-      right: 40px;
-      bottom: 40px;
-      padding: 2px;
-      background-color: $colorbase;
-      color: #999;
-      font-size: 22px;
-      border-radius: 100%;
-      transition: .28s;
-      box-shadow: 0 0 28px rgba(120, 140,132, .5);
-      cursor: pointer;
+		.list-body {
+			position: relative;
+			height: 100%;
 
-      &:active {
-        box-shadow: 0 0 60px $colortaobao;
-        filter: contrast(200%);
-      }
-    }
+			.song-item {
+				position: relative;
+				padding: 16px 28px 16px 26px;
+				transition: background-color 0.12s;
 
-  }
+				&[active='true'],
+				&:hover {
+					background-color: rgba(127, 134, 127, 0.1);
+					.tools {
+						opacity: 1;
+					}
+				}
 
-  .queue-foot {
-    @include flexHeVc();
-    height: 80px;
-    padding: 0 28px 0 26px;
+				h6 {
+					color: #444;
+					font-size: 15px;
+				}
+				em {
+					color: #777;
+					font-size: 13px;
+				}
+				.item-layer {
+					padding-top: 10px;
+				}
 
-    em {
-      color: #666;
-      transition: color .1s;
-      cursor: pointer;
-      &:hover {
-        color: var(--theme);
-      }
-    }
+				.tools {
+					opacity: 0;
+					@include flexVc();
+					position: absolute;
+					right: 0;
+					top: 0;
+					bottom: 0;
+					padding-right: 20px;
+					color: #888;
 
-    span {
-      font-size: 14px;
-      text-indent: .2em;
-      vertical-align: middle;
-    }
+					.tool-item {
+						cursor: pointer;
+						margin: 0 6px;
+						font-size: 24px;
+						&:hover {
+							color: var(--theme);
+						}
+					}
+				}
+			}
+		}
 
-    i {
-      font-size: 30px;
-      vertical-align: middle;
-    }
-  }
+		.locate-to-current {
+			position: absolute;
+			right: 40px;
+			bottom: 40px;
+			padding: 2px;
+			background-color: $colorbase;
+			color: #999;
+			font-size: 22px;
+			border-radius: 100%;
+			transition: 0.28s;
+			box-shadow: 0 0 28px rgba(120, 140, 132, 0.5);
+			cursor: pointer;
 
+			&:active {
+				box-shadow: 0 0 60px $colortaobao;
+				filter: contrast(200%);
+			}
+		}
+	}
+
+	.queue-foot {
+		@include flexHeVc();
+		height: 80px;
+		padding: 0 28px 0 26px;
+
+		em {
+			color: #666;
+			transition: color 0.1s;
+			cursor: pointer;
+			&:hover {
+				color: var(--theme);
+			}
+		}
+
+		span {
+			font-size: 14px;
+			text-indent: 0.2em;
+			vertical-align: middle;
+		}
+
+		i {
+			font-size: 30px;
+			vertical-align: middle;
+		}
+	}
 }

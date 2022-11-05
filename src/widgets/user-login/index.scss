@@ -1,158 +1,155 @@
+/** @format */
+
 @import '@scss/variable';
 
 .user-login {
-  @include flexVc();
-  max-width: 158px;
-  margin-right: 50px; 
-  color: #555;
-  transition: color .09s;
-  cursor: pointer;
+	@include flexVc();
+	max-width: 158px;
+	margin-right: 50px;
+	color: #555;
+	transition: color 0.09s;
+	cursor: pointer;
 
-  &:hover {
-    color: var(--theme);
-  }
-  .user-avatar {
-    height: 34px;
-    width: 34px;
-    border-radius: 50%;
-    background-image: url("@assets/img/user.svg");
-    background-size: 40px;
-    background-repeat: no-repeat;
-    background-position: 0 center;
-  }
+	&:hover {
+		color: var(--theme);
+	}
+	.user-avatar {
+		height: 34px;
+		width: 34px;
+		border-radius: 50%;
+		background-image: url('@assets/img/user.svg');
+		background-size: 40px;
+		background-repeat: no-repeat;
+		background-position: 0 center;
+	}
 
-  .user-text {
-    flex: 1;
-    padding-left: 8px;
-    font-size: 13px;
-  }
-
-
-
+	.user-text {
+		flex: 1;
+		padding-left: 8px;
+		font-size: 13px;
+	}
 }
 
 .login-dialog {
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  width: 540px; 
-  background-color: $colorbase;
-  transform: translate(-50%, -50%);
-  border-radius: 8px;
-  filter: drop-shadow(0 0 20px rgba(120,140,140, .3));
-  z-index: 100;
+	position: fixed;
+	left: 50%;
+	top: 50%;
+	width: 540px;
+	background-color: $colorbase;
+	transform: translate(-50%, -50%);
+	border-radius: 8px;
+	filter: drop-shadow(0 0 20px rgba(120, 140, 140, 0.3));
+	z-index: 100;
 
- &-head {
-   @include flexHeVc();
-   padding: 18px 24px;
+	&-head {
+		@include flexHeVc();
+		padding: 18px 24px;
 
-   i {
-     color: #777;
-     font-size: 14px;
-     cursor: pointer;
-     &:hover {
-       color: var(--theme);
-     }
-   }
- }
+		i {
+			color: #777;
+			font-size: 14px;
+			cursor: pointer;
+			&:hover {
+				color: var(--theme);
+			}
+		}
+	}
 
- &-body {
-   padding: 20px 40px;
+	&-body {
+		padding: 20px 40px;
 
-   .login-button {
-     @include flexHcVc();
-   }
+		.login-button {
+			@include flexHcVc();
+		}
 
-   .login-by-qrCode {
-      .qrCode-img {
-        position: relative;
-        width: 180px;
-        height: 180px;
-        margin: 0 auto;
-        > img {
-          width: 100%;
-          height: 100%;
-          object-fit: contain;
-        }
-        .qrCode-user-mask {
-          position: absolute;
-          left: 0;
-          top: 0;
-          right: 0;
-          bottom: 0;
-          @include flexHcVc();
-          background-color: rgba(160,160,160,.3);
+		.login-by-qrCode {
+			.qrCode-img {
+				position: relative;
+				width: 180px;
+				height: 180px;
+				margin: 0 auto;
+				> img {
+					width: 100%;
+					height: 100%;
+					object-fit: contain;
+				}
+				.qrCode-user-mask {
+					position: absolute;
+					left: 0;
+					top: 0;
+					right: 0;
+					bottom: 0;
+					@include flexHcVc();
+					background-color: rgba(160, 160, 160, 0.3);
 
-          .qrCode-user-avatar {
-            position: relative;
-          filter: brightness(130%);
-            
-            > img {
-              width: 60px;
-              height: 60px;
-              object-fit: cover; 
-              border-radius: 50%;
-            }
-            i {
-              position: absolute;
-              right: 0;
-              bottom: 0;
-              font-size: 28px;
-              font-weight: 500;
-              color: #d03050;
-            }
-          }
-        }
-      }
-      .qrCode-scan-status {
-        padding-top: 1rem;
-        text-align: center;
-        font-weight: 500;
-        color: #d03050;
-      }
-      .qrCode-refresh {
-        padding: 1rem 0 0 0;
-        text-align: center;
-        cursor: pointer;
-        em{
-          color: #848484;
-          i{
-            font-size: 20px;
-            vertical-align: middle;
-          }
-          span {
-            margin-left: .5rem;
-            font-size: 14px;
-            vertical-align: middle;
-          }
-          &:hover{
-            color: dodgerblue;
-          }
-        }
-      }
-   }
+					.qrCode-user-avatar {
+						position: relative;
+						filter: brightness(130%);
 
- }
+						> img {
+							width: 60px;
+							height: 60px;
+							object-fit: cover;
+							border-radius: 50%;
+						}
+						i {
+							position: absolute;
+							right: 0;
+							bottom: 0;
+							font-size: 28px;
+							font-weight: 500;
+							color: #d03050;
+						}
+					}
+				}
+			}
+			.qrCode-scan-status {
+				padding-top: 1rem;
+				text-align: center;
+				font-weight: 500;
+				color: #d03050;
+			}
+			.qrCode-refresh {
+				padding: 1rem 0 0 0;
+				text-align: center;
+				cursor: pointer;
+				em {
+					color: #848484;
+					i {
+						font-size: 20px;
+						vertical-align: middle;
+					}
+					span {
+						margin-left: 0.5rem;
+						font-size: 14px;
+						vertical-align: middle;
+					}
+					&:hover {
+						color: dodgerblue;
+					}
+				}
+			}
+		}
+	}
 
- &-foot {
-   @include flexHcVc();
-   padding: 30px 0; 
-   font-size: 0;
-   em {
-     display: inline-block;
-     padding: 0 20px;
-     font-size: 14px;
-     transition: .05s;
-     cursor: pointer;
-     color: #454545;
-     &:hover {
-       color: var(--theme);
-       text-decoration: underline;
-     }
-     &:not(:last-of-type) {
-       border-right: 1px solid #757575;
-     }
-   }
- }
-
+	&-foot {
+		@include flexHcVc();
+		padding: 30px 0;
+		font-size: 0;
+		em {
+			display: inline-block;
+			padding: 0 20px;
+			font-size: 14px;
+			transition: 0.05s;
+			cursor: pointer;
+			color: #454545;
+			&:hover {
+				color: var(--theme);
+				text-decoration: underline;
+			}
+			&:not(:last-of-type) {
+				border-right: 1px solid #757575;
+			}
+		}
+	}
 }

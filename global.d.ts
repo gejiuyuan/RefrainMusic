@@ -1,36 +1,38 @@
+/** @format */
+
 interface document {
-  documentMode: number;
+	documentMode: number;
 }
 
 interface BeforeInstallPromptEvent extends Event {
-  platforms: string[];
-  timeStamp: number;
-  type: "beforeinstallprompt";
-  prompt: () => void;
-  userChoice: Promise<{
-    outcome: 'dismissed' | 'accepted' | string;
-    platform: string;
-  }>
+	platforms: string[];
+	timeStamp: number;
+	type: 'beforeinstallprompt';
+	prompt: () => void;
+	userChoice: Promise<{
+		outcome: 'dismissed' | 'accepted' | string;
+		platform: string;
+	}>;
 }
 
 interface WindowEventMap {
-  beforeinstallprompt: BeforeInstallPromptEvent
+	beforeinstallprompt: BeforeInstallPromptEvent;
 }
 
 interface Event {
-  detail: any;
+	detail: any;
 }
 
 interface Navigator {
-  getBattery: () => Promise<any>;
-  battery: PlainObject;
-  mozBattery: PlainObject;
-  webkitBattery: PlainObject;
+	getBattery: () => Promise<any>;
+	battery: PlainObject;
+	mozBattery: PlainObject;
+	webkitBattery: PlainObject;
 }
 
 interface window {
-  webkitAudioContext: AudioContext;
-  requestIdleCallback: (cb: CommonFunction, options?: { timeout: number }) => void;
+	webkitAudioContext: AudioContext;
+	requestIdleCallback: (cb: CommonFunction, options?: { timeout: number }) => void;
 }
 
 declare type CommonFunction = (...args: any[]) => any;
@@ -38,55 +40,53 @@ declare type CommonFunction = (...args: any[]) => any;
 declare type PlainObject<T = any> = Record<string, T>;
 
 //让数组也继承纯对象特性
-interface Array<T> extends PlainObject<T> { }
+interface Array<T> extends PlainObject<T> {}
 
 declare type Writeable<T> = {
-  -readonly [K in keyof T]: T[K];
+	-readonly [K in keyof T]: T[K];
 };
 
 declare type FuncParamsType<T extends (...args: any[]) => any> = T extends (
-  ...args: infer P
+	...args: infer P
 ) => any
-  ? P
-  : T;
+	? P
+	: T;
 
 declare type CtorParamsType<T extends abstract new (...args: any[]) => any> =
-  T extends new (...args: infer P) => any ? P : never;
+	T extends new (...args: infer P) => any ? P : never;
 
 /**
  * UnionToIntersection<{ a: string } | { b: string }> = { a: string } & { b: string }
  */
 declare type UnionToIntersection<T> = (T extends any ? (x: T) => any : never) extends (
-  x: infer U
+	x: infer U,
 ) => any
-  ? U
-  : never;
+	? U
+	: never;
 
 /**
  * LastUnion<'a' | 'b'> = 'b'
  */
 declare type LastUnion<T> = UnionToIntersection<
-  T extends any
-  ? (x: T) => any
-  : never
+	T extends any ? (x: T) => any : never
 > extends (x: infer L) => any
-  ? L
-  : never;
+	? L
+	: never;
 
 /**
  * UnionToTuple<'a' | 'b'> = ['a', 'b']
  */
 declare type UnionToTuple<T, Last = LastUnion<T>> = [T] extends [never]
-  ? []
-  : [...UnionToTuple<Exclude<T, Last>>, Last];
+	? []
+	: [...UnionToTuple<Exclude<T, Last>>, Last];
 
-declare module "*.css";
-declare module "*.scss";
-declare module "*.json";
-declare module "*.png";
-declare module "*.jpg";
-declare module "*.webp";
-declare module "*.svg";
+declare module '*.css';
+declare module '*.scss';
+declare module '*.json';
+declare module '*.png';
+declare module '*.jpg';
+declare module '*.webp';
+declare module '*.svg';
 
 // declare module "colorthief" {
 //   class ColorThief {

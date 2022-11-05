@@ -1,242 +1,260 @@
+/** @format */
+
 import {
-    defineComponent,
-    getCurrentInstance,
-    onBeforeUnmount,
-    onMounted,
-    PropType,
-    toRefs,
-    watch,
-    useCssVars,
-    ref,
-    computed,
-    reactive,
-    shallowReactive,
-    DefineComponent,
-} from "vue";
+	defineComponent,
+	getCurrentInstance,
+	onBeforeUnmount,
+	onMounted,
+	PropType,
+	toRefs,
+	watch,
+	useCssVars,
+	ref,
+	computed,
+	reactive,
+	shallowReactive,
+	DefineComponent,
+} from 'vue';
 import {
-    computedStyle,
-    decimalToPercent,
-    getElmRectInfo,
-    percentToDecimal,
+	computedStyle,
+	decimalToPercent,
+	getElmRectInfo,
+	percentToDecimal,
 } from '@utils/index';
 import './index.scss';
 
-import { useEventListener, useIntersectionObserver, useMutationObserver, useResizeObserver } from '@vueuse/core';
+import {
+	useEventListener,
+	useIntersectionObserver,
+	useMutationObserver,
+	useResizeObserver,
+} from '@vueuse/core';
 
 export interface StripPrjt {
-    long: number;
-    offset: number;
-    attrs: Partial<Record<"dir" | "offset" | "long" | "mouseOffset", string>>;
-};
-
-export type ProgressInfo = {
-    ratio: string;
-    decimal: number;
+	long: number;
+	offset: number;
+	attrs: Partial<Record<'dir' | 'offset' | 'long' | 'mouseOffset', string>>;
 }
 
-export declare type ProgressBarComp = DefineComponent<{
-    dir: {
-        type: PropType<string>;
-        default: string;
-    },
-    bgc: {
-        type: PropType<string>;
-        default: string;
-    },
-    dotFixed: {
-        type: BooleanConstructor;
-        default: boolean;
-    },
-    currentRatio: {
-        type: NumberConstructor;
-        default: number;
-    },
-}, any, any, any, any, any, any, any, any>;
+export type ProgressInfo = {
+	ratio: string;
+	decimal: number;
+};
+
+export declare type ProgressBarComp = DefineComponent<
+	{
+		dir: {
+			type: PropType<string>;
+			default: string;
+		};
+		bgc: {
+			type: PropType<string>;
+			default: string;
+		};
+		dotFixed: {
+			type: BooleanConstructor;
+			default: boolean;
+		};
+		currentRatio: {
+			type: NumberConstructor;
+			default: number;
+		};
+	},
+	any,
+	any,
+	any,
+	any,
+	any,
+	any,
+	any,
+	any
+>;
 
 const ProgressBar: ProgressBarComp = defineComponent({
-    name: "ProgressBar",
-    props: {
-        dir: {
-            type: String,
-            required: false,
-            default: "horizontal",
-        },
-        bgc: {
-            type: String,
-            required: false,
-            default: "rgba(160, 160, 160, 0.15)",
-        },
-        dotFixed: {
-            type: Boolean,
-            required: false,
-            default: false,
-        },
-        currentRatio: {
-            type: Number,
-            required: false,
-            default: 0,
-        },
-    },
-    emits: ["change", "down", "move", "up"],
-    setup(props, { slots, emit }) {
-        const vm = getCurrentInstance()!; //即this组件实例 
+	name: 'ProgressBar',
+	props: {
+		dir: {
+			type: String,
+			required: false,
+			default: 'horizontal',
+		},
+		bgc: {
+			type: String,
+			required: false,
+			default: 'rgba(160, 160, 160, 0.15)',
+		},
+		dotFixed: {
+			type: Boolean,
+			required: false,
+			default: false,
+		},
+		currentRatio: {
+			type: Number,
+			required: false,
+			default: 0,
+		},
+	},
+	emits: ['change', 'down', 'move', 'up'],
+	setup(props, { slots, emit }) {
+		const vm = getCurrentInstance()!; //即this组件实例
 
-        //是否可以移动
-        const canMove = ref(false);
-        //当前进度条状态
-        const currentProgress = shallowReactive<ProgressInfo>({
-            decimal: 0, //零点几
-            ratio: "0%", //百分比
-        });
-        //进度条信息
-        const progressbarInfo = reactive<StripPrjt>({
-            long: 0,
-            offset: 0,
-            attrs: {
-                dir: "", offset: "", long: "", mouseOffset: "",
-            },
-        });
-        //是否显示控制点
-        const isShowDot = ref(props.dotFixed);
-        //进度条元素引用
-        const stripElmRef = ref<Element>()
+		//是否可以移动
+		const canMove = ref(false);
+		//当前进度条状态
+		const currentProgress = shallowReactive<ProgressInfo>({
+			decimal: 0, //零点几
+			ratio: '0%', //百分比
+		});
+		//进度条信息
+		const progressbarInfo = reactive<StripPrjt>({
+			long: 0,
+			offset: 0,
+			attrs: {
+				dir: '',
+				offset: '',
+				long: '',
+				mouseOffset: '',
+			},
+		});
+		//是否显示控制点
+		const isShowDot = ref(props.dotFixed);
+		//进度条元素引用
+		const stripElmRef = ref<Element>();
 
-        //进度条class
-        const progressbarClass = computed(() => {
-            return ["progressbar", `progressbar-${props.dir}`].join(" ");
-        });
+		//进度条class
+		const progressbarClass = computed(() => {
+			return ['progressbar', `progressbar-${props.dir}`].join(' ');
+		});
 
-        //进入背景
-        const progressbarBufferStyle = computed(() => {
-            return {
-                backgroundColor: props.bgc
-            }
-        })
+		//进入背景
+		const progressbarBufferStyle = computed(() => {
+			return {
+				backgroundColor: props.bgc,
+			};
+		});
 
-        //当前进度样式
-        const progressbarCurrentStyle = computed(() => {
-            const dir = props.dir;
-            const ratio = currentProgress.ratio;
-            const toDir = dir === 'horizontal' ? 'right' : 'bottom';
-            return {
-                backgroundImage: `linear-gradient(to ${toDir},var(--theme) ${ratio},transparent ${ratio})`,
-            }
-        })
+		//当前进度样式
+		const progressbarCurrentStyle = computed(() => {
+			const dir = props.dir;
+			const ratio = currentProgress.ratio;
+			const toDir = dir === 'horizontal' ? 'right' : 'bottom';
+			return {
+				backgroundImage: `linear-gradient(to ${toDir},var(--theme) ${ratio},transparent ${ratio})`,
+			};
+		});
 
-        //控制小圆点样式
-        const progressbarDotStyle = computed(() => {
-            const dir = props.dir;
-            const ratio = currentProgress.ratio;
-            const styleObj = {
-                left: '50%',
-                top: '50%'
-            }
-            const willChangeAttr = dir === 'horizontal' ? 'left' : 'top';
-            styleObj[willChangeAttr] = ratio;
-            return styleObj;
-        })
+		//控制小圆点样式
+		const progressbarDotStyle = computed(() => {
+			const dir = props.dir;
+			const ratio = currentProgress.ratio;
+			const styleObj = {
+				left: '50%',
+				top: '50%',
+			};
+			const willChangeAttr = dir === 'horizontal' ? 'left' : 'top';
+			styleObj[willChangeAttr] = ratio;
+			return styleObj;
+		});
 
-        //获取偏移值
-        const getTranslate = (ev: PlainObject) => {
-            const { offset, long, attrs } = progressbarInfo;
-            let tarTranslate = ev[attrs.mouseOffset!] - offset;
-            if (tarTranslate > long) {
-                tarTranslate = long;
-            } else if (tarTranslate < 0) {
-                tarTranslate = 0;
-            }
-            return props.dir === "vertical"
-                ? long - tarTranslate
-                : tarTranslate;
-        };
+		//获取偏移值
+		const getTranslate = (ev: PlainObject) => {
+			const { offset, long, attrs } = progressbarInfo;
+			let tarTranslate = ev[attrs.mouseOffset!] - offset;
+			if (tarTranslate > long) {
+				tarTranslate = long;
+			} else if (tarTranslate < 0) {
+				tarTranslate = 0;
+			}
+			return props.dir === 'vertical' ? long - tarTranslate : tarTranslate;
+		};
 
-        //更新进度条状态
-        const updateCurrentProgress = (ev: PlainObject) => {
-            updateProgressbarInfo();
-            const translate = getTranslate(ev);
-            const tarDemical = translate / progressbarInfo.long;
-            currentProgress.decimal = tarDemical;
-            currentProgress.ratio = decimalToPercent(tarDemical, 2);
-        };
+		//更新进度条状态
+		const updateCurrentProgress = (ev: PlainObject) => {
+			updateProgressbarInfo();
+			const translate = getTranslate(ev);
+			const tarDemical = translate / progressbarInfo.long;
+			currentProgress.decimal = tarDemical;
+			currentProgress.ratio = decimalToPercent(tarDemical, 2);
+		};
 
-        //按下进度条时
-        const down = (ev: MouseEvent) => {
-            canMove.value = true;
-            !props.dotFixed && (isShowDot.value = true);
-            updateCurrentProgress(ev);
-            emit("down", currentProgress);
-            emit("change", currentProgress);
-        };
+		//按下进度条时
+		const down = (ev: MouseEvent) => {
+			canMove.value = true;
+			!props.dotFixed && (isShowDot.value = true);
+			updateCurrentProgress(ev);
+			emit('down', currentProgress);
+			emit('change', currentProgress);
+		};
 
-        //移动进度条时
-        const move = (ev: MouseEvent) => {
-            if (!canMove.value) return;
-            updateCurrentProgress(ev);
-            emit("move", currentProgress);
-            emit("change", currentProgress);
-        };
+		//移动进度条时
+		const move = (ev: MouseEvent) => {
+			if (!canMove.value) return;
+			updateCurrentProgress(ev);
+			emit('move', currentProgress);
+			emit('change', currentProgress);
+		};
 
-        //松开进度条时
-        const up = (ev: MouseEvent) => {
-            if (canMove.value) {
-                emit("up", currentProgress);
-            }
-            canMove.value = false;
-            !props.dotFixed && (isShowDot.value = false);
-        };
+		//松开进度条时
+		const up = (ev: MouseEvent) => {
+			if (canMove.value) {
+				emit('up', currentProgress);
+			}
+			canMove.value = false;
+			!props.dotFixed && (isShowDot.value = false);
+		};
 
-        useEventListener(document, "mousemove", move)
-        useEventListener(document, "mouseup", up)
+		useEventListener(document, 'mousemove', move);
+		useEventListener(document, 'mouseup', up);
 
-        watch(
-            () => props.currentRatio,
-            (val, oldVal) => {
-                //如果在移动操作中，就不允许外界改变
-                if (canMove.value) {
-                    return;
-                }
-                currentProgress.decimal = percentToDecimal(val);
-                currentProgress.ratio = `${val}%`;
-            },
-            {
-                immediate: true
-            }
-        );
+		watch(
+			() => props.currentRatio,
+			(val, oldVal) => {
+				//如果在移动操作中，就不允许外界改变
+				if (canMove.value) {
+					return;
+				}
+				currentProgress.decimal = percentToDecimal(val);
+				currentProgress.ratio = `${val}%`;
+			},
+			{
+				immediate: true,
+			},
+		);
 
-        const stripAttrs: PlainObject<string>[] = [
-            { dir: "vertical", offset: "top", long: "height", mouseOffset: "pageY", },
-            { dir: "horizontal", offset: "left", long: "width", mouseOffset: "pageX", },
-        ];
+		const stripAttrs: PlainObject<string>[] = [
+			{ dir: 'vertical', offset: 'top', long: 'height', mouseOffset: 'pageY' },
+			{ dir: 'horizontal', offset: 'left', long: 'width', mouseOffset: 'pageX' },
+		];
 
-        /**
-         * 更新progressbar信息
-         */
-        const updateProgressbarInfo = () => {
-            const { dir } = props; 
-            const stripElmRect = getElmRectInfo(stripElmRef.value!);
-            const tarAttrObj = stripAttrs.find(({ dir: tarDir }) => tarDir === dir)!;
-            progressbarInfo.long = Math.round(stripElmRect[tarAttrObj.long]);
-            progressbarInfo.offset = Math.round(stripElmRect[tarAttrObj.offset]);
-            progressbarInfo.attrs = tarAttrObj;   
-        };
- 
-        return () => {
-            return (
-                <div
-                    ref={stripElmRef}
-                    class={progressbarClass.value}
-                    defaultdotshow={props.dotFixed}
-                    showdot={isShowDot.value}
-                    onMousedown={down}
-                >
-                    <div class="progressbar-buffer" style={progressbarBufferStyle.value}>
-                        <div class="progressbar-current" style={progressbarCurrentStyle.value}></div>
-                        <div class="progressbar-dot" style={progressbarDotStyle.value}></div>
-                    </div>
-                </div >
-            )
-        }
-    }
-})
+		/**
+		 * 更新progressbar信息
+		 */
+		const updateProgressbarInfo = () => {
+			const { dir } = props;
+			const stripElmRect = getElmRectInfo(stripElmRef.value!);
+			const tarAttrObj = stripAttrs.find(({ dir: tarDir }) => tarDir === dir)!;
+			progressbarInfo.long = Math.round(stripElmRect[tarAttrObj.long]);
+			progressbarInfo.offset = Math.round(stripElmRect[tarAttrObj.offset]);
+			progressbarInfo.attrs = tarAttrObj;
+		};
 
-export default ProgressBar
+		return () => {
+			return (
+				<div
+					ref={stripElmRef}
+					class={progressbarClass.value}
+					defaultdotshow={props.dotFixed}
+					showdot={isShowDot.value}
+					onMousedown={down}
+				>
+					<div class="progressbar-buffer" style={progressbarBufferStyle.value}>
+						<div class="progressbar-current" style={progressbarCurrentStyle.value}></div>
+						<div class="progressbar-dot" style={progressbarDotStyle.value}></div>
+					</div>
+				</div>
+			);
+		};
+	},
+});
+
+export default ProgressBar;

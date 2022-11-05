@@ -1,10 +1,12 @@
-@import "@/scss/variable"; 
+/** @format */
+
+@import '@/scss/variable';
 
 .allSongs-header {
-  @include flexHe();
-  padding-bottom: 20px;
+	@include flexHe();
+	padding-bottom: 20px;
 }
 
 .allSongs-wrap {
-  min-height: 20em;
+	min-height: 20em;
 }

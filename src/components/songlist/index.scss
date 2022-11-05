@@ -1,113 +1,112 @@
-@import "@/scss/variable"; 
+/** @format */
+
+@import '@/scss/variable';
 
 .songlist-page {
+	.songlist-relative-playlist {
+		padding-bottom: 40px;
+		.relative-title {
+			padding: 50px 0 20px 0;
+			color: #555;
+			font-size: 26px;
+			font-weight: 600;
+		}
+	}
 
-  .songlist-relative-playlist {
-    padding-bottom: 40px;
-    .relative-title {
-      padding: 50px 0 20px 0;
-      color: #555;
-      font-size: 26px;
-      font-weight: 600;
-    }
-  }
+	.songlist-header {
+		position: relative;
+		@include flexVc();
+		padding-bottom: 2em;
 
-  .songlist-header {
-    position: relative;
-    @include flexVc();
-    padding-bottom: 2em;
+		&-playbill {
+			flex: 1;
+			padding-right: 32px;
+			.songlist-pic {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+				border-radius: 8px;
+			}
+		}
 
-    &-playbill {
-      flex: 1;
-      padding-right: 32px;
-      .songlist-pic {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        border-radius: 8px;
-      }
-    }
+		&-body {
+			flex: 5;
+			display: flow-root;
+		}
 
-    &-body {
-      flex: 5;
-      display: flow-root;
-    }
+		.songlist-info {
+			float: left;
 
-    .songlist-info {
-      float: left;
+			h5 {
+				padding-bottom: 1em;
+				color: #444;
+				font-size: 26px;
+				font-weight: 600;
+			}
 
-      h5 {
-        padding-bottom: 1em;
-        color: #444;
-        font-size: 26px;
-        font-weight: 600;
-      }
+			.songlist-creator {
+				@include flexVc();
 
-      .songlist-creator {
-        @include flexVc();
+				&-detail {
+					@include flexVc();
+					cursor: pointer;
 
-        &-detail {
-          @include flexVc();
-          cursor: pointer;
+					em {
+						color: #566;
+						font-size: 1.1em;
+						text-indent: 1em;
+					}
+				}
 
-          em {
-            color: #566;
-            font-size: 1.1em;
-            text-indent: 1em;
-          }
-        }
+				&-avatar {
+					position: relative;
 
-        &-avatar {
-          position: relative;
+					.detail-avatar {
+						position: absolute;
+						right: 0;
+						bottom: 0;
+						width: 14px;
+					}
+				}
 
-          .detail-avatar {
-            position: absolute;
-            right: 0;
-            bottom: 0;
-            width: 14px;
-          }
-        }
+				.play-count {
+					margin-left: 2em;
+					cursor: default;
+				}
+			}
 
-        .play-count {
-          margin-left: 2em;
-          cursor: default;
-        }
-      }
+			.desc {
+				@include flexVc();
+				padding: 1em 0;
+				color: #556;
+				line-height: 1.6;
 
-      .desc {
-        @include flexVc();
-        padding: 1em 0;
-        color: #556;
-        line-height: 1.6;
+				em {
+					display: inline-block;
+					max-width: 40em;
+				}
+			}
 
-        em {
-          display: inline-block;
-          max-width: 40em;
-        }
-      }
+			.relative-data {
+				line-height: 1.8;
+				color: #766;
+			}
+		}
 
-      .relative-data {
-        line-height: 1.8;
-        color: #766;
-      }
-    }
+		.songlist-tools {
+			float: right;
+			@include flexVc();
+			margin-top: 10px;
 
-    .songlist-tools {
-      float: right;
-      @include flexVc();
-      margin-top: 10px;
+			.songlist-btn {
+				&:not(:last-of-type) {
+					margin-right: 1em;
+				}
+			}
+		}
+	}
 
-      .songlist-btn {
-        &:not(:last-of-type) {
-          margin-right: 1em;
-        }
-      }
-    }
-  }
-
-  .songlist-main {
-    min-height: 320px;
-  }
-
+	.songlist-main {
+		min-height: 320px;
+	}
 }
- 

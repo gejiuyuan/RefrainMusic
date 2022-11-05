@@ -1,72 +1,69 @@
-@import "@/scss/variable";
+/** @format */
+
+@import '@/scss/variable';
 
 .yplayer-header-setting {
-  @include flexHcVc();
-  margin-right: 150px; 
-  transition: color 0.14s;
-  cursor: pointer;
- 
-  .icon-menu {
-    color: #555;
-    font-size: 20px;
-  }
+	@include flexHcVc();
+	margin-right: 150px;
+	transition: color 0.14s;
+	cursor: pointer;
 
-  &:hover {
-    color: var(--theme);
-  }
+	.icon-menu {
+		color: #555;
+		font-size: 20px;
+	}
+
+	&:hover {
+		color: var(--theme);
+	}
 }
 
 .setting-dropdown {
-   
-  .menu-option {
-    @include flexVc();
-    height: 34px;  
-    cursor: pointer;
+	.menu-option {
+		@include flexVc();
+		height: 34px;
+		cursor: pointer;
 
-    &:hover {
-      background-color: rgba(230, 230, 230, .95);
-    }
+		&:hover {
+			background-color: rgba(230, 230, 230, 0.95);
+		}
 
-    .option-icon {
-      width: calc(18px * 2 + 20px);
-      padding: 0 18px;
-      font-size: 20px;
+		.option-icon {
+			width: calc(18px * 2 + 20px);
+			padding: 0 18px;
+			font-size: 20px;
 
-      .icon-shezhi {
-        font-size: inherit
-      }
+			.icon-shezhi {
+				font-size: inherit;
+			}
+		}
 
-    } 
-
-    p {
-      width: 150px;
-      font-size: 12px; 
-    }
-
-  }
-
+		p {
+			width: 150px;
+			font-size: 12px;
+		}
+	}
 }
 
-
 .setting-box {
-  @include flexHbC();
-  display: none;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #fff;
-  min-width: 700px;
-  min-height: 420px;
-  border-radius: 2px;
-  filter: drop-shadow(0 0 30px rgba(100, 100, 100, 0.8));
-  z-index: 99999999;
+	@include flexHbC();
+	display: none;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: #fff;
+	min-width: 700px;
+	min-height: 420px;
+	border-radius: 2px;
+	filter: drop-shadow(0 0 30px rgba(100, 100, 100, 0.8));
+	z-index: 99999999;
 
-  h6 {
-    padding: 28px 0;
-    border-bottom: 1px solid #ddd;
-    color: #555;
-    text-align: center;
-    font-size: 18px;
-  }
+	h6 {
+		padding: 28px 0;
+		border-bottom: 1px solid #ddd;
+		color: #555;
+		text-align: center;
+		font-size: 18px;
+	}
 }

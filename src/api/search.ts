@@ -1,5 +1,7 @@
-import { anfrageWithLoading } from "@/request";
-import { filterUselessKey } from "@utils/index";
+/** @format */
+
+import { anfrageWithLoading } from '@/request';
+import { filterUselessKey } from '@utils/index';
 
 /**
  * 搜索
@@ -9,87 +11,87 @@ import { filterUselessKey } from "@utils/index";
  * @returns
  */
 export function searchCloud(params: {
-  keywords: string;
-  limit?: number | string;
-  offset?: number | string;
-  type?: number | string;
+	keywords: string;
+	limit?: number | string;
+	offset?: number | string;
+	type?: number | string;
 }) {
-  const { keywords, limit = 30, offset = 0, type = 1 } = params;
-  return anfrageWithLoading({
-    url: "/cloudsearch",
-    method: "get",
-    params: filterUselessKey({
-      keywords,
-      limit,
-      type,
-      offset: +limit * +offset,
-    }),
-  });
+	const { keywords, limit = 30, offset = 0, type = 1 } = params;
+	return anfrageWithLoading({
+		url: '/cloudsearch',
+		method: 'get',
+		params: filterUselessKey({
+			keywords,
+			limit,
+			type,
+			offset: +limit * +offset,
+		}),
+	});
 }
 
 /**
  * 默认搜索关键词
  */
 export function searchDefault() {
-  return anfrageWithLoading({
-    url: "/search/default",
-    method: "get",
-    params: {
-      timestamp: new Date().valueOf(),
-    },
-  });
+	return anfrageWithLoading({
+		url: '/search/default',
+		method: 'get',
+		params: {
+			timestamp: new Date().valueOf(),
+		},
+	});
 }
 
 /**
  * 热搜列表（简略）
  */
 export function hotSearch() {
-  return anfrageWithLoading({
-    url: "/search/hot",
-    method: "get",
-    params: {
-      timestamp: new Date().valueOf(),
-    },
-  });
+	return anfrageWithLoading({
+		url: '/search/hot',
+		method: 'get',
+		params: {
+			timestamp: new Date().valueOf(),
+		},
+	});
 }
 
 /**
  * 热搜列表（详细）
  */
 export function hotSearchDetail() {
-  return anfrageWithLoading({
-    url: "/search/hot/detail",
-    method: "get",
-    params: {
-      timestamp: new Date().valueOf(),
-    },
-  });
+	return anfrageWithLoading({
+		url: '/search/hot/detail',
+		method: 'get',
+		params: {
+			timestamp: new Date().valueOf(),
+		},
+	});
 }
 
 /**
  * 搜索建议
  */
 export function searchSuggest(params: { keywords: string; type?: string }) {
-  return anfrageWithLoading({
-    url: "/search/suggest",
-    method: "get",
-    params: {
-      ...filterUselessKey(params),
-      timestamp: new Date().valueOf(),
-    },
-  });
+	return anfrageWithLoading({
+		url: '/search/suggest',
+		method: 'get',
+		params: {
+			...filterUselessKey(params),
+			timestamp: new Date().valueOf(),
+		},
+	});
 }
 
 /**
  * 搜索多重匹配
  */
 export function searchMulMatch(params: { keywords: string }) {
-  return anfrageWithLoading({
-    url: "/search/multimatch",
-    method: "get",
-    params: {
-      ...filterUselessKey(params),
-      timestamp: new Date().valueOf(),
-    },
-  });
+	return anfrageWithLoading({
+		url: '/search/multimatch',
+		method: 'get',
+		params: {
+			...filterUselessKey(params),
+			timestamp: new Date().valueOf(),
+		},
+	});
 }

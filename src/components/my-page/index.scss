@@ -1,61 +1,59 @@
-@use "sass:math";
+/** @format */
+
+@use 'sass:math';
 
 .my-page {
+	.my-header {
+		display: flow-root;
+		margin-bottom: 24px;
 
-  .my-header {
-    display: flow-root;
-    margin-bottom: 24px;
-    
-    &-left {
-      float: left;
-      width: math.div(1, 7) * 100%;
-      height: 100%;
-      .my-avatar {
-        border-radius: 100%;
-      }
-    }
+		&-left {
+			float: left;
+			width: math.div(1, 7) * 100%;
+			height: 100%;
+			.my-avatar {
+				border-radius: 100%;
+			}
+		}
 
-    &-right {
-      float: right;
-      width: math.div(6 , 7) * 100%;
-      height: 100%;
-      padding-left: 32px;
+		&-right {
+			float: right;
+			width: math.div(6, 7) * 100%;
+			height: 100%;
+			padding-left: 32px;
 
-      .my-nickname {
-        padding: 16px 0 32px 0;
-        color: #333;
-        font-size: 28px;
-        font-weight: 700;
-      }
+			.my-nickname {
+				padding: 16px 0 32px 0;
+				color: #333;
+				font-size: 28px;
+				font-weight: 700;
+			}
 
-      .header-layer {
-        line-height: 2;
-        span {
-          display: inline-block;
-          width: 6rem;
-          color: #677;
-        }
-        em {
-          color: #555;
-        }
-      }
+			.header-layer {
+				line-height: 2;
+				span {
+					display: inline-block;
+					width: 6rem;
+					color: #677;
+				}
+				em {
+					color: #555;
+				}
+			}
+		}
+	}
 
-    }
-  
-
-  }
-
-  .my-layer {
-    .title { 
-      padding: 24px 24px 24px 0; 
-      color: #555;
-      font-size: 20px;
-      line-height: 1.4;
-      font-weight: 600;
-      i {
-        font-size: 14px;
-        vertical-align: top;
-      }
-    }
-  }
+	.my-layer {
+		.title {
+			padding: 24px 24px 24px 0;
+			color: #555;
+			font-size: 20px;
+			line-height: 1.4;
+			font-weight: 600;
+			i {
+				font-size: 14px;
+				vertical-align: top;
+			}
+		}
+	}
 }

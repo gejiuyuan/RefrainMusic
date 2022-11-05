@@ -1,56 +1,58 @@
-@import "@scss/variable";
+/** @format */
+
+@import '@scss/variable';
 
 .search-songlist {
-  &-item {
-    @include flexVc();
-    padding: 10px;
-    transition: 0.18s;
+	&-item {
+		@include flexVc();
+		padding: 10px;
+		transition: 0.18s;
 
-    &:hover {
-      background-color: rgba(170, 160, 180, 0.1);
-    }
+		&:hover {
+			background-color: rgba(170, 160, 180, 0.1);
+		}
 
-    img {
-      width: 80px;
-      height: 80px;
-      border-radius: 6px;
-    }
+		img {
+			width: 80px;
+			height: 80px;
+			border-radius: 6px;
+		}
 
-    .songlist-name {
-      flex: 4;
-      text-indent: 2em;
-    }
+		.songlist-name {
+			flex: 4;
+			text-indent: 2em;
+		}
 
-    .songlist-trackcount {
-      flex: 1;
-      color: rgba(80, 80, 80, 0.7);
-      cursor: text;
-    }
+		.songlist-trackcount {
+			flex: 1;
+			color: rgba(80, 80, 80, 0.7);
+			cursor: text;
+		}
 
-    .songlist-creator {
-      flex: 2;
-      padding-right: 2em;
-      color: rgba(56, 53, 53, 0.7);
-      font-size: 18px;
+		.songlist-creator {
+			flex: 2;
+			padding-right: 2em;
+			color: rgba(56, 53, 53, 0.7);
+			font-size: 18px;
 
-      span {
-        cursor: pointer;
-        &:hover {
-          color: var(--theme);
-        }
-      }
-    }
+			span {
+				cursor: pointer;
+				&:hover {
+					color: var(--theme);
+				}
+			}
+		}
 
-    .songlist-collection {
-      flex: 1;
-      color: rgba(80, 80, 80, 0.7);
-      cursor: text;
-    }
+		.songlist-collection {
+			flex: 1;
+			color: rgba(80, 80, 80, 0.7);
+			cursor: text;
+		}
 
-    .songlist-listen {
-      flex: 1;
-      color: rgba(80, 80, 80, 0.7);
-      cursor: text;
-    }
-  }
+		.songlist-listen {
+			flex: 1;
+			color: rgba(80, 80, 80, 0.7);
+			cursor: text;
+		}
+	}
 }

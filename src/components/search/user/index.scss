@@ -1,34 +1,36 @@
-@import "@scss/variable";
+/** @format */
+
+@import '@scss/variable';
 
 .search-user {
-  &-item {
-    @include flexVc();
-    padding: 12px;
-    transition: background-color .12s;
+	&-item {
+		@include flexVc();
+		padding: 12px;
+		transition: background-color 0.12s;
 
-    &:hover {
-        background-color: rgba(182, 223, 198, 0.1);
-    }
+		&:hover {
+			background-color: rgba(182, 223, 198, 0.1);
+		}
 
-    img {
-      width: 70px;
-      height: 70px;
-      border-radius: 6px;
-    }
+		img {
+			width: 70px;
+			height: 70px;
+			border-radius: 6px;
+		}
 
-    .user-name {
-      flex: 4;
-      text-indent: 2em;
-    }
+		.user-name {
+			flex: 4;
+			text-indent: 2em;
+		}
 
-    .user-fans {
-      flex: 1;
-      cursor: pointer;
-    }
+		.user-fans {
+			flex: 1;
+			cursor: pointer;
+		}
 
-    .user-playlist-count {
-      flex: 1;
-      cursor: pointer;
-    }
-  }
+		.user-playlist-count {
+			flex: 1;
+			cursor: pointer;
+		}
+	}
 }

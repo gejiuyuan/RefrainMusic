@@ -1,3 +1,5 @@
-import EventDispatcher from './event'
+/** @format */
+
+import EventDispatcher from './event';
 
 export const messageBus = new EventDispatcher('playerBus');

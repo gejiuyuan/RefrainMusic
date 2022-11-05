@@ -1,37 +1,39 @@
-@import "@/scss/variable";
+/** @format */
+
+@import '@/scss/variable';
 
 .yplayer-homepage {
-  position: relative;
-  height: 100%;
-  overflow: hidden; 
- 
-  .home-main {
-    height: 100vh;
-    .main-header {
-      @include flexHbVc();
-      height: $homeTopHeaderHeight;
-      padding-right: 35px;
-      padding-left: 30px;
-      backdrop-filter: drop-shadow(0px 0px 20px rgb(246, 246, 246))
-        saturate(180%) blur(28px);
-    }
+	position: relative;
+	height: 100%;
+	overflow: hidden;
 
-    .main-content {
-      position: relative;
-      height: calc(100% - #{$homeBottomControllerHeight + $homeTopHeaderHeight});
-      padding-left: 30px; 
-      overflow: hidden;
+	.home-main {
+		height: 100vh;
+		.main-header {
+			@include flexHbVc();
+			height: $homeTopHeaderHeight;
+			padding-right: 35px;
+			padding-left: 30px;
+			backdrop-filter: drop-shadow(0px 0px 20px rgb(246, 246, 246)) saturate(180%)
+				blur(28px);
+		}
 
-      .player-container {
-        height: calc(100% - 30px);
-        padding-right: 35px;
-        margin-bottom: 30px;
-        overflow-x: hidden; 
-      }
-    }
+		.main-content {
+			position: relative;
+			height: calc(100% - #{$homeBottomControllerHeight + $homeTopHeaderHeight});
+			padding-left: 30px;
+			overflow: hidden;
 
-    .main-footer {
-      height: $homeBottomControllerHeight;
-    }
-  }
+			.player-container {
+				height: calc(100% - 30px);
+				padding-right: 35px;
+				margin-bottom: 30px;
+				overflow-x: hidden;
+			}
+		}
+
+		.main-footer {
+			height: $homeBottomControllerHeight;
+		}
+	}
 }

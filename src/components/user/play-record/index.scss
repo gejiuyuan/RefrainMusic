@@ -1,34 +1,36 @@
-@import "@/scss/variable"; 
+/** @format */
+
+@import '@/scss/variable';
 
 .play-record-header {
-  @include flexHbVc();
-  padding-bottom: 20px;
+	@include flexHbVc();
+	padding-bottom: 20px;
 }
 
 .record-desc {
-  color: #666;
-  font-size: 16px;
+	color: #666;
+	font-size: 16px;
 
-  span {
-    font-weight: 600;
-  }
+	span {
+		font-weight: 600;
+	}
 }
 
 .record-icon-info {
-  @include flexInline();
-  width: 20px;
-  height: 20px;
-  margin-right: .3rem;
-  background: url("@assets/img/chat-warning.svg") center / cover no-repeat; 
-  vertical-align: middle; 
+	@include flexInline();
+	width: 20px;
+	height: 20px;
+	margin-right: 0.3rem;
+	background: url('@assets/img/chat-warning.svg') center / cover no-repeat;
+	vertical-align: middle;
 }
 
 .canNotSee {
-  padding-top: 2em;
-  color: #666;
-  span {
-    margin-right: 1rem;
-    color: rgb(247, 171, 101);
-    font-weight: 600;
-  }
+	padding-top: 2em;
+	color: #666;
+	span {
+		margin-right: 1rem;
+		color: rgb(247, 171, 101);
+		font-weight: 600;
+	}
 }

@@ -1,43 +1,45 @@
-@import "@scss/variable";
+/** @format */
 
-.common-router-list { 
-  @include flexVc();
-  margin: 10px 0 30px 0;
- 
-  li {
-    padding-right: 60px;
+@import '@scss/variable';
 
-    .common-list-item {
-      position: relative;
-      display: inline-block;
-      line-height: 3;
-      transition: color 0.18s;
-      cursor: pointer;
+.common-router-list {
+	@include flexVc();
+	margin: 10px 0 30px 0;
 
-      &:hover {
-        color: var(--theme);
-      }
+	li {
+		padding-right: 60px;
 
-      &::after {
-        opacity: 0;
-        content: "";
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-        width: 2em;
-        height: 2px;
-        background-color: var(--theme);
-        border-radius: 1px;
-        transform: translateX(-50%);
-        transition: opacity 0.16s;
-      }
+		.common-list-item {
+			position: relative;
+			display: inline-block;
+			line-height: 3;
+			transition: color 0.18s;
+			cursor: pointer;
 
-      &.active-online-link {
-        color: var(--theme);
-        &::after {
-          opacity: 1;
-        }
-      }
-    }
-  }
+			&:hover {
+				color: var(--theme);
+			}
+
+			&::after {
+				opacity: 0;
+				content: '';
+				position: absolute;
+				bottom: 0;
+				left: 50%;
+				width: 2em;
+				height: 2px;
+				background-color: var(--theme);
+				border-radius: 1px;
+				transform: translateX(-50%);
+				transition: opacity 0.16s;
+			}
+
+			&.active-online-link {
+				color: var(--theme);
+				&::after {
+					opacity: 1;
+				}
+			}
+		}
+	}
 }

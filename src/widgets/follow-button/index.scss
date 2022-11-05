@@ -1,11 +1,13 @@
-@import "@/scss/variable"; 
+/** @format */
+
+@import '@/scss/variable';
 
 .follow-button {
-  i {
-    font-weight: 500;
-    font-size: 1.2rem;
-  }
-  em {
-    text-indent: .5rem;
-  }
+	i {
+		font-weight: 500;
+		font-size: 1.2rem;
+	}
+	em {
+		text-indent: 0.5rem;
+	}
 }

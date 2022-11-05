@@ -1,44 +1,43 @@
-import { shallowReactive, computed, onActivated, defineComponent } from "vue";
-import { useRouter, useRoute, useLink } from "vue-router";
+/** @format */
 
-import { artistSimilar } from "@api/singer";
+import { shallowReactive, computed, onActivated, defineComponent } from 'vue';
+import { useRouter, useRoute, useLink } from 'vue-router';
 
-import ArtistList from "@/widgets/artist-list";
-import { SingerInfo } from "@/types/singer";
-import "./index.scss";
-import { freeze } from "@/utils";
+import { artistSimilar } from '@api/singer';
+
+import ArtistList from '@/widgets/artist-list';
+import { SingerInfo } from '@/types/singer';
+import './index.scss';
+import { freeze } from '@/utils';
 
 export default defineComponent({
-  name: "ArtistSimilar",
-  setup(props, { slots, emit }) {
-    const router = useRouter();
-    const route = useRoute();
+	name: 'ArtistSimilar',
+	setup(props, { slots, emit }) {
+		const router = useRouter();
+		const route = useRoute();
 
-    const information = shallowReactive<{
-      similarSingers: SingerInfo[];
-    }>({
-      similarSingers: [],
-    });
+		const information = shallowReactive<{
+			similarSingers: SingerInfo[];
+		}>({
+			similarSingers: [],
+		});
 
-    const getSimilarArtists = async () => {
-      const id = route.query.id as string;
-      const { artists = [] } = await artistSimilar({ id });
-      information.similarSingers = freeze(artists);
-    };
+		const getSimilarArtists = async () => {
+			const id = route.query.id as string;
+			const { artists = [] } = await artistSimilar({ id });
+			information.similarSingers = freeze(artists);
+		};
 
-    onActivated(() => {
-      getSimilarArtists();
-    });
+		onActivated(() => {
+			getSimilarArtists();
+		});
 
-    return () => {
-      return (
-        <section class="yplayer-similar-singer">
-          <ArtistList
-            singerList={information.similarSingers}
-            cols={9}
-          ></ArtistList>
-        </section>
-      );
-    };
-  },
+		return () => {
+			return (
+				<section class="yplayer-similar-singer">
+					<ArtistList singerList={information.similarSingers} cols={9}></ArtistList>
+				</section>
+			);
+		};
+	},
 });

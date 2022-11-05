@@ -1,34 +1,36 @@
-@import "@scss/variable";
+/** @format */
+
+@import '@scss/variable';
 
 .search-singer {
-  @include flex();
-  flex-wrap: wrap;
+	@include flex();
+	flex-wrap: wrap;
 
-  &-item {
-    width: 8.2%;
+	&-item {
+		width: 8.2%;
 
-    img {
-      width: 100%;
-      border-radius: 50%;
-      transition: 0.18s;
-      cursor: pointer;
-      &:hover {
-        transform: scale(1.08);
-        filter: drop-shadow(0 0 20px rgba(80, 80, 80, 0.2));
-      }
-    }
+		img {
+			width: 100%;
+			border-radius: 50%;
+			transition: 0.18s;
+			cursor: pointer;
+			&:hover {
+				transform: scale(1.08);
+				filter: drop-shadow(0 0 20px rgba(80, 80, 80, 0.2));
+			}
+		}
 
-    &:not(:nth-of-type(10n)) {
-      margin-right: 2%;
-    }
+		&:not(:nth-of-type(10n)) {
+			margin-right: 2%;
+		}
 
-    &:nth-of-type(n + 11) {
-      margin-top: 2%;
-    }
+		&:nth-of-type(n + 11) {
+			margin-top: 2%;
+		}
 
-    .singer-info {
-      text-align: center;
-      line-height: 3;
-    }
-  }
+		.singer-info {
+			text-align: center;
+			line-height: 3;
+		}
+	}
 }

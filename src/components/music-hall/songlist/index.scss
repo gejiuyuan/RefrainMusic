@@ -1,46 +1,48 @@
-@import "@scss/variable"; 
+/** @format */
+
+@import '@scss/variable';
 
 .music-hall-songlist {
-  .songlist-all-link {
-    @include flexInline();
-    padding: 6px 16px;
-    background-color: rgba(90, 90, 90, 0.15);
-    color: #222;
-    font-weight: 500;
-    border-radius: 4px;
-  }
+	.songlist-all-link {
+		@include flexInline();
+		padding: 6px 16px;
+		background-color: rgba(90, 90, 90, 0.15);
+		color: #222;
+		font-weight: 500;
+		border-radius: 4px;
+	}
 
-  .songlist-category {
-    min-height: 300px;
-    padding: 20px 0;
-  }
+	.songlist-category {
+		min-height: 300px;
+		padding: 20px 0;
+	}
 
-  .cate-layer {
-    margin-top: 10px;
-    @include flex();
+	.cate-layer {
+		margin-top: 10px;
+		@include flex();
 
-    .cate-sub-item {
-      padding: 0 12px 8px 12px;
-      color: #555;
-      font-size: 14px;
-      &:hover {
-        color: var(--theme);
-      }
-    }
+		.cate-sub-item {
+			padding: 0 12px 8px 12px;
+			color: #555;
+			font-size: 14px;
+			&:hover {
+				color: var(--theme);
+			}
+		}
 
-    .cate-name {
-      padding: 0 20px;
-      color: #444;
-      font-weight: 500;
-      white-space: nowrap;
-    }
-    .cate-sub {
-      @include flex();
-      flex-wrap: wrap;
+		.cate-name {
+			padding: 0 20px;
+			color: #444;
+			font-weight: 500;
+			white-space: nowrap;
+		}
+		.cate-sub {
+			@include flex();
+			flex-wrap: wrap;
 
-      &-item {
-        margin: 0 10px 10px 0;
-      }
-    }
-  }
+			&-item {
+				margin: 0 10px 10px 0;
+			}
+		}
+	}
 }

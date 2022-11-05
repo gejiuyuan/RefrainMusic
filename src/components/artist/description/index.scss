@@ -1,23 +1,24 @@
+/** @format */
 
-@import "@/scss/variable"; 
+@import '@/scss/variable';
 
 .yplayer-artist-desc {
-  .artist-info {
-    padding-top: 20px;
-    h6 {
-      border-left: 3px solid var(--theme);
-      color: #555;
-      font-size: 15px;
-      font-weight: 600;
-      text-indent: 1em;
-    }
+	.artist-info {
+		padding-top: 20px;
+		h6 {
+			border-left: 3px solid var(--theme);
+			color: #555;
+			font-size: 15px;
+			font-weight: 600;
+			text-indent: 1em;
+		}
 
-    p {
-      padding-left: 2em;
-      padding-top: 14px;
-      color: #666;
-      font-size: 14px;
-      line-height: 1.7;
-    }
-  }
+		p {
+			padding-left: 2em;
+			padding-top: 14px;
+			color: #666;
+			font-size: 14px;
+			line-height: 1.7;
+		}
+	}
 }

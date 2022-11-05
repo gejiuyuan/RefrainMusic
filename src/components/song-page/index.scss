@@ -1,38 +1,37 @@
-@import "@scss/variable";
+/** @format */
+
+@import '@scss/variable';
 
 #song-detail-page {
-  padding: 0 10px;
+	padding: 0 10px;
 
-  .song-detail-header {
-    @include flexVc(); 
-    padding: 10px 0 20px 0;
+	.song-detail-header {
+		@include flexVc();
+		padding: 10px 0 20px 0;
 
-    .song-pic {
-      width: 120px; 
-      border-radius: 12px;
-      overflow: hidden;
-    }
+		.song-pic {
+			width: 120px;
+			border-radius: 12px;
+			overflow: hidden;
+		}
 
-    .song-info {
-      padding-left: 20px;
+		.song-info {
+			padding-left: 20px;
 
-      h2 {
-        padding-bottom: 2rem;
-        font-size: 2.2rem;
-      }
+			h2 {
+				padding-bottom: 2rem;
+				font-size: 2.2rem;
+			}
 
-      > ul {
-        @include flexVc();
-        color: $colorSettingName;
-        font-size: 14px;
+			> ul {
+				@include flexVc();
+				color: $colorSettingName;
+				font-size: 14px;
 
-        li {
-          margin-right: 20px;
-        }
-      }
-
-    }
-
-  }
-
+				li {
+					margin-right: 20px;
+				}
+			}
+		}
+	}
 }

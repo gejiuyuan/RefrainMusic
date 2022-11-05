@@ -1,18 +1,20 @@
-@import "@/scss/variable"; 
+/** @format */
+
+@import '@/scss/variable';
 
 .subscriber-list {
-  .user-layer {
-    .user-item {
-      cursor: pointer;
+	.user-layer {
+		.user-item {
+			cursor: pointer;
 
-      img {
-        border-radius: 100%;
-      }
+			img {
+				border-radius: 100%;
+			}
 
-      .user-name {
-        text-align: center;
-        line-height: 2.8;
-      }
-    }
-  }
+			.user-name {
+				text-align: center;
+				line-height: 2.8;
+			}
+		}
+	}
 }

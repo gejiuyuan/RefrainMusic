@@ -1,7 +1,9 @@
-import { anfrage, anfrageWithLoading } from "@/request";
-import { filterUselessKey, is } from "@utils/index";
-import { SongInfo, SongsDetail, SongUrlInfo } from "@type/song";
-import { CommentType } from "@/dependency/enum";
+/** @format */
+
+import { anfrage, anfrageWithLoading } from '@/request';
+import { filterUselessKey, is } from '@utils/index';
+import { SongInfo, SongsDetail, SongUrlInfo } from '@type/song';
+import { CommentType } from '@/dependency/enum';
 
 /**
  * 获取音乐 url
@@ -10,21 +12,16 @@ import { CommentType } from "@/dependency/enum";
  *      !!!未登录状态返回试听片段(返回字段包含被截取的正常歌曲的开始时间和结束时间)
  * @param {string} id - 音乐的 id，例如 id=405998841,33894312
  */
-export function getMusic(
-  params: {
-    id: number | string;
-    br?: number | string;
-  },
-) {
-  const queryParams = filterUselessKey({ ...params });
-  return anfrageWithLoading({
-    url: "/song/url",
-    method: "get",
-    params: {
-      ...queryParams,
-      timestamp: new Date().valueOf(),
-    },
-  });
+export function getMusic(params: { id: number | string; br?: number | string }) {
+	const queryParams = filterUselessKey({ ...params });
+	return anfrageWithLoading({
+		url: '/song/url',
+		method: 'get',
+		params: {
+			...queryParams,
+			timestamp: new Date().valueOf(),
+		},
+	});
 }
 
 /**
@@ -38,15 +35,12 @@ export function getMusic(
  *          其他类推
  *
  */
-export function checkMusic(params: {
-  id: number | string;
-  br?: number | string;
-}) {
-  return anfrageWithLoading({
-    url: "/check/music",
-    method: "get",
-    params: filterUselessKey(params),
-  });
+export function checkMusic(params: { id: number | string; br?: number | string }) {
+	return anfrageWithLoading({
+		url: '/check/music',
+		method: 'get',
+		params: filterUselessKey(params),
+	});
 }
 
 /**
@@ -55,11 +49,11 @@ export function checkMusic(params: {
  * @returns
  */
 export function getLyric(params: { id: string | number }) {
-  return anfrageWithLoading({
-    url: "/lyric",
-    method: "get",
-    params,
-  });
+	return anfrageWithLoading({
+		url: '/lyric',
+		method: 'get',
+		params,
+	});
 }
 
 /**
@@ -68,14 +62,14 @@ export function getLyric(params: { id: string | number }) {
  * @returns
  */
 export function getNewExpressMusic(params: { type: number | string }) {
-  return anfrageWithLoading({
-    url: "/top/song",
-    method: "get",
-    params: {
-      ...params,
-      timestamp: new Date().valueOf(),
-    },
-  });
+	return anfrageWithLoading({
+		url: '/top/song',
+		method: 'get',
+		params: {
+			...params,
+			timestamp: new Date().valueOf(),
+		},
+	});
 }
 
 /**
@@ -84,75 +78,79 @@ export function getNewExpressMusic(params: { type: number | string }) {
  * @returns
  */
 export function getMusicComment(params: {
-  id: number | string;
-  limit?: number | string;
-  offset?: number | string;
-  before?: number | string;
+	id: number | string;
+	limit?: number | string;
+	offset?: number | string;
+	before?: number | string;
 }) {
-  const { limit = 20, offset = 0, before, id } = params;
-  return anfrageWithLoading({
-    url: "/comment/music",
-    method: "get",
-    params: filterUselessKey({
-      limit,
-      id,
-      before,
-      offset: +limit * +offset,
-      timestamp: new Date().valueOf()
-    }),
-  });
+	const { limit = 20, offset = 0, before, id } = params;
+	return anfrageWithLoading({
+		url: '/comment/music',
+		method: 'get',
+		params: filterUselessKey({
+			limit,
+			id,
+			before,
+			offset: +limit * +offset,
+			timestamp: new Date().valueOf(),
+		}),
+	});
 }
 
 /**
- * 歌曲详情 
+ * 歌曲详情
  */
 export type GetMusicDetailReturnType = {
-  songs: SongInfo[];
+	songs: SongInfo[];
 };
-export function getMusicDetail({ids}: { ids: string | string[] }):Promise<SongsDetail> {
-  return anfrageWithLoading({
-    url: "/song/detail",
-    method: "get",
-    params: {
-      ids: is.array(ids) ? ids.join(',') : ids,
-    },
-  });
+export function getMusicDetail({
+	ids,
+}: {
+	ids: string | string[];
+}): Promise<SongsDetail> {
+	return anfrageWithLoading({
+		url: '/song/detail',
+		method: 'get',
+		params: {
+			ids: is.array(ids) ? ids.join(',') : ids,
+		},
+	});
 }
 
 /**
- * 获取相似音乐 
+ * 获取相似音乐
  */
 export function getMusicSimilar(params: { id: string | number }) {
-  return anfrageWithLoading({
-    url: "/simi/song",
-    method: "get",
-    params,
-  });
+	return anfrageWithLoading({
+		url: '/simi/song',
+		method: 'get',
+		params,
+	});
 }
 
 /**
  * 获取每日推荐歌曲
  */
 export function musicRecommend() {
-  return anfrageWithLoading({
-    url: "/recommend/songs",
-    method: "get",
-  })
+	return anfrageWithLoading({
+		url: '/recommend/songs',
+		method: 'get',
+	});
 }
 
 /**
  * 推荐新音乐
  */
 export function newMusicRecommend(params: { limit?: number | string }) {
-  const { limit = 10 } = params;
-  return anfrageWithLoading({
-    url: "/personalized/newsong",
-    method: "get",
-    params: {
-      limit,
-      timestamp: new Date().valueOf
-    },
-  })
+	const { limit = 10 } = params;
+	return anfrageWithLoading({
+		url: '/personalized/newsong',
+		method: 'get',
+		params: {
+			limit,
+			timestamp: new Date().valueOf,
+		},
+	});
 }
 
 /**
@@ -165,28 +163,33 @@ export function newMusicRecommend(params: { limit?: number | string }) {
  *   t: 1 | 0;
  *   type: CommentType;
  * })} {id, cid, t, type}
- * @return {*} 
+ * @return {*}
  */
-export function musicCommentLike({id, cid, t, type}: {
-  // 资源id，如歌曲、mv等
-  id: string | number;
-  // 评论id
-  cid: string | number;
-  // 1为点赞、0为取消点赞
-  t: 1 | 0;
-  // 资源类型
-  type: CommentType;
+export function musicCommentLike({
+	id,
+	cid,
+	t,
+	type,
+}: {
+	// 资源id，如歌曲、mv等
+	id: string | number;
+	// 评论id
+	cid: string | number;
+	// 1为点赞、0为取消点赞
+	t: 1 | 0;
+	// 资源类型
+	type: CommentType;
 }) {
-  const actualParams:PlainObject = { cid, t, type}
-  // 如果是动态的评论
-  if(type === CommentType.dynamic) {
-    actualParams.threadId = id;
-  } else {
-    actualParams.id = id;
-  }
-  return anfrage({
-    url: "/comment/like",
-    method: "post",
-    params: actualParams
-  }).then(res => res.code === 200);
+	const actualParams: PlainObject = { cid, t, type };
+	// 如果是动态的评论
+	if (type === CommentType.dynamic) {
+		actualParams.threadId = id;
+	} else {
+		actualParams.id = id;
+	}
+	return anfrage({
+		url: '/comment/like',
+		method: 'post',
+		params: actualParams,
+	}).then((res) => res.code === 200);
 }

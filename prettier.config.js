@@ -1,54 +1,46 @@
-module.exports = {
-  tabWidth: 2,
+/** @format */
 
-  //一行最大宽度，90个字符
-  printWidth: 70,
+const os = require('os');
 
-  //是否制表符替代空格控制缩进
-  // useTabs: true,
+const conf = {
+	//是否制表符替代空格控制缩进
+	useTabs: true,
 
-  //每一行后始终打印分号
-  semi: true,
+	tabWidth: 2,
 
-  //字符串使用单引号
-  singleQuote: true,
+	//一行最大宽度，90个字符
+	printWidth: 90,
 
-  //jsx中也使用单引号
-  // jsxSingleQuote: true,
+	//每一行后始终打印分号
+	semi: true,
 
-  quoteProps: "as-needed",
+	endOfLine: os.platform() === 'win32' ? 'crlf' : 'lf',
 
-  //文字和括号之间打印空格
-  bracketSpacing: true,
+	//字符串使用单引号
+	singleQuote: true,
 
-  //使用(x)=>x形式，而非x=>x
-  arrowParens: "always",
+	quoteProps: 'as-needed',
 
-  requirePragma: true,
+	//文字和括号之间打印空格
+	bracketSpacing: true,
 
-  //尾随逗号处理
-  //详见https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Trailing_commas#trailing_commas_in_functions
-  trailingComma: 'all',
+	//使用(x)=>x形式，而非x=>x
+	arrowParens: 'always',
 
-  insertPragma: true,
+	//尾随逗号处理
+	//详见https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Trailing_commas#trailing_commas_in_functions
+	trailingComma: 'all',
 
-  //对html等daima进行换行
-  //详见：https://www.prettier.cn/docs/options.html#html-whitespace-sensitivity
-  htmlWhitespaceSensitivity: "strict",
+	insertPragma: true,
 
-  //对.vue文件进行代码缩进
-  vueIndentScriptAndStyle: true,
+	embeddedLanguageFormatting: 'off',
 
-  // endOfLine: "lf",
+	//对html等daima进行换行
+	//详见：https://www.prettier.cn/docs/options.html#html-whitespace-sensitivity
+	htmlWhitespaceSensitivity: 'strict',
 
-  embeddedLanguageFormatting: "off",
-
-  // overrides: [
-  //   {
-  //     files: '*.tsx',
-  //     options: {
-  //       parser: 'typescript'
-  //     }
-  //   }
-  // ]
+	//对.vue文件进行代码缩进
+	vueIndentScriptAndStyle: true,
 };
+
+module.exports = conf;

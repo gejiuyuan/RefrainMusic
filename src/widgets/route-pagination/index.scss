@@ -1,12 +1,12 @@
+/** @format */
+
 @import '@scss/variable';
 
 .naive-pagination {
-  @include flexHc();
-  padding: 30px 0;
+	@include flexHc();
+	padding: 30px 0;
 
-  .no-total {
-    @include flexHcVc();
- 
-  }
-
+	.no-total {
+		@include flexHcVc();
+	}
 }

@@ -1,67 +1,69 @@
-@import "@scss/variable"; 
+/** @format */
+
+@import '@scss/variable';
 
 .layer {
-  h6 {
-    padding: 20px 0;
-    border-bottom: 1px solid #eee;
-    color: #555;
-    font-size: 20px;
-    font-weight: 600;
-  }
+	h6 {
+		padding: 20px 0;
+		border-bottom: 1px solid #eee;
+		color: #555;
+		font-size: 20px;
+		font-weight: 600;
+	}
 
-  .item-wrap {
-    // @include flex();
-    // flex-wrap: wrap;
-    padding: 40px 20px;
+	.item-wrap {
+		// @include flex();
+		// flex-wrap: wrap;
+		padding: 40px 20px;
 
-    .item {
-      position: relative; 
-      cursor: pointer;
+		.item {
+			position: relative;
+			cursor: pointer;
 
-      &:hover {
-        .item-playbill {
-          transform: scale(1.06);
-          filter: drop-shadow(12px 14px 22px rgba(80, 80, 80, 0.22));
-        }
+			&:hover {
+				.item-playbill {
+					transform: scale(1.06);
+					filter: drop-shadow(12px 14px 22px rgba(80, 80, 80, 0.22));
+				}
 
-        .item-desc {
-          transform: translateY(0);
-        }
-      }
+				.item-desc {
+					transform: translateY(0);
+				}
+			}
 
-      &-playbill { 
-        position: inherit;
-        border-radius: 16px;
-        transition: transform 0.15s, filter ease-in-out 0.13s;
-        overflow: hidden;
+			&-playbill {
+				position: inherit;
+				border-radius: 16px;
+				transition: transform 0.15s, filter ease-in-out 0.13s;
+				overflow: hidden;
 
-        img { 
-          border-radius: inherit; 
-        }
-      }
+				img {
+					border-radius: inherit;
+				}
+			}
 
-      &-name {
-        padding-top: 22px;
-        color: #555;
-        font-size: 15px;
-        font-weight: 500;
-        line-height: 1.4;
-      }
+			&-name {
+				padding-top: 22px;
+				color: #555;
+				font-size: 15px;
+				font-weight: 500;
+				line-height: 1.4;
+			}
 
-      &-desc {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        padding: 12px 20px;
-        background-color: rgba(30, 30, 30, 0.2);
-        color: #fff;
-        line-height: 1.2;
-        transform: translateY(-100%);
-        border-radius: 16px 16px 0 0;
-        backdrop-filter: saturate(180%) blur(5px);
-        transition: transform 0.14s;
-      }
-    }
-  }
+			&-desc {
+				position: absolute;
+				left: 0;
+				top: 0;
+				width: 100%;
+				padding: 12px 20px;
+				background-color: rgba(30, 30, 30, 0.2);
+				color: #fff;
+				line-height: 1.2;
+				transform: translateY(-100%);
+				border-radius: 16px 16px 0 0;
+				backdrop-filter: saturate(180%) blur(5px);
+				transition: transform 0.14s;
+			}
+		}
+	}
 }

@@ -1,9 +1,11 @@
-const PostcssPxtorem = require("postcss-pxtorem");
+/** @format */
+
+const PostcssPxtorem = require('postcss-pxtorem');
 
 module.exports = {
-  plugins: [
-    PostcssPxtorem({
-      propList: ["*"],
-    }),
-  ],
+	plugins: [
+		PostcssPxtorem({
+			propList: ['*'],
+		}),
+	],
 };

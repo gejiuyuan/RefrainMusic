@@ -1,55 +1,57 @@
-@import "@scss/variable"; 
+/** @format */
+
+@import '@scss/variable';
 
 .singer-avatar {
-  border-radius: 100%;
+	border-radius: 100%;
 }
 
 .album-pic {
-  border-radius: 0.5rem;
+	border-radius: 0.5rem;
 }
 
 .search-multimatch {
-  @include flexHbVc();
-  flex-wrap: wrap;
-  padding: 1rem;
-  background-color: rgba(213, 223, 217, 0.2);
+	@include flexHbVc();
+	flex-wrap: wrap;
+	padding: 1rem;
+	background-color: rgba(213, 223, 217, 0.2);
 
-  .mutimatch-box {
-    flex: 1;
-    @include flexVc();
-    cursor: pointer;
+	.mutimatch-box {
+		flex: 1;
+		@include flexVc();
+		cursor: pointer;
 
-    &:not(:last-of-type) {
-      margin-right: 2rem;
-    }
+		&:not(:last-of-type) {
+			margin-right: 2rem;
+		}
 
-    img {
-      width: 100px;
-      height: 100px;
-      object-fit: cover;
-      margin-right: 1rem;
-    }
+		img {
+			width: 100px;
+			height: 100px;
+			object-fit: cover;
+			margin-right: 1rem;
+		}
 
-    .mutimatch-main {
-      h5 {
-        padding-bottom: 1rem;
-        color: #344;
-        font-size: 20px;
-        font-weight: 600;
-      }
+		.mutimatch-main {
+			h5 {
+				padding-bottom: 1rem;
+				color: #344;
+				font-size: 20px;
+				font-weight: 600;
+			}
 
-      > div {
-        @include flexHbVc();
+			> div {
+				@include flexHbVc();
 
-        em {
-          margin-right: 1rem;
-          color: #aaa;
+				em {
+					margin-right: 1rem;
+					color: #aaa;
 
-          &.mutimatch-link:hover {
-            color: var(--theme);
-          }
-        }
-      }
-    }
-  }
+					&.mutimatch-link:hover {
+						color: var(--theme);
+					}
+				}
+			}
+		}
+	}
 }

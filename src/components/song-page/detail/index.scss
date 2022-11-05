@@ -1,20 +1,19 @@
-@import "@scss/variable";
+/** @format */
+
+@import '@scss/variable';
 
 .song-comment-container {
+	.content-layer {
+		@include flexVc();
+		padding-top: 20px;
+		color: $colorSettingName;
 
-  .content-layer {
-    @include flexVc();
-    padding-top: 20px;
-    color: $colorSettingName;
+		h6 {
+			min-width: 5em;
+		}
 
-    h6 {
-      min-width: 5em;
-    }
-
-    mark {
-      text-indent: 2rem;
-    }
-
-  }
-  
+		mark {
+			text-indent: 2rem;
+		}
+	}
 }

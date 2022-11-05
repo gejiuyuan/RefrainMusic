@@ -1,32 +1,34 @@
-@import "@scss/variable";
+/** @format */
 
-.home-left { 
-  height: 100vh;
-  background-color: $listBgc;
+@import '@scss/variable';
 
-  .home-logo {
-    @include flexVc();
-    height: $homeTopHeaderHeight;
-    padding-left: 30px;
-    padding-right: 16px;
+.home-left {
+	height: 100vh;
+	background-color: $listBgc;
 
-    .site-logo { 
-      display: block;
-      width: 100px;
-      height: 40px; 
-      background-color: var(--theme);
-      -webkit-mask: url("@assets/img/guoxiaoyou.png") no-repeat center / 100%;
-      cursor: pointer;
-      // background-repeat: no-repeat;
-      // filter: invert(49%) sepia(8%) saturate(3293%) hue-rotate(313deg)
-      //   brightness(119%) contrast(100%);
-    }
-  }
+	.home-logo {
+		@include flexVc();
+		height: $homeTopHeaderHeight;
+		padding-left: 30px;
+		padding-right: 16px;
 
-  .home-category {
-    width: 100%;
-    height: calc(100% - #{$homeTopHeaderHeight});
-    padding-left: 20px;
-    padding-right: 20px; 
-  }
+		.site-logo {
+			display: block;
+			width: 100px;
+			height: 40px;
+			background-color: var(--theme);
+			-webkit-mask: url('@assets/img/guoxiaoyou.png') no-repeat center / 100%;
+			cursor: pointer;
+			// background-repeat: no-repeat;
+			// filter: invert(49%) sepia(8%) saturate(3293%) hue-rotate(313deg)
+			//   brightness(119%) contrast(100%);
+		}
+	}
+
+	.home-category {
+		width: 100%;
+		height: calc(100% - #{$homeTopHeaderHeight});
+		padding-left: 20px;
+		padding-right: 20px;
+	}
 }

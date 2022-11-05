@@ -1,13 +1,14 @@
-@import "@scss/variable";
+/** @format */
+
+@import '@scss/variable';
 
 .reply-container {
-  padding: 14px 20px 0 20px;
-  background-color: $replyTextareaBgc;
+	padding: 14px 20px 0 20px;
+	background-color: $replyTextareaBgc;
 
-  .reply-operation {
-    height: 38px;
-    background-color: inherit;
-    cursor: text;
-  }
-
+	.reply-operation {
+		height: 38px;
+		background-color: inherit;
+		cursor: text;
+	}
 }

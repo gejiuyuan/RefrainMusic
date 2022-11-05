@@ -1,14 +1,15 @@
+/** @format */
 
-const Home = () => import("@views/home");
+const Home = () => import('@views/home');
 
-const MusicHall = () => import("@components/music-hall");
-const MusicHallFeatured = () => import("@components/music-hall/featured");
-const MusicHallTop = () => import("@components/music-hall/top");
-const MusicHallNewest = () => import("@components/music-hall/newestmusic");
-const MusicHallSonglist = () => import("@components/music-hall/songlist");
-const MusicHallArtist = () => import("@components/music-hall/artist");
-const MusicHallNewdisc = () => import("@components/music-hall/newestdisc");
-const MusicRadio = () => import("@components/music-radio");
+const MusicHall = () => import('@components/music-hall');
+const MusicHallFeatured = () => import('@components/music-hall/featured');
+const MusicHallTop = () => import('@components/music-hall/top');
+const MusicHallNewest = () => import('@components/music-hall/newestmusic');
+const MusicHallSonglist = () => import('@components/music-hall/songlist');
+const MusicHallArtist = () => import('@components/music-hall/artist');
+const MusicHallNewdisc = () => import('@components/music-hall/newestdisc');
+const MusicRadio = () => import('@components/music-radio');
 
 const OnlineVideo = () => import('@components/online-video');
 
@@ -58,275 +59,273 @@ const PersonalRecommend = () => import('@components/personal-recommend');
 
 const MyPage = () => import('@components/my-page');
 
-const SongPage = () => import("@components/song-page");
-const SongComment = () => import("@components/song-page/comment");
-const SongDetail = () => import("@components/song-page/detail");
+const SongPage = () => import('@components/song-page');
+const SongComment = () => import('@components/song-page/comment');
+const SongDetail = () => import('@components/song-page/detail');
 
-import { RouteLocation, RouteRecordRaw } from "vue-router";
+import { RouteLocation, RouteRecordRaw } from 'vue-router';
 
 const routes: RouteRecordRaw[] = [
+	{
+		path: '/',
+		redirect: '/musichall',
+		component: Home,
+		props: {},
+		beforeEnter() {},
+		meta: {},
+		children: [
+			{
+				path: 'musichall',
+				redirect: '/musichall/featrued',
+				component: MusicHall,
+				children: [
+					{
+						path: 'featrued',
+						component: MusicHallFeatured,
+					},
+					{
+						path: 'top',
+						component: MusicHallTop,
+					},
+					{
+						path: 'newestmusic',
+						component: MusicHallNewest,
+					},
+					{
+						path: 'newestdisc',
+						component: MusicHallNewdisc,
+					},
+					{
+						path: 'songlist',
+						component: MusicHallSonglist,
+					},
+					{
+						path: 'artist',
+						component: MusicHallArtist,
+					},
+				],
+			},
 
-  {
-    path: "/",
-    redirect: "/musichall",
-    component: Home,
-    props: {},
-    beforeEnter() { },
-    meta: {},
-    children: [
-      {
-        path: "musichall",
-        redirect: "/musichall/featrued",
-        component: MusicHall,
-        children: [
-          {
-            path: "featrued",
-            component: MusicHallFeatured,
-          },
-          {
-            path: "top",
-            component: MusicHallTop,
-          },
-          {
-            path: "newestmusic",
-            component: MusicHallNewest,
-          },
-          {
-            path: "newestdisc",
-            component: MusicHallNewdisc,
-          },
-          {
-            path: "songlist",
-            component: MusicHallSonglist,
-          },
-          {
-            path: "artist",
-            component: MusicHallArtist,
-          },
-        ],
-      },
+			{
+				path: 'musicradio',
+				component: MusicRadio,
+			},
 
-      {
-        path: "musicradio",
-        component: MusicRadio,
-      },
+			{
+				path: 'onlinevideo',
+				redirect: '/onlinevideo/all',
+				component: OnlineVideo,
+				children: [
+					{
+						path: 'all',
+						component: VideoAll,
+					},
+					{
+						path: 'category',
+						component: VideoCategory,
+					},
+				],
+			},
 
-      {
-        path: "onlinevideo",
-        redirect: "/onlinevideo/all",
-        component: OnlineVideo,
-        children: [
-          {
-            path: 'all',
-            component: VideoAll,
-          },
-          {
-            path: 'category',
-            component: VideoCategory,
-          },
-        ]
-      },
+			{
+				path: 'setting',
+				redirect: '/setting/general',
+				component: Setting,
+				children: [
+					{
+						path: 'general',
+						component: SettingGeneral,
+					},
+				],
+			},
 
-      {
-        path: "setting",
-        redirect: '/setting/general',
-        component: Setting,
-        children: [
-          {
-            path: 'general',
-            component: SettingGeneral,
-          }
-        ]
-      },
+			{
+				path: 'personalRecommend',
+				component: PersonalRecommend,
+			},
 
-      {
-        path: 'personalRecommend',
-        component: PersonalRecommend,
-      },
+			{
+				path: 'artist',
+				redirect: '/artist/featured',
+				component: Artist,
+				children: [
+					{
+						path: 'featured',
+						component: ArtistFeatured,
+					},
 
-      {
-        path: "artist",
-        redirect: "/artist/featured",
-        component: Artist,
-        children: [
-          {
-            path: "featured",
-            component: ArtistFeatured,
-          },
+					{
+						path: 'allSongs',
+						component: ArtistAllSongs,
+					},
 
-          {
-            path: "allSongs",
-            component: ArtistAllSongs,
-          },
+					{
+						path: 'album',
+						component: ArtistAlbum,
+					},
 
-          {
-            path: "album",
-            component: ArtistAlbum,
-          },
+					{
+						path: 'mv',
+						component: ArtistMv,
+					},
 
-          {
-            path: "mv",
-            component: ArtistMv,
-          },
+					{
+						path: 'similarSinger',
+						component: ArtistSimiSinger,
+					},
 
-          {
-            path: "similarSinger",
-            component: ArtistSimiSinger,
-          },
+					{
+						path: 'description',
+						component: ArtistDesc,
+					},
+				],
+			},
 
-          {
-            path: "description",
-            component: ArtistDesc,
-          },
-        ],
-      },
+			{
+				path: 'songlist/:id',
+				name: 'songlist',
+				redirect: (to: RouteLocation) => {
+					return {
+						path: 'songlist/:id/music',
+						name: 'songlistMusic',
+						params: {
+							id: to.params.id,
+						},
+					};
+				},
+				component: Songlist,
+				children: [
+					{
+						path: 'music',
+						name: 'songlistMusic',
+						component: SonglistMusic,
+					},
 
-      {
-        path: "songlist/:id",
-        name: 'songlist',
-        redirect: (to: RouteLocation) => {
-          return {
-            path: 'songlist/:id/music',
-            name: 'songlistMusic',
-            params: {
-              id: to.params.id
-            }
-          }
-        },
-        component: Songlist,
-        children: [
-          {
-            path: "music",
-            name: 'songlistMusic',
-            component: SonglistMusic,
-          },
+					{
+						path: 'comments',
+						name: 'songlistComments',
+						component: SonglistComment,
+					},
 
-          {
-            path: "comments",
-            name: 'songlistComments',
-            component: SonglistComment,
-          },
+					{
+						path: 'subscribers',
+						name: 'songlistSubscribers',
+						component: SonglistSubscriber,
+					},
+				],
+			},
 
-          {
-            path: "subscribers",
-            name: 'songlistSubscribers',
-            component: SonglistSubscriber,
-          },
-        ],
-      },
+			{
+				path: 'user',
+				redirect: '/user/playRecord',
+				component: User,
+				children: [
+					{
+						path: 'playRecord',
+						component: UserPlayRecord,
+					},
+					{
+						path: 'collection',
+						component: UserCollection,
+					},
+					{
+						path: 'songlist',
+						component: UserSonglist,
+					},
+				],
+			},
 
-      {
-        path: "user",
-        redirect: "/user/playRecord",
-        component: User,
-        children: [
-          {
-            path: "playRecord",
-            component: UserPlayRecord,
-          },
-          {
-            path: "collection",
-            component: UserCollection,
-          },
-          {
-            path: "songlist",
-            component: UserSonglist,
-          },
-        ],
-      },
+			{
+				path: 'search',
+				redirect: '/search/songs',
+				component: Search,
+				children: [
+					{
+						path: 'songs',
+						component: SearchSongs,
+					},
+					{
+						path: 'album',
+						component: SearchAlbum,
+					},
+					{
+						path: 'lyric',
+						component: SearchLyric,
+					},
+					{
+						path: 'radio',
+						component: SearchRadio,
+					},
+					{
+						path: 'video',
+						component: SearchVideo,
+					},
+					{
+						path: 'mv',
+						component: SearchMv,
+					},
+					{
+						path: 'user',
+						component: SearchUser,
+					},
+					{
+						path: 'songlist',
+						component: SearchSonglist,
+					},
+					{
+						path: 'singer',
+						component: SearchSinger,
+					},
+				],
+			},
 
-      {
-        path: "search",
-        redirect: "/search/songs",
-        component: Search,
-        children: [
-          {
-            path: "songs",
-            component: SearchSongs,
-          },
-          {
-            path: "album",
-            component: SearchAlbum,
-          },
-          {
-            path: "lyric",
-            component: SearchLyric,
-          },
-          {
-            path: "radio",
-            component: SearchRadio,
-          },
-          {
-            path: "video",
-            component: SearchVideo,
-          },
-          {
-            path: "mv",
-            component: SearchMv,
-          },
-          {
-            path: "user",
-            component: SearchUser,
-          },
-          {
-            path: "songlist",
-            component: SearchSonglist,
-          },
-          {
-            path: "singer",
-            component: SearchSinger,
-          },
-        ],
-      },
+			{
+				path: 'mv',
+				component: Mv,
+			},
 
-      {
-        path: 'mv',
-        component: Mv
-      },
+			{
+				path: 'video',
+				component: Video,
+			},
 
-      {
-        path: 'video',
-        component: Video
-      },
+			{
+				path: 'album',
+				component: Album,
+			},
 
-      {
-        path: 'album',
-        component: Album
-      },
+			{
+				path: '/myPage',
+				component: MyPage,
+			},
 
-      {
-        path: "/myPage",
-        component: MyPage,
-      },
-
-      {
-        path: "song/:id",
-        component: SongPage,
-        redirect: (to: RouteLocation) => {
-          return {
-            path: 'song/:id/comment',
-            name: 'SongComment',
-            params: {
-              id: to.params.id
-            }
-          }
-        },
-        children: [
-          {
-            path: "comment",
-            name: 'SongComment',
-            component: SongComment,
-          },
-          {
-            path: "detail",
-            name: 'SongDetail',
-            component: SongDetail,
-          }
-        ]
-      }
-
-    ],
-  }
+			{
+				path: 'song/:id',
+				component: SongPage,
+				redirect: (to: RouteLocation) => {
+					return {
+						path: 'song/:id/comment',
+						name: 'SongComment',
+						params: {
+							id: to.params.id,
+						},
+					};
+				},
+				children: [
+					{
+						path: 'comment',
+						name: 'SongComment',
+						component: SongComment,
+					},
+					{
+						path: 'detail',
+						name: 'SongDetail',
+						component: SongDetail,
+					},
+				],
+			},
+		],
+	},
 ];
 
 export default routes;

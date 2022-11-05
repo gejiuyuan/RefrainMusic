@@ -1,75 +1,74 @@
+/** @format */
 
-@import "@/scss/variable";
+@import '@/scss/variable';
 
 $baseSongTableHeight: 40em;
 
 .song-table {
-  position: relative;
-  min-height: $baseSongTableHeight;
-  &-loadingIcon {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: $baseSongTableHeight;
-  }
+	position: relative;
+	min-height: $baseSongTableHeight;
+	&-loadingIcon {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		height: $baseSongTableHeight;
+	}
 }
 
 .song-table {
-  .song-list-item {
-    transition: background-color 0.14s;
-    &:hover {
-      background-color: rgba(165,180,150, .12);
-      .song-list-cell {
-        background-color: transparent;
-      }
+	.song-list-item {
+		transition: background-color 0.14s;
+		&:hover {
+			background-color: rgba(165, 180, 150, 0.12);
+			.song-list-cell {
+				background-color: transparent;
+			}
 
-      .tools {
-        opacity: 1;
-      }
-    }
-  }
+			.tools {
+				opacity: 1;
+			}
+		}
+	}
 
-  .tools {
-    @include flexVc();
-    opacity: 0;
-    color: #888;
-    .tool-item {
-      margin: 0 6px;
-      font-size: 28px;
-      cursor: pointer;
+	.tools {
+		@include flexVc();
+		opacity: 0;
+		color: #888;
+		.tool-item {
+			margin: 0 6px;
+			font-size: 28px;
+			cursor: pointer;
 
-      &:hover {
-        color: var(--theme);
-      }
+			&:hover {
+				color: var(--theme);
+			}
+		}
+	}
 
-    }
-  }
+	.song-publish-time,
+	.song-name,
+	.song-duration,
+	.song-album {
+		color: #555;
+		font-size: 14px;
+	}
 
-  .song-publish-time,
-  .song-name,
-  .song-duration,
-  .song-album {
-    color: #555;
-    font-size: 14px;
-  }
+	.song-body-left {
+		@include flexVc();
+	}
 
-  .song-body-left {
-    @include flexVc();
-  }
+	.song-name {
+		padding-left: 1em;
+		padding-right: 4em;
+	}
 
-  .song-name {
-    padding-left: 1em;
-    padding-right: 4em;
-  }
-
-  .song-love {
-    @include flexVc();
-    margin-right: 8px;
-    font-size: 20px;
-    font-weight: 300;
-    color: #777;
-    cursor: pointer;
-  }
-
+	.song-love {
+		@include flexVc();
+		margin-right: 8px;
+		font-size: 20px;
+		font-weight: 300;
+		color: #777;
+		cursor: pointer;
+	}
 }

@@ -1,5 +1,7 @@
-import { anfrage, anfrageWithLoading } from "@/request";
-import { filterUselessKey } from "@utils/index";
+/** @format */
+
+import { anfrage, anfrageWithLoading } from '@/request';
+import { filterUselessKey } from '@utils/index';
 
 /**
  * 歌手分类列表
@@ -20,22 +22,20 @@ import { filterUselessKey } from "@utils/index";
  *              0:其他
  *
  */
-type artistParams = "limit" | "offset" | "initial" | "type" | "area";
-export function artistList(
-  params: Partial<Record<artistParams, number | string>>
-) {
-  const { limit = 30, offset = 0, type = -1, area = -1, initial } = params;
-  return anfrageWithLoading({
-    url: "/artist/list",
-    method: "get",
-    params: filterUselessKey({
-      limit,
-      offset: +limit * +offset,
-      type,
-      area,
-      initial,
-    }),
-  });
+type artistParams = 'limit' | 'offset' | 'initial' | 'type' | 'area';
+export function artistList(params: Partial<Record<artistParams, number | string>>) {
+	const { limit = 30, offset = 0, type = -1, area = -1, initial } = params;
+	return anfrageWithLoading({
+		url: '/artist/list',
+		method: 'get',
+		params: filterUselessKey({
+			limit,
+			offset: +limit * +offset,
+			type,
+			area,
+			initial,
+		}),
+	});
 }
 
 /**
@@ -44,16 +44,16 @@ export function artistList(
  *  - t 操作，1为收藏，其他为取消收藏
  */
 export function artistSub(params: { id: number | string; sure: boolean }) {
-  const { sure, id } = params;
-  return anfrage({
-    url: "/artist/sub",
-    method: "post",
-    params: {
-      id,
-      t: sure ? 1 : -1,
-      timestamp: new Date().valueOf(),
-    },
-  });
+	const { sure, id } = params;
+	return anfrage({
+		url: '/artist/sub',
+		method: 'post',
+		params: {
+			id,
+			t: sure ? 1 : -1,
+			timestamp: new Date().valueOf(),
+		},
+	});
 }
 
 /**
@@ -62,14 +62,14 @@ export function artistSub(params: { id: number | string; sure: boolean }) {
  *  - id 歌手id
  */
 export function artistTopSong(params: { id: number | string }) {
-  return anfrageWithLoading({
-    url: "/artist/top/song",
-    method: "get",
-    params: {
-      ...params,
-      timestamp: new Date().valueOf(),
-    },
-  });
+	return anfrageWithLoading({
+		url: '/artist/top/song',
+		method: 'get',
+		params: {
+			...params,
+			timestamp: new Date().valueOf(),
+		},
+	});
 }
 
 /**
@@ -81,57 +81,57 @@ export function artistTopSong(params: { id: number | string }) {
  *  - offset: 偏移数量 , 用于分页 , 如 :( 评论页数 -1)*50, 其中 50 为 limit 的值
  */
 export function artistSongs(params: {
-  id: number | string;
-  order?: string;
-  limit?: number | string;
-  offset?: number | string;
+	id: number | string;
+	order?: string;
+	limit?: number | string;
+	offset?: number | string;
 }) {
-  const { limit = 50, offset = 0, order, id } = params;
-  return anfrageWithLoading({
-    url: "/artist/songs",
-    method: "get",
-    params: filterUselessKey({
-      limit,
-      offset: +limit * +offset,
-      order,
-      id,
-    }),
-  });
+	const { limit = 50, offset = 0, order, id } = params;
+	return anfrageWithLoading({
+		url: '/artist/songs',
+		method: 'get',
+		params: filterUselessKey({
+			limit,
+			offset: +limit * +offset,
+			order,
+			id,
+		}),
+	});
 }
 
 /**
  * 获取歌手单曲
  */
 export function artistSingalSongs(params: { id: string | number }) {
-  return anfrageWithLoading({
-    url: "/artists",
-    method: "get",
-    params: {
-      ...params,
-      timestamp: new Date().valueOf(),
-    },
-  });
+	return anfrageWithLoading({
+		url: '/artists',
+		method: 'get',
+		params: {
+			...params,
+			timestamp: new Date().valueOf(),
+		},
+	});
 }
 
 /**
  * 获取歌手专辑
  */
 export function artistAlbum(params: {
-  id: string | number;
-  limit?: number | string;
-  offset?: number | string;
+	id: string | number;
+	limit?: number | string;
+	offset?: number | string;
 }) {
-  const { limit = 50, offset = 0, id } = params;
-  return anfrageWithLoading({
-    url: "/artist/album",
-    method: "get",
-    params: {
-      id,
-      limit,
-      offset: +limit * +offset,
-      timestamp: new Date().valueOf(),
-    },
-  });
+	const { limit = 50, offset = 0, id } = params;
+	return anfrageWithLoading({
+		url: '/artist/album',
+		method: 'get',
+		params: {
+			id,
+			limit,
+			offset: +limit * +offset,
+			timestamp: new Date().valueOf(),
+		},
+	});
 }
 
 /**
@@ -139,81 +139,78 @@ export function artistAlbum(params: {
  * @param id 歌手id
  */
 export function artistMv(params: {
-  id: string | number;
-  limit?: number | string;
-  offset?: number | string;
+	id: string | number;
+	limit?: number | string;
+	offset?: number | string;
 }) {
-  const { limit = 30, offset = 0, id } = params;
-  return anfrageWithLoading({
-    url: "/artist/mv",
-    method: "get",
-    params: filterUselessKey({
-      id,
-      limit,
-      offset: +limit * +offset,
-      timestamp: new Date().valueOf(),
-    }),
-  })
+	const { limit = 30, offset = 0, id } = params;
+	return anfrageWithLoading({
+		url: '/artist/mv',
+		method: 'get',
+		params: filterUselessKey({
+			id,
+			limit,
+			offset: +limit * +offset,
+			timestamp: new Date().valueOf(),
+		}),
+	});
 }
 
 /**
  * 获取歌手描述
  */
 export function artistDesc(params: { id: string | number }) {
-  return anfrageWithLoading({
-    url: "/artist/desc",
-    method: "get",
-    params,
-  });
+	return anfrageWithLoading({
+		url: '/artist/desc',
+		method: 'get',
+		params,
+	});
 }
 
 /**
  * 获取歌手详情
  */
 export function artistDetail(params: { id: string | number }) {
-  return anfrageWithLoading({
-    url: "/artist/detail",
-    method: "get",
-    params,
-  });
+	return anfrageWithLoading({
+		url: '/artist/detail',
+		method: 'get',
+		params,
+	});
 }
 
 /**
  * 获取相似歌手
  */
 export function artistSimilar(params: { id: string | number }) {
-  return anfrageWithLoading({
-    url: "/simi/artist",
-    method: "get",
-    params,
-  });
+	return anfrageWithLoading({
+		url: '/simi/artist',
+		method: 'get',
+		params,
+	});
 }
 
 /**
  * 热门歌手
  */
-export function artistHot(params: {
-  limit?: number | string;
-  offset?: number | string;
-}) {
-  const { limit = 50, offset = 0 } = params;
-  return anfrageWithLoading({
-    url: "/top/artists",
-    method: "get",
-    params: {
-      limit,
-      offset: +limit * +offset,
-    },
-  });
+export function artistHot(params: { limit?: number | string; offset?: number | string }) {
+	const { limit = 50, offset = 0 } = params;
+	return anfrageWithLoading({
+		url: '/top/artists',
+		method: 'get',
+		params: {
+			limit,
+			offset: +limit * +offset,
+		},
+	});
 }
 
 /**
  * 歌手榜
  */
 export function artistTopList(params: { type?: number | string }) {
-  return anfrageWithLoading({
-    url: "/toplist/artist",
-    method: "get",
-    params: filterUselessKey(params),
-  });
+	return anfrageWithLoading({
+		url: '/toplist/artist',
+		method: 'get',
+		params: filterUselessKey(params),
+	});
 }

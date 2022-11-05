@@ -1,5 +1,7 @@
-import { anfrage, anfrageWithLoading } from "@/request";
-import { filterUselessKey } from "@utils/index";
+/** @format */
+
+import { anfrage, anfrageWithLoading } from '@/request';
+import { filterUselessKey } from '@utils/index';
 
 /**
  * 获取用户详情
@@ -8,14 +10,14 @@ import { filterUselessKey } from "@utils/index";
  * @param {number} uid
  */
 export function userDetail(uid: string | number) {
-  return anfrageWithLoading({
-    url: "/user/detail",
-    method: "get",
-    params: {
-      uid,
-      timestamp: new Date().valueOf(),
-    },
-  })
+	return anfrageWithLoading({
+		url: '/user/detail',
+		method: 'get',
+		params: {
+			uid,
+			timestamp: new Date().valueOf(),
+		},
+	});
 }
 
 /**
@@ -23,26 +25,26 @@ export function userDetail(uid: string | number) {
  * 说明 : 登录后调用此接口 ,可获取用户账号信息
  */
 export function userAccount() {
-  return anfrageWithLoading({
-    url: "/user/account",
-    method: "get",
-    params: {
-      timestamp: new Date().valueOf(),
-    },
-  })
+	return anfrageWithLoading({
+		url: '/user/account',
+		method: 'get',
+		params: {
+			timestamp: new Date().valueOf(),
+		},
+	});
 }
 
 /**
  * 获取用户信息 , 歌单，收藏，mv, dj 数量
  */
 export function userSubcount() {
-  return anfrageWithLoading({
-    url: "/user/subcount",
-    method: "get",
-    params: {
-      timestamp: new Date().valueOf(),
-    },
-  })
+	return anfrageWithLoading({
+		url: '/user/subcount',
+		method: 'get',
+		params: {
+			timestamp: new Date().valueOf(),
+		},
+	});
 }
 
 /**
@@ -51,14 +53,14 @@ export function userSubcount() {
  * @param {number} uid
  */
 export function userBinding(uid: string | number) {
-  return anfrageWithLoading({
-    url: "/user/binding",
-    method: "get",
-    params: {
-      uid,
-      timestamp: new Date().valueOf(),
-    },
-  })
+	return anfrageWithLoading({
+		url: '/user/binding',
+		method: 'get',
+		params: {
+			uid,
+			timestamp: new Date().valueOf(),
+		},
+	});
 }
 
 /**
@@ -71,21 +73,21 @@ export function userBinding(uid: string | number) {
  * @param {number} offset
  */
 export function userPlaylist(params: {
-  uid: string | number;
-  limit?: string | number;
-  offset?: string | number;
+	uid: string | number;
+	limit?: string | number;
+	offset?: string | number;
 }) {
-  const { uid, limit = 30, offset = 0 } = params;
-  return anfrageWithLoading({
-    url: "/user/playlist",
-    method: "get",
-    params: filterUselessKey({
-      uid,
-      limit,
-      offset: +limit * +offset,
-      timestamp: new Date().valueOf(),
-    }),
-  })
+	const { uid, limit = 30, offset = 0 } = params;
+	return anfrageWithLoading({
+		url: '/user/playlist',
+		method: 'get',
+		params: filterUselessKey({
+			uid,
+			limit,
+			offset: +limit * +offset,
+			timestamp: new Date().valueOf(),
+		}),
+	});
 }
 
 /**
@@ -94,14 +96,14 @@ export function userPlaylist(params: {
  * @param {number} uid
  */
 export function userDj(params: { uid: string | number }) {
-  return anfrageWithLoading({
-    url: "/user/dj",
-    method: "get",
-    params: {
-      ...params,
-      timestamp: new Date().valueOf(),
-    },
-  })
+	return anfrageWithLoading({
+		url: '/user/dj',
+		method: 'get',
+		params: {
+			...params,
+			timestamp: new Date().valueOf(),
+		},
+	});
 }
 
 /**
@@ -114,21 +116,21 @@ export function userDj(params: { uid: string | number }) {
  * @param {number} offset
  */
 export function userFollows(params: {
-  uid: string | number;
-  limit?: string | number;
-  offset?: string | number;
+	uid: string | number;
+	limit?: string | number;
+	offset?: string | number;
 }) {
-  const { uid, limit = 30, offset = 0 } = params;
-  return anfrageWithLoading({
-    url: "/user/follows",
-    method: "get",
-    params: filterUselessKey({
-      uid,
-      limit,
-      offset: +limit * +offset,
-      timestamp: new Date().valueOf(),
-    }),
-  });
+	const { uid, limit = 30, offset = 0 } = params;
+	return anfrageWithLoading({
+		url: '/user/follows',
+		method: 'get',
+		params: filterUselessKey({
+			uid,
+			limit,
+			offset: +limit * +offset,
+			timestamp: new Date().valueOf(),
+		}),
+	});
 }
 
 /**
@@ -141,21 +143,21 @@ export function userFollows(params: {
  * @param {number} offset
  */
 export function userFans(params: {
-  uid: string | number;
-  limit?: string | number;
-  offset?: string | number;
+	uid: string | number;
+	limit?: string | number;
+	offset?: string | number;
 }) {
-  const { uid, limit = 30, offset = 0 } = params;
-  return anfrageWithLoading({
-    url: "/user/followeds",
-    method: "get",
-    params: filterUselessKey({
-      uid,
-      limit,
-      offset: +limit * +offset,
-      timestamp: new Date().valueOf(),
-    }),
-  });
+	const { uid, limit = 30, offset = 0 } = params;
+	return anfrageWithLoading({
+		url: '/user/followeds',
+		method: 'get',
+		params: filterUselessKey({
+			uid,
+			limit,
+			offset: +limit * +offset,
+			timestamp: new Date().valueOf(),
+		}),
+	});
 }
 
 /**
@@ -166,16 +168,16 @@ export function userFans(params: {
  * @param {number} t
  */
 export function unOrFocusUser(params: { id: string | number; sure: boolean }) {
-  const { id, sure } = params;
-  return anfrage({
-    url: "/follow",
-    method: "post",
-    params: {
-      id,
-      t: sure ? 1 : -1,
-      timestamp: new Date().valueOf(),
-    }
-  });
+	const { id, sure } = params;
+	return anfrage({
+		url: '/follow',
+		method: 'post',
+		params: {
+			id,
+			t: sure ? 1 : -1,
+			timestamp: new Date().valueOf(),
+		},
+	});
 }
 
 /**
@@ -186,28 +188,28 @@ export function unOrFocusUser(params: { id: string | number; sure: boolean }) {
  * @param {number} type
  */
 export function userRecord(params: { uid: string | number; type?: 0 | 1 }) {
-  params.type ??= 1;
-  return anfrageWithLoading({
-    url: "/user/record",
-    method: "post",
-    params: {
-      ...filterUselessKey(params),
-      timestamp: new Date().valueOf(),
-    },
-  })
+	params.type ??= 1;
+	return anfrageWithLoading({
+		url: '/user/record',
+		method: 'post',
+		params: {
+			...filterUselessKey(params),
+			timestamp: new Date().valueOf(),
+		},
+	});
 }
 
 /**
- * 收藏的歌手列表 
+ * 收藏的歌手列表
  */
 export function userLoveArtist() {
-  return anfrageWithLoading({
-    url: "/artist/sublist",
-    method: "get",
-    params: {
-      timestamp: new Date().valueOf(),
-    },
-  });
+	return anfrageWithLoading({
+		url: '/artist/sublist',
+		method: 'get',
+		params: {
+			timestamp: new Date().valueOf(),
+		},
+	});
 }
 
 /**
@@ -216,81 +218,72 @@ export function userLoveArtist() {
  *  - t 1为收藏，其他为取消收藏
  *
  */
-export function userVideoCollect(params: {
-  id: string | number;
-  sure: boolean;
-}) {
-  const { id, sure } = params;
-  return anfrage({
-    url: "/video/sub",
-    method: "post",
-    params: {
-      id,
-      t: sure ? 1 : -1,
-      timestamp: new Date().valueOf(),
-    },
-  });
+export function userVideoCollect(params: { id: string | number; sure: boolean }) {
+	const { id, sure } = params;
+	return anfrage({
+		url: '/video/sub',
+		method: 'post',
+		params: {
+			id,
+			t: sure ? 1 : -1,
+			timestamp: new Date().valueOf(),
+		},
+	});
 }
 
 /**
  * 收藏/取消收藏 MV
  *  - mvid mv的id
- *  - t 1为收藏，其他为取消收藏 
+ *  - t 1为收藏，其他为取消收藏
  */
-export function userMvCollect(params: {
-  id: string | number;
-  sure: boolean;
-}) {
-  const { id, sure } = params;
-  return anfrage({
-    url: "/mv/sub",
-    method: "post",
-    params: {
-      mvid: id,
-      t: sure ? 1 : -1,
-    },
-  });
+export function userMvCollect(params: { id: string | number; sure: boolean }) {
+	const { id, sure } = params;
+	return anfrage({
+		url: '/mv/sub',
+		method: 'post',
+		params: {
+			mvid: id,
+			t: sure ? 1 : -1,
+		},
+	});
 }
 
 /**
- * 收藏的 MV 列表 
+ * 收藏的 MV 列表
  */
 export function userCollectedMv() {
-  return anfrageWithLoading({
-    url: "/mv/sublist",
-    params: {
-      timestamp: new Date().valueOf(),
-    }
-  });
+	return anfrageWithLoading({
+		url: '/mv/sublist',
+		params: {
+			timestamp: new Date().valueOf(),
+		},
+	});
 }
 
 /**
- * 喜欢音乐列表 
+ * 喜欢音乐列表
  */
 export function userLikeList(params: { uid: number | string }) {
-  return anfrageWithLoading({
-    url: "/likelist",
-    method: "get",
-    params: {
-      ...params,
-      timestamp: new Date().valueOf(),
-    },
-  })
+	return anfrageWithLoading({
+		url: '/likelist',
+		method: 'get',
+		params: {
+			...params,
+			timestamp: new Date().valueOf(),
+		},
+	});
 }
 
 /**
  * 喜欢音乐
- * @returns 
+ * @returns
  */
-export function userLikeMusic(params: {
-  id: string | number,
-  like: boolean,
-}) {
-  return anfrage({
-    url: '/like',
-    method: "post",
-    params: filterUselessKey(params)
-  })
+export function userLikeMusic(params: { id: string | number; like: boolean }) {
+	return anfrage({
+		url: '/like',
+		method: 'post',
+		params: filterUselessKey(params),
+	});
 }
 
 /**
@@ -298,8 +291,8 @@ export function userLikeMusic(params: {
  *
  */
 export function userLSetting() {
-  return anfrageWithLoading({
-    url: "/setting",
-    method: "get",
-  })
+	return anfrageWithLoading({
+		url: '/setting',
+		method: 'get',
+	});
 }

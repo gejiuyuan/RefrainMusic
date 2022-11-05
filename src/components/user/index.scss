@@ -1,49 +1,49 @@
-@import "@/scss/variable"; 
+/** @format */
+
+@import '@/scss/variable';
 
 .user-header {
-  @include flexVc();
-  padding-bottom: 2em;
-  max-height: 300px;
-  .user-avatar {
-    width: 180px;
-    margin-right: 1em;
-    object-fit: cover;
-    border-radius: 100%;
-  }
+	@include flexVc();
+	padding-bottom: 2em;
+	max-height: 300px;
+	.user-avatar {
+		width: 180px;
+		margin-right: 1em;
+		object-fit: cover;
+		border-radius: 100%;
+	}
 
-  .user-name {
-    padding-bottom: 1em;
-    font-size: 24px;
-  }
+	.user-name {
+		padding-bottom: 1em;
+		font-size: 24px;
+	}
 
-  .user-btns {
-    padding: 1em 0; 
-  }
+	.user-btns {
+		padding: 1em 0;
+	}
 
-  .userinfo-layer {
-    @include flex();
-    padding-bottom: 1em;
+	.userinfo-layer {
+		@include flex();
+		padding-bottom: 1em;
 
-    > em {
-      width: 5rem;
-      color: #455;
-    }
+		> em {
+			width: 5rem;
+			color: #455;
+		}
 
-    > span {
-      flex: 1;
-      line-height: 1.4;
-      color: #666;
-    }
-  }
+		> span {
+			flex: 1;
+			line-height: 1.4;
+			color: #666;
+		}
+	}
 }
 
-
-
-.user-routes { 
-  .songlist-layer {
-    .songlist-title {
-      font-size: 18px;
-      font-weight: 500;
-    }
-  }
+.user-routes {
+	.songlist-layer {
+		.songlist-title {
+			font-size: 18px;
+			font-weight: 500;
+		}
+	}
 }

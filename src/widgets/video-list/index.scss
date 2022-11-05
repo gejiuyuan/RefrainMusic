@@ -1,32 +1,34 @@
-@import "@scss/variable";
+/** @format */
+
+@import '@scss/variable';
 
 .video-container {
-  .video-card {
-    position: relative;
-    width: 100%;
+	.video-card {
+		position: relative;
+		width: 100%;
 
-    img {
-      width: 100%; 
-      border-radius: 14px;
-      transition: 0.16s;
-      cursor: pointer;
+		img {
+			width: 100%;
+			border-radius: 14px;
+			transition: 0.16s;
+			cursor: pointer;
 
-      &:hover {
-        filter: drop-shadow(0 16px 20px rgba(40, 70, 100, 0.2));
-        transform: translateY(-6px);
-      }
-    }
-    .video-title {
-      padding: 8px 0;
-      color: #555;
-      font-size: 14px;
-      line-height: 1.4;
-    }
+			&:hover {
+				filter: drop-shadow(0 16px 20px rgba(40, 70, 100, 0.2));
+				transform: translateY(-6px);
+			}
+		}
+		.video-title {
+			padding: 8px 0;
+			color: #555;
+			font-size: 14px;
+			line-height: 1.4;
+		}
 
-    .video-info {
-      @include flexHbVc();
-      color: #666;
-      font-size: 13px;
-    }
-  }
+		.video-info {
+			@include flexHbVc();
+			color: #666;
+			font-size: 13px;
+		}
+	}
 }

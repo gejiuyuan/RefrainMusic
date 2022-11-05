@@ -1,12 +1,14 @@
-@use "sass:math";
+/** @format */
+
+@use 'sass:math';
 
 $scrollbarWidth: 8px;
 $playbillWidth: 360px;
 $colorscrollbar: rgba(0, 0, 0, 0.18);
-$colorSettingTitle: rgba(40, 40, 40, .8);
-$colorSettingName: rgba(70, 70, 70, .8);
+$colorSettingTitle: rgba(40, 40, 40, 0.8);
+$colorSettingName: rgba(70, 70, 70, 0.8);
 $listBgc: rgb(240, 240, 240);
-$baseBackgroud:rgb(246, 246, 246);
+$baseBackgroud: rgb(246, 246, 246);
 $replyTextareaBgc: rgb(239, 239, 239);
 $colornoop: transparent;
 $colorbase: rgb(254, 254, 254);
@@ -14,110 +16,109 @@ $colortaobao: #f40;
 
 $oneLyricItemHeight: calc(100% / 11);
 $lyricContainerMaxheight: 440px;
-$lyricItemheihgt: math.div($lyricContainerMaxheight , 11);
+$lyricItemheihgt: math.div($lyricContainerMaxheight, 11);
 
 $homeTopHeaderHeight: 80px;
 $homeBottomControllerHeight: 90px;
 $progressBarWidthOrHeight: 14px;
 
 /* 控制不同类型的图标实时显示 */
-$iconTypes: order, singalLoop, random, loop, play, pause, volume, muted, full,
-  cancelFull;
+$iconTypes: order, singalLoop, random, loop, play, pause, volume, muted, full, cancelFull;
 
 @mixin noSelect {
-  user-select: none;
-  -webkit-user-drag: none;
+	user-select: none;
+	-webkit-user-drag: none;
 }
 
 @mixin flexInline {
-  display: inline-flex;
+	display: inline-flex;
 }
 
 @mixin flex {
-  display: flex;
+	display: flex;
 }
 
 @mixin flexV {
-  @include flex();
-  flex-direction: column;
+	@include flex();
+	flex-direction: column;
 }
 
 @mixin flexVc {
-  @include flex();
-  align-items: center;
+	@include flex();
+	align-items: center;
 }
 
 @mixin flexVe {
-  @include flex();
-  align-items: flex-end;
+	@include flex();
+	align-items: flex-end;
 }
 
 @mixin flexHb {
-  @include flex();
-  justify-content: space-between;
+	@include flex();
+	justify-content: space-between;
 }
 
 @mixin flexHa {
-  @include flex();
-  justify-content: space-around;
+	@include flex();
+	justify-content: space-around;
 }
 
 @mixin flexHev {
-  @include flex();
-  justify-content: space-evenly;
+	@include flex();
+	justify-content: space-evenly;
 }
 
 @mixin flexHe {
-  @include flex();
-  justify-content: flex-end;
+	@include flex();
+	justify-content: flex-end;
 }
 
 @mixin flexHbC {
-  @include flexV();
-  @include flexHb();
+	@include flexV();
+	@include flexHb();
 }
 
 @mixin flexHc {
-  @include flex();
-  justify-content: center;
+	@include flex();
+	justify-content: center;
 }
 
 @mixin flexHbVc {
-  @include flexVc;
-  @include flexHb;
+	@include flexVc;
+	@include flexHb;
 }
 
 @mixin flexHbVe {
-  @include flexVe;
-  @include flexHb;
+	@include flexVe;
+	@include flexHb;
 }
 
 @mixin flexHeVc {
-  @include flexVc;
-  @include flexHe;
+	@include flexVc;
+	@include flexHe;
 }
 
 @mixin flexHcVc {
-  @include flexHc();
-  @include flexVc();
+	@include flexHc();
+	@include flexVc();
 }
 
 @mixin flexHcVe {
-  @include flexHc();
-  @include flexVe();
+	@include flexHc();
+	@include flexVe();
 }
 
 @mixin flexHevV {
-  @include flexHev();
-  @include flexV();
+	@include flexHev();
+	@include flexV();
 }
 
 @mixin flexVHe {
-  @include flexHe();
-  @include flexV();
+	@include flexHe();
+	@include flexV();
 }
 
 @mixin flexHevVc {
-  @include flexHev();
-  @include flexVc();
+	@include flexHev();
+	@include flexVc();
 }
