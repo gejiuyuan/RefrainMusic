@@ -146,10 +146,10 @@ export default defineComponent({
 			const { listMap, hasMore } = newDiscInfos;
 			const targetList =
 				timeRangeList.find(({ key }) => timerange === key) ||
-				({} as typeof timeRangeList[number]);
+				({} as (typeof timeRangeList)[number]);
 			const { dataKey, type: targetType } = targetList;
 			const targetData = dataKey
-				? (listMap[area]! || EMPTY_OBJ)[dataKey as keyof typeof listMap[string]] || []
+				? (listMap[area]! || EMPTY_OBJ)[dataKey as keyof (typeof listMap)[string]] || []
 				: [];
 
 			return (

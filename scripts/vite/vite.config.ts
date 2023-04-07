@@ -154,7 +154,6 @@ const devConfig = extend({}, baseConfig, {
 		strictPort: false,
 		//值为字符串时，会被作为URL的路径名
 		open: false,
-		watch: true,
 		cors: true,
 		proxy: viteConstant.proxy,
 		//热更新：借助websocket实现
