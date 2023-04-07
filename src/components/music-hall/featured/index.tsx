@@ -18,6 +18,7 @@ import { is, padPicCrop } from '@/utils';
 import RecommendBanner from './banner';
 import { NGrid, NGridItem } from 'naive-ui';
 import useUserStore from '@/stores/user';
+import useMusicHallStore from '@/stores/musicHall';
 
 export type FeaturedItem = {
 	copywriter: string;
@@ -35,19 +36,14 @@ export default defineComponent({
 		const userStore = useUserStore();
 		const router = useRouter();
 		const featuredData = reactive({
-			bannerlist: [] as any[],
 			songlist: [] as any[],
 			personalSonglist: [] as any[],
 		});
 
 		const limit = 10;
 		const vm = getCurrentInstance()!;
+		const musicHallStore = useMusicHallStore();
 
-		const getBanner = async () => {
-			const { banners = [] } = await bannerInfo({ type: 0 });
-			featuredData.bannerlist = banners;
-		};
-		getBanner();
 		const getFeatruedSonglist = async () => {
 			const { result = [] } = await recommendSonglist({ limit });
 			featuredData.songlist = result;
@@ -65,10 +61,10 @@ export default defineComponent({
 		};
 
 		return () => {
-			const { bannerlist, songlist } = featuredData;
+			const { songlist } = featuredData;
 			return (
 				<section class="music-hall-featured">
-					<RecommendBanner bannerList={bannerlist}></RecommendBanner>
+					<RecommendBanner bannerList={musicHallStore.bannerList}></RecommendBanner>
 					<section class="layer">
 						<h6>推荐歌单</h6>
 						<section class="item-wrap">
