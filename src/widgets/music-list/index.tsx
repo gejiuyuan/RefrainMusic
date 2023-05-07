@@ -145,7 +145,7 @@ export default defineComponent({
 			show: false,
 		});
 
-		const currentHoverMusicInfo = ref({} as typeof songData.value[number]);
+		const currentHoverMusicInfo = ref({} as (typeof songData.value)[number]);
 
 		const judgeModifySuspension = (ev: MouseEvent) => {
 			const tarMusicItemElm = closest(ev.target as Element, '.index-layer');

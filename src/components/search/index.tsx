@@ -200,7 +200,7 @@ export default defineComponent({
 		) => {
 			const { keywords: oldKeywords } = oldQuery || EMPTY_OBJ;
 			const { keywords } = query as PlainObject<string>;
-			searchCate.forEach((item: typeof baseSearchCate[number], i) => {
+			searchCate.forEach((item: (typeof baseSearchCate)[number], i) => {
 				const { to: baseTo, type, limit } = baseSearchCate[i];
 				const queryStr = objToQuery(
 					{ keywords, type: `${type}`, limit, offset: '0' },

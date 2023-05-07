@@ -247,3 +247,42 @@ export const generateFormData = (params: PlainObject) => {
 	});
 	return formData;
 };
+
+export function once<T extends unknown[]>(fn: (...args: T) => any) {
+	let isExecuted = false;
+	return function (this: unknown, ...args: T) {
+		if (!isExecuted) {
+			fn.call(this, ...args);
+			isExecuted = true;
+		}
+	};
+}
+
+export function sleep(fn: () => unknown, timer: number = 0) {
+	return new Promise((resolve, reject) => {
+		setTimeout(() => {
+			fn();
+			resolve(true);
+		}, timer);
+	});
+}
+
+export function loopSleep(...args: Parameters<typeof sleep>) {
+	return new Promise((resolve, reject) => {
+		setInterval(() => {
+			requestIdleCallback(() => {
+				args[0]();
+				resolve(true);
+			});
+		}, args[1]);
+	});
+}
+
+export function onceInLoop(fn: () => unknown, timer: number) {
+	return once(function (this: unknown, options?: { immediate?: boolean }) {
+		if (options?.immediate) {
+			fn.call(this);
+		}
+		loopSleep(fn.bind(this), timer);
+	});
+}

@@ -32,7 +32,6 @@ const conf = {
 	trailingComma: 'all',
 
 	insertPragma: true,
-
 	embeddedLanguageFormatting: 'off',
 
 	//对html等daima进行换行

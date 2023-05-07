@@ -10,7 +10,7 @@ import { useChildren } from '@/hooks/useChildren';
 export const YUAN_TABLE_KEY = Symbol('YuanTable');
 
 type ParentExtraData = {
-	props: Parameters<NonNullable<typeof defaultComp['setup']>>[0];
+	props: Parameters<NonNullable<(typeof defaultComp)['setup']>>[0];
 };
 
 const defaultComp = defineComponent({
