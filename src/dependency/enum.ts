@@ -38,7 +38,6 @@ export enum SongFee {
 
 /**
  * 歌曲所属属性
- *
  * @export
  * @enum {number}
  */
@@ -49,4 +48,17 @@ export enum OriginCoverType {
 	origin,
 	// 翻唱
 	cover,
+}
+
+/**
+ * 新歌速递分类
+ * @export
+ * @enum {number}
+ */
+export enum NewMusicAreaMap {
+	'全部' = 0,
+	'华语' = 7,
+	'日本' = 8,
+	'韩国' = 16,
+	'欧美' = 96,
 }

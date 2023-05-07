@@ -20,7 +20,6 @@ const IndexedDBInit = {
 	 */
 	[MusicHallDBTables.bannerList]: async () => {
 		const bannerList = await getOrPutBannerList();
-
 		useMusicHallStore().setBannerList(bannerList || []);
 	},
 } as const;
