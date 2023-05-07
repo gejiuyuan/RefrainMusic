@@ -8,7 +8,7 @@ import { loginCookie } from '@/utils/auth';
 export function createRequestInstance(responseType: RyokoResponseType = 'json') {
 	const ins = ryoko.create({
 		mode: 'cors',
-		prefixUrl: import.meta.env.VITE_APP_PREFIX_URL as string,
+		prefixUrl: import.meta.env.RENDERER_VITE_APP_PREFIX_URL as string,
 		timeout: 15000,
 		cache: 'force-cache',
 		responseType,

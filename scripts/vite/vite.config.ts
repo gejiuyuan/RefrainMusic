@@ -1,41 +1,24 @@
 /** @format */
-
-import {
-	defineConfig,
-	UserConfig,
-	UserConfigFn,
-	ServerOptions,
-	RollupCommonJSOptions,
-} from 'vite';
-
+import path from 'path';
+import { defineConfig, UserConfig } from 'vite';
 //vue 3 jsx synxtax
 import VueJsx from '@vitejs/plugin-vue-jsx';
-
-//element-plus style loader
-// import styleImport from 'vite-plugin-style-import'
-
 //插件：解析.svg成内联元素
 import svgLoader from 'vite-svg-loader';
-
 //插件：解析.vue单文件组件
 import vue from '@vitejs/plugin-vue';
-
 //插件：导入jpg、png、webp、gif和svg图片的插件
 import image from '@rollup/plugin-image';
-
+import { VitePWA } from 'vite-plugin-pwa';
 //插件：解析.md文件
 // import Markdown from 'vite-plugin-md';
-
 //导入配置文件
 import viteConstant from './constant';
-const { extend } = viteConstant;
-
-import path from 'path';
 import manualChunksHandler from './manualChunk';
-import VitePWAPluginConfig from './pwa';
-const pathResolve = path.resolve;
 
-const baseConfig: UserConfig = {
+const pathResolve = (rest: string) => path.join(process.cwd(), rest);
+
+const rendererConfig: UserConfig = {
 	//配置运行环境，即import.meta.env.MODE（client.js中的window.process.env.NODE_ENV = __MODE__的值）
 	//可选值：development、production
 	mode: process.env.NODE_ENV,
@@ -94,6 +77,7 @@ const baseConfig: UserConfig = {
 
 	//插件
 	plugins: [
+		//.vue文件解析插件
 		vue({
 			template: {
 				compilerOptions: {
@@ -103,14 +87,51 @@ const baseConfig: UserConfig = {
 					},
 				},
 			},
-		}), //.vue文件解析插件
-		image(), //图片导入解析插件
-		// Markdown(), //.md文件解析插件
-		svgLoader(), //svg图片解析成内联代码
+		}),
+		//图片导入解析插件
+		image(),
+		//.md文件解析插件
+		// Markdown(),
+		//svg图片解析成内联代码
+		svgLoader(),
 		VueJsx({
 			transformOn: true,
 		}),
-		VitePWAPluginConfig, //pwa
+		//pwa
+		VitePWA({
+			strategies: 'injectManifest',
+			srcDir: 'src',
+			filename: 'sw.ts',
+			base: '/',
+			injectManifest: {
+				maximumFileSizeToCacheInBytes: 3000000,
+			},
+			workbox: {
+				cleanupOutdatedCaches: true,
+			},
+			registerType: 'autoUpdate',
+			includeAssets: ['pwa/**.{png,svg}'],
+			manifest: {
+				name: 'RefrainMusic',
+				short_name: 'RefrainMusic',
+				theme_color: '#ffffff',
+				background_color: '#ffffff',
+				icons: [
+					{
+						src: '/pwa/android-chrome-192x192.png',
+						sizes: '192x192',
+						type: 'image/png',
+					},
+					{
+						src: '/pwa/android-chrome-512x512.png',
+						sizes: '512x512',
+						type: 'image/png',
+					},
+				],
+				display: 'standalone',
+				description: 'A high appearance level music player based on netease Cloud API!',
+			},
+		}),
 	],
 
 	//优化依赖
@@ -118,62 +139,25 @@ const baseConfig: UserConfig = {
 		esbuildOptions: {
 			keepNames: true,
 		},
-
+		//强制预构建打包依赖包
+		force: true,
 		//需要强制预打包的依赖
 		// include: [
 		// ],
 		// exclude: [],
 		//vite服务器打开时自动运行pre-bounding预打包
 		// auto: true,
-		//vite默认自会pre-bounding纯js文件，该选项允许砸门使用相关插件预打包其他类型文件，如.vue
-		//同样，这些插件还得写在前面的plugins选项中，以便支持生产环境。
-		//注意：已废除
-		// plugins: [
-		//     vue(),
-		// ],
 	},
-};
-
-const devConfig = extend({}, baseConfig, {
-	//在开发或生产环境下，网页运行的虚拟基础路径
-	base: './',
-
-	//日志记录方式：info（默认）、log、error和silent
-	logLevel: 'info',
-
-	//为false时可避免vite清屏而错过在终端中打印某些关键信息
-	clearScreen: false,
-	optimizeDeps: {
-		//强制预构建打包依赖包
-		force: true,
+	css: {
+		devSourcemap: true,
 	},
-	server: {
-		host: viteConstant.hostname,
-		port: viteConstant.port,
-		//为true时，若端口已占用则直接退出，而非直接尝试下一个可用端口
-		strictPort: false,
-		//值为字符串时，会被作为URL的路径名
-		open: false,
-		cors: true,
-		proxy: viteConstant.proxy,
-		//热更新：借助websocket实现
-		hmr: {
-			overlay: true, //是否覆盖报错，若为false，则不会显示错误提示界面
-		},
-		fs: {
-			strict: false,
-		},
-	},
-} as UserConfig);
-
-const prodConfig = extend({}, baseConfig, {
 	build: {
 		//打包后的代码所支持的运行环境。
 		//可选值：es2020（默认值）、es2015（最低值）之类的js版本号；chrome58、safari11之类的浏览器版本号；node12.19.0版本号
 		//写法：1、'es2020,chrome58,firefox57,node12.19.0'；2、['es2020', 'chrome58']
-		target: 'chrome70',
+		target: 'chrome90',
 		//打包后html输出的主目录，默认dist。相对于project root项目根目录确定
-		outDir: 'dist',
+		outDir: 'dist/renderer',
 		//打包后输出的静态资源目录(包含css、js），默认assets，相对于outDir目录确定
 		assetsDir: 'assets',
 		//静态资源导入大小限制，默认为4096（4kb）
@@ -181,8 +165,12 @@ const prodConfig = extend({}, baseConfig, {
 		sourcemap: false,
 		//rollup配置选项，将会与vite内部的默认配置选项合并
 		rollupOptions: {
+			watch: {},
 			output: {
 				manualChunks: manualChunksHandler,
+			},
+			input: {
+				index: pathResolve('index.html'),
 			},
 		},
 		//代码压缩。
@@ -195,31 +183,45 @@ const prodConfig = extend({}, baseConfig, {
 				drop_debugger: true,
 			},
 		},
-		//动态导入的polyfill，默认true，如果build.target为esnext则不会使用polyfill，已废弃
-		// polyfillDynamicImport: true,
 		//css代码分离，默认会在不同异步chunk块加载时插入（即css懒加载），否则所有css背会抽取到一个css文件中
 		cssCodeSplit: true,
-
-		//css优化选项，依赖于clean-css包，已废弃
-		// cleanCssOptions: {
-		//     format: 'keep-breaks', //选项：keep-breaks（保持换行）、beautify
-		//     compatibility: 'ie11',
-		// },
-		// 启用/禁用 brotli 压缩大小报告。压缩大型输出文件可能会很慢，因此禁用该功能可能会提高大型项目的构建性能
-		brotliSize: false,
 		//开发插件库时所能用到
-		// lib: {
-
-		// }
+		// lib: {}
 	},
-} as UserConfig);
+	//在开发或生产环境下，网页运行的虚拟基础路径
+	base: '/',
 
-type ViteConfEnvProp = {
-	command: 'serve' | 'build';
-	mode: string;
+	//日志记录方式：info（默认）、log、error和silent
+	logLevel: 'info',
+
+	//为false时可避免vite清屏而错过在终端中打印某些关键信息
+	clearScreen: false,
+
+	server: {
+		host: viteConstant.hostname,
+		port: viteConstant.port,
+		//为true时，若端口已占用则直接退出，而非直接尝试下一个可用端口
+		strictPort: false,
+		//值为字符串时，会被作为URL的路径名
+		open: false,
+		cors: true,
+		proxy: {
+			'/api': {
+				target: 'http://localhost:3000',
+				changeOrigin: true,
+				rewrite: (path) => path.replace(/^\/api/, ''),
+			},
+		},
+		//热更新：借助websocket实现
+		hmr: {
+			overlay: true, //是否覆盖报错，若为false，则不会显示错误提示界面
+		},
+		fs: {
+			strict: false,
+		},
+	},
+	// 自定义网页渲染环境的环境变量前缀，vite默认是VITE_，而electron-vite中默认RENDER_VITE_，这里就统一下
+	envPrefix: ['RENDERER_VITE_'],
 };
 
-const viteConfFn: UserConfigFn = (envObj: ViteConfEnvProp) =>
-	envObj.mode === 'development' ? devConfig : prodConfig;
-
-export default defineConfig(viteConfFn);
+export default defineConfig(() => rendererConfig);
