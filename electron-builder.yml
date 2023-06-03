@@ -1,19 +1,20 @@
 # @format
 
-appId: com.electron.app
+appId: com.refrain.app
 productName: refrain-music
 directories:
   buildResources: build
+  output: dist-client
 files:
+  - '**/*'
+  - '!**/.md'
   - '!**/.vscode/*'
-  - '!src/*'
   - '!**/electron.vite.config.{js,ts,mjs,cjs}'
-  - '!{.eslintignore,.eslintrc.cjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md}'
+  - '!{.eslintignore,.editorconfig,.eslintrc.cjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md}'
   - '!{.env,.env.*,.npmrc,pnpm-lock.yaml,yarn.lock}'
   - '!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}'
-asarUnpack:
-  - client/main/public/**
 afterSign: build/notarize.js
+extends: null
 win:
   icon: build/icon.png
   executableName: refrain-music
@@ -22,6 +23,7 @@ nsis:
   shortcutName: ${productName}
   uninstallDisplayName: ${productName}
   createDesktopShortcut: always
+  createStartMenuShortcut: true
 mac:
   icon: build/icon.png
   entitlementsInherit: build/entitlements.mac.plist
@@ -45,4 +47,4 @@ appImage:
 npmRebuild: false
 publish:
   provider: generic
-  url: https://example.com/auto-updates
+  url: https://refrain-music.vercel.app

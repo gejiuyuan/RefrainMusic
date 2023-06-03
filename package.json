@@ -4,6 +4,8 @@
 	"main": "./dist/main/index.js",
 	"license": "MIT",
 	"private": true,
+	"description": "a tiny music player!!!",
+	"author": "guoxiaoyou",
 	"scripts": {
 		"rebuild:githooks": "npx simple-git-hooks",
 		"dev": "vite -c scripts/vite/vite.config.ts",
@@ -34,6 +36,7 @@
 	"dependencies": {
 		"@electron-toolkit/preload": "^1.0.3",
 		"@electron-toolkit/utils": "^1.0.2",
+		"@types/koa": "^2.13.6",
 		"@vueuse/core": "^6.5.3",
 		"crypto-js": "^4.1.1",
 		"dexie": "^3.0.3",
@@ -45,7 +48,8 @@
 		"ryoko": "^0.1.6",
 		"swiper": "^8.4.4",
 		"vue": "^3.2.41",
-		"vue-router": "~4.0.10"
+		"vue-router": "~4.0.10",
+		"NeteaseCloudMusicApi": "^4.6.7"
 	},
 	"devDependencies": {
 		"@electron-toolkit/tsconfig": "^1.0.1",
@@ -54,6 +58,8 @@
 		"@types/crypto-js": "^4.0.2",
 		"@types/howler": "^2.2.3",
 		"@types/js-cookie": "^2.2.7",
+		"@types/koa-router": "^7.4.4",
+		"@types/koa-static": "^4.0.2",
 		"@types/node": "^16.4.8",
 		"@typescript-eslint/eslint-plugin": "^4.29.1",
 		"@typescript-eslint/parser": "^4.29.1",
@@ -62,7 +68,6 @@
 		"@vue/compiler-sfc": "^3.2.19",
 		"@vuedx/typecheck": "^0.7.4",
 		"@vuedx/typescript-plugin-vue": "^0.7.4",
-		"NeteaseCloudMusicApi": "^4.6.7",
 		"autoprefixer": "^10.3.1",
 		"cross-env": "^7.0.3",
 		"electron": "^24.2.0",
@@ -70,6 +75,10 @@
 		"electron-vite": "^1.0.22",
 		"eslint": "^7.32.0",
 		"eslint-plugin-vue": "^7.16.0",
+		"koa": "^2.14.2",
+		"koa-router": "^12.0.0",
+		"koa-server-http-proxy": "^0.1.0",
+		"koa-static": "^5.0.0",
 		"lint-staged": "^11.1.2",
 		"npm-run-all": "^4.1.5",
 		"postcss": "^8.3.6",

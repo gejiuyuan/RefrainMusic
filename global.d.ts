@@ -1,5 +1,7 @@
 /** @format */
 
+import { ElectronAPI } from '@electron-toolkit/preload';
+
 interface document {
 	documentMode: number;
 }
@@ -33,6 +35,7 @@ interface Navigator {
 interface window {
 	webkitAudioContext: AudioContext;
 	requestIdleCallback: (cb: CommonFunction, options?: { timeout: number }) => void;
+	electron: ElectronAPI;
 }
 
 declare type CommonFunction = (...args: any[]) => any;
