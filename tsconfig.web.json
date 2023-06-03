@@ -1,100 +1,58 @@
 {
-  "extends": "@electron-toolkit/tsconfig/tsconfig.web.json",
-  "compilerOptions": {
-    "composite": true,
-    "target": "ESNext",
-    "module": "ESNext",
-    "lib": [
-      "DOM",
-      "ESNext",
-      "WebWorker"
-    ],
-    "jsx": "preserve",
-    "allowJs": true,
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "declaration": true,
-    "noImplicitAny": true,
-    "isolatedModules": true,
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
-    // "forceConsistentCasingInFileNames": true,
-    "rootDir": "./",
-    "outDir": "dist",
-    "baseUrl": "./",
-    "types": [
-      "vite/client",
-      "node",
-      "vite-svg-loader",
-      "vite-plugin-pwa/client"
-    ],
-    "plugins": [
-      {
-        "name": "@vuedx/typescript-plugin-vue"
-      }
-    ],
-    "paths": {
-      "@/*": [
-        "src/*"
-      ],
-      "@api/*": [
-        "./src/api/*"
-      ],
-      "@router/*": [
-        "./src/router/*"
-      ],
-      "@type/*": [
-        "src/types/*"
-      ],
-      "@scss/*": [
-        "./src/scss/*"
-      ],
-      "@components/*": [
-        "./src/components/*"
-      ],
-      "@views/*": [
-        "./src/views/*"
-      ],
-      "@assets/*": [
-        "./src/assets/*"
-      ],
-      "@request/*": [
-        "./src/request/*"
-      ],
-      "@utils/*": [
-        "./src/utils/*"
-      ],
-      "@stores/*": [
-        "./src/stores/*"
-      ],
-      "@use/*": [
-        "src/hooks/*"
-      ],
-      "@database/*": [
-        "./src/database/*"
-      ],
-      "@widgets/*": [
-        "./src/widgets/*"
-      ]
-    },
-    "sourceMap": true
-  },
-  "include": [
-    "scripts/**/*.ts", //必须指定，否则不能解析viteConfig下的ts文件
-    "scripts/**/*.d.ts",
-    "src/**/*.d.ts",
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "src/**/*.vue",
-    "global.d.ts"
-  ],
-  "exclude": [
-    "dist",
-    "node_modules",
-    "public",
-    "dist-client"
-  ]
+	"extends": "@electron-toolkit/tsconfig/tsconfig.web.json",
+	"compilerOptions": {
+		"composite": true,
+		"target": "ESNext",
+		"module": "ESNext",
+		"lib": ["DOM", "ESNext", "WebWorker"],
+		"jsx": "preserve",
+		"allowJs": true,
+		"strict": true,
+		"esModuleInterop": true,
+		"skipLibCheck": true,
+		"declaration": true,
+		"noImplicitAny": true,
+		"isolatedModules": true,
+		"moduleResolution": "node",
+		"resolveJsonModule": true,
+		"experimentalDecorators": true,
+		"allowSyntheticDefaultImports": true,
+		// "forceConsistentCasingInFileNames": true,
+		"rootDir": "./",
+		"outDir": "dist",
+		"baseUrl": "./",
+		"types": ["vite/client", "node", "vite-svg-loader", "vite-plugin-pwa/client"],
+		"plugins": [
+			{
+				"name": "@vuedx/typescript-plugin-vue"
+			}
+		],
+		"paths": {
+			"@/*": ["src/*"],
+			"@api/*": ["./src/api/*"],
+			"@router/*": ["./src/router/*"],
+			"@type/*": ["src/types/*"],
+			"@scss/*": ["./src/scss/*"],
+			"@components/*": ["./src/components/*"],
+			"@views/*": ["./src/views/*"],
+			"@assets/*": ["./src/assets/*"],
+			"@request/*": ["./src/request/*"],
+			"@utils/*": ["./src/utils/*"],
+			"@stores/*": ["./src/stores/*"],
+			"@use/*": ["src/hooks/*"],
+			"@database/*": ["./src/database/*"],
+			"@widgets/*": ["./src/widgets/*"]
+		},
+		"sourceMap": true
+	},
+	"include": [
+		"scripts/**/*.ts", //必须指定，否则不能解析viteConfig下的ts文件
+		"scripts/**/*.d.ts",
+		"src/**/*.d.ts",
+		"src/**/*.ts",
+		"src/**/*.tsx",
+		"src/**/*.vue",
+		"global.d.ts"
+	],
+	"exclude": ["dist", "node_modules", "public", "dist-client"]
 }

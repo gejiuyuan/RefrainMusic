@@ -1,33 +1,25 @@
 {
-  "extends": "@electron-toolkit/tsconfig/tsconfig.node.json",
-  "include": [
-    "scripts/vite/electron.vite.config.*",
-    "client/main/**/*",
-    "client/preload/**/*"
-  ],
-  "compilerOptions": {
-    "composite": true,
-    "types": [
-      "electron-vite/node"
-    ],
-    "baseUrl": ".",
-    "allowJs": true,
-    "strict": true,
-    "isolatedModules": true,
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "experimentalDecorators": true,
-    "allowSyntheticDefaultImports": true,
-    "paths": {
-      "@/*": [
-        "client/*"
-      ],
-      "@main/*": [
-        "client/main/*"
-      ],
-      "@preload/*": [
-        "client/preload/*"
-      ]
-    }
-  }
+	"extends": "@electron-toolkit/tsconfig/tsconfig.node.json",
+	"include": [
+		"scripts/vite/electron.vite.config.*",
+		"client/main/**/*",
+		"client/preload/**/*"
+	],
+	"compilerOptions": {
+		"composite": true,
+		"types": ["electron-vite/node"],
+		"baseUrl": ".",
+		"allowJs": true,
+		"strict": true,
+		"isolatedModules": true,
+		"esModuleInterop": true,
+		"resolveJsonModule": true,
+		"experimentalDecorators": true,
+		"allowSyntheticDefaultImports": true,
+		"paths": {
+			"@/*": ["client/*"],
+			"@main/*": ["client/main/*"],
+			"@preload/*": ["client/preload/*"]
+		}
+	}
 }
