@@ -30,6 +30,12 @@
 			  var s = document.getElementsByTagName("script")[0];
 			  s.parentNode.insertBefore(hm, s);
 			})();
+			 window.addEventListener('contextmenu', (e) => {
+			         e.preventDefault();
+			         if(electron) {
+			           electron.ipcRenderer.send('show-context-menu');
+			         }
+			     });
 		</script>
 	</head>
 	<body>

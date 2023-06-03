@@ -19,7 +19,7 @@ module.exports = async (context) => {
 		return;
 	}
 
-	const appId = 'com.electron.app';
+	const appId = 'com.refrain.app';
 
 	const { appOutDir } = context;
 

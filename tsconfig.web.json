@@ -54,5 +54,5 @@
 		"src/**/*.vue",
 		"global.d.ts"
 	],
-	"exclude": ["dist", "node_modules", "public"]
+	"exclude": ["dist", "node_modules", "public", "dist-client"]
 }
