@@ -22,7 +22,7 @@
 		<meta name="msapplication-TileColor" content="#da532c" />
 		<meta name="theme-color" content="#ffffff" />
 		<!-- 百度统计 -->
-		<script>
+		<script defer>
 			var _hmt = _hmt || [];
 			(function() {
 			  var hm = document.createElement("script");
@@ -30,16 +30,18 @@
 			  var s = document.getElementsByTagName("script")[0];
 			  s.parentNode.insertBefore(hm, s);
 			})();
-			 window.addEventListener('contextmenu', (e) => {
-			         e.preventDefault();
-			         if(electron) {
-			           electron.ipcRenderer.send('show-context-menu');
-			         }
-			     });
 		</script>
 	</head>
 	<body>
 		<main id="Yuan-Player"></main>
 		<script type="module" src="/src/main.ts"></script>
+		<script>
+			window.addEventListener('contextmenu', (e) => {
+			      if(window.electron) {
+			        e.preventDefault();
+			        electron.ipcRenderer.send('show-context-menu');
+			      }
+			  });
+		</script>
 	</body>
 </html>
